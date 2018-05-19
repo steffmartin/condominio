@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: Condomínio
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: steff
+Implementation-Vendor-Id: app
+Build-Jdk: 1.8.0_141
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/Condominio
+Created-By: Maven Integration for Eclipse
+
