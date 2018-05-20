@@ -13,26 +13,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	DataSource dataSource;
-	
+
 	@Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-        	.usersByUsernameQuery("select username,password,ativo from usuarios where username=?")
-        	.authoritiesByUsernameQuery("select username,autorizacao from autorizacoes where username=?");
-    }
-	
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.jdbcAuthentication().dataSource(dataSource)
+				.usersByUsernameQuery("select username,password,ativo from usuarios where username=?")
+				.authoritiesByUsernameQuery("select username,autorizacao from autorizacoes where username=?");
+	}
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-	  return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
 	@Override
-    protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception {
+		// @formatter:off
 		http.authorizeRequests()
-		.antMatchers("/").permitAll()
+		.antMatchers("/","/js/**","/css/**","/imagens/**").permitAll()
 		.antMatchers("/sindico/**").access("hasRole('ROLE_SINDICO')")
 		.antMatchers("/morador/**").access("hasRole('ROLE_MORADOR')")
 		.anyRequest().authenticated()
@@ -47,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		  .rememberMe()*/
 		.and()
 		  .csrf();
-    }
-	
+		// @formatter:on
+	}
+
 }

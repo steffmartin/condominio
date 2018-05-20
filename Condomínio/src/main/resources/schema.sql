@@ -1,6 +1,6 @@
-drop table autorizacoes;
-drop table persistent_logins;
-drop table usuarios;
+drop table if exists autorizacoes;
+drop table if exists persistent_logins;
+drop table if exists usuarios;
 
 create table usuarios(
     username varchar(50) not null primary key,
