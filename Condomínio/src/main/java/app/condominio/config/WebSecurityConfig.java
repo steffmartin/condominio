@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http.authorizeRequests()
-		.antMatchers("/","/js/**","/css/**","/imagens/**").permitAll()
+		.antMatchers("/","/js/**","/css/**","/imagens/**","/webfonts/**").permitAll()
 		.antMatchers("/sindico/**").access("hasRole('ROLE_SINDICO')")
 		.antMatchers("/morador/**").access("hasRole('ROLE_MORADOR')")
 		.anyRequest().authenticated()
