@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource)
 				.usersByUsernameQuery("select username,password,ativo from usuarios where username=?")
-				.authoritiesByUsernameQuery("select username,autorizacao from autorizacoes where username=?");
+				.authoritiesByUsernameQuery("select username,autorizacao from usuarios join autorizacoes on id = id_usuario where username=?");
 	}
 
 	@Bean

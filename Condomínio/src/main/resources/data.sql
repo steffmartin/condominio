@@ -3,7 +3,7 @@ VALUES ('steffan','{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17
 INSERT INTO usuarios(username,password,ativo,nome,sobrenome,email)
 VALUES ('ana','{bcrypt}$2a$10$EOs8VROb14e7ZnydvXECA.4LoIhPOoFHKvVF/iBZ/ker17Eocz4Vi', true,'ana paula','rodrigues','teste@ufu.com');
 
-INSERT INTO autorizacoes (username, autorizacao)
-VALUES ('steffan', 'ROLE_SINDICO');
-INSERT INTO autorizacoes (username, autorizacao)
-VALUES ('ana', 'ROLE_MORADOR');
+INSERT INTO autorizacoes (id_usuario, autorizacao)
+VALUES (1, 'ROLE_SINDICO');
+INSERT INTO autorizacoes (id_usuario, autorizacao)
+VALUES (2, 'ROLE_MORADOR');
