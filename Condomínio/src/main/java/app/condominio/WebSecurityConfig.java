@@ -1,4 +1,4 @@
-package app.condominio.config;
+package app.condominio;
 
 import javax.sql.DataSource;
 

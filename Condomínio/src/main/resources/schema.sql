@@ -14,12 +14,17 @@ CREATE TABLE Usuarios (
 CREATE TABLE Autorizacoes (
   id_usuario BIGINT UNSIGNED NOT NULL,
   autorizacao VARCHAR(50) NOT NULL,
-  PRIMARY KEY(id_usuario),
-  UNIQUE INDEX Autorizacoes_unique_id_autorizacao(autorizacao),
+  PRIMARY KEY(id_usuario, autorizacao),
   FOREIGN KEY(id_usuario)
     REFERENCES Usuarios(id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
+);
+
+CREATE TABLE Autorizacoes (
+  id_usuario BIGINT UNSIGNED NOT NULL,
+  autorizacao VARCHAR(50) NOT NULL,
+  PRIMARY KEY(id_usuario, autorizacao)
 );
 
 CREATE TABLE persistent_logins (

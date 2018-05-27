@@ -1,9 +1,7 @@
-package app.condominio.config;
+package app.condominio;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-
-import app.condominio.CondomínioApplication;
 
 public class ServletInitializer extends SpringBootServletInitializer {
 

@@ -4,12 +4,12 @@ import app.condominio.domain.Usuario;
 
 public interface UsuarioDao {
 	
-	void salvar(Usuario usuario);
+	void create(Usuario usuario);
 	
-	void editar(Usuario usuario);
+	Usuario read(String username);
 	
-	void excluir(Usuario usuario);
+	void update(Usuario usuario);
 	
-	Usuario get(String username);
-
+	void delete(Usuario usuario);
+	
 }

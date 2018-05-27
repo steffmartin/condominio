@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NaturalId;
+
 @Entity
 @Table(name = "Usuarios")
 public class Usuario implements Serializable {
@@ -25,6 +27,7 @@ public class Usuario implements Serializable {
 	private Long id;
 
 	@Column(nullable = false, length = 50, unique = true)
+	@NaturalId
 	private String username;
 
 	@Column(nullable = false, length = 100)
@@ -41,11 +44,10 @@ public class Usuario implements Serializable {
 
 	@Column(nullable = false, length = 100, unique = true)
 	private String email;
-	
-	@ElementCollection(targetClass=Autorizacao.class)
-	@CollectionTable(name="autorizacoes")
-	@JoinColumn(name="id_usuario")
-	@Column(name="autorizacao")
+
+	@ElementCollection(targetClass = Autorizacao.class)
+	@CollectionTable(name = "autorizacoes", joinColumns = @JoinColumn(name = "id_usuario"))
+	@Column(name = "autorizacao")
 	@Enumerated(EnumType.STRING)
 	private Set<Autorizacao> autorizacoes = new HashSet();
 
@@ -140,6 +142,12 @@ public class Usuario implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", username=" + username + ", password=" + password + ", ativo=" + ativo
+				+ ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email + "]";
 	}
 
 }
