@@ -26,30 +26,24 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 50, unique = true)
 	@NaturalId
 	private String username;
 
-	@Column(nullable = false, length = 100)
 	private String password;
 
-	@Column(nullable = false)
 	private boolean ativo = true;
 
-	@Column(nullable = false, length = 50)
 	private String nome;
 
-	@Column(nullable = false, length = 100)
 	private String sobrenome;
 
-	@Column(nullable = false, length = 100, unique = true)
 	private String email;
 
 	@ElementCollection(targetClass = Autorizacao.class)
 	@CollectionTable(name = "autorizacoes", joinColumns = @JoinColumn(name = "id_usuario"))
-	@Column(name = "autorizacao")
 	@Enumerated(EnumType.STRING)
-	private Set<Autorizacao> autorizacoes = new HashSet();
+	@Column(name = "autorizacao")
+	private Set<Autorizacao> autorizacoes = new HashSet<>();
 
 	public Usuario() {
 		super();
@@ -142,12 +136,6 @@ public class Usuario implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", username=" + username + ", password=" + password + ", ativo=" + ativo
-				+ ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email + "]";
 	}
 
 }

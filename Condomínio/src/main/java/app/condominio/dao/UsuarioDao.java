@@ -1,15 +1,11 @@
 package app.condominio.dao;
 
+import org.springframework.data.repository.CrudRepository;
+
 import app.condominio.domain.Usuario;
 
-public interface UsuarioDao {
+public interface UsuarioDao extends CrudRepository<Usuario, Long> {
 	
-	void create(Usuario usuario);
-	
-	Usuario read(String username);
-	
-	void update(Usuario usuario);
-	
-	void delete(Usuario usuario);
+	Usuario findByUsername(String username);
 	
 }
