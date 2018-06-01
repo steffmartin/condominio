@@ -15,6 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
@@ -26,17 +30,28 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
+    @Max(50)	
 	@NaturalId
 	private String username;
 
+	@NotNull
+	@Min(4)
 	private String password;
 
-	private boolean ativo = true;
+	private boolean ativo;
 
+	@NotNull
+	@Max(50)
 	private String nome;
 
+	@NotNull
+	@Max(100)
 	private String sobrenome;
 
+	@NotNull
+	@Max(100)
+	@Email
 	private String email;
 
 	@ElementCollection(targetClass = Autorizacao.class)
