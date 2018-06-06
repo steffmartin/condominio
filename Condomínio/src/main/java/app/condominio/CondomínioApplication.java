@@ -9,5 +9,5 @@ public class CondomínioApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CondomínioApplication.class, args);
 	}
-	
+
 }

@@ -1,0 +1,28 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<!-- Meta tags -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/fontawesome-all.min.css}" />
+
+<title th:text="${titulo}">Condomínio</title>
+
+</head>
+<body>
+
+	<th:block th:replace="site/fragmentos/cabecalho :: cabecalho" />
+	<th:block th:replace="'site/conteudo/' + ${conteudo} :: conteudo" />
+	<th:block th:replace="site/fragmentos/rodape :: rodape" />
+
+	<!-- JavaScript -->
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
