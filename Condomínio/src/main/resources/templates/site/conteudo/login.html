@@ -1,0 +1,101 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Login</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+
+
+		
+			<main role="main" class="container d-flex justify-content-center align-items-center">
+			<div style="max-width:350px;">
+			<div th:if="${param.erro}">
+				<div class="alert alert-danger">Usuário ou senha inválidos!</div>
+			</div>
+			<div th:if="${param.sair}">
+				<div class="alert alert-info">Desconectado com sucesso!</div>
+			</div>
+
+
+			<form th:action="@{/entrar}" method="post" class="needs-validation" novalidate>
+				<h3 class="font-weight-light">Entrar</h3>
+				<hr />
+				<div class="form-group">
+					<label>Usuário</label>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+						</div>
+						<input class="form-control" type="text" name="username" placeholder="Seu usuário" autofocus="autofocus" required />
+						<div class="invalid-feedback">Campo obrigatório.</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label>Senha</label>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
+						</div>
+						<input class="form-control" type="password" name="password" placeholder="Sua senha" required />
+						<div class="invalid-feedback">Campo obrigatório.</div>
+					</div>
+				</div>
+
+				<div class="custom-control custom-checkbox mb-3">
+					<input class="custom-control-input" type="checkbox" id="remember-me" name="remember-me" /> <label class="custom-control-label" for="remember-me">Mantenha-me conectado</label>
+				</div>
+
+
+				<button type="submit" class="btn btn-primary btn-block">Entrar</button>
+
+			</form>
+			</div>
+			</main>
+		
+
+
+		<script>
+			// Example starter JavaScript for disabling form submissions if there are invalid fields
+			(function() {
+				'use strict';
+				window
+						.addEventListener(
+								'load',
+								function() {
+									// Fetch all the forms we want to apply custom Bootstrap validation styles to
+									var forms = document
+											.getElementsByClassName('needs-validation');
+									// Loop over them and prevent submission
+									var validation = Array.prototype.filter
+											.call(
+													forms,
+													function(form) {
+														form
+																.addEventListener(
+																		'submit',
+																		function(
+																				event) {
+																			if (form
+																					.checkValidity() === false) {
+																				event
+																						.preventDefault();
+																				event
+																						.stopPropagation();
+																			}
+																			form.classList
+																					.add('was-validated');
+																		},
+																		false);
+													});
+								}, false);
+			})();
+		</script>
+	</th:block>
+
+</body>
+</html>

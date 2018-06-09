@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 
 <!-- Meta tags -->
@@ -11,11 +11,9 @@
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/css/fontawesome-all.min.css}" />
 
-<title th:text="${titulo}">Condomínio</title>
-
+<title th:replace="'site/conteudo/' + ${conteudo} :: title"></title>
 </head>
-<body>
-
+<body style="margin-top: 65px;">
 	<th:block th:replace="site/fragmentos/cabecalho :: cabecalho" />
 	<th:block th:replace="'site/conteudo/' + ${conteudo} :: conteudo" />
 	<th:block th:replace="site/fragmentos/rodape :: rodape" />

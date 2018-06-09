@@ -3,22 +3,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 	<th:block th:fragment="cabecalho">
-		<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white p-3 px-md-4 mb-3 border-bottom shadow-sm">
-			<div class="container">
-				<a class="navbar-brand" href="#">Condomínio</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="mainNavbar">
-					<ul class="navbar-nav ml-auto">
-						<li class="nav-item"><a class="nav-link" href="#">Item 1</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Item 2</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Item 3</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Item 4</a></li>
-					</ul>
+		<header>
+			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+				<div class="container">
+					<a class="navbar-brand" href="#"> <i class="far fa-building text-primary fa-lg fa-fw"></i> Condomínio App</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarCollapse">
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item"><a class="nav-link" href="#">Recursos</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">Ajuda</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">Preços</a></li>
+						</ul>
+						<div sec:authorize="isAnonymous()">
+						<form class="form-inline mt-2 mt-md-0" th:action="@{/entrar}" method="get">
+							<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Entrar</button>
+						</form>
+						</div>
+						<div sec:authorize="isAuthenticated()">
+						<form class="form-inline mt-2 mt-md-0" th:action="@{/sair}" method="post">
+							<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Sair</button>
+						</form>
+						</div>
+					</div>
 				</div>
-			</div>
-		</nav>
+			</nav>
+		</header>
 	</th:block>
 </body>
 </html>
