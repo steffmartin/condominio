@@ -6,7 +6,8 @@
 		<header>
 			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
 				<div class="container">
-					<a class="navbar-brand" href="#"> <i class="far fa-building text-primary fa-lg fa-fw"></i> Condomínio App</a>
+					<a class="navbar-brand" th:href="@{/}"> <i class="far fa-building fa-lg fa-fw"></i>Condomínio App
+					</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
@@ -17,14 +18,23 @@
 							<li class="nav-item"><a class="nav-link" href="#">Preços</a></li>
 						</ul>
 						<div sec:authorize="isAnonymous()">
-						<form class="form-inline mt-2 mt-md-0" th:action="@{/entrar}" method="get">
-							<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Entrar</button>
-						</form>
+							<form class="form-inline mt-2 mt-md-0" th:action="@{/entrar}" method="get">
+								<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Entrar</button>
+							</form>
 						</div>
 						<div sec:authorize="isAuthenticated()">
-						<form class="form-inline mt-2 mt-md-0" th:action="@{/sair}" method="post">
-							<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Sair</button>
-						</form>
+							<form class="form-inline mt-2 mt-md-0" th:action="@{/sair}" method="post">
+								<div class="btn-group">
+									<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Sair</button>
+									<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split  my-2 my-sm-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+									<div class="dropdown-menu dropdown-menu-md-right">
+										<a class="dropdown-item" href="#">Minha conta</a>
+										<div class="dropdown-divider"></div>
+										<button class="dropdown-item" type="submit">
+											Sair</a>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>

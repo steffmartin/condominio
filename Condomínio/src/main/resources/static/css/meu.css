@@ -1,0 +1,30 @@
+/*!
+ * Trecho de CSS para colocar o rodapé no fim da página
+ */
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	/* Mesmo tamanho do rodapé */
+	margin-bottom: 56px;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Altura do rodapé */
+	height: 56px;
+	line-height: 56px;
+}
+/*!
+ * Para que o menu SAIR não fique escondido em tela pequena
+ */
+@media ( min-width : 768px) {
+	.dropdown-menu-md-right {
+		right: 0;
+		left: auto;
+	}
+}

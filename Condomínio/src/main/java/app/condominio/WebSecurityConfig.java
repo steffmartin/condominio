@@ -24,29 +24,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http.authorizeRequests()
-			/*.antMatchers("/","/js/**","/css/**","/imagens/**","/webfonts/**").permitAll()*/
-			.antMatchers("/sindico/**").access("hasRole('ROLE_SINDICO')")
-			.antMatchers("/morador/**").access("hasRole('ROLE_MORADOR')")
-			/*.anyRequest().authenticated()*/
-		.and()
-		  .formLogin()
-		  .loginPage("/entrar")
-		  .failureUrl("/entrar?erro")
-		  .defaultSuccessUrl("/inicio")
-		  .usernameParameter("username").passwordParameter("password")
-		.and()
-		.logout().logoutSuccessUrl("/entrar?sair")
-		.logoutUrl("/sair")
-		.invalidateHttpSession(true)
-        .clearAuthentication(true)
-		/*.and()
-		  .exceptionHandling().accessDeniedPage("/erro?403")*/
-		.and()
-		  .rememberMe()
-		  .tokenRepository(persistentTokenRepository())
-		  .tokenValiditySeconds(120960)
-		.and()
-		  .csrf();
+			//.antMatchers("/","/js/**","/css/**","/imagens/**","/webfonts/**").permitAll()
+			.antMatchers("/sindico/**").hasAuthority("SINDICO")// .access("hasRole('ROLE_SINDICO')")
+			.antMatchers("/morador/**").hasAuthority("MORADOR")// .access("hasRole('ROLE_MORADOR')")
+			.antMatchers("/autenticado/**").authenticated()
+			//.antMatchers("/conta/cadastrar/**","/entrar/**").anonymous()
+			//.anyRequest().authenticated()
+		.and().formLogin()
+		  	.loginPage("/entrar")
+		  	.failureUrl("/entrar?erro")
+		  	.defaultSuccessUrl("/autenticado")
+		  	.usernameParameter("username").passwordParameter("password")
+		.and().logout()
+			.logoutSuccessUrl("/entrar?sair")
+			.logoutUrl("/sair")
+			.invalidateHttpSession(true)
+			.clearAuthentication(true)
+		//.and().exceptionHandling()
+			//.accessDeniedPage("/erro?403")
+		.and().rememberMe()
+		  	.tokenRepository(persistentTokenRepository())
+		  	.tokenValiditySeconds(120960)
+		.and().csrf();
 		// @formatter:on
 	}
 

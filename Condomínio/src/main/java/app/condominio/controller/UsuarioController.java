@@ -1,44 +1,42 @@
 package app.condominio.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-import app.condominio.domain.Autorizacao;
 import app.condominio.domain.Usuario;
 import app.condominio.service.UsuarioService;
 
 @Controller
 @RequestMapping("conta")
 public class UsuarioController {
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
-	
-	@GetMapping("nova")
-	public String novaConta() {
-		
-		Usuario u = new Usuario();
-		u.setNome("teste");
-		u.setSobrenome("pequeno");
-		u.setEmail("teste@");
-		u.setPassword("password");
-		u.setUsername("teste");
-		u.getAutorizacoes().add(Autorizacao.ROLE_SINDICO);
-		usuarioService.salvar(u);
-		
-		u.getAutorizacoes().add(Autorizacao.ROLE_MORADOR);
-		u.setEmail("testecerto@gmail.com");
-		usuarioService.editar(u);
-		
-		u = usuarioService.ler("steffan");
-		u.getAutorizacoes().remove(Autorizacao.ROLE_SINDICO);
-		usuarioService.editar(u);
-		
-		usuarioService.excluir(usuarioService.ler("ana"));
-		
-		return "site/inicio";
+
+	@GetMapping("/cadastrar")
+	public ModelAndView preCadastro(@ModelAttribute("usuario") Usuario usuario, ModelMap model) {
+		model.addAttribute("conteudo", "cadastrar");
+		return new ModelAndView("site/layout", model);
 	}
 
+	@PostMapping("/cadastrar")
+	public ModelAndView posCadastro(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult validacao,
+			ModelMap model) {
+		if (validacao.hasErrors()) {
+			model.addAttribute("conteudo", "cadastrar");
+			return new ModelAndView("site/layout", model);
+		}
+		usuarioService.salvarSindico(usuario);
+		model.addAttribute("conteudo", "cadastrar?condominio");
+		return new ModelAndView("site/layout", model);
+	}
 }

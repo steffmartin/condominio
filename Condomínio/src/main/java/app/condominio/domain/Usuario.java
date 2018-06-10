@@ -15,10 +15,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
 
@@ -30,27 +32,31 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
-    @Max(50)	
+	@NotBlank
+	@Size(min = 1, max = 50)
 	@NaturalId
 	private String username;
 
-	@NotNull
-	@Min(4)
+	@NotBlank
+	@Size(min = 4, max = 100)
 	private String password;
 
 	private boolean ativo;
 
-	@NotNull
-	@Max(50)
+	@Transient
+	@AssertTrue
+	private boolean aceite;
+
+	@NotBlank
+	@Size(min = 1, max = 50)
 	private String nome;
 
-	@NotNull
-	@Max(100)
+	@NotBlank
+	@Size(min = 1, max = 100)
 	private String sobrenome;
 
-	@NotNull
-	@Max(100)
+	@NotBlank
+	@Size(min = 1, max = 100)
 	@Email
 	private String email;
 
@@ -94,6 +100,14 @@ public class Usuario implements Serializable {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public boolean isAceite() {
+		return aceite;
+	}
+
+	public void setAceite(boolean aceite) {
+		this.aceite = aceite;
 	}
 
 	public String getNome() {

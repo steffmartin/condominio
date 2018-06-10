@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import app.condominio.dao.UsuarioDao;
+import app.condominio.domain.Autorizacao;
 import app.condominio.domain.Usuario;
 
 @Service
@@ -41,6 +42,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void excluir(Usuario usuario) {
 		usuarioDao.delete(usuario);
 
+	}
+
+	@Override
+	public void salvarSindico(Usuario usuario) {
+		usuario.getAutorizacoes().add(Autorizacao.SINDICO);
+		usuario.setAtivo(true);
+		salvar(usuario);
+	}
+
+	@Override
+	public void salvarMorador(Usuario usuario) {
+		usuario.getAutorizacoes().add(Autorizacao.MORADOR);
+		usuario.setAtivo(true);
+		salvar(usuario);
 	}
 
 }

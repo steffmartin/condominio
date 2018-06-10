@@ -1,0 +1,99 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Registrar</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main" class="container">
+		<h3 class="font-weight-light">Criar conta</h3>
+		<p>Obrigado por escolher o Condomínio App! Preencha os dados abaixo para se registrar.</p>
+		<div class="card mb-3">
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">
+					<p class="text-success mb-0">
+						<i class="far fa-check-circle"></i> Escolha seu plano
+					</p>
+				</li>
+				<li class="list-group-item">
+					<p class="text-primary">
+						<i class="far fa-circle"></i> Responsável pelo Condomínio
+					</p>
+					<form th:action="@{/conta/cadastrar}" th:object="${usuario}" method="post" class="mb-3" novalidate>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label>Nome</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('nome')}? 'is-invalid'" th:field="*{nome}" placeholder="Seu nome" />
+								<div class="invalid-feedback" th:errors="*{nome}"></div>
+							</div>
+							<div class="form-group col-md-6">
+								<label>Sobrenome</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('sobrenome')}? 'is-invalid'" th:field="*{sobrenome}" placeholder="Seu sobrenome" />
+								<div class="invalid-feedback" th:errors="*{sobrenome}"></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>E-mail</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('email')}? 'is-invalid'" th:field="*{email}" placeholder="Seu e-mail" />
+							<div class="invalid-feedback" th:errors="*{email}"></div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label>Usuário</label>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-user"></i></span>
+									</div>
+									<input class="form-control" type="text" th:classappend="${#fields.hasErrors('username')}? 'is-invalid'" th:field="*{username}" placeholder="Escolha seu usuário" autofocus="autofocus" />
+									<div class="invalid-feedback" th:errors="*{username}"></div>
+								</div>
+							</div>
+							<div class="form-group col-md-6">
+								<label>Senha</label>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-lock"></i></span>
+									</div>
+									<input class="form-control" type="password" th:classappend="${#fields.hasErrors('password')}? 'is-invalid'" th:field="*{password}" placeholder="Escolha sua senha" />
+									<div class="invalid-feedback" th:errors="*{password}"></div>
+								</div>
+							</div>
+						</div>
+						<div class="custom-control custom-checkbox mb-3">
+							<input class="custom-control-input" type="checkbox" th:classappend="${#fields.hasErrors('aceite')}? 'is-invalid'" name="aceite" id="aceite" /> <label for="aceite" class="custom-control-label">Declaro que li e concordo com os <a data-toggle="modal" href="#termosDeUso">Termos de Uso</a>.
+							</label>
+							<div class="invalid-feedback" th:errors="*{aceite}"></div>
+						</div>
+						<button type="submit" class="btn btn-primary">Continuar</button>
+					</form>
+				</li>
+				<li class="list-group-item">
+					<p class="text-info mb-0">
+						<i class="far fa-circle"></i> Informações do Condomínio
+					</p>
+				</li>
+			</ul>
+		</div>
+		</main>
+		<!-- Modal -->
+		<div class="modal fade" id="termosDeUso" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Termos de Uso</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper
+						nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>
