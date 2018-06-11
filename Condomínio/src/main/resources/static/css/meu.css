@@ -28,3 +28,10 @@ body {
 		left: auto;
 	}
 }
+/*!
+ * Correção da borda
+ */
+.input-group>.form-control.last {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}

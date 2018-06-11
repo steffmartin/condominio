@@ -20,8 +20,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@Override
-	public void salvar(Usuario usuario) {
+	private void salvar(Usuario usuario) {
 		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 		usuarioDao.save(usuario);
 	}
@@ -56,6 +55,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuario.getAutorizacoes().add(Autorizacao.MORADOR);
 		usuario.setAtivo(true);
 		salvar(usuario);
+	}
+
+	@Override
+	public boolean existe(String username) {
+		return usuarioDao.existsByUsername(username);
 	}
 
 }

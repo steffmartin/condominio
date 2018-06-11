@@ -31,9 +31,11 @@ public class UsuarioController {
 	@PostMapping("/cadastrar")
 	public ModelAndView posCadastro(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult validacao,
 			ModelMap model) {
+		if (usuarioService.existe(usuario.getUsername())) {
+			validacao.rejectValue("username", "Unique.username");
+		}
 		if (validacao.hasErrors()) {
-			model.addAttribute("conteudo", "cadastrar");
-			return new ModelAndView("site/layout", model);
+			return preCadastro(usuario, model);
 		}
 		usuarioService.salvarSindico(usuario);
 		model.addAttribute("conteudo", "cadastrar?condominio");
