@@ -22,7 +22,7 @@
 					<p class="text-primary">
 						<i class="far fa-circle"></i> Responsável pelo Condomínio
 					</p>
-					<form th:action="@{/conta/cadastrar}" th:object="${usuario}" method="post" class="mb-3" novalidate>
+					<form th:action="@{/conta/cadastrar/sindico}" th:object="${usuario}" method="post" class="mb-3" novalidate>
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Nome</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('nome')}? 'is-invalid'" th:field="*{nome}" placeholder="Seu nome" />
@@ -60,9 +60,9 @@
 							</div>
 						</div>
 						<div class="custom-control custom-checkbox mb-3">
-							<input class="custom-control-input" type="checkbox" th:classappend="${#fields.hasErrors('aceite')}? 'is-invalid'" name="aceite" id="aceite" /> <label for="aceite" class="custom-control-label">Declaro que li e concordo com os <a data-toggle="modal" href="#termosDeUso">Termos de Uso</a>.
+							<input class="custom-control-input" type="checkbox" th:classappend="${#fields.hasErrors('ativo')}? 'is-invalid'" name="ativo" id="ativo" /> <label for="ativo" class="custom-control-label">Declaro que li e concordo com os <a data-toggle="modal" href="#termosDeUso">Termos de Uso</a>.
 							</label>
-							<div class="invalid-feedback" th:errors="*{aceite}"></div>
+							<div class="invalid-feedback" th:errors="*{ativo}"></div>
 						</div>
 						<button type="submit" class="btn btn-primary">Continuar</button>
 					</form>

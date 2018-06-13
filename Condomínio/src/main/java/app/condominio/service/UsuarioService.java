@@ -15,5 +15,9 @@ public interface UsuarioService {
 	public void editar(Usuario usuario);
 
 	public void excluir(Usuario usuario);
+	
+	public boolean redefinirSenha(String username);
+	
+	public boolean redefinirSenha(String token, String password);
 
 }

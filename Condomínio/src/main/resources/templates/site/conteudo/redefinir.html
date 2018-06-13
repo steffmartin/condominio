@@ -1,0 +1,54 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Redefinir Senha</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main" class="container">
+		<h3 class="font-weight-light mb-3">Redefinir Senha</h3>
+		<p th:text="!${param.token}?'Podemos ajudá-lo a redefinir sua senha. Por favor, insira seu nome de usuário.':'Digite uma nova senha para sua conta.'"></p>
+
+		<form th:if="!${param.token}" th:action="@{/conta/redefinir}" method="post" class="form-inline needs-validation" novalidate>
+			<div class="input-group mb-3 mr-3" style="width: 350px">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-user"></i></span>
+				</div>
+				<input class="form-control last" type="text" th:object="${username}" name="username" placeholder="Seu usuário" autofocus="autofocus" required />
+				<div class="invalid-feedback">Campo obrigatório</div>
+			</div>
+			<button type="submit" class="btn btn-primary mb-3 align-self-start">Confirmar</button>
+		</form>
+
+		<form th:if="${param.token}" th:action="@{/conta/redefinir/alterar}" method="post" class="form-inline needs-validation" novalidate>
+			<input type="hidden" name="token"  th:object="${token}" th:value="${param.token}" />
+			<div class="input-group mb-3 mr-3" style="width: 350px">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-lock"></i></span>
+				</div>
+				<input class="form-control last" type="password" th:object="${password}" name="password" placeholder="Sua nova senha" autofocus="autofocus" pattern=".{4,100}" required />
+				<div class="invalid-feedback">No mínimo 4 e no máximo 100 caracteres</div>
+			</div>
+			<button type="submit" class="btn btn-primary mb-3 align-self-start">Alterar</button>
+		</form>
+
+		<div th:if="${param.ok}">
+			<div class="alert alert-info">
+				<h6>Verifique seu e-mail</h6>
+				Enviaremos uma mensagem para você com instruções para redefinir sua senha.
+			</div>
+		</div>
+		<div th:if="${param.erro}">
+			<div class="alert alert-danger">Não localizamos nenhum usuário com este nome em nossa base de dados.</div>
+		</div>
+		<div th:if="${param.invalido}">
+			<div class="alert alert-warning">Esta solicitação para redefinição de senha já expirou.</div>
+		</div>
+		</main>
+	</th:block>
+
+</body>
+</html>

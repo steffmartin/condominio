@@ -17,6 +17,9 @@
 			<div th:if="${param.sair}">
 				<div class="alert alert-info">Desconectado com sucesso!</div>
 			</div>
+			<div th:if="${param.ok}">
+				<div class="alert alert-success">Senha redefinida, tente entrar novamente!</div>
+			</div>
 			<div class="card">
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">
@@ -28,7 +31,7 @@
 										<span class="input-group-text"><i class="fas fa-user"></i></span>
 									</div>
 									<input class="form-control last" type="text" name="username" placeholder="Seu usuário" autofocus="autofocus" required />
-									<div class="invalid-feedback">Campo obrigatório.</div>
+									<div class="invalid-feedback">Campo obrigatório</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -38,9 +41,9 @@
 										<span class="input-group-text"><i class="fas fa-lock"></i></span>
 									</div>
 									<input class="form-control last" type="password" name="password" placeholder="Sua senha" required />
-									<div class="invalid-feedback">Campo obrigatório.</div>
+									<div class="invalid-feedback">Campo obrigatório</div>
 								</div>
-								<small>Esqueceu sua senha? <a href="">Clique aqui.</a></small>
+								<small><a th:href="@{/conta/redefinir}">Esqueci minha senha</a></small>
 							</div>
 							<div class="custom-control custom-checkbox mb-3">
 								<input class="custom-control-input" type="checkbox" id="remember-me" name="remember-me" /> <label class="custom-control-label" for="remember-me">Mantenha-me conectado</label>
@@ -53,7 +56,7 @@
 				</ul>
 			</div>
 			<p class="text-center mt-3">
-				Seu condomínio não está aqui? <a th:href="@{/conta/cadastrar}">Seja cliente!</a>
+				Seu condomínio não está aqui? <a th:href="@{/conta/cadastrar/sindico}">Seja cliente!</a>
 			</p>
 		</div>
 		</main>

@@ -40,11 +40,8 @@ public class Usuario implements Serializable {
 	@Size(min = 4, max = 100)
 	private String password;
 
-	private boolean ativo;
-
-	@Transient
 	@AssertTrue
-	private boolean aceite;
+	private boolean ativo;
 
 	@NotBlank
 	@Size(min = 1, max = 50)
@@ -99,14 +96,6 @@ public class Usuario implements Serializable {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
-	}
-
-	public boolean isAceite() {
-		return aceite;
-	}
-
-	public void setAceite(boolean aceite) {
-		this.aceite = aceite;
 	}
 
 	public String getNome() {
