@@ -6,7 +6,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Condominios")
 public class Condominio {
-	
+
 	private Long idCondominio;
 	private String razaoSocial;
 	private String cnpj;
@@ -25,5 +25,4 @@ public class Condominio {
 	private String pais;
 	private String cep;
 
-}
-*/
+}*/

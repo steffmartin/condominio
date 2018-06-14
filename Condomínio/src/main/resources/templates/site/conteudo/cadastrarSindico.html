@@ -44,7 +44,7 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="fas fa-user"></i></span>
 									</div>
-									<input class="form-control last" type="text" th:classappend="${#fields.hasErrors('username')}? 'is-invalid'" th:field="*{username}" placeholder="Escolha seu usuário" autofocus="autofocus" />
+									<input class="form-control last" type="text" th:classappend="${#fields.hasErrors('username')}? 'is-invalid'" th:field="*{username}" placeholder="Escolha seu usuário"/>
 									<div class="invalid-feedback" th:errors="*{username}"></div>
 								</div>
 							</div>

@@ -8,8 +8,6 @@ public interface UsuarioDao extends CrudRepository<Usuario, Long> {
 
 	Usuario findByUsername(String username);
 	
-	Usuario findByPassword(String password);
-	
 	Boolean existsByUsername(String username);
 
 }

@@ -17,19 +17,20 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text"><i class="fas fa-user"></i></span>
 				</div>
-				<input class="form-control last" type="text" th:object="${username}" name="username" placeholder="Seu usuário" autofocus="autofocus" required />
+				<input class="form-control last" type="text" name="username" th:value="${param.username}" id="username" placeholder="Seu usuário" autofocus="autofocus" required />
 				<div class="invalid-feedback">Campo obrigatório</div>
 			</div>
 			<button type="submit" class="btn btn-primary mb-3 align-self-start">Confirmar</button>
 		</form>
 
 		<form th:if="${param.token}" th:action="@{/conta/redefinir/alterar}" method="post" class="form-inline needs-validation" novalidate>
-			<input type="hidden" name="token"  th:object="${token}" th:value="${param.token}" />
+			<input type="hidden" name="token" id="token" th:value="${param.token}" />
+			<input type="hidden" name="username" id="username" th:value="${param.username}" />
 			<div class="input-group mb-3 mr-3" style="width: 350px">
 				<div class="input-group-prepend">
 					<span class="input-group-text"><i class="fas fa-lock"></i></span>
 				</div>
-				<input class="form-control last" type="password" th:object="${password}" name="password" placeholder="Sua nova senha" autofocus="autofocus" pattern=".{4,100}" required />
+				<input class="form-control last" type="password" name="password" id="password" placeholder="Sua nova senha" autofocus="autofocus" pattern=".{4,100}" required />
 				<div class="invalid-feedback">No mínimo 4 e no máximo 100 caracteres</div>
 			</div>
 			<button type="submit" class="btn btn-primary mb-3 align-self-start">Alterar</button>

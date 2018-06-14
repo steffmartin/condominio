@@ -18,6 +18,6 @@ public interface UsuarioService {
 	
 	public boolean redefinirSenha(String username);
 	
-	public boolean redefinirSenha(String token, String password);
+	public boolean redefinirSenha(String username, String token, String password);
 
 }

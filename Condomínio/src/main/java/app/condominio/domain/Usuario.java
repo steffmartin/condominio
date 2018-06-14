@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -42,6 +41,7 @@ public class Usuario implements Serializable {
 
 	@AssertTrue
 	private boolean ativo;
+	//FIXME A validação @AssertTrue inutiliza o uso de usuário ativo e inativo do Spring Security
 
 	@NotBlank
 	@Size(min = 1, max = 50)

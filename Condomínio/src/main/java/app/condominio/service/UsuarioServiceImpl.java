@@ -21,6 +21,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Autowired
 	private JavaMailSender emailSender;
+	// LATER Criar classe EmailService
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -75,8 +76,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 			mensagem.setTo(usuario.getEmail());
 			mensagem.setSubject("Condomínio App - Redefinição de Senha");
 			mensagem.setText(
-					"Acesse o endereço a seguir para redefinir sua senha: http://localhost:8080/conta/redefinir?token="
-							+ usuario.getPassword().substring(8));
+					"Acesse o endereço abaixo para redefinir sua senha:\n\nhttp://localhost:8080/conta/redefinir?username="
+							+ username + "&token=" + usuario.getPassword().substring(8));
 			emailSender.send(mensagem);
 			return true;
 		} else
@@ -84,9 +85,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public boolean redefinirSenha(String token, String password) {
-		Usuario usuario = usuarioDao.findByPassword("{bcrypt}" + token);
-		if (usuario != null) {
+	public boolean redefinirSenha(String username, String token, String password) {
+		// LATER Alterar redefinição de senha para tabela de tokens e expiração
+		Usuario usuario = usuarioDao.findByUsername(username);
+		if (usuario != null && usuario.getPassword().substring(8).equals(token)) {
 			usuario.setPassword(passwordEncoder.encode(password));
 			usuarioDao.save(usuario);
 			return true;

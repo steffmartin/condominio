@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <body>
 	<th:block th:fragment="cabecalho">
 		<header>
@@ -30,8 +30,7 @@
 									<div class="dropdown-menu dropdown-menu-md-right">
 										<a class="dropdown-item" href="#">Minha conta</a>
 										<div class="dropdown-divider"></div>
-										<button class="dropdown-item" type="submit">
-											Sair</a>
+										<button class="dropdown-item" type="submit">Sair</button>
 									</div>
 								</div>
 							</form>

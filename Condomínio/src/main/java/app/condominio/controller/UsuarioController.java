@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import app.condominio.domain.Usuario;
@@ -50,17 +51,17 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/redefinir")
-	public String posRedefinir(@ModelAttribute("username") String username, ModelMap model) {
+	public String posRedefinir(@RequestParam("username") String username, ModelMap model) {
 		if (usuarioService.redefinirSenha(username)) {
-			return "redirect:/conta/redefinir?ok";
+			return "redirect:/conta/redefinir?ok&username=" + username;
 		} else
-			return "redirect:/conta/redefinir?erro";
+			return "redirect:/conta/redefinir?erro&username=" + username;
 	}
 
 	@PostMapping("/redefinir/alterar")
-	public String fimRedefinir(@ModelAttribute("password") String password, @ModelAttribute("token") String token,
-			ModelMap model) {
-		if (usuarioService.redefinirSenha(token, password)) {
+	public String fimRedefinir(@RequestParam("username") String username, @RequestParam("password") String password,
+			@RequestParam("token") String token, ModelMap model) {
+		if (usuarioService.redefinirSenha(username, token, password)) {
 			return "redirect:/login?ok";
 		} else
 			return "redirect:/conta/redefinir?invalido";
