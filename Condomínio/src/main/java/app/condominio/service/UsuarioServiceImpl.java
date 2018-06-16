@@ -64,11 +64,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean existe(String username) {
 		return usuarioDao.existsByUsername(username);
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean redefinirSenha(String username) {
 		Usuario usuario = ler(username);
 		if (usuario != null) {
