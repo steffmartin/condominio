@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,25 +24,23 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 
-	@GetMapping("/cadastrar/sindico")
-	public ModelAndView preCadastro(@ModelAttribute("usuario") Usuario usuario, ModelMap model) {
+	@GetMapping("/cadastrar")
+	public ModelAndView preCadastroSindico(@ModelAttribute("usuario") Usuario usuario, ModelMap model) {
 		model.addAttribute("conteudo", "cadastrarSindico");
 		return new ModelAndView("site/layout", model);
 	}
 
-	@PostMapping("/cadastrar/sindico")
-	public ModelAndView posCadastro(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult validacao,
+	@PostMapping("/cadastrar")
+	public ModelAndView posCadastroSindico(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult validacao,
 			ModelMap model) {
-		if (usuario.getUsername() != null && usuarioService.existe(usuario.getUsername())) {
+		if (usuarioService.existe(usuario.getUsername())) {
 			validacao.rejectValue("username", "Unique");
 		}
 		if (validacao.hasErrors()) {
-			return preCadastro(usuario, model);
+			return preCadastroSindico(usuario, model);
 		}
 		usuarioService.salvarSindico(usuario);
-		model.addAttribute(usuario);
-		model.addAttribute("conteudo", "cadastrarCondominio");
-		return new ModelAndView("site/layout", model);
+		return new ModelAndView("redirect:/login?novo", model);
 	}
 
 	@GetMapping("/redefinir")
@@ -51,18 +50,18 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/redefinir")
-	public String posRedefinir(@RequestParam("username") String username, ModelMap model) {
+	public String posRedefinir(@RequestParam("username") String username) {
 		if (usuarioService.redefinirSenha(username)) {
-			return "redirect:/conta/redefinir?ok&username=" + username;
+			return "redirect:/conta/redefinir?email&username=" + username;
 		} else
 			return "redirect:/conta/redefinir?erro&username=" + username;
 	}
 
-	@PostMapping("/redefinir/alterar")
+	@PutMapping("/redefinir")
 	public String fimRedefinir(@RequestParam("username") String username, @RequestParam("password") String password,
-			@RequestParam("token") String token, ModelMap model) {
+			@RequestParam("token") String token) {
 		if (usuarioService.redefinirSenha(username, token, password)) {
-			return "redirect:/login?ok";
+			return "redirect:/login?redefinido";
 		} else
 			return "redirect:/conta/redefinir?invalido";
 	}

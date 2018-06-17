@@ -1,5 +1,8 @@
 package app.condominio.service;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -40,33 +43,29 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public void editar(Usuario usuario) {
 		usuarioDao.save(usuario);
-
 	}
 
 	@Override
 	public void excluir(Usuario usuario) {
 		usuarioDao.delete(usuario);
-
 	}
 
 	@Override
 	public void salvarSindico(Usuario usuario) {
 		usuario.getAutorizacoes().add(Autorizacao.SINDICO);
-		usuario.setAtivo(true);
 		salvar(usuario);
 	}
 
 	@Override
 	public void salvarMorador(Usuario usuario) {
 		usuario.getAutorizacoes().add(Autorizacao.MORADOR);
-		usuario.setAtivo(true);
 		salvar(usuario);
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean existe(String username) {
-		return usuarioDao.existsByUsername(username);
+		return username != null && usuarioDao.existsByUsername(username);
 	}
 
 	@Override
@@ -79,7 +78,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 			mensagem.setSubject("Condomínio App - Redefinição de Senha");
 			mensagem.setText(
 					"Acesse o endereço abaixo para redefinir sua senha:\n\nhttp://localhost:8080/conta/redefinir?username="
-							+ username + "&token=" + usuario.getPassword().substring(8));
+							+ username + "&token=" + getToken(usuario.getPassword())
+							+ "\n\nCaso não consiga clicar no link acima, copie-o e cole em seu navegador."
+							+ "\n\nPor segurança este link só é válido até o final do dia.");
 			emailSender.send(mensagem);
 			return true;
 		} else
@@ -90,7 +91,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public boolean redefinirSenha(String username, String token, String password) {
 		// LATER Alterar redefinição de senha para tabela de tokens e expiração
 		Usuario usuario = usuarioDao.findByUsername(username);
-		if (usuario != null && usuario.getPassword().substring(8).equals(token)) {
+		if (usuario != null && getToken(usuario.getPassword()).equals(token)) {
 			usuario.setPassword(passwordEncoder.encode(password));
 			usuarioDao.save(usuario);
 			return true;
@@ -98,4 +99,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 			return false;
 	}
 
+	private String getToken(String texto) {
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo"));
+		String d = "" + calendar.get(Calendar.DAY_OF_YEAR);
+		String a = "" + (calendar.get(Calendar.YEAR) - 2000);
+		String regex = "\\\\|/|\\?|\\.|&|\\$"; // Regex in java: http://www.regexplanet.com/advanced/java/index.html
+
+		return texto.substring(8).replaceAll(regex, d) + a;
+	}
 }

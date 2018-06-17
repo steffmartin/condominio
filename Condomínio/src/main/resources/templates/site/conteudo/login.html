@@ -17,13 +17,16 @@
 			<div th:if="${param.sair}">
 				<div class="alert alert-info">Desconectado com sucesso!</div>
 			</div>
-			<div th:if="${param.ok}">
+			<div th:if="${param.redefinido}">
 				<div class="alert alert-success">Senha redefinida, tente entrar novamente!</div>
+			</div>
+			<div th:if="${param.novo}">
+				<div class="alert alert-success">Sua conta foi criada, obrigado!</div>
 			</div>
 			<div class="card">
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">
-						<form th:action="@{/entrar}" method="post" class="needs-validation" novalidate>
+						<form th:action="@{/entrar}" th:method="post" class="needs-validation" novalidate>
 							<div class="form-group">
 								<label>Usuário</label>
 								<div class="input-group">
@@ -56,7 +59,7 @@
 				</ul>
 			</div>
 			<p class="text-center mt-3">
-				Seu condomínio não está aqui? <a th:href="@{/conta/cadastrar/sindico}">Seja cliente!</a>
+				Seu condomínio não está aqui? <a th:href="@{/conta/cadastrar}">Seja cliente!</a>
 			</p>
 		</div>
 		</main>

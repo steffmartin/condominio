@@ -27,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			//.antMatchers("/","/js/**","/css/**","/imagens/**","/webfonts/**").permitAll()
 			.antMatchers("/sindico/**").hasAuthority("SINDICO")// .access("hasRole('ROLE_SINDICO')")
 			.antMatchers("/morador/**").hasAuthority("MORADOR")// .access("hasRole('ROLE_MORADOR')")
+			.antMatchers("/admin/**").hasAuthority("ADMIN")// .access("hasRole('ROLE_MORADOR')")
 			.antMatchers("/autenticado/**").authenticated()
 			//.antMatchers("/conta/cadastrar/**","/entrar/**").anonymous()
 			//.anyRequest().authenticated()
@@ -55,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.usersByUsernameQuery("select username,password,ativo from usuarios where username=?")
 				.authoritiesByUsernameQuery("select username,autorizacao from usuarios join autorizacoes on id = id_usuario where username=?");
 	}
+	//LATER implementar meu próprio UserDetailsService para mostrar primeiro nome do usuário no site https://stackoverflow.com/questions/17297322/in-spring-how-to-print-user-first-name-and-last-name-from-secauthentication-p
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {

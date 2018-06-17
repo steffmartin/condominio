@@ -7,8 +7,7 @@ CREATE TABLE Usuarios (
   sobrenome VARCHAR(100) NOT NULL,
   email VARCHAR(100) NOT NULL,
   PRIMARY KEY(id),
-  UNIQUE INDEX Usuarios_unique_username(username),
-  UNIQUE INDEX Usuarios_unique_email(email)
+  UNIQUE INDEX Usuarios_unique_username(username)
 );
 
 CREATE TABLE Autorizacoes (

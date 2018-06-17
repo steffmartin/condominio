@@ -41,7 +41,8 @@ public class Usuario implements Serializable {
 
 	@AssertTrue
 	private boolean ativo;
-	// FIXME A validação @AssertTrue inutiliza o uso de usuário ativo e inativo do Spring Security
+	// FIXME A validação @AssertTrue inutiliza o uso de usuário ativo e inativo do
+	// Spring Security
 
 	@NotBlank
 	@Size(min = 1, max = 50)

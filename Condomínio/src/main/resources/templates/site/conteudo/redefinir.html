@@ -10,9 +10,9 @@
 	<th:block th:fragment="conteudo">
 		<main role="main" class="container">
 		<h3 class="font-weight-light mb-3">Redefinir Senha</h3>
-		<p th:text="!${param.token}?'Podemos ajudá-lo a redefinir sua senha. Por favor, insira seu nome de usuário.':'Digite uma nova senha para sua conta.'"></p>
+		<p th:text="!${param.token}?'Podemos ajudá-lo a redefinir sua senha. Por favor, informe seu nome de usuário para prosseguir.':'Por favor, informe uma nova senha para sua conta.'"></p>
 
-		<form th:if="!${param.token}" th:action="@{/conta/redefinir}" method="post" class="form-inline needs-validation" novalidate>
+		<form th:if="!${param.token}" th:action="@{/conta/redefinir}" th:method="post" class="form-inline needs-validation" novalidate>
 			<div class="input-group mb-3 mr-3" style="width: 350px">
 				<div class="input-group-prepend">
 					<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -23,9 +23,8 @@
 			<button type="submit" class="btn btn-primary mb-3 align-self-start">Confirmar</button>
 		</form>
 
-		<form th:if="${param.token}" th:action="@{/conta/redefinir/alterar}" method="post" class="form-inline needs-validation" novalidate>
-			<input type="hidden" name="token" id="token" th:value="${param.token}" />
-			<input type="hidden" name="username" id="username" th:value="${param.username}" />
+		<form th:if="${param.token}" th:action="@{/conta/redefinir}" th:method="put" class="form-inline needs-validation" novalidate>
+			<input type="hidden" name="token" id="token" th:value="${param.token}" /> <input type="hidden" name="username" id="username" th:value="${param.username}" />
 			<div class="input-group mb-3 mr-3" style="width: 350px">
 				<div class="input-group-prepend">
 					<span class="input-group-text"><i class="fas fa-lock"></i></span>
@@ -33,20 +32,22 @@
 				<input class="form-control last" type="password" name="password" id="password" placeholder="Sua nova senha" autofocus="autofocus" pattern=".{4,100}" required />
 				<div class="invalid-feedback">No mínimo 4 e no máximo 100 caracteres</div>
 			</div>
-			<button type="submit" class="btn btn-primary mb-3 align-self-start">Alterar</button>
+			<button type="submit" class="btn btn-primary mb-3 align-self-start">Redefinir</button>
 		</form>
 
-		<div th:if="${param.ok}">
+		<div th:if="${param.email}">
 			<div class="alert alert-info">
 				<h6>Verifique seu e-mail</h6>
-				Enviaremos uma mensagem para você com instruções para redefinir sua senha.
+				Enviamos uma mensagem para você com instruções para redefinir sua senha, acesse o <i>link</i> na mensagem para finalizar.
 			</div>
 		</div>
 		<div th:if="${param.erro}">
 			<div class="alert alert-danger">Não localizamos nenhum usuário com este nome em nossa base de dados.</div>
 		</div>
 		<div th:if="${param.invalido}">
-			<div class="alert alert-warning">Esta solicitação para redefinição de senha já expirou.</div>
+			<div class="alert alert-warning">
+				Este <i>link</i> para redefinição de senha é inválido, expirou ou já foi usado.
+			</div>
 		</div>
 		</main>
 	</th:block>

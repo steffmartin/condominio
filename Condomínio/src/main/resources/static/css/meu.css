@@ -7,8 +7,8 @@ html {
 }
 
 body {
-	/* Mesmo tamanho do rodapé */
-	margin-bottom: 56px;
+	/* Mesmo tamanho do rodapé + $spacer -> 56 + 16 */
+	margin-bottom: 72px;
 }
 
 .footer {
@@ -29,9 +29,15 @@ body {
 	}
 }
 /*!
- * Correção da borda
+ * Correção da borda nos formulários
  */
 .input-group>.form-control.last {
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
+	border-top-right-radius: 0.25rem;
+	border-bottom-right-radius: 0.25rem;
+}
+/*!
+ * Correção do cursor em botões nos dropdowns
+ */
+button.dropdown-item {
+	cursor: pointer;
 }
