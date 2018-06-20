@@ -1,0 +1,28 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+
+<!-- Meta tags -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/fontawesome-all.min.css}" />
+<link rel="stylesheet" th:href="@{/css/meu.css}" />
+
+<title th:replace="'site/' + ${conteudo} :: title"></title>
+</head>
+<body id="site">
+	<th:block th:replace="fragmentos/cabecalho :: cabecalho" />
+	<th:block th:replace="'site/' + ${conteudo} :: conteudo" />
+	<th:block th:replace="fragmentos/rodape :: rodape" />
+
+	<!-- JavaScript -->
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/meu.js}"></script>
+</body>
+</html>

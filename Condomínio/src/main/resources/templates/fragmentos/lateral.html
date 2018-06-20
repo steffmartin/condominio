@@ -1,0 +1,38 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+	<th:block th:fragment="lateral">
+
+		<nav id="sidebar" class="bg-primary navbar-dark">
+			<ul class="list-unstyled components navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-home"></i> Home
+				</a>
+					<ul class="collapse list-unstyled" id="homeSubmenu">
+						<li><a class="nav-link" href="#">Home 1</a></li>
+						<li><a class="nav-link" href="#">Home 2</a></li>
+						<li><a class="nav-link" href="#">Home 3</a></li>
+					</ul></li>
+				<li class="active nav-item"><a class="nav-link" href="#"> <i class="fas fa-briefcase"></i> About
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-copy"></i> Pages
+				</a>
+					<ul class="collapse list-unstyled" id="pageSubmenu">
+						<li><a class="nav-link" href="#">Page 1</a></li>
+						<li><a class="nav-link" href="#">Page 2</a></li>
+						<li><a class="nav-link" href="#">Page 3</a></li>
+					</ul></li>
+				<li class="nav-item"><a class="nav-link" href="#"> <i class="fas fa-link"></i> Portfolio
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#"> <i class="fas fa-paperclip"></i> FAQ
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#"> <i class="far fa-envelope"></i> Contact
+				</a></li>
+			</ul>
+		</nav>
+		<button id="sidebarCollapse" class="navbar-toggler" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle sidebar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</th:block>
+</body>
+</html>

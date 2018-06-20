@@ -12,12 +12,15 @@
 <link rel="stylesheet" th:href="@{/css/fontawesome-all.min.css}" />
 <link rel="stylesheet" th:href="@{/css/meu.css}" />
 
-<title th:replace="'site/conteudo/' + ${conteudo} :: title"></title>
+<title th:replace="'site/' + ${conteudo} :: title"></title>
 </head>
-<body>
-	<th:block th:replace="site/fragmentos/cabecalho :: cabecalho" />
-	<th:block th:replace="'site/conteudo/' + ${conteudo} :: conteudo" />
-	<th:block th:replace="site/fragmentos/rodape :: rodape" />
+<body id="sindico">
+	<th:block th:replace="fragmentos/cabecalho :: cabecalho" />
+	<div class="d-flex align-items-stretch">
+		<th:block th:replace="fragmentos/lateral :: lateral" />
+		<th:block th:replace="'site/' + ${conteudo} :: conteudo" />
+	</div>
+	<th:block th:replace="fragmentos/rodape :: rodape" />
 
 	<!-- JavaScript -->
 	<script th:src="@{/js/jquery.min.js}"></script>

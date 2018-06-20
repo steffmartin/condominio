@@ -4,7 +4,7 @@
 <body>
 	<th:block th:fragment="cabecalho">
 		<header>
-			<nav class="navbar navbar-expand-md navbar-dark navbar-fixed-top bg-primary mb-3">
+			<nav class="navbar navbar-expand-md navbar-dark navbar-fixed-top bg-primary">
 				<div class="container">
 					<a class="navbar-brand" th:href="@{/}"> <i class="far fa-building fa-lg fa-fw"></i>Condomínio App
 					</a>
@@ -14,8 +14,8 @@
 					<div class="collapse navbar-collapse" id="navbarCollapse">
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item"><a class="nav-link" href="#">Recursos</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Ajuda</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Preços</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">Demonstração</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">Planos</a></li>
 						</ul>
 						<div sec:authorize="isAnonymous()">
 							<form class="form-inline mt-2 mt-md-0" th:action="@{/entrar}" method="get">
@@ -29,8 +29,10 @@
 									<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split  my-2 my-sm-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 									<div class="dropdown-menu dropdown-menu-md-right">
 										<a class="dropdown-item" href="#">Minha conta</a>
+										<a class="dropdown-item" href="#">Ajuda</a>
+										<a class="dropdown-item" href="#">Suporte</a>
 										<div class="dropdown-divider"></div>
-										<button class="dropdown-item" type="submit">Sair</button>
+										<button class="dropdown-item" type="submit">Sair <i class="fas fa-sign-out-alt ml-3"></i></button>
 									</div>
 								</div>
 							</form>

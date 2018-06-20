@@ -27,7 +27,7 @@ public class UsuarioController {
 	@GetMapping("/cadastrar")
 	public ModelAndView preCadastroSindico(@ModelAttribute("usuario") Usuario usuario, ModelMap model) {
 		model.addAttribute("conteudo", "cadastrarSindico");
-		return new ModelAndView("site/layout", model);
+		return new ModelAndView("fragmentos/layoutSite", model);
 	}
 
 	@PostMapping("/cadastrar")
@@ -46,7 +46,7 @@ public class UsuarioController {
 	@GetMapping("/redefinir")
 	public ModelAndView preRedefinir(ModelMap model) {
 		model.addAttribute("conteudo", "redefinir");
-		return new ModelAndView("site/layout", model);
+		return new ModelAndView("fragmentos/layoutSite", model);
 	}
 
 	@PostMapping("/redefinir")

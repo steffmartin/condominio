@@ -14,13 +14,13 @@ public class InicioController {
 	@GetMapping({ "/", "", "/home", "/inicio" })
 	public ModelAndView inicio(ModelMap model) {
 		model.addAttribute("conteudo", "inicio");
-		return new ModelAndView("site/layout", model);
+		return new ModelAndView("fragmentos/layoutSite", model);
 	}
 
 	@GetMapping({ "/entrar", "/login" })
 	public ModelAndView preLogin(ModelMap model) {
 		model.addAttribute("conteudo", "login");
-		return new ModelAndView("site/layout", model);
+		return new ModelAndView("fragmentos/layoutSite", model);
 	}
 
 	@GetMapping("/autenticado")
@@ -33,5 +33,11 @@ public class InicioController {
 			retorno = "redirect:/morador";
 		}
 		return retorno;
+	}
+	
+	@GetMapping("/sindico")
+	public ModelAndView sindico(ModelMap model) {
+		model.addAttribute("conteudo", "inicio");
+		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 }

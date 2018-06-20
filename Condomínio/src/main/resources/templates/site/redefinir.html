@@ -8,7 +8,7 @@
 </head>
 <body>
 	<th:block th:fragment="conteudo">
-		<main role="main" class="container">
+		<main role="main" class="container mt-3">
 		<h3 class="font-weight-light mb-3">Redefinir Senha</h3>
 		<p th:text="!${param.token}?'Podemos ajudá-lo a redefinir sua senha. Por favor, informe seu nome de usuário para prosseguir.':'Por favor, informe uma nova senha para sua conta.'"></p>
 
@@ -30,7 +30,7 @@
 					<span class="input-group-text"><i class="fas fa-lock"></i></span>
 				</div>
 				<input class="form-control last" type="password" name="password" id="password" placeholder="Sua nova senha" autofocus="autofocus" pattern=".{4,100}" required />
-				<div class="invalid-feedback">No mínimo 4 e no máximo 100 caracteres</div>
+				<div class="invalid-feedback">Deve ter de 4 a 100 caracteres</div>
 			</div>
 			<button type="submit" class="btn btn-primary mb-3 align-self-start">Redefinir</button>
 		</form>
