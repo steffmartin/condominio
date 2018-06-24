@@ -1,14 +1,24 @@
-/*!
- * Trecho de CSS para colocar o rodapé no fim da página
- */
+/* Import do Font Awesome */
+@font-face {
+	font-family: FontAwesome;
+	src: url(../webfonts/fa-solid-900.ttf);
+}
+
+/* Cabeçalho fixo */
+body {
+	padding-top: 56px; /* Tamanho do menu superior */
+}
+
+/* Rodapé fixo */
 html {
 	position: relative;
 	min-height: 100%;
+	/*para que o rodapé fique no fim da página mesmo se o conteúdo dela for curto */
 }
 
 body {
+	padding-bottom: 56px;
 	/* Mesmo tamanho do rodapé + $spacer -> 56 + 16 */
-	margin-bottom: 72px;
 }
 
 .footer {
@@ -19,44 +29,44 @@ body {
 	height: 56px;
 	line-height: 56px;
 }
-/*!
- * Para que o menu SAIR não fique escondido em tela pequena
- */
-@media ( min-width : 768px) {
-	.dropdown-menu-md-right {
-		right: 0;
-		left: auto;
-	}
-}
-/*!
- * Correção da borda nos formulários
- */
-.input-group>.form-control.last {
-	border-top-right-radius: 0.25rem;
-	border-bottom-right-radius: 0.25rem;
-}
-/*!
- * Correção do cursor em botões nos dropdowns
- */
-button.dropdown-item {
-	cursor: pointer;
-}
-/*!
- * Sidebar
- */
- #sidebar a, #sidebar a:hover, #sidebar a:focus {
-    transition: all 0.3s;
-    margin-top:-1px;
+
+/* Margens do conteúdo */
+main {
+	margin-top: 16px;
+	margin-bottom: 16px;
 }
 
-#sidebar ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-}
+/* Sidebar */
 #sidebar {
 	min-width: 250px;
 	max-width: 250px;
+	margin-top: 56px;
+	margin-bottom: 56px;
+	height: calc(100% - 168px);
 	transition: all 0.3s;
+	position: fixed;
+	border-bottom-right-radius:.5rem !important;
+	z-index: 999;
+	overflow:hidden !important;
+}
+
+#sidebarCollapse {
+	margin-top: 56px;
+	margin-left: 250px;
+	transition: all 0.3s;
+}
+
+#sidebarCollapse.active {
+	margin-left: 80px;
+}
+
+#sidebar a, #sidebar a:hover, #sidebar a:focus {
+	transition: all 0.3s;
+}
+
+#sidebar ul ul a {
+	font-size: 0.9em !important;
+	padding-left: 30px !important;
 }
 
 #sidebar.active {
@@ -96,14 +106,35 @@ button.dropdown-item {
 	transform: translateX(50%);
 }
 
-#sidebar ul.components {
-	padding: 20px 0;
-}
-
 #sidebar ul li a {
 	padding: 10px;
 	font-size: 1.1em;
 	display: block;
+}
+
+#sidebarCollapse {
+	padding: 5px;
+	border: 1px solid transparent;
+	border-top-right-radius:.5rem;
+	border-bottom-right-radius:.5rem;
+	position:fixed;
+}
+
+#sidebarCollapse::before {
+	content: '\f104';
+	color:rgba(255,255,255,.5);
+	font-family: 'FontAwesome';
+	display: block;
+}
+
+#sidebarCollapse.active::before {
+	content: '\f105';
+}
+#sidebarCollapse:hover::before {
+	color:rgba(255,255,255,.75);
+}
+#sidebarCollapse:not(:disabled):not(.disabled){
+cursor:pointer;
 }
 
 #sidebar ul li a:hover {
@@ -115,28 +146,37 @@ button.dropdown-item {
 }
 
 #sidebar a[data-toggle="collapse"] {
-    position: relative;
+	position: relative;
 }
 
-@font-face {
-    font-family: FontAwesome;
-    src: url(../webfonts/fa-solid-900.ttf);
+#sidebar a[aria-expanded="false"]::before, #sidebar a[aria-expanded="true"]::before
+	{
+	content: '\f107';
+	font-family: 'FontAwesome';
+	display: block;
+	position: absolute;
+	right: 20px;
+	top: 15px;
+	font-size: 0.6em;
 }
-#sidebar a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
-    content: '\f107';
-    font-family: 'FontAwesome';
-    display: block;
-    position: absolute;
-    right: 20px;
-    top:15px;
-    font-size: 0.6em;
-}
+
 #sidebar a[aria-expanded="true"]::before {
-    content: '\f106';
+	content: '\f106';
 }
-
 
 @media ( max-width : 768px) {
+	#sidebarCollapse {
+		margin-left: 0 !important;
+	}
+	#sidebarCollapse.active {
+		margin-left: 80px !important;
+	}
+	#sidebarCollapse::before {
+		content: '\f105' !important;
+	}
+	#sidebarCollapse.active::before {
+		content: '\f104' !important;
+	}
 	#sidebar {
 		min-width: 80px;
 		max-width: 80px;
@@ -162,4 +202,22 @@ button.dropdown-item {
 	#sidebar {
 		margin-left: 0;
 	}
+}
+/* CORREÇÕES do BOOTSTRAP 4 */
+/*  Para que o menu SAIR não fique escondido em tela pequena */
+@media ( min-width : 768px) {
+	.dropdown-menu-md-right {
+		right: 0;
+		left: auto;
+	}
+}
+
+/*  Correção da borda nos formulários */
+.input-group>.form-control.last {
+	border-top-right-radius: 0.25rem;
+	border-bottom-right-radius: 0.25rem;
+}
+/* Correção do cursor em botões nos dropdowns */
+button.dropdown-item {
+	cursor: pointer;
 }

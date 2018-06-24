@@ -4,11 +4,11 @@
 <body>
 	<th:block th:fragment="cabecalho">
 		<header>
-			<nav class="navbar navbar-expand-md navbar-dark navbar-fixed-top bg-primary">
+			<nav id="navbarTop" class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
 				<div class="container">
 					<a class="navbar-brand" th:href="@{/}"> <i class="far fa-building fa-lg fa-fw"></i>Condomínio App
 					</a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<button class="navbar-toggler" type="button" data-toggle="collapse" id="navbarToggler" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbarCollapse">
