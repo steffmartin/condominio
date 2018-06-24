@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <body>
 	<th:block th:fragment="lateral">
-		<nav id="sidebar" class="bg-primary navbar-dark">
+		<nav id="sidebar" class="bg-primary navbar-dark active">
 			<ul class="list-unstyled navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"> <i class="fas fa-home"></i> Home
 				</a>
@@ -43,7 +43,7 @@
 				</a></li>
 			</ul>
 		</nav>
-		<div id="sidebarCollapse" class="bg-primary text-light" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle sidebar"></div>
+		<div id="sidebarCollapse" class="bg-primary text-light active" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle sidebar"></div>
 	</th:block>
 </body>
 </html>

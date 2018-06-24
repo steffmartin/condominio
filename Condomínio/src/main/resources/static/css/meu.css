@@ -13,19 +13,16 @@ body {
 html {
 	position: relative;
 	min-height: 100%;
-	/*para que o rodapé fique no fim da página mesmo se o conteúdo dela for curto */
 }
 
 body {
-	padding-bottom: 56px;
-	/* Mesmo tamanho do rodapé + $spacer -> 56 + 16 */
+	padding-bottom: 56px; /* Tamanho do rodapé */
 }
 
 .footer {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	/* Altura do rodapé */
 	height: 56px;
 	line-height: 56px;
 }
@@ -40,20 +37,26 @@ main {
 #sidebar {
 	min-width: 250px;
 	max-width: 250px;
-	margin-top: 56px;
-	margin-bottom: 56px;
-	height: calc(100% - 168px);
+	margin-top: 56px; /* altura da barra superior */
+	margin-bottom: 56px; /* altura da barra superior */
+	height: calc(100% - 168px); /* 3x altura da barra superior */
 	transition: all 0.3s;
 	position: fixed;
-	border-bottom-right-radius:.5rem !important;
+	border-bottom-right-radius: .5rem !important;
 	z-index: 999;
-	overflow:hidden !important;
+	overflow: hidden !important;
 }
 
 #sidebarCollapse {
 	margin-top: 56px;
 	margin-left: 250px;
 	transition: all 0.3s;
+}
+
+#sidebar ~ main {
+	margin-left: 90px; /* 80 do menu + um pouco do toggler */
+	padding-right: 15px;
+    padding-left: 15px;
 }
 
 #sidebarCollapse.active {
@@ -96,8 +99,7 @@ main {
 	padding: 10px !important;
 }
 
-#sidebar.active a[aria-expanded="false"]::before, #sidebar.active a[aria-expanded="true"]::before
-	{
+#sidebar.active a[aria-expanded="false"]::before, #sidebar.active a[aria-expanded="true"]::before{
 	top: auto;
 	bottom: 5px;
 	right: 50%;
@@ -115,14 +117,14 @@ main {
 #sidebarCollapse {
 	padding: 5px;
 	border: 1px solid transparent;
-	border-top-right-radius:.5rem;
-	border-bottom-right-radius:.5rem;
-	position:fixed;
+	border-top-right-radius: .5rem;
+	border-bottom-right-radius: .5rem;
+	position: fixed;
 }
 
 #sidebarCollapse::before {
 	content: '\f104';
-	color:rgba(255,255,255,.5);
+	color: rgba(255, 255, 255, .5);
 	font-family: 'FontAwesome';
 	display: block;
 }
@@ -130,11 +132,13 @@ main {
 #sidebarCollapse.active::before {
 	content: '\f105';
 }
+
 #sidebarCollapse:hover::before {
-	color:rgba(255,255,255,.75);
+	color: rgba(255, 255, 255, .75);
 }
-#sidebarCollapse:not(:disabled):not(.disabled){
-cursor:pointer;
+
+#sidebarCollapse:not(:disabled ):not(.disabled ){
+	cursor: pointer;
 }
 
 #sidebar ul li a:hover {
@@ -185,6 +189,9 @@ cursor:pointer;
 	}
 	#sidebar.active {
 		margin-left: 0 !important;
+	}
+	#sidebar ~ main {
+		margin-left: 10px !important; /* do toggler */
 	}
 	#sidebar ul li a {
 		padding: 20px 10px;

@@ -24,4 +24,7 @@ $(document).ready(function() {
 		$('.collapse.show').toggleClass('show');
 		$('a[aria-expanded=true]').attr('aria-expanded', 'false');
 	});
+	if ($('header').width() < 768 ){
+		$('#sidebarCollapse').click();
+ }
 });
