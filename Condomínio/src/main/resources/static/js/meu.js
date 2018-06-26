@@ -1,4 +1,4 @@
-// FUNÇÃO PARA VALIDAR OS FORMULÁRIOS NO FRONT-END COM JS. O form PRECISA TER A CLASSE .needs-validation E TER A TAG novalidate
+// Validação do formulário
 (function() {
 	'use strict';
 	window.addEventListener('load', function() {
@@ -14,7 +14,7 @@
 		});
 	}, false);
 })();
-// SIDEBAR
+// Funcionamento do Sidebar
 $(document).ready(function() {
 	$("#sidebar").mCustomScrollbar({
 		theme : "minimal"
