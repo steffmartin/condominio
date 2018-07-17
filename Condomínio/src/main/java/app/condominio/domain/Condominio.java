@@ -1,19 +1,27 @@
 package app.condominio.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import app.condominio.domain.enums.Estado;
 import app.condominio.domain.validators.CNPJ;
@@ -79,6 +87,14 @@ public class Condominio implements Serializable {
 	@NotBlank
 	@Size(min = 8, max = 8)
 	private String cep;
+	
+	@OneToOne(mappedBy="condominio", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
+	private Usuario sindico;
+	
+	@OneToMany(mappedBy="condominio", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
+	private List<Bloco> blocos = new ArrayList<>();
 
 	public Long getIdCondominio() {
 		return idCondominio;
@@ -198,6 +214,22 @@ public class Condominio implements Serializable {
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+
+	public Usuario getSindico() {
+		return sindico;
+	}
+
+	public void setSindico(Usuario sindico) {
+		this.sindico = sindico;
+	}
+
+	public List<Bloco> getBlocos() {
+		return blocos;
+	}
+
+	public void setBlocos(List<Bloco> blocos) {
+		this.blocos = blocos;
 	}
 
 	@Override

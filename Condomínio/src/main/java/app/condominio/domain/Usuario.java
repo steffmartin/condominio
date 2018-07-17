@@ -10,10 +10,12 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
@@ -61,6 +63,10 @@ public class Usuario implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "autorizacao")
 	private Set<Autorizacao> autorizacoes = new HashSet<>();
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="idcondominio")
+	private Condominio condominio;
 
 	public Usuario() {
 		super();
@@ -128,6 +134,14 @@ public class Usuario implements Serializable {
 
 	public void setAutorizacoes(Set<Autorizacao> autorizacoes) {
 		this.autorizacoes = autorizacoes;
+	}
+
+	public Condominio getCondominio() {
+		return condominio;
+	}
+
+	public void setCondominio(Condominio condominio) {
+		this.condominio = condominio;
 	}
 
 	@Override

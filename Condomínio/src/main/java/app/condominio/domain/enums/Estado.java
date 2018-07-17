@@ -1,7 +1,5 @@
 package app.condominio.domain.enums;
 
-import java.util.Arrays;
-
 public enum Estado {
 	
 	// Fonte: https://github.com/caelum/caelum-stella/blob/master/stella-nfe/src/main/java/br/com/caelum/stella/nfe/Estados.java

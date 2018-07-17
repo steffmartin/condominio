@@ -5,17 +5,18 @@
 	<th:block th:fragment="lateral">
 		<nav id="sidebar" class="bg-primary navbar-dark active">
 			<ul class="list-unstyled navbar-nav">
-				<li class="nav-item"><a class="nav-link" href="#homeSubmenu" data-toggle="collapse"> <i class="fas fa-home"></i> Home
+				<li class="nav-item"><a class="nav-link" href="#condominioSubmenu" data-toggle="collapse" title="Condomínio"> <i class="fas fa-building"></i> Condomínio
 				</a>
-					<ul class="collapse list-unstyled" id="homeSubmenu">
-						<li><a class="nav-link" href="#">Home 1</a></li>
-						<li><a class="nav-link" href="#">Home 2</a></li>
-						<li><a class="nav-link" href="#">Home 3</a></li>
+					<ul class="collapse list-unstyled" id="condominioSubmenu">
+						<li><a class="nav-link" th:href="@{/sindico/condominio/cadastro}" title="Cadastro do Condomínio">Cadastro</a></li>
+						<li><a class="nav-link" href="#" title="Cadastro de Blocos">Blocos</a></li>
+						<li><a class="nav-link" href="#" title="Cadastro de Unidades Habitacionais">Unidades</a></li>
+						<li><a class="nav-link" href="#" title="Cadastro de Moradores">Moradores</a></li>
 					</ul></li>
-				<li class="nav-item"><a class="nav-link" href="#homeSubmenu2" data-toggle="collapse"> <i class="fas fa-home"></i> Home
+				<li class="nav-item"><a class="nav-link" href="#homeSubmenu2" data-toggle="collapse"> <i class="fas fa-home"></i> Home Com Nome Grande Para Testar o Overflow
 				</a>
 					<ul class="collapse list-unstyled" id="homeSubmenu2">
-						<li><a class="nav-link" href="#">Home 1</a></li>
+						<li><a class="nav-link" href="#">Sub com nome grande para testar o overflow</a></li>
 						<li><a class="nav-link" href="#">Home 2</a></li>
 						<li><a class="nav-link" href="#">Home 3</a></li>
 					</ul></li>

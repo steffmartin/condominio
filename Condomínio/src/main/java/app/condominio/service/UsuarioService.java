@@ -15,7 +15,7 @@ public interface UsuarioService {
 	public boolean existe(String username);
 
 	public void editar(Usuario usuario);
-
+	
 	public void excluir(Usuario usuario);
 	
 	public boolean redefinirSenha(String username);

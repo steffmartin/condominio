@@ -46,6 +46,12 @@ main {
 	overflow: hidden !important;
 }
 
+#sidebar ul li a{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
 #sidebarCollapse {
 	margin-top: 16px;
 	margin-left: 250px;

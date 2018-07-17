@@ -4,7 +4,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,15 +11,13 @@ import org.springframework.web.servlet.ModelAndView;
 public class InicioController {
 
 	@GetMapping({ "/", "", "/home", "/inicio" })
-	public ModelAndView inicio(ModelMap model) {
-		model.addAttribute("conteudo", "inicio");
-		return new ModelAndView("fragmentos/layoutSite", model);
+	public ModelAndView inicio() {
+		return new ModelAndView("fragmentos/layoutSite", "conteudo", "inicio");
 	}
 
 	@GetMapping({ "/entrar", "/login" })
-	public ModelAndView preLogin(ModelMap model) {
-		model.addAttribute("conteudo", "login");
-		return new ModelAndView("fragmentos/layoutSite", model);
+	public ModelAndView preLogin() {
+		return new ModelAndView("fragmentos/layoutSite", "conteudo", "login");
 	}
 
 	@GetMapping("/autenticado")
@@ -38,8 +35,7 @@ public class InicioController {
 	}
 	
 	@GetMapping("/sindico")
-	public ModelAndView sindico(ModelMap model) {
-		model.addAttribute("conteudo", "inicio");
-		return new ModelAndView("fragmentos/layoutSindico", model);
+	public ModelAndView sindico() {
+		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "inicio");
 	}
 }

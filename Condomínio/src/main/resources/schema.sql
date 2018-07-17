@@ -1,25 +1,3 @@
-CREATE TABLE Usuarios (
-  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  username VARCHAR(50) NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  ativo BOOL NOT NULL DEFAULT true,
-  nome VARCHAR(50) NOT NULL,
-  sobrenome VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  PRIMARY KEY(id),
-  UNIQUE INDEX Usuarios_unique_username(username)
-);
-
-CREATE TABLE Autorizacoes (
-  id_usuario BIGINT UNSIGNED NOT NULL,
-  autorizacao VARCHAR(50) NOT NULL,
-  PRIMARY KEY(id_usuario, autorizacao),
-  FOREIGN KEY(id_usuario)
-    REFERENCES Usuarios(id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE
-);
-
 CREATE TABLE persistent_logins (
   series VARCHAR(64) NOT NULL,
   username VARCHAR(50) NOT NULL,
@@ -45,4 +23,42 @@ CREATE TABLE Condominios (
   estado VARCHAR(2) NOT NULL,
   cep VARCHAR(8) NOT NULL,
   PRIMARY KEY(idCondominio)
+);
+
+CREATE TABLE Usuarios (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  username VARCHAR(50) NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  ativo BOOL NOT NULL DEFAULT true,
+  nome VARCHAR(50) NOT NULL,
+  sobrenome VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  idCondominio BIGINT UNSIGNED NULL,
+  PRIMARY KEY(id),
+  FOREIGN KEY(idCondominio)
+    REFERENCES Condominios(idCondominio)
+      ON DELETE SET NULL
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Autorizacoes (
+  id_usuario BIGINT UNSIGNED NOT NULL,
+  autorizacao VARCHAR(50) NOT NULL,
+  PRIMARY KEY(id_usuario, autorizacao),
+  FOREIGN KEY(id_usuario)
+    REFERENCES Usuarios(id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Blocos (
+  idBloco BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  idCondominio BIGINT UNSIGNED NOT NULL,
+  sigla VARCHAR(3) NOT NULL,
+  descricao VARCHAR(30) NULL,
+  PRIMARY KEY(idBloco),
+  FOREIGN KEY(idCondominio)
+    REFERENCES Condominios(idCondominio)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
 );
