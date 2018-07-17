@@ -1,4 +1,4 @@
-package app.condominio.domain;
+package app.condominio.domain.enums;
 
 public enum Autorizacao {
 	ADMIN,

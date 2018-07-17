@@ -20,7 +20,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.NaturalId;
+import app.condominio.domain.enums.Autorizacao;
 
 @Entity
 @Table(name = "Usuarios")
@@ -32,7 +32,6 @@ public class Usuario implements Serializable {
 
 	@NotBlank
 	@Size(min = 1, max = 50)
-	@NaturalId
 	private String username;
 
 	@NotBlank

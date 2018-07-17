@@ -53,9 +53,10 @@ main {
 }
 
 #sidebar ~ main {
-	margin-left: 90px; /* 80 do menu + um pouco do toggler */
+	margin-left: 80px; /* 80 do menu + um pouco do toggler */
 	padding-right: 15px;
     padding-left: 15px;
+    width:100%;
 }
 
 #sidebarCollapse.active {
@@ -114,11 +115,12 @@ main {
 }
 
 #sidebarCollapse {
-	padding: 5px;
+	padding: 5px 2px;
 	border: 1px solid transparent;
 	border-top-right-radius: .5rem;
 	border-bottom-right-radius: .5rem;
 	position: fixed;
+	z-index: 999;
 }
 
 #sidebarCollapse::before {
@@ -190,7 +192,7 @@ main {
 		margin-left: 0 !important;
 	}
 	#sidebar ~ main {
-		margin-left: 10px !important; /* do toggler */
+		margin-left: 0px !important; /* 10px do toggler */
 	}
 	#sidebar ul li a {
 		padding: 20px 10px;

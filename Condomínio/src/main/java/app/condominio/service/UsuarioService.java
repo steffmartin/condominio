@@ -7,6 +7,8 @@ public interface UsuarioService {
 	public void salvarSindico(Usuario usuario);
 
 	public void salvarMorador(Usuario usuario);
+	
+	public void salvarAdmin(Usuario usuario);
 
 	public Usuario ler(String username);
 	

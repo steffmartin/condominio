@@ -31,6 +31,8 @@ public class InicioController {
 			retorno = "redirect:/sindico";
 		} else if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority("MORADOR"))) {
 			retorno = "redirect:/morador";
+		} else if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+			retorno = "redirect:/admin";
 		}
 		return retorno;
 	}

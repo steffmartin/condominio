@@ -23,10 +23,10 @@
 			<div th:if="${param.novo}">
 				<div class="alert alert-success">Sua conta foi criada, obrigado!</div>
 			</div>
-			<div class="card">
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">
-						<form th:action="@{/entrar}" th:method="post" class="needs-validation" novalidate>
+			<form th:action="@{/entrar}" th:method="post" class="needs-validation" novalidate>
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
 							<div class="form-group">
 								<label>Usuário</label>
 								<div class="input-group">
@@ -54,10 +54,10 @@
 							<button type="submit" class="btn btn-primary btn-block">
 								Entrar<i class="fas fa-sign-in-alt ml-3"></i>
 							</button>
-						</form>
-					</li>
-				</ul>
-			</div>
+						</li>
+					</ul>
+				</div>
+			</form>
 			<p class="text-center mt-3">
 				Seu condomínio não está aqui? <a th:href="@{/conta/cadastrar}">Seja cliente!</a>
 			</p>

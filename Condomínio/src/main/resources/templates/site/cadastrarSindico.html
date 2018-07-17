@@ -11,17 +11,17 @@
 		<main role="main" class="container">
 		<h3 class="font-weight-light">Criar conta</h3>
 		<p>Obrigado por escolher o Condomínio App! Preencha os dados abaixo para se registrar.</p>
-		<div class="card mb-3">
-			<ul class="list-group list-group-flush">
-				<li class="list-group-item">
-					<p class="text-primary">
-						<i class="fas fa-user-lock"></i> Informe os dados do Responsável pelo Condomínio
-					</p>
-					<form th:action="@{/conta/cadastrar}" th:object="${usuario}" th:method="post" class="mb-3" novalidate>
+		<form th:action="@{/conta/cadastrar}" th:object="${usuario}" th:method="post" novalidate>
+			<div class="card">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<p class="text-primary">
+							<i class="fas fa-user-lock"></i> Informe os dados do Responsável pelo Condomínio
+						</p>
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Nome</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('nome')}? 'is-invalid'" th:field="*{nome}" placeholder="Seu nome" />
-								<div class="invalid-feedback" th:errors="*{nome}">	</div>
+								<div class="invalid-feedback" th:errors="*{nome}"></div>
 							</div>
 							<div class="form-group col-md-6">
 								<label>Sobrenome</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('sobrenome')}? 'is-invalid'" th:field="*{sobrenome}" placeholder="Seu sobrenome" />
@@ -39,7 +39,7 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="fas fa-user"></i></span>
 									</div>
-									<input class="form-control last" type="text" th:classappend="${#fields.hasErrors('username')}? 'is-invalid'" th:field="*{username}" placeholder="Escolha seu usuário"/>
+									<input class="form-control last" type="text" th:classappend="${#fields.hasErrors('username')}? 'is-invalid'" th:field="*{username}" placeholder="Escolha seu usuário" />
 									<div class="invalid-feedback" th:errors="*{username}"></div>
 								</div>
 							</div>
@@ -60,10 +60,10 @@
 							<div class="invalid-feedback" th:errors="*{ativo}"></div>
 						</div>
 						<button type="submit" class="btn btn-primary">Registrar</button>
-					</form>
-				</li>
-			</ul>
-		</div>
+					</li>
+				</ul>
+			</div>
+		</form>
 		</main>
 		<!-- Modal -->
 		<div class="modal fade" id="termosDeUso" tabindex="-1" role="dialog">

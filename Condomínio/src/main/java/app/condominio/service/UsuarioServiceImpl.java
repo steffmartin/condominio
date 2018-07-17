@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import app.condominio.dao.UsuarioDao;
-import app.condominio.domain.Autorizacao;
 import app.condominio.domain.Usuario;
+import app.condominio.domain.enums.Autorizacao;
 
 @Service
 @Transactional
@@ -59,6 +59,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public void salvarMorador(Usuario usuario) {
 		usuario.getAutorizacoes().add(Autorizacao.MORADOR);
+		salvar(usuario);
+	}
+	
+	@Override
+	public void salvarAdmin(Usuario usuario) {
+		usuario.getAutorizacoes().add(Autorizacao.ADMIN);
 		salvar(usuario);
 	}
 
