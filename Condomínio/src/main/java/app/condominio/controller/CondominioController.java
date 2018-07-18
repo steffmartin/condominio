@@ -3,7 +3,6 @@ package app.condominio.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import app.condominio.domain.Condominio;
-import app.condominio.domain.Usuario;
 import app.condominio.domain.enums.Estado;
 import app.condominio.service.CondominioService;
 import app.condominio.service.UsuarioService;
@@ -36,8 +34,8 @@ public class CondominioController {
 	}
 
 	@GetMapping("/cadastro")
-	public ModelAndView getcondominioCadastro(ModelMap model, Authentication authentication) {
-		Condominio condominio = usuarioService.ler(authentication.getName()).getCondominio();
+	public ModelAndView getcondominioCadastro(ModelMap model) {
+		Condominio condominio = usuarioService.lerLogado().getCondominio();
 		if (condominio != null) {
 			model.addAttribute("condominio", condominio);
 		} else {
@@ -49,25 +47,20 @@ public class CondominioController {
 
 	@PostMapping("/cadastro")
 	public ModelAndView postcondominioCadastro(@Valid @ModelAttribute("condominio") Condominio condominio,
-			BindingResult validacao, Authentication authentication) {
+			BindingResult validacao) {
 		if (validacao.hasErrors()) {
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "condominioCadastro");
 		}
 		condominioService.salvar(condominio);
-
-		// TODO alterar esta chamada quando criar meu UserDetais
-		Usuario sindico = usuarioService.ler(authentication.getName());
-		sindico.setCondominio(condominio);
-		usuarioService.editar(sindico);
 		return new ModelAndView("redirect:/sindico");
 	}
 
 	@PutMapping("/cadastro")
 	public ModelAndView putcondominioCadastro(@Valid @ModelAttribute("condominio") Condominio condominio,
-			BindingResult validacao, Authentication authentication) {
+			BindingResult validacao) {
 
 		// Adiciona o ID do condomínio
-		condominio.setIdCondominio(usuarioService.ler(authentication.getName()).getCondominio().getIdCondominio());
+		condominio.setIdCondominio(usuarioService.lerLogado().getCondominio().getIdCondominio());
 
 		if (validacao.hasErrors()) {
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "condominioCadastro");

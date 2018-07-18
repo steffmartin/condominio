@@ -13,6 +13,8 @@ public interface UsuarioService {
 	public void salvarAdmin(Usuario usuario);
 
 	public Usuario ler(String username);
+	
+	public Usuario lerLogado();
 
 	public void editar(Usuario usuario);
 	

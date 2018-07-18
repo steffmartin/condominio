@@ -20,7 +20,7 @@
 				<input class="form-control last" type="text" name="username" th:value="${param.username}" id="username" placeholder="Seu usuário" autofocus="autofocus" required />
 				<div class="invalid-feedback">Campo obrigatório</div>
 			</div>
-			<button type="submit" class="btn btn-primary mb-3 align-self-start">Confirmar</button>
+			<button type="submit" class="btn btn-primary mb-3 align-self-start" th:disabled="${param.email}">Confirmar</button>
 		</form>
 
 		<form th:if="${param.token}" th:action="@{/conta/redefinir}" th:method="put" class="form-inline needs-validation" novalidate>

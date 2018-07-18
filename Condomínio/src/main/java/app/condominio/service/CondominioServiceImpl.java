@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import app.condominio.dao.CondominioDao;
 import app.condominio.domain.Condominio;
+import app.condominio.domain.Usuario;
 
 @Service
 @Transactional
@@ -15,9 +16,17 @@ public class CondominioServiceImpl implements CondominioService {
 	@Autowired
 	private CondominioDao condominioDao;
 
+	@Autowired
+	private UsuarioService usuarioService;
+
 	@Override
 	public void salvar(Condominio condominio) {
 		condominioDao.save(condominio);
+
+		// Atualizar o ID do condomínio no cadastro do síndico
+		Usuario sindico = usuarioService.lerLogado();
+		sindico.setCondominio(condominio);
+		usuarioService.editar(sindico);
 	}
 
 	@Override

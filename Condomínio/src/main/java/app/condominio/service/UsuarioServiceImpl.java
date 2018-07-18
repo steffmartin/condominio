@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,6 +37,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Usuario ler(String username) {
 		return usuarioDao.findByUsername(username);
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Usuario lerLogado() {
+		return usuarioDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		// http://www.baeldung.com/get-user-in-spring-security
 	}
 
 	@Override
