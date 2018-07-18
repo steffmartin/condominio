@@ -13,6 +13,8 @@ import app.condominio.domain.Usuario;
 @Transactional
 public class CondominioServiceImpl implements CondominioService {
 
+	//LATER ao ler/editar/excluir, tratar casos do usuário alterar o ID na URL ou fonte e enxergar entidades de outro usuário
+	
 	@Autowired
 	private CondominioDao condominioDao;
 
@@ -21,7 +23,7 @@ public class CondominioServiceImpl implements CondominioService {
 
 	@Override
 	public void salvar(Condominio condominio) {
-		condominioDao.save(condominio);
+		//condominioDao.save(condominio); //Como o síndico é atualizado a operação é cascateada e o condomínio já é salvo lá
 
 		// Atualizar o ID do condomínio no cadastro do síndico
 		Usuario sindico = usuarioService.lerLogado();
@@ -31,8 +33,8 @@ public class CondominioServiceImpl implements CondominioService {
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Condominio ler(Long id) {
-		return condominioDao.findById(id).get();
+	public Condominio ler() {
+		return usuarioService.lerLogado().getCondominio();
 	}
 
 	@Override

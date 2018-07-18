@@ -1,0 +1,68 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Blocos</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Blocos</h3>
+		<div class="btn-group mb-3 float-right">
+			<a class="btn btn-light" th:href="@{/sindico/blocos/cadastro}"><i class="fas fa-plus"></i> Novo</a>
+			<button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+			<div class="dropdown-menu dropdown-menu-right">
+				<a class="dropdown-item" th:href="@{/sindico/blocos/cadastro}">Criar bloco</a> <a class="dropdown-item" href="#">Criar em lote</a>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-hover table-sm crud-list">
+				<caption>
+					<span th:text="${#lists.isEmpty(blocos)} ? 'Nenhum' : 'Há '+${#lists.size(blocos)}"></span> <span th:text="${#lists.size(blocos)>1} ? 'blocos cadastrados' : 'bloco cadastrado'"></span>.
+				</caption>
+				<thead class="thead-light">
+					<tr>
+						<th scope="col">Sigla</th>
+						<th scope="col">Descrição</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="bloco : ${blocos}">
+						<th scope="row" th:text="${bloco.sigla}"></th>
+						<td th:text="${bloco.descricao}"></td>
+						<td><a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/blocos/cadastro/{idBloco}(idBloco=${bloco.idBloco})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" data-th-data-idobj="${bloco.idBloco}" data-th-data-obs="${bloco.sigla}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</main>
+		<!-- Modal -->
+		<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">
+			<div class="modal-dialog  modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Confirmar Exclusão</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+					</div>
+					<form th:action="@{/sindico/blocos/excluir}" th:method="delete" novalidate>
+						<input type="hidden" id="idObj" name="idObj" />
+						<div class="modal-body">
+							Confirma a exclusão do bloco '<span></span>'?
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-danger">Excluir</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

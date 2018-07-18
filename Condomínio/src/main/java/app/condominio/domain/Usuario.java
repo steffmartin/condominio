@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -24,6 +25,7 @@ import javax.validation.constraints.Size;
 
 import app.condominio.domain.enums.Autorizacao;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Usuarios")
 public class Usuario implements Serializable {
@@ -64,7 +66,7 @@ public class Usuario implements Serializable {
 	@Column(name = "autorizacao")
 	private Set<Autorizacao> autorizacoes = new HashSet<>();
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="idcondominio")
 	private Condominio condominio;
 

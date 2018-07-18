@@ -3,7 +3,7 @@
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
 
-<title>Cadastrar Condomínio</title>
+<title>Condomínio</title>
 
 </head>
 <body>
@@ -12,6 +12,7 @@
 		<h3 class="font-weight-light">Cadastro do Condomínio</h3>
 		<p>As informações abaixo serão usadas pelo Condomínio App para diversas funcionalidades como, por exemplo, imprimir relatórios e enviar e-mails.</p>
 		<form th:action="@{/sindico/condominio/cadastro}" th:object="${condominio}" th:method="${condominio.idCondominio == null} ? post : put" novalidate>
+			<input type="hidden" th:field="*{idCondominio}"/>
 			<div class="card">
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">

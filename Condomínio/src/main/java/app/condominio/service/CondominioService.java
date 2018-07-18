@@ -6,7 +6,7 @@ public interface CondominioService {
 
 	public void salvar(Condominio condominio);
 
-	public Condominio ler(Long id);
+	public Condominio ler();
 
 	public void editar(Condominio condominio);
 

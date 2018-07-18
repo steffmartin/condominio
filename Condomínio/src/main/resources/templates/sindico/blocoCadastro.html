@@ -1,0 +1,43 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Bloco</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Cadastro do Bloco</h3>
+		<p th:text="${bloco.idBloco == null} ? 'Ao salvar, um novo bloco será criado no condomínio.' : 'Ao salvar, as informações do bloco atual serão atualizadas.'"></p>
+		<form th:action="@{/sindico/blocos/cadastro}" th:object="${bloco}" th:method="${bloco.idBloco == null} ? post : put" novalidate>
+		<input type="hidden" th:field="*{condominio}"/>
+		<input type="hidden" th:field="*{idBloco}"/>
+			<div class="card">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<p class="text-primary">
+							<i class="fas fa-building"></i> Informações principais do bloco
+						</p>
+						<div class="form-row">
+							<div class="form-group col-md-2">
+								<label>Sigla</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('sigla')}? 'is-invalid'" th:field="*{sigla}" placeholder="Uma abrevitura" />
+								<div class="invalid-feedback" th:errors="*{sigla}"></div>
+							</div>
+							<div class="form-group col-md-10">
+								<label>Descrição</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('descricao')}? 'is-invalid'" th:field="*{descricao}" placeholder="Uma descrição completa" />
+								<div class="invalid-feedback" th:errors="*{descricao}"></div>
+								<small>Opcional</small>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary">Salvar</button> <a class="btn btn-secondary" th:href="@{/sindico/blocos}" role="button">Cancelar</a>
+					</li>
+				</ul>
+			</div>
+		</form>
+		</main>
+	</th:block>
+
+</body>
+</html>

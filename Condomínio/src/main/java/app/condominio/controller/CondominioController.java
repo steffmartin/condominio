@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import app.condominio.domain.Condominio;
 import app.condominio.domain.enums.Estado;
 import app.condominio.service.CondominioService;
-import app.condominio.service.UsuarioService;
 
 @Controller
 @RequestMapping("sindico/condominio")
@@ -25,17 +24,14 @@ public class CondominioController {
 	@Autowired
 	private CondominioService condominioService;
 
-	@Autowired
-	private UsuarioService usuarioService;
-
 	@ModelAttribute("estados")
 	public Estado[] estados() {
 		return Estado.values();
 	}
 
 	@GetMapping("/cadastro")
-	public ModelAndView getcondominioCadastro(ModelMap model) {
-		Condominio condominio = usuarioService.lerLogado().getCondominio();
+	public ModelAndView getCondominioCadastro(ModelMap model) {
+		Condominio condominio = condominioService.ler();
 		if (condominio != null) {
 			model.addAttribute("condominio", condominio);
 		} else {
@@ -46,7 +42,7 @@ public class CondominioController {
 	}
 
 	@PostMapping("/cadastro")
-	public ModelAndView postcondominioCadastro(@Valid @ModelAttribute("condominio") Condominio condominio,
+	public ModelAndView postCondominioCadastro(@Valid @ModelAttribute("condominio") Condominio condominio,
 			BindingResult validacao) {
 		if (validacao.hasErrors()) {
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "condominioCadastro");
@@ -56,12 +52,8 @@ public class CondominioController {
 	}
 
 	@PutMapping("/cadastro")
-	public ModelAndView putcondominioCadastro(@Valid @ModelAttribute("condominio") Condominio condominio,
+	public ModelAndView putCondominioCadastro(@Valid @ModelAttribute("condominio") Condominio condominio,
 			BindingResult validacao) {
-
-		// Adiciona o ID do condomínio
-		condominio.setIdCondominio(usuarioService.lerLogado().getCondominio().getIdCondominio());
-
 		if (validacao.hasErrors()) {
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "condominioCadastro");
 		}

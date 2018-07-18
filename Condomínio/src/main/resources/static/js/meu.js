@@ -28,3 +28,13 @@ $(document).ready(function() {
 		$('#sidebarCollapse').click();
  }
 });
+//Modal de excluir
+$('#modalExcluir').on('show.bs.modal', function (event) {
+	  var button = $(event.relatedTarget)
+	  var idObj = button.data('idobj') // Lê info dos atributos data-*
+	  var obs = button.data('obs')
+	  var modal = $(this)
+	  modal.find('form #idObj').val(idObj)
+	  modal.find('.modal-body span').text(obs)
+	  
+	})

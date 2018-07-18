@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,24 +21,22 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import app.condominio.domain.enums.Estado;
 import app.condominio.domain.validators.CNPJ;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Condominios")
 public class Condominio implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="idcondominio")
+	@Column(name = "idcondominio")
 	private Long idCondominio;
 
 	@NotBlank
 	@Size(min = 1, max = 100)
-	@Column(name="razaosocial")
+	@Column(name = "razaosocial")
 	private String razaoSocial;
 
 	@CNPJ
@@ -53,7 +52,8 @@ public class Condominio implements Serializable {
 	@Size(max = 100)
 	private String email;
 
-	//LATER verificar se há como validar o tamanho min = 10 e max = 10 sem que o campo seja obrigatório (min = 0 ou 10)
+	// LATER verificar se há como validar o tamanho min = 10 e max = 10 sem que o
+	// campo seja obrigatório (min = 0 ou 10)
 	@Size(max = 10)
 	private String telefone;
 
@@ -66,11 +66,11 @@ public class Condominio implements Serializable {
 
 	@NotBlank
 	@Size(min = 1, max = 6)
-	@Column(name="numeroend")
+	@Column(name = "numeroend")
 	private String numeroEnd;
 
 	@Size(max = 30)
-	@Column(name="complementoend")
+	@Column(name = "complementoend")
 	private String complementoEnd;
 
 	@NotBlank
@@ -89,12 +89,12 @@ public class Condominio implements Serializable {
 	@Size(min = 8, max = 8)
 	private String cep;
 	
-	@OneToOne(mappedBy="condominio", fetch = FetchType.LAZY)
-	@Cascade(CascadeType.ALL)
+	//Dicas de relações: https://vladmihalcea.com/a-beginners-guide-to-jpa-and-hibernate-cascade-types/
+
+	@OneToOne(mappedBy = "condominio", fetch = FetchType.LAZY)
 	private Usuario sindico;
-	
-	@OneToMany(mappedBy="condominio", fetch = FetchType.LAZY)
-	@Cascade(CascadeType.ALL)
+
+	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bloco> blocos = new ArrayList<>();
 
 	public Long getIdCondominio() {

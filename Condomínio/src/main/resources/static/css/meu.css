@@ -33,6 +33,22 @@ main {
 	margin-bottom: 16px;
 }
 
+/* Personalização de tabela de listagem */
+.crud-list th, .crud-list td{
+	vertical-align: middle !important;
+}
+.crud-list tbody tr td:last-child{
+	text-align: right !important;
+}
+@media ( max-width : 768px) {
+	.crud-list tr td:last-child span{
+		display:none;
+		visibility:hidden;
+	}
+	.crud-list tr td:last-child .btn{
+		min-width:35px;
+	}
+}
 /* Sidebar */
 #sidebar {
 	min-width: 250px;

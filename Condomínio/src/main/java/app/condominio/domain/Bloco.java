@@ -14,11 +14,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Blocos")
 public class Bloco implements Serializable {
@@ -32,13 +31,12 @@ public class Bloco implements Serializable {
 	@NotBlank
 	private String sigla;
 	
-	@Size(min = 1, max=30)
+	@Size(max=30)
 	private String descricao;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="idcondominio")
 	@Fetch(FetchMode.JOIN)
-	@Cascade(CascadeType.ALL)
 	private Condominio condominio;
 
 	public Long getIdBloco() {
@@ -47,6 +45,14 @@ public class Bloco implements Serializable {
 
 	public void setIdBloco(Long idBloco) {
 		this.idBloco = idBloco;
+	}
+
+	public String getSigla() {
+		return sigla;
+	}
+
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
 
 	public String getDescricao() {
