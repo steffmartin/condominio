@@ -53,6 +53,7 @@ public class Condominio implements Serializable {
 	@Size(max = 100)
 	private String email;
 
+	//LATER verificar se há como validar o tamanho min = 10 e max = 10 sem que o campo seja obrigatório (min = 0 ou 10)
 	@Size(max = 10)
 	private String telefone;
 

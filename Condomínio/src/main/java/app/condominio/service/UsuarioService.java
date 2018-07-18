@@ -1,5 +1,7 @@
 package app.condominio.service;
 
+import org.springframework.validation.BindingResult;
+
 import app.condominio.domain.Usuario;
 
 public interface UsuarioService {
@@ -11,8 +13,6 @@ public interface UsuarioService {
 	public void salvarAdmin(Usuario usuario);
 
 	public Usuario ler(String username);
-	
-	public boolean existe(String username);
 
 	public void editar(Usuario usuario);
 	
@@ -21,5 +21,7 @@ public interface UsuarioService {
 	public boolean redefinirSenha(String username);
 	
 	public boolean redefinirSenha(String username, String token, String password);
+	
+	public void validar(Usuario usuario, BindingResult validacao);
 
 }

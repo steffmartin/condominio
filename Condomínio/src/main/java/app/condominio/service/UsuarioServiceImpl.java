@@ -4,12 +4,11 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.UsuarioDao;
 import app.condominio.domain.Usuario;
@@ -23,8 +22,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	private UsuarioDao usuarioDao;
 
 	@Autowired
-	private JavaMailSender emailSender;
-	// LATER Criar classe EmailService
+	private EmailService emailService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -61,16 +59,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuario.getAutorizacoes().add(Autorizacao.MORADOR);
 		salvar(usuario);
 	}
-	
+
 	@Override
 	public void salvarAdmin(Usuario usuario) {
 		usuario.getAutorizacoes().add(Autorizacao.ADMIN);
 		salvar(usuario);
 	}
 
-	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public boolean existe(String username) {
+	private boolean existe(String username) {
 		return username != null && usuarioDao.existsByUsername(username);
 	}
 
@@ -79,15 +76,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public boolean redefinirSenha(String username) {
 		Usuario usuario = ler(username);
 		if (usuario != null) {
-			SimpleMailMessage mensagem = new SimpleMailMessage();
-			mensagem.setTo(usuario.getEmail());
-			mensagem.setSubject("Condomínio App - Redefinição de Senha");
-			mensagem.setText(
-					"Acesse o endereço abaixo para redefinir sua senha:\n\nhttp://localhost:8080/conta/redefinir?username="
-							+ username + "&token=" + getToken(usuario.getPassword())
-							+ "\n\nCaso não consiga clicar no link acima, copie-o e cole em seu navegador."
-							+ "\n\nPor segurança este link só é válido até o final do dia.");
-			emailSender.send(mensagem);
+			String para = usuario.getEmail();
+			String assunto = "Condomínio App - Redefinição de Senha";
+			String mensagem = "Acesse o endereço abaixo para redefinir sua senha:\n\nhttp://localhost:8080/conta/redefinir?username="
+					+ usuario.getUsername() + "&token=" + getToken(usuario.getPassword())
+					+ "\n\nCaso não consiga clicar no link acima, copie-o e cole em seu navegador."
+					+ "\n\nPor segurança este link só é válido até o final do dia.";
+			emailService.enviarEmail(para, assunto, mensagem);
 			return true;
 		} else
 			return false;
@@ -113,4 +108,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 		return texto.substring(8).replaceAll(regex, d) + a;
 	}
+
+	@Override
+	public void validar(Usuario usuario, BindingResult validacao) {
+		if (existe(usuario.getUsername())) {
+			validacao.rejectValue("username", "Unique");
+		}
+	}
+
 }

@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -57,11 +55,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authoritiesByUsernameQuery("select username,autorizacao from usuarios join autorizacoes on id = id_usuario where username=?");
 	}
 	//LATER implementar meu próprio UserDetailsService para mostrar primeiro nome do usuário no site https://stackoverflow.com/questions/17297322/in-spring-how-to-print-user-first-name-and-last-name-from-secauthentication-p
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
 
 	@Bean
 	public PersistentTokenRepository persistentTokenRepository() {

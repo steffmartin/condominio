@@ -24,25 +24,23 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 
 	@GetMapping("/cadastrar")
-	public ModelAndView getCadastroSindico(@ModelAttribute("usuario") Usuario usuario) {
-		return new ModelAndView("fragmentos/layoutSite", "conteudo", "cadastrarSindico");
+	public ModelAndView getCadastroSindico(@ModelAttribute("sindico") Usuario sindico) {
+		return new ModelAndView("fragmentos/layoutSite", "conteudo", "sindicoCadastrar");
 	}
 
 	@PostMapping("/cadastrar")
-	public ModelAndView postCadastroSindico(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult validacao) {
-		if (usuarioService.existe(usuario.getUsername())) {
-			validacao.rejectValue("username", "Unique");
-		}
+	public ModelAndView postCadastroSindico(@Valid @ModelAttribute("sindico") Usuario sindico, BindingResult validacao) {
+		usuarioService.validar(sindico, validacao);
 		if (validacao.hasErrors()) {
-			return new ModelAndView("fragmentos/layoutSite", "conteudo", "cadastrarSindico");
+			return new ModelAndView("fragmentos/layoutSite", "conteudo", "sindicoCadastrar");
 		}
-		usuarioService.salvarSindico(usuario);
+		usuarioService.salvarSindico(sindico);
 		return new ModelAndView("redirect:/login?novo");
 	}
 
 	@GetMapping("/redefinir")
 	public ModelAndView preRedefinir() {
-		return new ModelAndView("fragmentos/layoutSite", "conteudo", "redefinir");
+		return new ModelAndView("fragmentos/layoutSite", "conteudo", "usuarioRedefinirSenha");
 	}
 
 	@PostMapping("/redefinir")

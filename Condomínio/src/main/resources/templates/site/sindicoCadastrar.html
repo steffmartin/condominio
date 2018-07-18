@@ -11,7 +11,7 @@
 		<main role="main" class="container">
 		<h3 class="font-weight-light">Criar conta</h3>
 		<p>Obrigado por escolher o Condomínio App! Preencha os dados abaixo para se registrar.</p>
-		<form th:action="@{/conta/cadastrar}" th:object="${usuario}" th:method="post" novalidate>
+		<form th:action="@{/conta/cadastrar}" th:object="${sindico}" th:method="post" novalidate>
 			<div class="card">
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">
@@ -55,7 +55,7 @@
 							</div>
 						</div>
 						<div class="custom-control custom-checkbox mb-3">
-							<input class="custom-control-input" type="checkbox" th:classappend="${#fields.hasErrors('ativo')}? 'is-invalid'" name="ativo" id="ativo" /> <label for="ativo" class="custom-control-label">Declaro que li e concordo com os <a data-toggle="modal" href="#termosDeUso">Termos de Uso</a>.
+							<input class="custom-control-input" type="checkbox" th:classappend="${#fields.hasErrors('ativo')}? 'is-invalid'" name="ativo" id="ativo" /> <label for="ativo" class="custom-control-label">Declaro que li e concordo com os <a data-toggle="modal" href="#termosDeUso" tabindex="-1">Termos de Uso</a>.
 							</label>
 							<div class="invalid-feedback" th:errors="*{ativo}"></div>
 						</div>
