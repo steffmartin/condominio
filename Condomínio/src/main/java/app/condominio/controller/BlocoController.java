@@ -26,6 +26,11 @@ public class BlocoController {
 	@Autowired
 	BlocoService blocoService;
 
+	@ModelAttribute("haCondominio")
+	public boolean haCondominio() {
+		return blocoService.haCondominio();
+	}
+
 	@GetMapping({ "", "/", "lista", "todos" })
 	public ModelAndView getBlocos(ModelMap model) {
 		model.addAttribute("blocos", blocoService.listar());

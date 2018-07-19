@@ -20,16 +20,16 @@
 						</p>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label>Nome</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('nome')}? 'is-invalid'" th:field="*{nome}" placeholder="Seu nome" />
+								<label>Nome</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{nome}" placeholder="Seu nome" />
 								<div class="invalid-feedback" th:errors="*{nome}"></div>
 							</div>
 							<div class="form-group col-md-6">
-								<label>Sobrenome</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('sobrenome')}? 'is-invalid'" th:field="*{sobrenome}" placeholder="Seu sobrenome" />
+								<label>Sobrenome</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{sobrenome}" placeholder="Seu sobrenome" />
 								<div class="invalid-feedback" th:errors="*{sobrenome}"></div>
 							</div>
 						</div>
 						<div class="form-group">
-							<label>E-mail</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('email')}? 'is-invalid'" th:field="*{email}" placeholder="Seu e-mail" />
+							<label>E-mail</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{email}" placeholder="Seu e-mail" />
 							<div class="invalid-feedback" th:errors="*{email}"></div>
 						</div>
 						<div class="form-row">
@@ -39,7 +39,7 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="fas fa-user"></i></span>
 									</div>
-									<input class="form-control last" type="text" th:classappend="${#fields.hasErrors('username')}? 'is-invalid'" th:field="*{username}" placeholder="Escolha seu usuário" />
+									<input class="form-control last" type="text" th:errorclass="is-invalid" th:field="*{username}" placeholder="Escolha seu usuário" />
 									<div class="invalid-feedback" th:errors="*{username}"></div>
 								</div>
 							</div>
@@ -49,13 +49,13 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="fas fa-lock"></i></span>
 									</div>
-									<input class="form-control last" type="password" th:classappend="${#fields.hasErrors('password')}? 'is-invalid'" th:field="*{password}" placeholder="Escolha sua senha" />
+									<input class="form-control last" type="password" th:errorclass="is-invalid" th:field="*{password}" placeholder="Escolha sua senha" />
 									<div class="invalid-feedback" th:errors="*{password}"></div>
 								</div>
 							</div>
 						</div>
 						<div class="custom-control custom-checkbox mb-3">
-							<input class="custom-control-input" type="checkbox" th:classappend="${#fields.hasErrors('ativo')}? 'is-invalid'" name="ativo" id="ativo" /> <label for="ativo" class="custom-control-label">Declaro que li e concordo com os <a data-toggle="modal" href="#termosDeUso" tabindex="-1">Termos de Uso</a>.
+							<input class="custom-control-input" type="checkbox" th:errorclass="is-invalid" name="ativo" id="ativo" /> <label for="ativo" class="custom-control-label">Declaro que li e concordo com os <a data-toggle="modal" href="#termosDeUso" tabindex="-1">Termos de Uso</a>.
 							</label>
 							<div class="invalid-feedback" th:errors="*{ativo}"></div>
 						</div>

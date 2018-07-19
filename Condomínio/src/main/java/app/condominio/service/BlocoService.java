@@ -2,7 +2,10 @@ package app.condominio.service;
 
 import java.util.List;
 
+import org.springframework.validation.BindingResult;
+
 import app.condominio.domain.Bloco;
+import app.condominio.domain.Usuario;
 
 public interface BlocoService {
 	
@@ -15,5 +18,7 @@ public interface BlocoService {
 	public void editar(Bloco bloco);
 	
 	public void excluir(Bloco bloco);
+	
+	public boolean haCondominio();
 
 }

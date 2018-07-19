@@ -1,11 +1,3 @@
-CREATE TABLE persistent_logins (
-  series VARCHAR(64) NOT NULL,
-  username VARCHAR(50) NOT NULL,
-  token VARCHAR(64) NOT NULL,
-  last_used TIMESTAMP NOT NULL,
-  PRIMARY KEY(series)
-);
-
 CREATE TABLE Condominios (
   idCondominio BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   razaoSocial VARCHAR(100) NOT NULL,
@@ -51,6 +43,14 @@ CREATE TABLE Autorizacoes (
       ON UPDATE CASCADE
 );
 
+CREATE TABLE persistent_logins (
+  series VARCHAR(64) NOT NULL,
+  username VARCHAR(50) NOT NULL,
+  token VARCHAR(64) NOT NULL,
+  last_used TIMESTAMP NOT NULL,
+  PRIMARY KEY(series)
+);
+
 CREATE TABLE Blocos (
   idBloco BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   idCondominio BIGINT UNSIGNED NOT NULL,
@@ -59,6 +59,22 @@ CREATE TABLE Blocos (
   PRIMARY KEY(idBloco),
   FOREIGN KEY(idCondominio)
     REFERENCES Condominios(idCondominio)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Moradias (
+  idMoradia INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  sigla VARCHAR(10) NOT NULL,
+  tipo VARCHAR(2) NOT NULL,
+  area FLOAT NULL,
+  fracaoIdeal FLOAT NULL,
+  matricula VARCHAR(30) NULL,
+  vagas INTEGER UNSIGNED NULL,
+  idBloco BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY(idMoradia),
+  FOREIGN KEY(idBloco)
+    REFERENCES Blocos(idBloco)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );

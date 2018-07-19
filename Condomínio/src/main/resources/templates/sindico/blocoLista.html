@@ -18,8 +18,8 @@
 			</div>
 		</div>
 		<div class="table-responsive">
-			<table class="table table-hover table-sm crud-list">
-				<caption>
+			<table class="table table-hover table-sm crud-list mb-0">
+				<caption class="pb-0">
 					<span th:text="${#lists.isEmpty(blocos)} ? 'Nenhum' : 'Há '+${#lists.size(blocos)}"></span> <span th:text="${#lists.size(blocos)>1} ? 'blocos cadastrados' : 'bloco cadastrado'"></span>.
 				</caption>
 				<thead class="thead-light">
@@ -52,7 +52,7 @@
 					<form th:action="@{/sindico/blocos/excluir}" th:method="delete" novalidate>
 						<input type="hidden" id="idObj" name="idObj" />
 						<div class="modal-body">
-							Confirma a exclusão do bloco '<span></span>'?
+							Confirma a exclusão do bloco '<span></span>'? Todas as moradias deste bloco também serão excluídas.
 						</div>
 						<div class="modal-footer">
 							<button type="submit" class="btn btn-danger">Excluir</button>

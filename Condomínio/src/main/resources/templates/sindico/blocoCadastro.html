@@ -10,10 +10,13 @@
 	<th:block th:fragment="conteudo">
 		<main role="main">
 		<h3 class="font-weight-light">Cadastro do Bloco</h3>
-		<p th:text="${bloco.idBloco == null} ? 'Ao salvar, um novo bloco será criado no condomínio.' : 'Ao salvar, as informações do bloco atual serão atualizadas.'"></p>
-		<form th:action="@{/sindico/blocos/cadastro}" th:object="${bloco}" th:method="${bloco.idBloco == null} ? post : put" novalidate>
-		<input type="hidden" th:field="*{condominio}"/>
-		<input type="hidden" th:field="*{idBloco}"/>
+		<div th:if="!${haCondominio}" class="alert alert-warning">
+			<h6>Condomínio não cadastrado</h6>
+			Para cadastrar blocos é preciso completar o cadastro do seu condomínio, <a  class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
+		</div>
+		<p th:if="${haCondominio}" th:text="${bloco.idBloco == null} ? 'Ao salvar, um novo bloco será criado no condomínio.' : 'Ao salvar, as informações do bloco atual serão atualizadas.'"></p>
+		<form th:if="${haCondominio}" th:action="@{/sindico/blocos/cadastro}" th:object="${bloco}" th:method="${bloco.idBloco == null} ? post : put" novalidate>
+			<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idBloco}" />
 			<div class="card">
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">
@@ -22,11 +25,11 @@
 						</p>
 						<div class="form-row">
 							<div class="form-group col-md-2">
-								<label>Sigla</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('sigla')}? 'is-invalid'" th:field="*{sigla}" placeholder="Uma abrevitura" />
+								<label>Sigla</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{sigla}" placeholder="Uma abrevitura" />
 								<div class="invalid-feedback" th:errors="*{sigla}"></div>
 							</div>
 							<div class="form-group col-md-10">
-								<label>Descrição</label> <input class="form-control" type="text" th:classappend="${#fields.hasErrors('descricao')}? 'is-invalid'" th:field="*{descricao}" placeholder="Uma descrição completa" />
+								<label>Descrição</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{descricao}" placeholder="Uma descrição completa" />
 								<div class="invalid-feedback" th:errors="*{descricao}"></div>
 								<small>Opcional</small>
 							</div>

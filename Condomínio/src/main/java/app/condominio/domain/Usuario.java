@@ -44,7 +44,7 @@ public class Usuario implements Serializable {
 
 	@AssertTrue
 	private boolean ativo;
-	// FIXME A validação @AssertTrue inutiliza o uso de usuário ativo e inativo do
+	// LATER A validação @AssertTrue inutiliza o uso de usuário ativo e inativo do
 	// Spring Security
 
 	@NotBlank
@@ -66,7 +66,7 @@ public class Usuario implements Serializable {
 	@Column(name = "autorizacao")
 	private Set<Autorizacao> autorizacoes = new HashSet<>();
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JoinColumn(name="idcondominio")
 	private Condominio condominio;
 

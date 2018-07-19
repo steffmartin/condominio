@@ -8,54 +8,56 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import app.condominio.dao.BlocoDao;
+import app.condominio.dao.MoradiaDao;
 import app.condominio.domain.Bloco;
 import app.condominio.domain.Condominio;
+import app.condominio.domain.Moradia;
 
 @Service
 @Transactional
-public class BlocoServiceImpl implements BlocoService {
+public class MoradiaServiceImpl implements MoradiaService {
 
 	@Autowired
-	private BlocoDao blocoDao;
+	private MoradiaDao moradiaDao;
 
 	@Autowired
 	private UsuarioService usuarioService;
 
 	@Override
-	public void salvar(Bloco bloco) {
-		bloco.setCondominio(usuarioService.lerLogado().getCondominio());
-		blocoDao.save(bloco);
+	public void salvar(Moradia moradia) {
+		moradiaDao.save(moradia);
+
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Bloco ler(Long id) {
-		return blocoDao.findById(id).get();
+	public Moradia ler(Long id) {
+		return moradiaDao.findById(id).get();
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public List<Bloco> listar() {
+	public List<Moradia> listar() {
+		List<Moradia> moradias = new ArrayList<>();
 		Condominio condominio = usuarioService.lerLogado().getCondominio();
-		if (condominio == null) {
-			return new ArrayList<Bloco>();
+		if (condominio != null) {
+			for (Bloco bloco : condominio.getBlocos()) {
+				moradias.addAll(bloco.getMoradias());
+			}
 		}
-		return condominio.getBlocos();
+		return moradias;
 	}
 
 	@Override
-	public void editar(Bloco bloco) {
-		blocoDao.save(bloco);
+	public void editar(Moradia moradia) {
+		moradiaDao.save(moradia);
+
 	}
 
 	@Override
-	public void excluir(Bloco bloco) {
-		blocoDao.delete(bloco);
+	public void excluir(Moradia moradia) {
+		moradiaDao.delete(moradia);
+
 	}
 
-	@Override
-	public boolean haCondominio() {
-		return usuarioService.lerLogado().getCondominio() != null;
-	}
 }

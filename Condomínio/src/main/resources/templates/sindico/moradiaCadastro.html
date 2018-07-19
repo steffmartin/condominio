@@ -1,0 +1,89 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Moradia</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Cadastro da Moradia</h3>
+		<div th:if="${#lists.isEmpty(blocos)}" class="alert alert-warning">
+			<h6>Blocos não cadastrados</h6>
+			Para cadastrar moradias é preciso cadastar ao menos um bloco, <a class="text-warning" th:href="@{/sindico/blocos/cadastro}">clique aqui</a>.
+		</div>
+		<p th:if="!${#lists.isEmpty(blocos)}" th:text="${moradia.idMoradia == null} ? 'Ao salvar, uma nova moradia será criada no bloco selecionado.' : 'Ao salvar, as informações da moradia atual serão atualizadas.'"></p>
+		<form th:if="!${#lists.isEmpty(blocos)}" th:action="@{/sindico/moradias/cadastro}" th:object="${moradia}" th:method="${moradia.idMoradia == null} ? post : put" novalidate>
+			<input type="hidden" th:field="*{idMoradia}" />
+			<div class="card">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<p class="text-primary">
+							<i class="fas fa-home"></i> Informações principais da moradia
+						</p>
+						<div class="form-row">
+							<div class="form-group col-md-4">
+								<label>Bloco</label> <select class="custom-select" id="bloco" th:errorclass="is-invalid" th:field="*{bloco}">
+									<option value="" hidden="true">Selecione</option>
+									<option th:each="bloco : ${blocos}" th:value="${bloco.idBloco}" th:text="${bloco.sigla}"></option>
+								</select>
+								<div class="invalid-feedback" th:errors="*{bloco}"></div>
+							</div>
+							<div class="form-group col-md-4">
+								<label>Sigla</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{sigla}" placeholder="Uma abrevitura" />
+								<div class="invalid-feedback" th:errors="*{sigla}"></div>
+							</div>
+							<div class="form-group col-md-4">
+								<label>Tipo</label> <select class="custom-select" id="tipo" th:errorclass="is-invalid" th:field="*{tipo}">
+									<option value="" hidden="true">Selecione</option>
+									<option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo.nome}"></option>
+								</select>
+								<div class="invalid-feedback" th:errors="*{tipo}"></div>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-3">
+								<label>Matrícula</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{matricula}" placeholder="Nº de matrícula do imóvel" />
+								<div class="invalid-feedback" th:errors="*{matricula}"></div>
+								<small>Opcional</small>
+							</div>
+							<div class="form-group col-md-3">
+								<label>Fração Ideal</label>
+								<div class="input-group">
+									<input class="form-control" type="number" step=".001" max="100" th:errorclass="is-invalid" th:field="*{fracaoIdeal}" placeholder="Porcentagem" />
+									<div class="input-group-append">
+										<span class="input-group-text last">%</span>
+									</div>
+									<div class="invalid-feedback" th:errors="*{fracaoIdeal}"></div>
+								</div>
+								<small>Opcional</small>
+							</div>
+							<div class="form-group col-md-3">
+								<label>Área</label>
+								<div class="input-group">
+									<input class="form-control" type="number" step=".01" th:errorclass="is-invalid" th:field="*{area}" placeholder="Metragem" />
+									<div class="input-group-append last">
+										<span class="input-group-text last">m²</span>
+									</div>
+									<div class="invalid-feedback" th:errors="*{area}"></div>
+								</div>
+								<small>Opcional</small>
+							</div>
+							<div class="form-group col-md-3">
+								<label>Vagas de Garagem</label> <input class="form-control" type="number" th:errorclass="is-invalid" th:field="*{vagas}" placeholder="Nº de vagas" />
+								<div class="invalid-feedback" th:errors="*{vagas}"></div>
+								<small>Opcional</small>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary">Salvar</button> <a class="btn btn-secondary" th:href="@{/sindico/moradias}" role="button">Cancelar</a>
+					</li>
+				</ul>
+			</div>
+		</form>
+		</main>
+	</th:block>
+
+</body>
+</html>

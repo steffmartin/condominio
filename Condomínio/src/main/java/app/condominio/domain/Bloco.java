@@ -1,7 +1,10 @@
 package app.condominio.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -24,20 +29,24 @@ public class Bloco implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="idbloco")
+	@Column(name = "idbloco")
 	private Long idBloco;
-	
+
 	@Size(min = 1, max = 3)
 	@NotBlank
 	private String sigla;
-	
-	@Size(max=30)
+
+	@Size(max = 30)
 	private String descricao;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="idcondominio")
+	@JoinColumn(name = "idcondominio")
 	@Fetch(FetchMode.JOIN)
 	private Condominio condominio;
+
+	@OneToMany(mappedBy = "bloco", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OrderBy(value="sigla")
+	private List<Moradia> moradias = new ArrayList<>();
 
 	public Long getIdBloco() {
 		return idBloco;
@@ -69,6 +78,14 @@ public class Bloco implements Serializable {
 
 	public void setCondominio(Condominio condominio) {
 		this.condominio = condominio;
+	}
+
+	public List<Moradia> getMoradias() {
+		return moradias;
+	}
+
+	public void setMoradias(List<Moradia> moradias) {
+		this.moradias = moradias;
 	}
 
 	@Override

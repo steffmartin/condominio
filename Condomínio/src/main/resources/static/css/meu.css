@@ -36,6 +36,7 @@ main {
 /* Personalização de tabela de listagem */
 .crud-list th, .crud-list td{
 	vertical-align: middle !important;
+	white-space: nowrap;
 }
 .crud-list tbody tr td:last-child{
 	text-align: right !important;
@@ -248,9 +249,9 @@ main {
 }
 
 /*  Correção da borda nos formulários */
-.input-group>.form-control.last {
-	border-top-right-radius: 0.25rem;
-	border-bottom-right-radius: 0.25rem;
+.input-group .last {
+	border-top-right-radius: 0.25rem !important;
+	border-bottom-right-radius: 0.25rem !important;
 }
 /* Correção do cursor em botões nos dropdowns */
 button.dropdown-item {
