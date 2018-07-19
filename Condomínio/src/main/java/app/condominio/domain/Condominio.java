@@ -94,7 +94,7 @@ public class Condominio implements Serializable {
 	@OneToOne(mappedBy = "condominio", fetch = FetchType.LAZY)
 	private Usuario sindico;
 
-	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Bloco> blocos = new ArrayList<>();
 
 	public Long getIdCondominio() {

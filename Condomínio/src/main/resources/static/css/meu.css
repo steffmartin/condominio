@@ -40,12 +40,17 @@ main {
 .crud-list tbody tr td:last-child{
 	text-align: right !important;
 }
+.crud-list .btn{
+	visibility:hidden;
+}
+.crud-list tr:hover .btn{
+	visibility:visible;
+}
 @media ( max-width : 768px) {
-	.crud-list tr td:last-child span{
+	.crud-list .btn span{
 		display:none;
-		visibility:hidden;
 	}
-	.crud-list tr td:last-child .btn{
+	.crud-list .btn{
 		min-width:35px;
 	}
 }
