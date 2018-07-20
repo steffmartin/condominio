@@ -25,7 +25,7 @@ import app.condominio.domain.enums.TipoMoradia;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Moradias")
+@Table(name = "moradias")
 public class Moradia implements Serializable {
 
 	@Id

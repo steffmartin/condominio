@@ -10,7 +10,7 @@
 	<th:block th:fragment="conteudo">
 		<main role="main">
 		<h3 class="font-weight-light">Cadastro do Bloco</h3>
-		<div th:if="!${haCondominio}" class="alert alert-warning">
+		<div th:unless="${haCondominio}" class="alert alert-warning">
 			<h6>Condomínio não cadastrado</h6>
 			Para cadastrar blocos é preciso completar o cadastro do seu condomínio, <a  class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
 		</div>

@@ -64,7 +64,7 @@ CREATE TABLE Blocos (
 );
 
 CREATE TABLE Moradias (
-  idMoradia INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  idMoradia BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   sigla VARCHAR(10) NOT NULL,
   tipo VARCHAR(2) NOT NULL,
   area FLOAT NULL,
@@ -75,6 +75,56 @@ CREATE TABLE Moradias (
   PRIMARY KEY(idMoradia),
   FOREIGN KEY(idBloco)
     REFERENCES Blocos(idBloco)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Pessoas (
+  idPessoa BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(50) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  telefone VARCHAR(10) NULL,
+  celular VARCHAR(11) NULL,
+  endereco VARCHAR(100) NULL,
+  numeroEnd VARCHAR(6) NULL,
+  complementoEnd VARCHAR(30) NULL,
+  bairro VARCHAR(30) NULL,
+  cidade VARCHAR(30) NULL,
+  estado VARCHAR(2) NULL,
+  cep VARCHAR(8) NULL,
+  idCondominio BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY(idPessoa),
+  FOREIGN KEY(idCondominio)
+    REFERENCES Condominios(idCondominio)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE PessoasFisicas (
+  idPessoa BIGINT UNSIGNED NOT NULL,
+  sobrenome VARCHAR(100) NOT NULL,
+  cpf VARCHAR(11) NULL,
+  rg VARCHAR(14) NULL,
+  nascimento DATE NULL,
+  genero CHAR(1) NULL,
+  PRIMARY KEY(idPessoa),
+  FOREIGN KEY(idPessoa)
+    REFERENCES Pessoas(idPessoa)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE PessoasJuridicas (
+  idPessoa BIGINT UNSIGNED NOT NULL,
+  razaoSocial VARCHAR(100) NOT NULL,
+  cnpj VARCHAR(14) NULL,
+  ie VARCHAR(14) NULL,
+  im VARCHAR(30) NULL,
+  nomeRepresentante VARCHAR(50) NOT NULL,
+  sobrenomeRepresentante VARCHAR(100) NOT NULL,
+  PRIMARY KEY(idPessoa),
+  FOREIGN KEY(idPessoa)
+    REFERENCES Pessoas(idPessoa)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );

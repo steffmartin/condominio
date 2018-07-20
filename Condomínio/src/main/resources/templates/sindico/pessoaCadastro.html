@@ -1,0 +1,47 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Condômino</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Cadastro do Condômino</h3>
+		<div th:unless="${haCondominio}" class="alert alert-warning">
+			<h6>Condomínio não cadastrado</h6>
+			Para cadastrar condôminos é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
+		</div>
+		<p th:if="${haCondominio}" th:text="${pessoa.idPessoa == null} ? 'Ao salvar, um novo condômino será criado no condomínio.' : 'Ao salvar, as informações do condômino atual serão atualizadas.'"></p>
+		<form th:if="${haCondominio}" th:action="@{/sindico/pessoas/cadastro}" th:object="${pessoa}" th:method="${pessoa.idPessoa == null} ? post : put" novalidate>
+			<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idPessoa}" />
+			<div class="card">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<p class="text-primary">
+							<i class="fas fa-building"></i> Informações principais do condômino
+						</p>
+						<div class="form-row">
+							<div class="form-group col-md-8">
+								<label>Nome</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{nome}" placeholder="Nome do condômino" />
+								<div class="invalid-feedback" th:errors="*{nome}"></div>
+							</div>
+							<div class="form-group col-md-4">
+								<label>Tipo</label> <select class="custom-select">
+									<option value="" hidden="true">Selecione</option>
+									<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #vars.tipo}"></option>
+								</select> <small>Informe o tipo para continuar</small>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary" disabled>Salvar</button> <a class="btn btn-secondary" th:href="@{/sindico/pessoas}" role="button">Cancelar</a>
+					</li>
+				</ul>
+			</div>
+		</form>
+		</main>
+	</th:block>
+
+</body>
+</html>

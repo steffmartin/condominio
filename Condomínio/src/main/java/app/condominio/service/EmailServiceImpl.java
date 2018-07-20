@@ -7,18 +7,17 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
+@Async
 public class EmailServiceImpl implements EmailService {
 	@Autowired
 	private JavaMailSender emailSender;
 
 	@Override
-	@Async
 	public void enviarEmail(SimpleMailMessage email) {
 		emailSender.send(email);
 	}
 
 	@Override
-	@Async
 	public void enviarEmail(String para, String assunto, String mensagem) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(para);

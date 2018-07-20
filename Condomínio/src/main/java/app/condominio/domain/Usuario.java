@@ -27,7 +27,7 @@ import app.condominio.domain.enums.Autorizacao;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "usuarios")
 public class Usuario implements Serializable {
 
 	@Id

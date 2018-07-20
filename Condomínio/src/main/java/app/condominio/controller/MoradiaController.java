@@ -29,10 +29,10 @@ import app.condominio.service.MoradiaService;
 public class MoradiaController {
 
 	@Autowired
-	MoradiaService moradiaService;
+	private MoradiaService moradiaService;
 
 	@Autowired
-	BlocoService blocoService;
+	private BlocoService blocoService;
 
 	@ModelAttribute("tipos")
 	public TipoMoradia[] tipos() {
@@ -58,7 +58,7 @@ public class MoradiaController {
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
-	@GetMapping("/cadastro/{idMoradia}")
+	@GetMapping("/{idMoradia}/cadastro")
 	public ModelAndView getMoradiaEditar(@PathVariable("idMoradia") Long idMoradia, ModelMap model) {
 		model.addAttribute("moradia", moradiaService.ler(idMoradia));
 		model.addAttribute("conteudo", "moradiaCadastro");

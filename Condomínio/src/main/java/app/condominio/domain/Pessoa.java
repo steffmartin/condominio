@@ -1,10 +1,7 @@
 package app.condominio.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,60 +10,50 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import app.condominio.domain.enums.Estado;
-import app.condominio.domain.validators.CNPJ;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "condominios")
-public class Condominio implements Serializable {
+@Table(name = "pessoas")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Pessoa implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idcondominio")
-	private Long idCondominio;
+	@Column(name = "idpessoa")
+	private Long idPessoa;
 
 	@NotBlank
-	@Size(min = 1, max = 100)
-	@Column(name = "razaosocial")
-	private String razaoSocial;
-
-	@CNPJ
-	private String cnpj;
-
-	@Size(max = 14)
-	private String ie;
-
-	@Size(max = 30)
-	private String im;
+	@Size(min = 1, max = 50)
+	private String nome;
 
 	@Email
-	@Size(max = 100)
+	@NotBlank
+	@Size(min = 1, max = 100)
 	private String email;
 
-	// LATER verificar se há como validar o tamanho min = 10 e max = 10 sem que o
-	// campo seja obrigatório (min = 0 ou 10)
 	@Size(max = 10)
 	private String telefone;
 
 	@Size(max = 11)
 	private String celular;
 
-	@NotBlank
-	@Size(min = 1, max = 100)
+	@Size(max = 100)
 	private String endereco;
 
-	@NotBlank
-	@Size(min = 1, max = 6)
+	@Size(max = 6)
 	@Column(name = "numeroend")
 	private String numeroEnd;
 
@@ -74,74 +61,37 @@ public class Condominio implements Serializable {
 	@Column(name = "complementoend")
 	private String complementoEnd;
 
-	@NotBlank
-	@Size(min = 1, max = 30)
+	@Size(max = 30)
 	private String bairro;
 
-	@NotBlank
-	@Size(min = 1, max = 30)
+	@Size(max = 30)
 	private String cidade;
 
-	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Estado estado;
 
-	@NotBlank
-	@Size(min = 8, max = 8)
+	@Size(max = 8)
 	private String cep;
 
-	// Dicas de relações:
-	// https://vladmihalcea.com/a-beginners-guide-to-jpa-and-hibernate-cascade-types/
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idcondominio")
+	@Fetch(FetchMode.JOIN)
+	private Condominio condominio;
 
-	@OneToOne(mappedBy = "condominio", fetch = FetchType.LAZY)
-	private Usuario sindico;
-
-	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value = "sigla")
-	private List<Bloco> blocos = new ArrayList<>();
-
-	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value = "nome")
-	private List<Pessoa> pessoas = new ArrayList<>();
-
-	public Long getIdCondominio() {
-		return idCondominio;
+	public Long getIdPessoa() {
+		return idPessoa;
 	}
 
-	public void setIdCondominio(Long idCondominio) {
-		this.idCondominio = idCondominio;
+	public void setIdPessoa(Long idPessoa) {
+		this.idPessoa = idPessoa;
 	}
 
-	public String getRazaoSocial() {
-		return razaoSocial;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setRazaoSocial(String razaoSocial) {
-		this.razaoSocial = razaoSocial;
-	}
-
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
-	public String getIe() {
-		return ie;
-	}
-
-	public void setIe(String ie) {
-		this.ie = ie;
-	}
-
-	public String getIm() {
-		return im;
-	}
-
-	public void setIm(String im) {
-		this.im = im;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getEmail() {
@@ -224,35 +174,19 @@ public class Condominio implements Serializable {
 		this.cep = cep;
 	}
 
-	public Usuario getSindico() {
-		return sindico;
+	public Condominio getCondominio() {
+		return condominio;
 	}
 
-	public void setSindico(Usuario sindico) {
-		this.sindico = sindico;
-	}
-
-	public List<Bloco> getBlocos() {
-		return blocos;
-	}
-
-	public void setBlocos(List<Bloco> blocos) {
-		this.blocos = blocos;
-	}
-
-	public List<Pessoa> getPessoas() {
-		return pessoas;
-	}
-
-	public void setPessoas(List<Pessoa> pessoas) {
-		this.pessoas = pessoas;
+	public void setCondominio(Condominio condominio) {
+		this.condominio = condominio;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idCondominio == null) ? 0 : idCondominio.hashCode());
+		result = prime * result + ((idPessoa == null) ? 0 : idPessoa.hashCode());
 		return result;
 	}
 
@@ -264,11 +198,11 @@ public class Condominio implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Condominio other = (Condominio) obj;
-		if (idCondominio == null) {
-			if (other.idCondominio != null)
+		Pessoa other = (Pessoa) obj;
+		if (idPessoa == null) {
+			if (other.idPessoa != null)
 				return false;
-		} else if (!idCondominio.equals(other.idCondominio))
+		} else if (!idPessoa.equals(other.idPessoa))
 			return false;
 		return true;
 	}

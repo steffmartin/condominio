@@ -24,7 +24,7 @@ import org.hibernate.annotations.FetchMode;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Blocos")
+@Table(name = "blocos")
 public class Bloco implements Serializable {
 
 	@Id

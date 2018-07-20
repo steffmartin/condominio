@@ -24,7 +24,7 @@ import app.condominio.service.BlocoService;
 public class BlocoController {
 
 	@Autowired
-	BlocoService blocoService;
+	private BlocoService blocoService;
 
 	@ModelAttribute("haCondominio")
 	public boolean haCondominio() {
@@ -45,7 +45,7 @@ public class BlocoController {
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
-	@GetMapping("/cadastro/{idBloco}")
+	@GetMapping("/{idBloco}/cadastro")
 	public ModelAndView getBlocoEditar(@PathVariable("idBloco") Long idBloco, ModelMap model) {
 		model.addAttribute("bloco", blocoService.ler(idBloco));
 		model.addAttribute("conteudo", "blocoCadastro");

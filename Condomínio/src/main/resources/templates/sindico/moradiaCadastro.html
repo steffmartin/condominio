@@ -14,8 +14,8 @@
 			<h6>Blocos não cadastrados</h6>
 			Para cadastrar moradias é preciso cadastar ao menos um bloco, <a class="text-warning" th:href="@{/sindico/blocos/cadastro}">clique aqui</a>.
 		</div>
-		<p th:if="!${#lists.isEmpty(blocos)}" th:text="${moradia.idMoradia == null} ? 'Ao salvar, uma nova moradia será criada no bloco selecionado.' : 'Ao salvar, as informações da moradia atual serão atualizadas.'"></p>
-		<form th:if="!${#lists.isEmpty(blocos)}" th:action="@{/sindico/moradias/cadastro}" th:object="${moradia}" th:method="${moradia.idMoradia == null} ? post : put" novalidate>
+		<p th:unless="${#lists.isEmpty(blocos)}" th:text="${moradia.idMoradia == null} ? 'Ao salvar, uma nova moradia será criada no bloco selecionado.' : 'Ao salvar, as informações da moradia atual serão atualizadas.'"></p>
+		<form th:unless="${#lists.isEmpty(blocos)}" th:action="@{/sindico/moradias/cadastro}" th:object="${moradia}" th:method="${moradia.idMoradia == null} ? post : put" novalidate>
 			<input type="hidden" th:field="*{idMoradia}" />
 			<div class="card">
 				<ul class="list-group list-group-flush">
