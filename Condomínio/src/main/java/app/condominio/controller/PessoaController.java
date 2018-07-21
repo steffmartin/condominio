@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import app.condominio.domain.Pessoa;
 import app.condominio.domain.PessoaFisica;
 import app.condominio.domain.PessoaJuridica;
+import app.condominio.domain.enums.Estado;
 import app.condominio.domain.enums.Genero;
 import app.condominio.domain.enums.TipoPessoa;
 import app.condominio.service.PessoaService;
@@ -38,6 +39,11 @@ public class PessoaController {
 	@ModelAttribute("tipos")
 	public TipoPessoa[] tiposPessoa() {
 		return TipoPessoa.values();
+	}
+
+	@ModelAttribute("estados")
+	public Estado[] estados() {
+		return Estado.values();
 	}
 
 	@ModelAttribute("haCondominio")

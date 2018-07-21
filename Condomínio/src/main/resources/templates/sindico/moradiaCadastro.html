@@ -25,7 +25,7 @@
 						</p>
 						<div class="form-row">
 							<div class="form-group col-md-4">
-								<label>Bloco</label> <select class="custom-select" id="bloco" th:errorclass="is-invalid" th:field="*{bloco}">
+								<label>Bloco</label> <select autofocus class="custom-select" id="bloco" th:errorclass="is-invalid" th:field="*{bloco}">
 									<option value="" hidden="true">Selecione</option>
 									<option th:each="bloco : ${blocos}" th:value="${bloco.idBloco}" th:text="${bloco.sigla}"></option>
 								</select>
