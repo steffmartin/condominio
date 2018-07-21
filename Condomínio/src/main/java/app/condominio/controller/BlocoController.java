@@ -31,7 +31,7 @@ public class BlocoController {
 		return blocoService.haCondominio();
 	}
 
-	@GetMapping({ "", "/", "lista", "todos" })
+	@GetMapping({ "", "/", "/lista", "/todos" })
 	public ModelAndView getBlocos(ModelMap model) {
 		model.addAttribute("blocos", blocoService.listar());
 		model.addAttribute("conteudo", "blocoLista");

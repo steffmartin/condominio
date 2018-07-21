@@ -2,6 +2,7 @@ package app.condominio.domain;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,6 +32,7 @@ public class PessoaFisica extends Pessoa {
 	@Size(max = 14)
 	private String rg;
 	
+	@Basic
 	@Temporal(TemporalType.DATE)
 	private Date nascimento;
 	

@@ -38,3 +38,16 @@ $('#modalExcluir').on('show.bs.modal', function (event) {
 	  modal.find('.modal-body span').text(obs)
 	  
 	})
+//Accordion no select + Action do formulário + desativar campos
+$('select[name=accordion-select]').change(function(){
+	var opcao = $( "select[name=accordion-select] option:selected" );
+    var target = $(opcao).data('target');
+    var parent = $(opcao).data('parent') + ' .collapse';
+    $(parent).find(':input').prop('disabled',true);
+    $(target).find(':input').prop('disabled',false);
+    $(parent).collapse('hide');
+    $(target).collapse('show');
+    var action = $(opcao).data('form-action');
+    var form = $(opcao).data('form');
+    $(form).attr('action',action);
+}).trigger('change');

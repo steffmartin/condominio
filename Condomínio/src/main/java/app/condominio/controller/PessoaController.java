@@ -51,7 +51,7 @@ public class PessoaController {
 		return pessoaService.haCondominio();
 	}
 
-	@GetMapping({ "", "/", "lista", "todos" })
+	@GetMapping({ "", "/", "/lista", "/todos" })
 	public ModelAndView getPessoas(ModelMap model) {
 		model.addAttribute("pessoas", pessoaService.listar());
 		model.addAttribute("conteudo", "pessoaLista");
@@ -66,23 +66,21 @@ public class PessoaController {
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
-	@GetMapping("/{idPessoa}/cadastro-pf")
+	@GetMapping("/{idPessoa}/cadastro")
 	public ModelAndView getPessoaFisicaEditar(@PathVariable("idPessoa") Long idPessoa, ModelMap model) {
-		model.addAttribute("pessoa", (PessoaFisica) pessoaService.ler(idPessoa));
-		model.addAttribute("tipo", TipoPessoa.F);
+		Pessoa pessoa = pessoaService.ler(idPessoa);
+		if (pessoa instanceof PessoaFisica) {
+			model.addAttribute("pessoa", (PessoaFisica) pessoa);
+			model.addAttribute("tipo", TipoPessoa.F);
+		} else {
+			model.addAttribute("pessoa", (PessoaJuridica) pessoa);
+			model.addAttribute("tipo", TipoPessoa.J);
+		}
 		model.addAttribute("conteudo", "pessoaCadastro");
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
-	@GetMapping("/{idPessoa}/cadastro-pj")
-	public ModelAndView getPessoaJuridicaEditar(@PathVariable("idPessoa") Long idPessoa, ModelMap model) {
-		model.addAttribute("pessoa", (PessoaJuridica) pessoaService.ler(idPessoa));
-		model.addAttribute("tipo", TipoPessoa.J);
-		model.addAttribute("conteudo", "pessoaCadastro");
-		return new ModelAndView("fragmentos/layoutSindico", model);
-	}
-
-	@PostMapping("/cadastro-pf")
+	@PostMapping("/cadastro/PF")
 	public ModelAndView postPessoaFisicaCadastro(@Valid @ModelAttribute("pessoa") PessoaFisica pessoa,
 			BindingResult validacao, ModelMap model) {
 		if (validacao.hasErrors()) {
@@ -94,7 +92,7 @@ public class PessoaController {
 		return new ModelAndView("redirect:/sindico/condominos");
 	}
 
-	@PostMapping("/cadastro-pj")
+	@PostMapping("/cadastro/PJ")
 	public ModelAndView postPessoaJuridicaCadastro(@Valid @ModelAttribute("pessoa") PessoaJuridica pessoa,
 			BindingResult validacao, ModelMap model) {
 		if (validacao.hasErrors()) {
@@ -106,7 +104,7 @@ public class PessoaController {
 		return new ModelAndView("redirect:/sindico/condominos");
 	}
 
-	@PutMapping("/cadastro-pf")
+	@PutMapping("/cadastro/PF")
 	public ModelAndView putPessoaFisicaCadastro(@Valid @ModelAttribute("pessoa") PessoaFisica pessoa,
 			BindingResult validacao, ModelMap model) {
 		if (validacao.hasErrors()) {
@@ -118,7 +116,7 @@ public class PessoaController {
 		return new ModelAndView("redirect:/sindico/condominos");
 	}
 
-	@PutMapping("/cadastro-pj")
+	@PutMapping("/cadastro/PJ")
 	public ModelAndView putPessoaJuridicaCadastro(@Valid @ModelAttribute("pessoa") PessoaJuridica pessoa,
 			BindingResult validacao, ModelMap model) {
 		if (validacao.hasErrors()) {

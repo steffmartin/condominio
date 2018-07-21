@@ -43,6 +43,7 @@ main {
 }
 .crud-list .btn{
 	visibility:hidden;
+	min-width:75px;
 }
 .crud-list tr:hover .btn{
 	visibility:visible;
@@ -54,6 +55,10 @@ main {
 	.crud-list .btn{
 		min-width:35px;
 	}
+}
+/* Ocultar legendas em formulários bloqueados */
+fieldset:disabled small, fieldset:disabled button[type="submit"] {
+	display:none !important;
 }
 /* Sidebar */
 #sidebar {
@@ -256,4 +261,9 @@ main {
 /* Correção do cursor em botões nos dropdowns */
 button.dropdown-item {
 	cursor: pointer;
+}
+
+/* Remover cor de validação OK */
+.custom-select.is-valid, .form-control.is-valid, .was-validated .custom-select:valid, .was-validated .form-control:valid{
+	border-color:#ced4da !important;
 }

@@ -44,7 +44,7 @@ public class MoradiaController {
 		return blocoService.listar();
 	}
 
-	@GetMapping({ "", "/", "lista", "todos" })
+	@GetMapping({ "", "/", "/lista", "/todos" })
 	public ModelAndView getMoradias(ModelMap model) {
 		model.addAttribute("moradias", moradiaService.listar());
 		model.addAttribute("conteudo", "moradiaLista");

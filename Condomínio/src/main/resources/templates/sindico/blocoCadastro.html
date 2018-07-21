@@ -12,32 +12,34 @@
 		<h3 class="font-weight-light">Cadastro do Bloco</h3>
 		<div th:unless="${haCondominio}" class="alert alert-warning">
 			<h6>Condomínio não cadastrado</h6>
-			Para cadastrar blocos é preciso completar o cadastro do seu condomínio, <a  class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
+			Para cadastrar blocos é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
 		</div>
-		<p th:if="${haCondominio}" th:text="${bloco.idBloco == null} ? 'Ao salvar, um novo bloco será criado no condomínio.' : 'Ao salvar, as informações do bloco atual serão atualizadas.'"></p>
+		<p th:if="${haCondominio}" th:text="${bloco.idBloco == null} ? 'Ao salvar, um novo bloco será criado no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações do bloco atual serão atualizadas.')"></p>
 		<form th:if="${haCondominio}" th:action="@{/sindico/blocos/cadastro}" th:object="${bloco}" th:method="${bloco.idBloco == null} ? post : put" novalidate>
-			<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idBloco}" />
-			<div class="card">
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">
-						<p class="text-primary">
-							<i class="fas fa-building"></i> Informações principais do bloco
-						</p>
-						<div class="form-row">
-							<div class="form-group col-md-2">
-								<label>Sigla</label> <input autofocus class="form-control" type="text" th:errorclass="is-invalid" th:field="*{sigla}" placeholder="Uma abrevitura" />
-								<div class="invalid-feedback" th:errors="*{sigla}"></div>
+			<fieldset th:disabled="${param.somenteLeitura}">
+				<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idBloco}" />
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-building"></i> Informações principais do bloco
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-2">
+									<label>Sigla</label> <input autofocus class="form-control" type="text" th:errorclass="is-invalid" th:field="*{sigla}" placeholder="Uma abrevitura" />
+									<div class="invalid-feedback" th:errors="*{sigla}"></div>
+								</div>
+								<div class="form-group col-md-10">
+									<label>Descrição</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{descricao}" placeholder="Uma descrição completa" />
+									<div class="invalid-feedback" th:errors="*{descricao}"></div>
+									<small>Opcional</small>
+								</div>
 							</div>
-							<div class="form-group col-md-10">
-								<label>Descrição</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{descricao}" placeholder="Uma descrição completa" />
-								<div class="invalid-feedback" th:errors="*{descricao}"></div>
-								<small>Opcional</small>
-							</div>
-						</div>
-						<button type="submit" class="btn btn-primary">Salvar</button> <a class="btn btn-secondary" th:href="@{/sindico/blocos}" role="button">Cancelar</a>
-					</li>
-				</ul>
-			</div>
+							<button type="submit" class="btn btn-primary">Salvar</button> <a class="btn btn-secondary" th:href="@{/sindico/blocos}" role="button">Cancelar</a>
+						</li>
+					</ul>
+				</div>
+			</fieldset>
 		</form>
 		</main>
 	</th:block>
