@@ -16,7 +16,7 @@
 		</div>
 		<p th:if="${haCondominio}" th:text="${pessoa.idPessoa == null} ? 'Ao salvar, um novo condômino será criado no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações do condômino atual serão atualizadas.')"></p>
 		<form class="needs-validation" novalidate th:action="'#'" th:if="${haCondominio}" th:object="${pessoa}" th:method="${pessoa.idPessoa == null} ? post : put">
-			<fieldset th:disabled="${param.somenteLeitura}">
+			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
 				<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idPessoa}" />
 				<div class="card">
 					<ul class="list-group list-group-flush" id="accordion">
@@ -28,10 +28,10 @@
 								<div class="form-group col-md-4">
 									<label>Tipo</label> <select required class="custom-select" name="accordion-select" autofocus th:disabled="${pessoa.idPessoa != null}">
 										<option value="" hidden="true">Selecione</option>
-										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #vars.tipo}" data-toggle="collapse" data-parent="#accordion" th:data-target="'#P'+ ${t}" data-form="form" th:data-form-action="@{/sindico/condominos/cadastro/P} + ${t}"></option>
+										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #vars.tipo}" data-toggle="collapse" data-parent="#accordion .collapse" th:data-target="'#P'+ ${t}" data-form="main form" th:data-form-action="@{/sindico/condominos/cadastro/P} + ${t}"></option>
 									</select>
 									<div class="invalid-feedback">Campo obrigatório.</div>
-									<small>Após salvar, este campo não poderá ser modificado.</small>
+									<small th:text="${pessoa.idPessoa != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>
 								</div>
 							</div>
 						</li>
@@ -223,7 +223,7 @@
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<label>CEP <a tabindex="-1" href="http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCep.cfm" title="Não sei o CEP" target="_blank"><i class="fas fa-question-circle"></i></a></label> <input class="form-control" type="number" th:errorclass="is-invalid" th:field="*{cep}" placeholder="O CEP do condômino" />
+									<label>CEP <a class="text-secondary" tabindex="-1" href="http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCep.cfm" title="Não sei o CEP" target="_blank"><i class="fas fa-question-circle"></i></a></label> <input class="form-control" type="number" th:errorclass="is-invalid" th:field="*{cep}" placeholder="O CEP do condômino" />
 									<div class="invalid-feedback" th:errors="*{cep}"></div>
 									<small>Somente números</small>
 								</div>
@@ -239,11 +239,12 @@
 									<div class="invalid-feedback" th:errors="*{estado}"></div>
 								</div>
 							</div>
-							<button type="submit" class="btn btn-primary">Salvar</button> <a class="btn btn-secondary" th:href="@{/sindico/condominos}" role="button">Cancelar</a>
+							
 						</li>
 					</ul>
 				</div>
 			</fieldset>
+			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button> <a class="btn btn-secondary" th:href="@{/sindico/condominos}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
 		</form>
 		</main>
 	</th:block>

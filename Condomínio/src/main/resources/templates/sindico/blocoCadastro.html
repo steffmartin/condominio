@@ -16,7 +16,7 @@
 		</div>
 		<p th:if="${haCondominio}" th:text="${bloco.idBloco == null} ? 'Ao salvar, um novo bloco será criado no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações do bloco atual serão atualizadas.')"></p>
 		<form th:if="${haCondominio}" th:action="@{/sindico/blocos/cadastro}" th:object="${bloco}" th:method="${bloco.idBloco == null} ? post : put" novalidate>
-			<fieldset th:disabled="${param.somenteLeitura}">
+			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
 				<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idBloco}" />
 				<div class="card">
 					<ul class="list-group list-group-flush">
@@ -32,14 +32,13 @@
 								<div class="form-group col-md-10">
 									<label>Descrição</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{descricao}" placeholder="Uma descrição completa" />
 									<div class="invalid-feedback" th:errors="*{descricao}"></div>
-									<small>Opcional</small>
 								</div>
-							</div>
-							<button type="submit" class="btn btn-primary">Salvar</button> <a class="btn btn-secondary" th:href="@{/sindico/blocos}" role="button">Cancelar</a>
+							</div>							
 						</li>
 					</ul>
 				</div>
 			</fieldset>
+			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button> <a class="btn btn-secondary" th:href="@{/sindico/blocos}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
 		</form>
 		</main>
 	</th:block>

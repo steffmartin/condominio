@@ -57,7 +57,7 @@ main {
 	}
 }
 /* Ocultar legendas em formulários bloqueados */
-fieldset:disabled small, fieldset:disabled button[type="submit"] {
+fieldset:disabled small, fieldset:disabled label a {
 	display:none !important;
 }
 /* Sidebar */
@@ -261,9 +261,4 @@ fieldset:disabled small, fieldset:disabled button[type="submit"] {
 /* Correção do cursor em botões nos dropdowns */
 button.dropdown-item {
 	cursor: pointer;
-}
-
-/* Remover cor de validação OK */
-.custom-select.is-valid, .form-control.is-valid, .was-validated .custom-select:valid, .was-validated .form-control:valid{
-	border-color:#ced4da !important;
 }

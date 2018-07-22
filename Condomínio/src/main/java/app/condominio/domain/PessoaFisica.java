@@ -1,17 +1,16 @@
 package app.condominio.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import app.condominio.domain.enums.Genero;
 import app.condominio.domain.validators.CPF;
@@ -32,9 +31,8 @@ public class PessoaFisica extends Pessoa {
 	@Size(max = 14)
 	private String rg;
 	
-	@Basic
-	@Temporal(TemporalType.DATE)
-	private Date nascimento;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	private LocalDate nascimento;
 	
 	@Enumerated(EnumType.STRING)
 	private Genero genero;
@@ -63,11 +61,11 @@ public class PessoaFisica extends Pessoa {
 		this.rg = rg;
 	}
 
-	public Date getNascimento() {
+	public LocalDate getNascimento() {
 		return nascimento;
 	}
 
-	public void setNascimento(Date nascimento) {
+	public void setNascimento(LocalDate nascimento) {
 		this.nascimento = nascimento;
 	}
 

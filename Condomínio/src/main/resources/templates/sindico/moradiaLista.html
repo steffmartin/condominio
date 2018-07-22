@@ -28,8 +28,6 @@
 						<th scope="col">Sigla</th>
 						<th scope="col">Tipo</th>
 						<th scope="col">Fração Ideal</th>
-						<th scope="col">Área</th>
-						<th scope="col">Matrícula</th>
 						<th scope="col">Nº de Vagas</th>
 						<th></th>
 					</tr>
@@ -39,9 +37,7 @@
 						<th scope="row" th:text="${moradia.bloco.sigla}"></th>
 						<th scope="row" th:text="${moradia.sigla}"></th>
 						<td th:text="${moradia.tipo.nome}"></td>
-						<td th:text="${moradia.fracaoIdeal}"></td>
-						<td th:text="${moradia.area}"></td>
-						<td th:text="${moradia.matricula}"></td>
+						<td th:text="${moradia.fracaoIdeal}"></td>	
 						<td th:text="${moradia.vagas}"></td>
 						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/moradias/{idMoradia}/cadastro(idMoradia=${moradia.idMoradia},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/moradias/{idMoradia}/cadastro(idMoradia=${moradia.idMoradia})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${moradia.idMoradia}" th:data-obs="${moradia.sigla}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 					</tr>
