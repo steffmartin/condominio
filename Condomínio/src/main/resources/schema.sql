@@ -1,30 +1,30 @@
 CREATE TABLE Condominios (
   idCondominio BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  razaoSocial VARCHAR(100) NOT NULL,
+  razaoSocial VARCHAR(100) NULL,
   cnpj VARCHAR(14) NULL,
   ie VARCHAR(14) NULL,
   im VARCHAR(30) NULL,
   email VARCHAR(100) NULL,
   telefone VARCHAR(10) NULL,
   celular VARCHAR(11) NULL,
-  endereco VARCHAR(100) NOT NULL,
-  numeroEnd VARCHAR(6) NOT NULL,
+  endereco VARCHAR(100) NULL,
+  numeroEnd VARCHAR(6) NULL,
   complementoEnd VARCHAR(30) NULL,
-  bairro VARCHAR(30) NOT NULL,
-  cidade VARCHAR(30) NOT NULL,
-  estado VARCHAR(2) NOT NULL,
-  cep VARCHAR(8) NOT NULL,
+  bairro VARCHAR(30) NULL,
+  cidade VARCHAR(30) NULL,
+  estado VARCHAR(2) NULL,
+  cep VARCHAR(8) NULL,
   PRIMARY KEY(idCondominio)
 );
 
 CREATE TABLE Usuarios (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  username VARCHAR(50) NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  ativo BOOL NOT NULL DEFAULT true,
-  nome VARCHAR(50) NOT NULL,
-  sobrenome VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL,
+  username VARCHAR(50) UNIQUE NULL,
+  password VARCHAR(100) NULL,
+  ativo BOOL NULL,
+  nome VARCHAR(50) NULL,
+  sobrenome VARCHAR(100) NULL,
+  email VARCHAR(100) NULL,
   idCondominio BIGINT UNSIGNED NULL,
   PRIMARY KEY(id),
   FOREIGN KEY(idCondominio)
@@ -45,17 +45,21 @@ CREATE TABLE Autorizacoes (
 
 CREATE TABLE persistent_logins (
   series VARCHAR(64) NOT NULL,
-  username VARCHAR(50) NOT NULL,
-  token VARCHAR(64) NOT NULL,
-  last_used TIMESTAMP NOT NULL,
-  PRIMARY KEY(series)
+  username VARCHAR(50) NULL,
+  token VARCHAR(64) NULL,
+  last_used TIMESTAMP NULL,
+  PRIMARY KEY(series),
+    FOREIGN KEY(username)
+    REFERENCES Usuarios(username)
+      ON DELETE CASCADE
+      ON UPDATE NO ACTION
 );
 
 CREATE TABLE Blocos (
   idBloco BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  idCondominio BIGINT UNSIGNED NOT NULL,
-  sigla VARCHAR(3) NOT NULL,
+  sigla VARCHAR(3) NULL,
   descricao VARCHAR(30) NULL,
+  idCondominio BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idBloco),
   FOREIGN KEY(idCondominio)
     REFERENCES Condominios(idCondominio)
@@ -64,9 +68,9 @@ CREATE TABLE Blocos (
 );
 
 CREATE TABLE Moradias (
-  idMoradia BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  sigla VARCHAR(10) NOT NULL,
-  tipo VARCHAR(2) NOT NULL,
+  idMoradia BIGINT NOT NULL AUTO_INCREMENT,
+  sigla VARCHAR(10) NULL,
+  tipo VARCHAR(2) NULL,
   area FLOAT NULL,
   fracaoIdeal FLOAT NULL,
   matricula VARCHAR(30) NULL,
@@ -81,8 +85,8 @@ CREATE TABLE Moradias (
 
 CREATE TABLE Pessoas (
   idPessoa BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  nome VARCHAR(50) NOT NULL,
-  email VARCHAR(100) NOT NULL,
+  nome VARCHAR(50) NULL,
+  email VARCHAR(100) NULL,
   telefone VARCHAR(10) NULL,
   celular VARCHAR(11) NULL,
   endereco VARCHAR(100) NULL,
@@ -102,7 +106,7 @@ CREATE TABLE Pessoas (
 
 CREATE TABLE PessoasFisicas (
   idPessoa BIGINT UNSIGNED NOT NULL,
-  sobrenome VARCHAR(100) NOT NULL,
+  sobrenome VARCHAR(100) NULL,
   cpf VARCHAR(11) NULL,
   rg VARCHAR(14) NULL,
   nascimento DATE NULL,
@@ -116,15 +120,43 @@ CREATE TABLE PessoasFisicas (
 
 CREATE TABLE PessoasJuridicas (
   idPessoa BIGINT UNSIGNED NOT NULL,
-  razaoSocial VARCHAR(100) NOT NULL,
+  razaoSocial VARCHAR(100) NULL,
   cnpj VARCHAR(14) NULL,
   ie VARCHAR(14) NULL,
   im VARCHAR(30) NULL,
-  nomeRepresentante VARCHAR(50) NOT NULL,
-  sobrenomeRepresentante VARCHAR(100) NOT NULL,
+  nomeRepresentante VARCHAR(50) NULL,
+  sobrenomeRepresentante VARCHAR(100) NULL,
   PRIMARY KEY(idPessoa),
   FOREIGN KEY(idPessoa)
     REFERENCES Pessoas(idPessoa)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Contas (
+  idConta BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  sigla VARCHAR(2) NULL,
+  descricao VARCHAR(30) NULL,
+  saldo DECIMAL(9,2) NULL,
+  idCondominio BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY(idConta),
+  FOREIGN KEY(idCondominio)
+    REFERENCES Condominios(idCondominio)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE ContasBancarias (
+  idConta BIGINT UNSIGNED NOT NULL,
+  tipo CHAR NULL,
+  banco VARCHAR(3) NULL,
+  agencia VARCHAR(5) NULL,
+  agenciaDv CHAR NULL,
+  conta VARCHAR(20) NULL,
+  contaDv CHAR NULL,
+  PRIMARY KEY(idConta),
+  FOREIGN KEY(idConta)
+    REFERENCES Contas(idConta)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );

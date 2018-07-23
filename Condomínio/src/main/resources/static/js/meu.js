@@ -1,4 +1,4 @@
-// Validação do formulário
+// Validação do formulário no FRONT-END, aplicar a classe 'needs-validation'
 (function() {
 	'use strict';
 	window.addEventListener('load', function() {
@@ -28,6 +28,10 @@ $(document).ready(function() {
 		$('#sidebarCollapse').click();
  }
 });
+//Remover placeholder nas telas somente leitura
+$(document).ready(function() {
+$("main form fieldset:disabled").find(':input').removeAttr('placeholder');
+});
 //Modal de excluir
 $('#modalExcluir').on('show.bs.modal', function (event) {
 	  var button = $(event.relatedTarget)
@@ -39,15 +43,15 @@ $('#modalExcluir').on('show.bs.modal', function (event) {
 	  
 	});
 //Accordion no select + Action do formulário + desativar campos
-$('select[name=accordion-select]').change(function(){
-	var opcao = $( "select[name=accordion-select] option:selected" );
+$('select[name=form-accordion-select]').change(function(){
+	var form = $(this).data('form');
+	var parent = $(this).data('parent');
+	var opcao = $( "option:selected", this );
     var target = $(opcao).data('target');
-    var parent = $(opcao).data('parent');
+    var action = $(opcao).data('form-action');
     $(parent).find(':input').prop('disabled',true);
     $(target).find(':input').prop('disabled',false);
     $(parent).collapse('hide');
     $(target).collapse('show');
-    var action = $(opcao).data('form-action');
-    var form = $(opcao).data('form');
     $(form).attr('action',action);
 }).trigger('change');

@@ -258,6 +258,9 @@ fieldset:disabled small, fieldset:disabled label a {
 	border-top-right-radius: 0.25rem !important;
 	border-bottom-right-radius: 0.25rem !important;
 }
+.input-group .is-invalid + input{
+	border-left-color: transparent;
+}
 /* Correção do cursor em botões nos dropdowns */
 button.dropdown-item {
 	cursor: pointer;

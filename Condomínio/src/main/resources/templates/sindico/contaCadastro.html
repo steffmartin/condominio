@@ -1,0 +1,130 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Conta</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Cadastro da Conta</h3>
+		<div th:unless="${haCondominio}" class="alert alert-warning">
+			<h6>Condomínio não cadastrado</h6>
+			Para cadastrar contas é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
+		</div>
+		<p th:if="${haCondominio}" th:text="${conta.idConta == null} ? 'Ao salvar, uma nova conta será criada no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações da conta atual serão atualizadas.')"></p>
+		<form class="needs-validation" novalidate th:action="@{/sindico/contas/cadastro}" th:if="${haCondominio}" th:object="${conta}" th:method="${conta.idConta == null} ? post : put">
+			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
+				<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idConta}" />
+				<div class="card">
+					<ul class="list-group list-group-flush" id="accordion">
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-list"></i> Tipo da conta
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label>Tipo</label> <select required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse" autofocus th:disabled="${conta.idConta != null}">
+										<option value="" hidden="true">Selecione</option>
+										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #vars.tipo}" data-toggle="collapse" th:data-target="'#'+ ${t}" th:data-form-action="@{/sindico/contas/cadastro/} + ${t}"></option>
+									</select>
+									<div class="invalid-feedback">Campo obrigatório.</div>
+									<small th:text="${conta.idConta != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>
+								</div>
+							</div>
+						</li>
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-money-bill-alt"></i> Informações principais da conta
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-2">
+									<label>Sigla</label> <input autofocus class="form-control" type="text" th:errorclass="is-invalid" th:field="*{sigla}" placeholder="Uma abrevitura" />
+									<div class="invalid-feedback" th:errors="*{sigla}"></div>
+								</div>
+								<div class="form-group col-md-7">
+									<label>Descrição</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{descricao}" placeholder="Uma descrição completa" />
+									<div class="invalid-feedback" th:errors="*{descricao}"></div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Saldo<span th:if="${conta.idConta == null}"> de abertura</span></label> <input th:disabled="${conta.idConta != null}" class="form-control" type="number" step=".01" th:errorclass="is-invalid" th:field="*{saldo}" placeholder="Saldo inicial da conta" />
+									<div class="invalid-feedback" th:errors="*{saldo}"></div>
+									<small th:text="${conta.idConta != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>
+								</div>
+							</div>
+						</li>
+						<li class="list-group-item collapse in" id="BC" th:if="${#vars.tipo == T(app.condominio.domain.enums.TipoConta).BC}">
+							<p class="text-primary">
+								<i class="fas fa-university"></i> Informações da conta bancária
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label>Banco <a class="text-secondary" tabindex="-1" href="http://www.buscabanco.org.br/" title="Não sei o código" target="_blank"><i class="fas fa-question-circle"></i></a></label> <input class="form-control" type="number" th:errorclass="is-invalid" th:field="*{banco}" placeholder="Código do banco" />
+									<div class="invalid-feedback" th:errors="*{banco}"></div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Agência</label>
+									<div class="input-group">
+										<input class="form-control" type="number" th:errorclass="is-invalid" th:field="*{agencia}" placeholder="Código da agência" /> <input class="form-control last col-2" type="text" th:errorclass="is-invalid" th:field="*{agenciaDv}" placeholder="DV" />
+										<div class="invalid-feedback" th:errors="*{agencia}"></div>
+										<div class="invalid-feedback" th:errors="*{agenciaDv}"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Conta</label>
+									<div class="input-group">
+										<input class="form-control" type="number" th:errorclass="is-invalid" th:field="*{conta}" placeholder="Número da conta" /> <input class="form-control last col-2" type="text" th:errorclass="is-invalid" th:field="*{contaDv}" placeholder="DV" />
+									</div>
+									<div class="invalid-feedback" th:errors="*{conta}"></div>
+									<div class="invalid-feedback" th:errors="*{contaDv}"></div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Tipo</label> <select class="custom-select" id="tipo" th:errorclass="is-invalid" th:field="*{tipo}">
+										<option value="" hidden="true">Selecione</option>
+										<option th:each="tipo : ${tiposBc}" th:value="${tipo}" th:text="${tipo.nome}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{tipo}"></div>
+								</div>
+							</div>
+						</li>
+						<li class="list-group-item collapse" id="BC" th:unless="${#vars.tipo == T(app.condominio.domain.enums.TipoConta).BC}">
+							<p class="text-primary">
+								<i class="fas fa-university"></i> Informações da conta bancária
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label>Banco <a class="text-secondary" tabindex="-1" href="http://www.buscabanco.org.br/" title="Não sei o código" target="_blank"><i class="fas fa-question-circle"></i></a></label> <input class="form-control" type="number" name="banco" id="banco" placeholder="Código do banco" />
+								</div>
+								<div class="form-group col-md-3">
+									<label>Agência</label>
+									<div class="input-group">
+										<input class="form-control" type="number" name="agencia" id="agencia" placeholder="Código da agência" /> <input class="form-control last col-2" type="text" name="agenciaDv" id="agenciaDv" placeholder="DV" />
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Conta</label>
+									<div class="input-group">
+										<input class="form-control" type="number" name="conta" id="conta" placeholder="Número da conta" /> <input class="form-control last col-2" type="text" name="contaDv" id="contaDv" placeholder="DV" />
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Tipo</label> <select class="custom-select" id="tipo" name="tipo">
+										<option value="" hidden="true">Selecione</option>
+										<option th:each="tipo : ${tiposBc}" th:value="${tipo}" th:text="${tipo.nome}"></option>
+									</select>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</fieldset>
+			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
+			<a class="btn btn-secondary" th:href="@{/sindico/contas}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+		</form>
+		</main>
+	</th:block>
+
+</body>
+</html>

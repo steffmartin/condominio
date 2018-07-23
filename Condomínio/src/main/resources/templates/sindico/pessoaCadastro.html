@@ -26,9 +26,9 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<label>Tipo</label> <select required class="custom-select" name="accordion-select" autofocus th:disabled="${pessoa.idPessoa != null}">
+									<label>Tipo</label> <select required class="custom-select" name="form-accordion-select"  data-form="main form" data-parent="#accordion .collapse" autofocus th:disabled="${pessoa.idPessoa != null}">
 										<option value="" hidden="true">Selecione</option>
-										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #vars.tipo}" data-toggle="collapse" data-parent="#accordion .collapse" th:data-target="'#P'+ ${t}" data-form="main form" th:data-form-action="@{/sindico/condominos/cadastro/P} + ${t}"></option>
+										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #vars.tipo}" data-toggle="collapse" th:data-target="'#P'+ ${t}" th:data-form-action="@{/sindico/condominos/cadastro/P} + ${t}"></option>
 									</select>
 									<div class="invalid-feedback">Campo obrigatório.</div>
 									<small th:text="${pessoa.idPessoa != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>

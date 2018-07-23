@@ -24,8 +24,8 @@ public class MoradiaServiceImpl implements MoradiaService {
 	private UsuarioService usuarioService;
 
 	@Override
-	public void salvar(Moradia moradia) {
-		moradiaDao.save(moradia);
+	public void salvar(Moradia entidade) {
+		moradiaDao.save(entidade);
 
 	}
 
@@ -49,14 +49,14 @@ public class MoradiaServiceImpl implements MoradiaService {
 	}
 
 	@Override
-	public void editar(Moradia moradia) {
-		moradiaDao.save(moradia);
+	public void editar(Moradia entidade) {
+		moradiaDao.save(entidade);
 
 	}
 
 	@Override
-	public void excluir(Moradia moradia) {
-		moradiaDao.delete(moradia);
+	public void excluir(Moradia entidade) {
+		moradiaDao.delete(entidade);
 
 	}
 

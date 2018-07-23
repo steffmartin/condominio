@@ -103,6 +103,10 @@ public class Condominio implements Serializable {
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@OrderBy(value = "nome")
 	private List<Pessoa> pessoas = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OrderBy(value = "sigla")
+	private List<Conta> contas = new ArrayList<>();
 
 	public Long getIdCondominio() {
 		return idCondominio;
@@ -246,6 +250,14 @@ public class Condominio implements Serializable {
 
 	public void setPessoas(List<Pessoa> pessoas) {
 		this.pessoas = pessoas;
+	}
+
+	public List<Conta> getContas() {
+		return contas;
+	}
+
+	public void setContas(List<Conta> contas) {
+		this.contas = contas;
 	}
 
 	@Override

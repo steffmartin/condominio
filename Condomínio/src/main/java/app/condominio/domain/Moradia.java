@@ -53,7 +53,7 @@ public class Moradia implements Serializable {
 	private int vagas;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idbloco")
 	@Fetch(FetchMode.JOIN)
 	private Bloco bloco;

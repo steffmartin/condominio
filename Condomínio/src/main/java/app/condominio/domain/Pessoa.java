@@ -73,7 +73,7 @@ public class Pessoa implements Serializable {
 	@Size(max = 8)
 	private String cep;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
 	@Fetch(FetchMode.JOIN)
 	private Condominio condominio;

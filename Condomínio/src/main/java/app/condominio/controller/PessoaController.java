@@ -67,7 +67,7 @@ public class PessoaController {
 	}
 
 	@GetMapping("/{idPessoa}/cadastro")
-	public ModelAndView getPessoaFisicaEditar(@PathVariable("idPessoa") Long idPessoa, ModelMap model) {
+	public ModelAndView getPessoaEditar(@PathVariable("idPessoa") Long idPessoa, ModelMap model) {
 		Pessoa pessoa = pessoaService.ler(idPessoa);
 		if (pessoa instanceof PessoaFisica) {
 			model.addAttribute("pessoa", (PessoaFisica) pessoa);

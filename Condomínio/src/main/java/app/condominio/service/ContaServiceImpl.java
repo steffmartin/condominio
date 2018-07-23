@@ -8,50 +8,52 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import app.condominio.dao.BlocoDao;
-import app.condominio.domain.Bloco;
+import app.condominio.dao.ContaDao;
 import app.condominio.domain.Condominio;
+import app.condominio.domain.Conta;
 
 @Service
 @Transactional
-public class BlocoServiceImpl implements BlocoService {
+public class ContaServiceImpl implements ContaService {
 
 	@Autowired
-	private BlocoDao blocoDao;
+	private ContaDao contaDao;
 
 	@Autowired
 	private UsuarioService usuarioService;
 
 	@Override
-	public void salvar(Bloco entidade) {
+	public void salvar(Conta entidade) {
 		entidade.setCondominio(usuarioService.lerLogado().getCondominio());
-		blocoDao.save(entidade);
+		contaDao.save(entidade);
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Bloco ler(Long id) {
-		return blocoDao.findById(id).get();
+	public Conta ler(Long id) {
+		return contaDao.findById(id).get();
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public List<Bloco> listar() {
+	public List<Conta> listar() {
 		Condominio condominio = usuarioService.lerLogado().getCondominio();
 		if (condominio == null) {
-			return new ArrayList<Bloco>();
+			return new ArrayList<Conta>();
 		}
-		return condominio.getBlocos();
+		return condominio.getContas();
 	}
 
 	@Override
-	public void editar(Bloco entidade) {
-		blocoDao.save(entidade);
+	public void editar(Conta entidade) {
+		contaDao.save(entidade);
+
 	}
 
 	@Override
-	public void excluir(Bloco entidade) {
-		blocoDao.delete(entidade);
+	public void excluir(Conta entidade) {
+		contaDao.delete(entidade);
+
 	}
 
 	@Override

@@ -23,9 +23,9 @@ public class PessoaServiceImpl implements PessoaService {
 	private UsuarioService usuarioService;
 
 	@Override
-	public void salvar(Pessoa pessoa) {
-		pessoa.setCondominio(usuarioService.lerLogado().getCondominio());
-		pessoaDao.save(pessoa);
+	public void salvar(Pessoa entidade) {
+		entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		pessoaDao.save(entidade);
 	}
 
 	@Override
@@ -45,16 +45,17 @@ public class PessoaServiceImpl implements PessoaService {
 	}
 
 	@Override
-	public void editar(Pessoa pessoa) {
-		pessoaDao.save(pessoa);
+	public void editar(Pessoa entidade) {
+		pessoaDao.save(entidade);
 	}
 
 	@Override
-	public void excluir(Pessoa pessoa) {
-		pessoaDao.delete(pessoa);
+	public void excluir(Pessoa entidade) {
+		pessoaDao.delete(entidade);
 	}
 	
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean haCondominio() {
 		return usuarioService.lerLogado().getCondominio() != null;
 	}
