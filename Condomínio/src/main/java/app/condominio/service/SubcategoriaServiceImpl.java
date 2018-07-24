@@ -35,7 +35,7 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Subcategoria> listar() {
-		return subcategoriaDao.findAllByCategoria(categoriaService.listar());
+		return subcategoriaDao.findAllByCategoriaPai(categoriaService.listar());
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Subcategoria entidade, BindingResult validacao) {
-		// TODO Auto-generated method stub
+		// LATER ver se haverá validação de subcategoria a fazer
 
 	}
 

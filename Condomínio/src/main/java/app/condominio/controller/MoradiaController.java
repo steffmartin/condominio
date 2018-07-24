@@ -68,6 +68,7 @@ public class MoradiaController {
 	@PostMapping("/cadastro")
 	public ModelAndView postMoradiaCadastro(@Valid @ModelAttribute("moradia") Moradia moradia,
 			BindingResult validacao) {
+		moradiaService.validar(moradia, validacao);
 		if (validacao.hasErrors()) {
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "moradiaCadastro");
 		}
@@ -77,6 +78,7 @@ public class MoradiaController {
 
 	@PutMapping("/cadastro")
 	public ModelAndView putMoradiaCadastro(@Valid @ModelAttribute("moradia") Moradia moradia, BindingResult validacao) {
+		moradiaService.validar(moradia, validacao);
 		if (validacao.hasErrors()) {
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "moradiaCadastro");
 		}

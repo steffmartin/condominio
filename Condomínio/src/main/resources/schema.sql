@@ -160,3 +160,32 @@ CREATE TABLE ContasBancarias (
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
+
+CREATE TABLE Categorias (
+  idCategoria BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  tipo CHAR NULL,
+  descricao VARCHAR(50) NULL,
+  nivel INTEGER UNSIGNED NULL,
+  idCategoriaPai BIGINT UNSIGNED NULL,
+  idCondominio BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY(idCategoria),
+  FOREIGN KEY(idCondominio)
+    REFERENCES Condominios(idCondominio)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+  FOREIGN KEY(idCategoriaPai)
+    REFERENCES Categorias(idCategoria)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Subcategorias (
+  idSubcategoria BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  descricao VARCHAR(50) NULL,
+  idCategoria BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY(idSubcategoria),
+  FOREIGN KEY(idCategoria)
+    REFERENCES Categorias(idCategoria)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);

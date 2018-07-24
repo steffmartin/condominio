@@ -77,8 +77,21 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Categoria entidade, BindingResult validacao) {
-		if (entidade.getCategoriaPai() != null && (entidade.getCategoriaPai().getNivel() + 1) > Categoria.NIVEL_MAX) {
-			validacao.rejectValue("categoriaPai", "Max");
+		Categoria categoriaPai = entidade.getCategoriaPai();
+		if (categoriaPai != null) {
+			if (categoriaPai.getNivel() >= Categoria.NIVEL_MAX) {
+				validacao.rejectValue("categoriaPai", "Max", new Object[] { 0, Categoria.NIVEL_MAX }, null);
+			}
+			if (categoriaPai.getTipo() != entidade.getTipo()) {
+				validacao.rejectValue("tipo", "typeMismatch");
+			}
+
+		}
+		if (entidade.getIdCategoria() != null) {
+			Categoria anterior = ler(entidade.getIdCategoria());
+			if (entidade.getTipo() != anterior.getTipo()) {
+				validacao.rejectValue("tipo", "Final");
+			}
 		}
 	}
 

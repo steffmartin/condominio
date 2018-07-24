@@ -63,7 +63,7 @@ public class BlocoServiceImpl implements BlocoService {
 
 	@Override
 	public void validar(Bloco entidade, BindingResult validacao) {
-		// TODO Auto-generated method stub
+		// LATER ver se haverá validação de bloco a fazer
 		
 	}
 }

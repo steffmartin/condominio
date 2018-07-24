@@ -63,7 +63,7 @@ public class PessoaServiceImpl implements PessoaService {
 
 	@Override
 	public void validar(Pessoa entidade, BindingResult validacao) {
-		// TODO Auto-generated method stub
+		// LATER ver se haverá validação de pessoa a fazer
 		
 	}
 

@@ -83,6 +83,7 @@ public class PessoaController {
 	@PostMapping("/cadastro/PF")
 	public ModelAndView postPessoaFisicaCadastro(@Valid @ModelAttribute("pessoa") PessoaFisica pessoa,
 			BindingResult validacao, ModelMap model) {
+		pessoaService.validar(pessoa, validacao);
 		if (validacao.hasErrors()) {
 			model.addAttribute("tipo", TipoPessoa.F);
 			model.addAttribute("conteudo", "pessoaCadastro");
@@ -95,6 +96,7 @@ public class PessoaController {
 	@PostMapping("/cadastro/PJ")
 	public ModelAndView postPessoaJuridicaCadastro(@Valid @ModelAttribute("pessoa") PessoaJuridica pessoa,
 			BindingResult validacao, ModelMap model) {
+		pessoaService.validar(pessoa, validacao);
 		if (validacao.hasErrors()) {
 			model.addAttribute("tipo", TipoPessoa.J);
 			model.addAttribute("conteudo", "pessoaCadastro");
@@ -107,6 +109,7 @@ public class PessoaController {
 	@PutMapping("/cadastro/PF")
 	public ModelAndView putPessoaFisicaCadastro(@Valid @ModelAttribute("pessoa") PessoaFisica pessoa,
 			BindingResult validacao, ModelMap model) {
+		pessoaService.validar(pessoa, validacao);
 		if (validacao.hasErrors()) {
 			model.addAttribute("tipo", TipoPessoa.F);
 			model.addAttribute("conteudo", "pessoaCadastro");
@@ -119,6 +122,7 @@ public class PessoaController {
 	@PutMapping("/cadastro/PJ")
 	public ModelAndView putPessoaJuridicaCadastro(@Valid @ModelAttribute("pessoa") PessoaJuridica pessoa,
 			BindingResult validacao, ModelMap model) {
+		pessoaService.validar(pessoa, validacao);
 		if (validacao.hasErrors()) {
 			model.addAttribute("tipo", TipoPessoa.J);
 			model.addAttribute("conteudo", "pessoaCadastro");

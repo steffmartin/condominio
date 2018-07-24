@@ -65,7 +65,7 @@ public class ContaServiceImpl implements ContaService {
 
 	@Override
 	public void validar(Conta entidade, BindingResult validacao) {
-		// TODO Auto-generated method stub
+		// LATER ver se haverá validação de conta a fazer
 		
 	}
 }

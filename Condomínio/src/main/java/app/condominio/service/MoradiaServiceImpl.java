@@ -63,7 +63,7 @@ public class MoradiaServiceImpl implements MoradiaService {
 
 	@Override
 	public void validar(Moradia entidade, BindingResult validacao) {
-		// TODO Auto-generated method stub
+		// LATER ver se haverá validação de moradia a fazer
 		
 	}
 

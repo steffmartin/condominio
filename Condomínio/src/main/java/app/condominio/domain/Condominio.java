@@ -22,8 +22,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Where;
-
 import app.condominio.domain.enums.Estado;
 import app.condominio.domain.validators.CNPJ;
 
@@ -55,8 +53,7 @@ public class Condominio implements Serializable {
 	@Size(max = 100)
 	private String email;
 
-	// LATER verificar se há como validar o tamanho min = 10 e max = 10 sem que o
-	// campo seja obrigatório (min = 0 ou 10)
+	// LATER fazer validação no método condominioService min e max = 10
 	@Size(max = 10)
 	private String telefone;
 
@@ -113,6 +110,7 @@ public class Condominio implements Serializable {
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	//TODO ver se será filtrado ou não
 	//@Where(clause="idcategoriapai IS NULL")
+	@OrderBy(value="tipo DESC, categoriaPai")
 	private List<Categoria> categorias = new ArrayList<>();
 
 	public Long getIdCondominio() {

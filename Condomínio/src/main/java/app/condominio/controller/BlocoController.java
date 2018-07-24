@@ -54,6 +54,7 @@ public class BlocoController {
 
 	@PostMapping("/cadastro")
 	public ModelAndView postBlocoCadastro(@Valid @ModelAttribute("bloco") Bloco bloco, BindingResult validacao) {
+		blocoService.validar(bloco, validacao);
 		if (validacao.hasErrors()) {
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "blocoCadastro");
 		}
@@ -63,6 +64,7 @@ public class BlocoController {
 
 	@PutMapping("/cadastro")
 	public ModelAndView putBlocoCadastro(@Valid @ModelAttribute("bloco") Bloco bloco, BindingResult validacao) {
+		blocoService.validar(bloco, validacao);
 		if (validacao.hasErrors()) {
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "blocoCadastro");
 		}

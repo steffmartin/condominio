@@ -1,0 +1,76 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title th:text="${#vars.classe == T(app.condominio.domain.enums.TipoClasseCategoria).S} ? 'Subcategoria' : _">Categoria</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light" th:text="${#vars.classe == T(app.condominio.domain.enums.TipoClasseCategoria).S} ? 'Cadastro da Subcategoria' : _">Cadastro da Categoria</h3>
+		<div th:unless="${haCondominio}" class="alert alert-warning">
+			<h6>Condomínio não cadastrado</h6>
+			Para cadastrar categorias é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
+		</div>
+		<p th:if="${haCondominio}" th:text="${categoria.idCategoria == null} ? 'Ao salvar, uma nova categoria ou subcategoria será criada no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  (${#vars.classe == T(app.condominio.domain.enums.TipoClasseCategoria).S} ?'Ao salvar, as informações da subcategoria atual serão atualizadas.':'Ao salvar, as informações da categoria atual serão atualizadas.'))"></p>
+		<form class="needs-validation" novalidate th:action="@{/sindico/categorias/cadastro}" th:if="${haCondominio}" th:object="${categoria}" th:method="${categoria.idCategoria == null} ? post : put">
+			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
+				<input th:if="${#vars.classe == T(app.condominio.domain.enums.TipoClasseCategoria).C}" type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idCategoria}" />
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-list-ol"></i> Informações principais da <span th:text="${#vars.classe == T(app.condominio.domain.enums.TipoClasseCategoria).S} ? 'subcategoria' : _">categoria</span>
+							</p>
+							<div class="form-row" id="accordion">
+								<div class="form-group col-md-6">
+									<label>Classe</label> <select required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse" autofocus th:disabled="${categoria.idCategoria != null}">
+										<option value="" hidden="true">Selecione</option>
+										<option th:each="t : ${tiposClasseCategoria}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #vars.classe}" data-toggle="collapse" th:data-target="'#'+ ${t}" th:data-form-action="@{/sindico/{sub}categorias/cadastro/(sub=(${t == T(app.condominio.domain.enums.TipoClasseCategoria).S} ? 'sub' : ''))}"></option>
+									</select>
+									<div class="invalid-feedback">Campo obrigatório.</div>
+									<small th:text="${categoria.idCategoria != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>
+								</div>
+								<div class="form-group col-md-6 collapse in" id="C" th:if="${#vars.classe == T(app.condominio.domain.enums.TipoClasseCategoria).C}">
+									<label>Tipo</label> <select class="custom-select" id="tipo" th:errorclass="is-invalid" th:field="*{tipo}" th:disabled="${categoria.idCategoria != null}">
+										<option value="" hidden="true">Selecione</option>
+										<option th:each="tipo : ${tiposCategoria}" th:value="${tipo}" th:text="${tipo.nome}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{tipo}"></div>
+									<small th:text="${categoria.idCategoria != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>
+								</div>
+								<div class="form-group col-md-6 collapse" id="C" th:if="${#vars.classe == ''}">
+									<label>Tipo</label> <select class="custom-select" id="tipo" name="tipo">
+										<option value="" hidden="true">Selecione</option>
+										<option th:each="tipo : ${tiposCategoria}" th:value="${tipo}" th:text="${tipo.nome}"></option>
+									</select> <small>Após salvar, este campo não poderá ser modificado.</small>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Categoria superior</label> <select class="custom-select" id="categoriaPai" th:errorclass="is-invalid" th:field="*{categoriaPai}">
+										<option value="" hidden="true">Selecione</option>
+										<option value="">---</option>
+										<option th:each="c : ${categorias}" th:value="${c.idCategoria}" th:text="${c.descricao}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{categoriaPai}"></div>
+								</div>
+								<div class="form-group col-md-6">
+									<label>Descrição</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{descricao}" placeholder="Uma descrição completa" />
+									<div class="invalid-feedback" th:errors="*{descricao}"></div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</fieldset>
+			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
+			<a class="btn btn-secondary" th:href="@{/sindico/categorias}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+		</form>
+		</main>
+	</th:block>
+
+</body>
+</html>

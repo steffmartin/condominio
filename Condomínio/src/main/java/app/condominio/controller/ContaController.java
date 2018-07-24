@@ -76,6 +76,7 @@ public class ContaController {
 	@PostMapping({ "/cadastro/CX", "/cadastro" })
 	public ModelAndView postContaCadastro(@Valid @ModelAttribute("conta") Conta conta, BindingResult validacao,
 			ModelMap model) {
+		contaService.validar(conta, validacao);
 		if (validacao.hasErrors()) {
 			model.addAttribute("tipo", TipoConta.CX);
 			model.addAttribute("conteudo", "contaCadastro");
@@ -88,6 +89,7 @@ public class ContaController {
 	@PostMapping("/cadastro/BC")
 	public ModelAndView postContaBancariaCadastro(@Valid @ModelAttribute("conta") ContaBancaria conta,
 			BindingResult validacao, ModelMap model) {
+		contaService.validar(conta, validacao);
 		if (validacao.hasErrors()) {
 			model.addAttribute("tipo", TipoConta.BC);
 			model.addAttribute("conteudo", "contaCadastro");
@@ -100,6 +102,7 @@ public class ContaController {
 	@PutMapping({ "/cadastro/CX", "/cadastro" })
 	public ModelAndView putContaCadastro(@Valid @ModelAttribute("conta") Conta conta, BindingResult validacao,
 			ModelMap model) {
+		contaService.validar(conta, validacao);
 		if (validacao.hasErrors()) {
 			model.addAttribute("tipo", TipoConta.CX);
 			model.addAttribute("conteudo", "contaCadastro");
@@ -112,6 +115,7 @@ public class ContaController {
 	@PutMapping("/cadastro/BC")
 	public ModelAndView putContaBancariaCadastro(@Valid @ModelAttribute("conta") ContaBancaria conta,
 			BindingResult validacao, ModelMap model) {
+		contaService.validar(conta, validacao);
 		if (validacao.hasErrors()) {
 			model.addAttribute("tipo", TipoConta.BC);
 			model.addAttribute("conteudo", "contaCadastro");

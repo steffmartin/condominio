@@ -36,7 +36,7 @@ public class Subcategoria implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcategoria")
 	@Fetch(FetchMode.JOIN)
-	private Categoria categoria;
+	private Categoria categoriaPai;
 
 	public Long getIdSubcategoria() {
 		return idSubcategoria;
@@ -44,6 +44,16 @@ public class Subcategoria implements Serializable {
 
 	public void setIdSubcategoria(Long idSubcategoria) {
 		this.idSubcategoria = idSubcategoria;
+	}
+
+	// Método necessário para uso do Thymeleaf
+	public void setIdCategoria(Long idSubcategoria) {
+		setIdSubcategoria(idSubcategoria);
+	}
+
+	// Método necessário para uso do Thymeleaf
+	public Long getIdCategoria() {
+		return getIdSubcategoria();
 	}
 
 	public String getDescricao() {
@@ -54,12 +64,12 @@ public class Subcategoria implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public Categoria getCategoria() {
-		return categoria;
+	public Categoria getCategoriaPai() {
+		return categoriaPai;
 	}
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setCategoriaPai(Categoria categoriaPai) {
+		this.categoriaPai = categoriaPai;
 	}
 
 	@Override
