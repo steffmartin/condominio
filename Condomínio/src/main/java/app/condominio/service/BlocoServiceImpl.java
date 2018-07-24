@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.BlocoDao;
 import app.condominio.domain.Bloco;
@@ -58,5 +59,11 @@ public class BlocoServiceImpl implements BlocoService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean haCondominio() {
 		return usuarioService.lerLogado().getCondominio() != null;
+	}
+
+	@Override
+	public void validar(Bloco entidade, BindingResult validacao) {
+		// TODO Auto-generated method stub
+		
 	}
 }

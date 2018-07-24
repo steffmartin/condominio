@@ -118,6 +118,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Usuario usuario, BindingResult validacao) {
 		if (existe(usuario.getUsername())) {
 			validacao.rejectValue("username", "Unique");

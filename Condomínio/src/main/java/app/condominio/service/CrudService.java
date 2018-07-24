@@ -2,16 +2,20 @@ package app.condominio.service;
 
 import java.util.List;
 
-public interface CrudService<T,I> {
+import org.springframework.validation.BindingResult;
 
-	public void salvar(T entidade);
+public interface CrudService<C, T> {
 
-	public T ler(I id);
+	public void salvar(C entidade);
 
-	public List<T> listar();
+	public C ler(T id);
 
-	public void editar(T entidade);
+	public List<C> listar();
 
-	public void excluir(T entidade);
+	public void editar(C entidade);
+
+	public void excluir(C entidade);
+	
+	public void validar(C entidade, BindingResult validacao);
 
 }

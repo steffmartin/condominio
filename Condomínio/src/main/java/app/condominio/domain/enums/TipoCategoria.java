@@ -1,18 +1,20 @@
 package app.condominio.domain.enums;
 
-public enum TipoContaBancaria {
+public enum TipoCategoria {
+
 	// @formatter:off
-	C("Conta Corrente"),
-	P("Poupança");
+	R("Receita"),
+	D("Despesa");
 	// @formatter:on
 
 	private final String nome;
 
-	private TipoContaBancaria(String nome) {
+	private TipoCategoria(String nome) {
 		this.nome = nome;
 	}
 
 	public String getNome() {
 		return nome;
 	}
+
 }

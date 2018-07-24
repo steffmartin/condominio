@@ -22,6 +22,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Where;
+
 import app.condominio.domain.enums.Estado;
 import app.condominio.domain.validators.CNPJ;
 
@@ -107,6 +109,11 @@ public class Condominio implements Serializable {
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@OrderBy(value = "sigla")
 	private List<Conta> contas = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	//TODO ver se será filtrado ou não
+	//@Where(clause="idcategoriapai IS NULL")
+	private List<Categoria> categorias = new ArrayList<>();
 
 	public Long getIdCondominio() {
 		return idCondominio;
@@ -258,6 +265,14 @@ public class Condominio implements Serializable {
 
 	public void setContas(List<Conta> contas) {
 		this.contas = contas;
+	}
+
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
 	}
 
 	@Override

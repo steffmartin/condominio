@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.MoradiaDao;
 import app.condominio.domain.Bloco;
@@ -58,6 +59,12 @@ public class MoradiaServiceImpl implements MoradiaService {
 	public void excluir(Moradia entidade) {
 		moradiaDao.delete(entidade);
 
+	}
+
+	@Override
+	public void validar(Moradia entidade, BindingResult validacao) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

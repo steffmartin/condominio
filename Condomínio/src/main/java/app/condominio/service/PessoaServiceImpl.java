@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.PessoaDao;
 import app.condominio.domain.Condominio;
@@ -58,6 +59,12 @@ public class PessoaServiceImpl implements PessoaService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean haCondominio() {
 		return usuarioService.lerLogado().getCondominio() != null;
+	}
+
+	@Override
+	public void validar(Pessoa entidade, BindingResult validacao) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
