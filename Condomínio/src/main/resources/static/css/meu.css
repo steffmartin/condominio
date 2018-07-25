@@ -252,7 +252,6 @@ fieldset:disabled small, fieldset:disabled label a {
 		left: auto;
 	}
 }
-
 /*  Correção da borda nos formulários */
 .input-group .last {
 	border-top-right-radius: 0.25rem !important;
@@ -264,4 +263,11 @@ fieldset:disabled small, fieldset:disabled label a {
 /* Correção do cursor em botões nos dropdowns */
 button.dropdown-item {
 	cursor: pointer;
+}
+/* Placeholder dos inputs */
+input:placeholder-shown {
+  text-overflow: ellipsis;
+}
+fieldset:disabled input::placeholder{
+  color:transparent;
 }

@@ -22,8 +22,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Where;
-
 import app.condominio.domain.enums.Estado;
 import app.condominio.domain.validators.CNPJ;
 

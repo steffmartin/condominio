@@ -41,7 +41,9 @@
 						<td th:replace="::analiticas (${categoria.subcategorias})"></td>
 					</tr>
 					<th:block th:fragment="analiticas (subcategorias)">
+						<!--/*/
 						</tr>
+						/*/-->
 						<tr th:each="subcategoria : ${subcategorias}">
 							<th scope="row" th:text="${subcategoria.categoriaPai.ordem}+'.'+${subcategoriaStat.count}"></th>
 							<td class="font-weight-light" th:text="${subcategoria.descricao}" th:classappend="'pl-'+${subcategoria.categoriaPai.nivel}"></td>
@@ -49,13 +51,15 @@
 							<td th:text="${subcategoria.categoriaPai.tipo.nome}"></td>
 							<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/subcategorias/{idSubcategoria}/cadastro(idSubcategoria=${subcategoria.idSubcategoria},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/subcategorias/{idSubcategoria}/cadastro(idSubcategoria=${subcategoria.idSubcategoria})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${subcategoria.idSubcategoria}" th:data-obs="${subcategoria.descricao}" th:data-modal-action="@{/sindico/subcategorias/excluir}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 						</tr>
+						<!--/*/
 						<tr class="d-none">
+						/*/-->
 					</th:block>
 				</tbody>
 			</table>
 		</div>
 		</main>
-		<!-- Modal -->
+		<!--/* Modal */-->
 		<div th:unless="${#lists.isEmpty(categorias)}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">
 			<div class="modal-dialog  modal-dialog-centered" role="document">
 				<div class="modal-content">

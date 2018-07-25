@@ -28,9 +28,10 @@
 									<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Sair</button>
 									<button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split  my-2 my-sm-0" data-toggle="dropdown"></button>
 									<div class="dropdown-menu dropdown-menu-md-right">
-										<a class="dropdown-item" href="#">Minha conta</a>
-										<a class="dropdown-item" href="#">Ajuda</a>
-										<a class="dropdown-item" href="#">Suporte</a>
+										<a sec:authorize="hasAuthority('SINDICO')" class="dropdown-item" th:href="@{/sindico}">Painel do Condomínio</a>
+										<a sec:authorize="hasAuthority('MORADOR')" class="dropdown-item" th:href="@{/morador}">Painel do Condômino</a>
+										<a sec:authorize="hasAuthority('ADMIN')" class="dropdown-item" th:href="@{/admin}">Painel Administrativo</a>
+										<a class="dropdown-item" href="#">Meu Cadastro</a>
 										<div class="dropdown-divider"></div>
 										<button class="dropdown-item" type="submit">Sair <i class="fas fa-sign-out-alt ml-3"></i></button>
 									</div>

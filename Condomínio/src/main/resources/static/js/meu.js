@@ -14,6 +14,7 @@
 		});
 	}, false);
 })();
+
 // Funcionamento do Sidebar
 $(document).ready(function() {
 	$("#sidebar").mCustomScrollbar({
@@ -28,11 +29,13 @@ $(document).ready(function() {
 		$('#sidebarCollapse').click();
  }
 });
-//Remover placeholder nas telas somente leitura
+
+//Remover placeholder nas telas somente leitura (alterado para CSS "fieldset:disabled input::placeholder")
 $(document).ready(function() {
-$("main form fieldset:disabled").find(':input').removeAttr('placeholder');
+$("fieldset:disabled").find(':input').removeAttr('placeholder');
 });
-//Modal de excluir
+
+//Modal de excluir com conteúdo e formulário dinâmico
 $('#modalExcluir').on('show.bs.modal', function (event) {
 	  var button = $(event.relatedTarget)
 	  var idObj = button.data('idobj') // Lê info dos atributos data-*
@@ -45,7 +48,8 @@ $('#modalExcluir').on('show.bs.modal', function (event) {
 		  modal.find('form').attr('action',action);  
 	  }	  
 	});
-//Accordion no select + Action do formulário + desativar campos
+
+//Accordion usando SELECT com formulário dinâmico
 $('select[name=form-accordion-select]').change(function(){
 	var form = $(this).data('form');
 	var parent = $(this).data('parent');

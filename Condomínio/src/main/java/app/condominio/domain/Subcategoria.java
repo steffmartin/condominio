@@ -23,6 +23,9 @@ import org.hibernate.annotations.FetchMode;
 @Table(name = "subcategorias")
 public class Subcategoria implements Serializable {
 
+	//https://api.jquery.com/load/
+	//Usar Ajax para mostrar as subcategorias de uma categoria
+		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idsubcategoria")

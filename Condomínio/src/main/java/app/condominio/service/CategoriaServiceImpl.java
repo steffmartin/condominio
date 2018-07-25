@@ -61,7 +61,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			entidade.setNivel(1);
 		}
 		categoriaDao.save(entidade);
-		//TODO reescrever ordem das categoriasFilhas
+		// TODO reescrever ordem das categoriasFilhas
 	}
 
 	@Override
@@ -91,13 +91,15 @@ public class CategoriaServiceImpl implements CategoriaService {
 				validacao.rejectValue("categoriaPai", "typeMismatch", new Object[] { 0, "não é do mesmo tipo" }, null);
 			}
 			// Não pode ser filha dela mesma ou de uma das filhas dela
-			if (idCategoria != null
-					&& (categoriaPai.equals(entidade) || ehSuperior(ler(idCategoria), categoriaPai))) {
+			// if (idCategoria != null && (categoriaPai.equals(entidade) ||
+			// ehSuperior(ler(idCategoria), categoriaPai))) {
+			if (idCategoria != null && (categoriaPai.equals(entidade)
+					|| categoriaPai.getOrdem().startsWith(ler(idCategoria).getOrdem()))) {
 				validacao.rejectValue("categoriaPai", "typeMismatch", new Object[] { 0, "é igual ou inferior a esta" },
 						null);
 			}
 			// Ordem tem que ser sequência da categoria superior
-			if(!entidade.getOrdem().startsWith(categoriaPai.getOrdem())) {
+			if (!entidade.getOrdem().startsWith(categoriaPai.getOrdem())) {
 				validacao.rejectValue("ordem", "typeMismatch");
 			}
 		}
@@ -111,20 +113,13 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	// Diz se 1 é superior a 2 hierarquicamente (método recursivo)
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	private boolean ehSuperior(Categoria categoria1, Categoria categoria2) {
-		Boolean retorno = false;
-		if (!categoria1.getCategoriasFilhas().isEmpty()) {
-			for (Categoria c : categoria1.getCategoriasFilhas()) {
-				if (c.equals(categoria2)) {
-					retorno = true;
-					break;
-				} else {
-					retorno = ehSuperior(c, categoria2);
-				}
-			}
-		}
-		return retorno;
-	}
+	/*
+	 * @Transactional(readOnly = true, propagation = Propagation.SUPPORTS) private
+	 * boolean ehSuperior(Categoria categoria1, Categoria categoria2) { Boolean
+	 * retorno = false; if (!categoria1.getCategoriasFilhas().isEmpty()) { for
+	 * (Categoria c : categoria1.getCategoriasFilhas()) { if (c.equals(categoria2))
+	 * { retorno = true; break; } else { retorno = ehSuperior(c, categoria2); } } }
+	 * return retorno; }
+	 */
 
 }

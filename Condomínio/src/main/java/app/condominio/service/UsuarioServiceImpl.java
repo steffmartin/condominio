@@ -44,6 +44,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario lerLogado() {
 		return usuarioDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		// http://www.baeldung.com/get-user-in-spring-security
+		// http://www.baeldung.com/spring-security-thymeleaf
 	}
 
 	@Override
