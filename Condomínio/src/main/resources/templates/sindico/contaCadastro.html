@@ -15,7 +15,7 @@
 			Para cadastrar contas é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
 		</div>
 		<p th:if="${haCondominio}" th:text="${conta.idConta == null} ? 'Ao salvar, uma nova conta será criada no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações da conta atual serão atualizadas.')"></p>
-		<form class="needs-validation" novalidate th:action="@{/sindico/contas/cadastro}" th:if="${haCondominio}" th:object="${conta}" th:method="${conta.idConta == null} ? post : put">
+		<form th:class="${#vars.tipo == ''}?'needs-validation'" novalidate th:action="@{/sindico/contas/cadastro}" th:if="${haCondominio}" th:object="${conta}" th:method="${conta.idConta == null} ? post : put">
 			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
 				<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idConta}" />
 				<div class="card">

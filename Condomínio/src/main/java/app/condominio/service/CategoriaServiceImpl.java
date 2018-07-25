@@ -61,6 +61,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			entidade.setNivel(1);
 		}
 		categoriaDao.save(entidade);
+		//TODO reescrever ordem das categoriasFilhas
 	}
 
 	@Override
@@ -91,9 +92,13 @@ public class CategoriaServiceImpl implements CategoriaService {
 			}
 			// Não pode ser filha dela mesma ou de uma das filhas dela
 			if (idCategoria != null
-					&& (categoriaPai.equals(entidade) || ehSuperior(idCategoria, categoriaPai.getIdCategoria()))) {
+					&& (categoriaPai.equals(entidade) || ehSuperior(ler(idCategoria), categoriaPai))) {
 				validacao.rejectValue("categoriaPai", "typeMismatch", new Object[] { 0, "é igual ou inferior a esta" },
 						null);
+			}
+			// Ordem tem que ser sequência da categoria superior
+			if(!entidade.getOrdem().startsWith(categoriaPai.getOrdem())) {
+				validacao.rejectValue("ordem", "typeMismatch");
 			}
 		}
 		if (idCategoria != null) {
@@ -105,10 +110,9 @@ public class CategoriaServiceImpl implements CategoriaService {
 		}
 	}
 
-	// Diz se 1 é superior a 2 hierarquicamente
-	private boolean ehSuperior(Long idCategoria1, Long idCategoria2) {
-		Categoria categoria1 = ler(idCategoria1);
-		Categoria categoria2 = ler(idCategoria2);
+	// Diz se 1 é superior a 2 hierarquicamente (método recursivo)
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	private boolean ehSuperior(Categoria categoria1, Categoria categoria2) {
 		Boolean retorno = false;
 		if (!categoria1.getCategoriasFilhas().isEmpty()) {
 			for (Categoria c : categoria1.getCategoriasFilhas()) {
@@ -116,7 +120,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 					retorno = true;
 					break;
 				} else {
-					return ehSuperior(c.getIdCategoria(), idCategoria2);
+					retorno = ehSuperior(c, categoria2);
 				}
 			}
 		}

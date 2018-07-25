@@ -15,7 +15,7 @@
 			Para cadastrar categorias é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
 		</div>
 		<p th:if="${haCondominio}" th:text="${categoria.idCategoria == null} ? 'Ao salvar, uma nova categoria será criada no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações da categoria atual serão atualizadas.')"></p>
-		<form class="needs-validation" novalidate th:action="@{/sindico/categorias/cadastro}" th:if="${haCondominio}" th:object="${categoria}" th:method="${categoria.idCategoria == null} ? post : put">
+		<form th:class="${#vars.classe == ''}?'needs-validation'" novalidate th:action="@{/sindico/categorias/cadastro}" th:if="${haCondominio}" th:object="${categoria}" th:method="${categoria.idCategoria == null} ? post : put">
 			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
 				<input th:if="${#vars.classe == T(app.condominio.domain.enums.TipoClasseCategoria).C}" type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idCategoria}" />
 				<div class="card">
@@ -38,7 +38,7 @@
 								<div class="form-group col-md-6">
 									<label>Ordenação</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{ordem}" placeholder="Nº de sequência" />
 									<div class="invalid-feedback" th:errors="*{ordem}"></div>
-									<small>Separe níveis por pontos, exemplo: 1.1.3</small>
+									<small>Dica: separe níveis por pontos (exemplo: 1.1.3).</small>
 								</div>
 								<div class="form-group col-md-6">
 									<label>Tipo</label> <select class="custom-select" id="tipo" th:errorclass="is-invalid" th:field="*{tipo}" th:disabled="${categoria.idCategoria != null}">
@@ -51,7 +51,7 @@
 							</div>
 							<div class="form-row collapse" id="C" th:unless="${#vars.classe == T(app.condominio.domain.enums.TipoClasseCategoria).C}">
 								<div class="form-group col-md-6">
-									<label>Ordenação</label> <input class="form-control" type="text" name="ordem" id="ordem" placeholder="Nº de sequência" /> <small>Separe níveis por pontos, exemplo: 1.1.3</small>
+									<label>Ordenação</label> <input class="form-control" type="text" name="ordem" id="ordem" placeholder="Nº de sequência" /> <small>Dica: separe níveis por pontos (exemplo: 1.1.3).</small>
 								</div>
 								<div class="form-group col-md-6">
 									<label>Tipo</label> <select class="custom-select" id="tipo" name="tipo">
@@ -95,10 +95,10 @@
 					<div class="modal-body text-justify">
 						<p>Categorias são divididas em duas classes, as sintéticas e as analíticas. Juntas, elas formam uma estrutura de categorias organizadas hierarquicamente.</p>
 						<p>
-							<span class="font-weight-bold">Categorias sintéticas</span> são usadas para criar uma hierarquia entre as categorias, podendo ser criadas uma sob a outra. Elas não podem receber lançamentos, o valor de uma categoria sintética será a soma dos valores das suas categorias inferiores.
+							<span class="font-weight-bold">Categorias sintéticas</span> são usadas para criar uma hierarquia entre as categorias, podendo ser criadas uma sob as outras. Elas não podem receber lançamentos, e o valor de uma categoria sintética será a soma dos valores das suas categorias inferiores.
 						</p>
 						<p>
-							<span class="font-weight-bold">Categorias analíticas</span> são as que recebem os lançamentos, e seu valor será a soma de todos os lançamentos recebidos. Essas categorias precisam ter uma categoria sintética superior.
+							<span class="font-weight-bold">Categorias analíticas</span> são as que recebem os lançamentos e seu valor será a soma de todos os lançamentos recebidos. Essas categorias precisam ter uma categoria sintética superior.
 						</p>
 						<p>Confira o exemplo abaixo:</p>
 						<table class="table table-sm mb-0">

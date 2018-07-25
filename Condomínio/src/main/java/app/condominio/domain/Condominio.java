@@ -22,6 +22,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Where;
+
 import app.condominio.domain.enums.Estado;
 import app.condominio.domain.validators.CNPJ;
 
@@ -108,8 +110,7 @@ public class Condominio implements Serializable {
 	private List<Conta> contas = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	//TODO ver se será filtrado ou não
-	//@Where(clause="idcategoriapai IS NULL")
+	//@Where(clause="idCategoriaPai IS NULL")
 	@OrderBy(value="tipo DESC, ordem")
 	private List<Categoria> categorias = new ArrayList<>();
 

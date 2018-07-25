@@ -14,7 +14,7 @@
 			<a class="btn btn-light" th:href="@{/sindico/categorias/cadastro}"><i class="fas fa-plus"></i> Nova</a>
 			<button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
 			<div class="dropdown-menu dropdown-menu-right">
-				<a class="dropdown-item" th:href="@{/sindico/categorias/cadastro}">Criar categoria</a> <a class="dropdown-item" href="#">Importar</a>
+				<a class="dropdown-item" th:href="@{/sindico/categorias/cadastro}">Criar categoria</a> <a class="dropdown-item" th:if="${#lists.isEmpty(categorias)}" href="#">Usar modelo</a> <a class="dropdown-item" href="#">Importar</a>
 			</div>
 		</div>
 		<div class="table-responsive">

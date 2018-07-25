@@ -65,12 +65,8 @@ public class CategoriaController {
 
 	@GetMapping("/{idCategoria}/cadastro")
 	public ModelAndView getCategoriaEditar(@PathVariable("idCategoria") Long idCategoria, ModelMap model) {
-		Categoria categoria = categoriaService.ler(idCategoria);
-		//List<Categoria> categorias = categoriaService.listar();
-		//categorias.remove(categoria);
-		//model.addAttribute("categorias", categorias);
 		model.addAttribute("classe", TipoClasseCategoria.C);
-		model.addAttribute("categoria", categoria);
+		model.addAttribute("categoria", categoriaService.ler(idCategoria));
 		model.addAttribute("conteudo", "categoriaCadastro");
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
