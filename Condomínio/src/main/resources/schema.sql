@@ -166,6 +166,7 @@ CREATE TABLE Categorias (
   tipo CHAR NULL,
   descricao VARCHAR(50) NULL,
   nivel INTEGER UNSIGNED NULL,
+  ordem VARCHAR(255) NULL,
   idCategoriaPai BIGINT UNSIGNED NULL,
   idCondominio BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idCategoria),

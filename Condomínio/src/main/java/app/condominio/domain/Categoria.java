@@ -50,6 +50,11 @@ public class Categoria implements Serializable {
 
 	@Max(NIVEL_MAX)
 	private int nivel;
+	
+	//TODO criar método para ordenação atomática
+	@Size(min=1,max=255)
+	@NotBlank
+	private String ordem;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcategoriapai")
@@ -102,6 +107,14 @@ public class Categoria implements Serializable {
 
 	public void setNivel(int nivel) {
 		this.nivel = nivel;
+	}
+
+	public String getOrdem() {
+		return ordem;
+	}
+
+	public void setOrdem(String ordem) {
+		this.ordem = ordem;
 	}
 
 	public Categoria getCategoriaPai() {

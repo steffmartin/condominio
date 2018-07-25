@@ -120,6 +120,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Usuario usuario, BindingResult validacao) {
+		// Não pode criar um usuário com username repetido
 		if (existe(usuario.getUsername())) {
 			validacao.rejectValue("username", "Unique");
 		}

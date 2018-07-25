@@ -78,21 +78,49 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Categoria entidade, BindingResult validacao) {
 		Categoria categoriaPai = entidade.getCategoriaPai();
+		Long idCategoria = entidade.getIdCategoria();
+		// Se tiver uma categoria pai...
 		if (categoriaPai != null) {
+			// Não pode criar mais níveis do que o parametrizado
 			if (categoriaPai.getNivel() >= Categoria.NIVEL_MAX) {
 				validacao.rejectValue("categoriaPai", "Max", new Object[] { 0, Categoria.NIVEL_MAX }, null);
 			}
+			// Não pode ter um tipo diferente do tipo do pai
 			if (categoriaPai.getTipo() != entidade.getTipo()) {
-				validacao.rejectValue("tipo", "typeMismatch");
+				validacao.rejectValue("categoriaPai", "typeMismatch", new Object[] { 0, "não é do mesmo tipo" }, null);
 			}
-
+			// Não pode ser filha dela mesma ou de uma das filhas dela
+			if (idCategoria != null
+					&& (categoriaPai.equals(entidade) || ehSuperior(idCategoria, categoriaPai.getIdCategoria()))) {
+				validacao.rejectValue("categoriaPai", "typeMismatch", new Object[] { 0, "é igual ou inferior a esta" },
+						null);
+			}
 		}
-		if (entidade.getIdCategoria() != null) {
+		if (idCategoria != null) {
+			// Não pode "alterar" o tipo da categoria de RECEITA para DESPESA e vice-versa
 			Categoria anterior = ler(entidade.getIdCategoria());
 			if (entidade.getTipo() != anterior.getTipo()) {
 				validacao.rejectValue("tipo", "Final");
 			}
 		}
+	}
+
+	// Diz se 1 é superior a 2 hierarquicamente
+	private boolean ehSuperior(Long idCategoria1, Long idCategoria2) {
+		Categoria categoria1 = ler(idCategoria1);
+		Categoria categoria2 = ler(idCategoria2);
+		Boolean retorno = false;
+		if (!categoria1.getCategoriasFilhas().isEmpty()) {
+			for (Categoria c : categoria1.getCategoriasFilhas()) {
+				if (c.equals(categoria2)) {
+					retorno = true;
+					break;
+				} else {
+					return ehSuperior(c.getIdCategoria(), idCategoria2);
+				}
+			}
+		}
+		return retorno;
 	}
 
 }

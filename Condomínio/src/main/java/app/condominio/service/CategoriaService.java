@@ -1,7 +1,5 @@
 package app.condominio.service;
 
-import java.util.List;
-
 import org.springframework.validation.BindingResult;
 
 import app.condominio.domain.Categoria;

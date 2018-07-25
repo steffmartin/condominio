@@ -53,7 +53,13 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Subcategoria entidade, BindingResult validacao) {
-		// LATER ver se haverá validação de subcategoria a fazer
+		// Não pode "alterar" de uma categoria DESPESA para uma categoria RECEITA e vice-versa
+		if (entidade.getIdSubcategoria() != null) {
+			Subcategoria anterior = ler(entidade.getIdSubcategoria());
+			if (anterior.getCategoriaPai().getTipo() != entidade.getCategoriaPai().getTipo()) {
+				validacao.rejectValue("categoriaPai", "typeMismatch");
+			}
+		}
 
 	}
 
