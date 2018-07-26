@@ -20,9 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import app.condominio.domain.Bloco;
 import app.condominio.domain.Moradia;
+import app.condominio.domain.Pessoa;
 import app.condominio.domain.enums.TipoMoradia;
+import app.condominio.domain.enums.TipoRelacao;
 import app.condominio.service.BlocoService;
 import app.condominio.service.MoradiaService;
+import app.condominio.service.PessoaService;
 
 @Controller
 @RequestMapping("sindico/moradias")
@@ -33,16 +36,60 @@ public class MoradiaController {
 
 	@Autowired
 	private BlocoService blocoService;
+	
+	@Autowired
+	private PessoaService pessoaService;
 
 	@ModelAttribute("tipos")
 	public TipoMoradia[] tipos() {
 		return TipoMoradia.values();
 	}
 
+	@ModelAttribute("tiposRelacao")
+	public TipoRelacao[] tiposRelacao() {
+		return TipoRelacao.values();
+	}
+
 	@ModelAttribute("blocos")
 	public List<Bloco> blocos() {
 		return blocoService.listar();
 	}
+	
+	@ModelAttribute("pessoas")
+	public List<Pessoa> pessoas(){
+		return pessoaService.listar();
+	}
+
+	/*
+	 * @GetMapping("teste") public String teste() { Moradia moradia0 =
+	 * moradiaService.listar().get(0); Pessoa pessoa0 =
+	 * pessoaService.listar().get(0);
+	 * 
+	 * Moradia moradia1 = moradiaService.listar().get(1); Pessoa pessoa1 =
+	 * pessoaService.listar().get(1);
+	 * 
+	 * Relacao relacao0 = new Relacao(pessoa0, moradia0);
+	 * relacao0.setTipo(TipoRelacao.P); relacao0.setDataEntrada(LocalDate.now());
+	 * moradia0.getRelacoes().add(relacao0); moradiaService.editar(moradia0);
+	 * 
+	 * Relacao relacao1 = new Relacao(pessoa1, moradia1);
+	 * relacao1.setTipo(TipoRelacao.I); relacao1.setDataSaida(LocalDate.now());
+	 * pessoa1.getRelacoes().add(relacao1); pessoaService.editar(pessoa1);
+	 * 
+	 * Relacao relacao0 = new Relacao(pessoa1, moradia0);
+	 * relacao0.setTipo(TipoRelacao.P); relacao0.setDataEntrada(LocalDate.now());
+	 * moradia0.getRelacoes().add(relacao0); moradiaService.editar(moradia0);
+	 * 
+	 * Relacao relacao1 = new Relacao(pessoa0, moradia1);
+	 * relacao1.setTipo(TipoRelacao.I); relacao1.setDataSaida(LocalDate.now());
+	 * pessoa0.getRelacoes().add(relacao1); pessoaService.editar(pessoa0);
+	 * 
+	 * pessoa0.getRelacoes().remove(0); pessoaService.editar(pessoa0);
+	 * 
+	 * moradia0.getRelacoes().remove(0); moradiaService.editar(moradia0);
+	 * 
+	 * return "redirect:/sindico"; }
+	 */
 
 	@GetMapping({ "", "/", "/lista", "/todos" })
 	public ModelAndView getMoradias(ModelMap model) {
@@ -52,10 +99,8 @@ public class MoradiaController {
 	}
 
 	@GetMapping("/cadastro")
-	public ModelAndView getMoradiaCadastro(ModelMap model) {
-		model.addAttribute("moradia", new Moradia());
-		model.addAttribute("conteudo", "moradiaCadastro");
-		return new ModelAndView("fragmentos/layoutSindico", model);
+	public ModelAndView getMoradiaCadastro(@ModelAttribute("moradia") Moradia moradia) {
+		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "moradiaCadastro");
 	}
 
 	@GetMapping("/{idMoradia}/cadastro")

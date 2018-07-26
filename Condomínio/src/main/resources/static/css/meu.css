@@ -56,6 +56,10 @@ main {
 		min-width:35px;
 	}
 }
+/* Personalização da listagem em formulário */
+.form-list .form-row:not(:first-child) label{
+	display:none;
+}
 /* Ocultar legendas em formulários bloqueados */
 fieldset:disabled small, fieldset:disabled label a {
 	display:none !important;
@@ -260,6 +264,10 @@ fieldset:disabled small, fieldset:disabled label a {
 .input-group .is-invalid + input{
 	border-left-color: transparent;
 }
+/* Margem inferior nos formulários
+.card .list-group.list-group-flush .list-group-item .form-row:last-child .form-group{
+	margin-bottom:0;
+}	 */
 /* Correção do cursor em botões nos dropdowns */
 button.dropdown-item {
 	cursor: pointer;

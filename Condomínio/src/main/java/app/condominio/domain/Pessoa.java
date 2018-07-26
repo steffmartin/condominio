@@ -1,7 +1,10 @@
 package app.condominio.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,6 +17,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -77,6 +82,10 @@ public class Pessoa implements Serializable {
 	@JoinColumn(name = "idcondominio")
 	@Fetch(FetchMode.JOIN)
 	private Condominio condominio;
+	
+	@OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OrderBy(value = "dataEntrada")
+	private List<Relacao> relacoes = new ArrayList<>();
 
 	public Long getIdPessoa() {
 		return idPessoa;
@@ -180,6 +189,14 @@ public class Pessoa implements Serializable {
 
 	public void setCondominio(Condominio condominio) {
 		this.condominio = condominio;
+	}
+
+	public List<Relacao> getRelacoes() {
+		return relacoes;
+	}
+
+	public void setRelacoes(List<Relacao> relacoes) {
+		this.relacoes = relacoes;
 	}
 
 	@Override

@@ -56,9 +56,8 @@ public class CategoriaController {
 	}
 
 	@GetMapping("/cadastro")
-	public ModelAndView getCategoriaCadastro(ModelMap model) {
+	public ModelAndView getCategoriaCadastro(@ModelAttribute("categoria") Categoria categoria, ModelMap model) {
 		model.addAttribute("classe", "");
-		model.addAttribute("categoria", new Categoria());
 		model.addAttribute("conteudo", "categoriaCadastro");
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}

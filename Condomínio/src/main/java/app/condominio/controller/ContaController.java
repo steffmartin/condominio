@@ -52,8 +52,7 @@ public class ContaController {
 	}
 
 	@GetMapping("/cadastro")
-	public ModelAndView getContaCadastro(ModelMap model) {
-		model.addAttribute("conta", new Conta());
+	public ModelAndView getContaCadastro(@ModelAttribute("conta") Conta conta, ModelMap model) {
 		model.addAttribute("tipo", "");
 		model.addAttribute("conteudo", "contaCadastro");
 		return new ModelAndView("fragmentos/layoutSindico", model);
@@ -73,7 +72,8 @@ public class ContaController {
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
-	@PostMapping({ "/cadastro/CX", "/cadastro" })
+	//@PostMapping({ "/cadastro/CX", "/cadastro" })
+	@PostMapping(value="/cadastro", params={"CX"})
 	public ModelAndView postContaCadastro(@Valid @ModelAttribute("conta") Conta conta, BindingResult validacao,
 			ModelMap model) {
 		contaService.validar(conta, validacao);
@@ -86,7 +86,8 @@ public class ContaController {
 		return new ModelAndView("redirect:/sindico/contas");
 	}
 
-	@PostMapping("/cadastro/BC")
+	//@PostMapping("/cadastro/BC")
+	@PostMapping(value="/cadastro", params={"BC"})
 	public ModelAndView postContaBancariaCadastro(@Valid @ModelAttribute("conta") ContaBancaria conta,
 			BindingResult validacao, ModelMap model) {
 		contaService.validar(conta, validacao);
@@ -99,7 +100,8 @@ public class ContaController {
 		return new ModelAndView("redirect:/sindico/contas");
 	}
 
-	@PutMapping({ "/cadastro/CX", "/cadastro" })
+	//@PutMapping({ "/cadastro/CX", "/cadastro" })
+	@PutMapping(value="/cadastro", params={"CX"})
 	public ModelAndView putContaCadastro(@Valid @ModelAttribute("conta") Conta conta, BindingResult validacao,
 			ModelMap model) {
 		contaService.validar(conta, validacao);
@@ -112,7 +114,8 @@ public class ContaController {
 		return new ModelAndView("redirect:/sindico/contas");
 	}
 
-	@PutMapping("/cadastro/BC")
+	//@PutMapping("/cadastro/BC")
+	@PutMapping(value="/cadastro", params={"BC"})
 	public ModelAndView putContaBancariaCadastro(@Valid @ModelAttribute("conta") ContaBancaria conta,
 			BindingResult validacao, ModelMap model) {
 		contaService.validar(conta, validacao);

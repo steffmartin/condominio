@@ -61,9 +61,8 @@ public class SubcategoriaController {
 	}
 
 	@GetMapping("/cadastro")
-	public ModelAndView getSubcategoriaCadastro(ModelMap model) {
+	public ModelAndView getSubcategoriaCadastro(@ModelAttribute("categoria") Subcategoria subcategoria, ModelMap model) {
 		model.addAttribute("classe", TipoClasseCategoria.S);
-		model.addAttribute("categoria", new Subcategoria());
 		model.addAttribute("conteudo", "categoriaCadastro");
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}

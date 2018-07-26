@@ -15,7 +15,7 @@
 			Para cadastrar condôminos é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
 		</div>
 		<p th:if="${haCondominio}" th:text="${pessoa.idPessoa == null} ? 'Ao salvar, um novo condômino será criado no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações do condômino atual serão atualizadas.')"></p>
-		<form th:class="${#vars.tipo == ''}?'needs-validation'" novalidate th:action="'#'" th:if="${haCondominio}" th:object="${pessoa}" th:method="${pessoa.idPessoa == null} ? post : put">
+		<form th:class="${#ctx.tipo == ''}?'needs-validation'" novalidate th:action="'#'" th:if="${haCondominio}" th:object="${pessoa}" th:method="${pessoa.idPessoa == null} ? post : put">
 			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
 				<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idPessoa}" />
 				<div class="card">
@@ -28,14 +28,14 @@
 								<div class="form-group col-md-4">
 									<label>Tipo</label> <select required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse" autofocus th:disabled="${pessoa.idPessoa != null}">
 										<option value="" hidden="true">Selecione</option>
-										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #vars.tipo}" data-toggle="collapse" th:data-target="'#P'+ ${t}" th:data-form-action="@{/sindico/condominos/cadastro/P} + ${t}"></option>
+										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #ctx.tipo}" data-toggle="collapse" th:data-target="'#P'+ ${t}" th:data-form-action="@{/sindico/condominos/cadastro(${'P' + t})}"></option>
 									</select>
 									<div class="invalid-feedback">Campo obrigatório.</div>
 									<small th:text="${pessoa.idPessoa != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>
 								</div>
 							</div>
 						</li>
-						<li class="list-group-item collapse in" id="PF" th:if="${#vars.tipo == T(app.condominio.domain.enums.TipoPessoa).F}">
+						<li class="list-group-item collapse in" id="PF" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).F}">
 							<p class="text-primary">
 								<i class="fas fa-user"></i> Informações principais do condômino
 							</p>
@@ -72,7 +72,7 @@
 								</div>
 							</div>
 						</li>
-						<li class="list-group-item collapse" id="PF" th:unless="${#vars.tipo == T(app.condominio.domain.enums.TipoPessoa).F}">
+						<li class="list-group-item collapse" id="PF" th:unless="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).F}">
 							<p class="text-primary">
 								<i class="fas fa-user"></i> Informações principais do condômino
 							</p>
@@ -103,7 +103,7 @@
 								</div>
 							</div>
 						</li>
-						<li class="list-group-item collapse in" id="PJ" th:if="${#vars.tipo == T(app.condominio.domain.enums.TipoPessoa).J}">
+						<li class="list-group-item collapse in" id="PJ" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).J}">
 							<p class="text-primary">
 								<i class="fas fa-user-tie"></i> Informações principais do condômino
 							</p>
@@ -143,7 +143,7 @@
 								</div>
 							</div>
 						</li>
-						<li class="list-group-item collapse" id="PJ" th:unless="${#vars.tipo == T(app.condominio.domain.enums.TipoPessoa).J}">
+						<li class="list-group-item collapse" id="PJ" th:unless="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).J}">
 							<p class="text-primary">
 								<i class="fas fa-user-tie"></i> Informações principais do condômino
 							</p>

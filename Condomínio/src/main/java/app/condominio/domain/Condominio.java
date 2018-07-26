@@ -109,7 +109,7 @@ public class Condominio implements Serializable {
 	
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	//@Where(clause="idCategoriaPai IS NULL")
-	@OrderBy(value="tipo DESC, ordem")
+	@OrderBy(value="ordem")
 	private List<Categoria> categorias = new ArrayList<>();
 
 	public Long getIdCondominio() {

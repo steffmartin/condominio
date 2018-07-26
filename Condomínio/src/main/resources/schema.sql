@@ -68,7 +68,7 @@ CREATE TABLE Blocos (
 );
 
 CREATE TABLE Moradias (
-  idMoradia BIGINT NOT NULL AUTO_INCREMENT,
+  idMoradia BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   sigla VARCHAR(10) NULL,
   tipo VARCHAR(2) NULL,
   area FLOAT NULL,
@@ -187,6 +187,24 @@ CREATE TABLE Subcategorias (
   PRIMARY KEY(idSubcategoria),
   FOREIGN KEY(idCategoria)
     REFERENCES Categorias(idCategoria)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Pessoa_Moradia (
+  idPessoa BIGINT UNSIGNED NOT NULL,
+  idMoradia BIGINT UNSIGNED NOT NULL,
+  tipo CHAR NULL,
+  participacaoDono FLOAT NULL,
+  dataEntrada DATE NULL,
+  dataSaida DATE NULL,
+  PRIMARY KEY(idPessoa, idMoradia),
+  FOREIGN KEY(idPessoa)
+    REFERENCES Pessoas(idPessoa)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+  FOREIGN KEY(idMoradia)
+    REFERENCES Moradias(idMoradia)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );

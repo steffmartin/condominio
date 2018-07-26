@@ -1,7 +1,10 @@
 package app.condominio.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -57,6 +62,10 @@ public class Moradia implements Serializable {
 	@JoinColumn(name = "idbloco")
 	@Fetch(FetchMode.JOIN)
 	private Bloco bloco;
+	
+	@OneToMany(mappedBy = "moradia", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OrderBy(value = "dataEntrada")
+	private List<Relacao> relacoes = new ArrayList<>();
 
 	public Long getIdMoradia() {
 		return idMoradia;
@@ -120,6 +129,14 @@ public class Moradia implements Serializable {
 
 	public void setBloco(Bloco bloco) {
 		this.bloco = bloco;
+	}
+
+	public List<Relacao> getRelacoes() {
+		return relacoes;
+	}
+
+	public void setRelacoes(List<Relacao> relacoes) {
+		this.relacoes = relacoes;
 	}
 
 	@Override

@@ -39,10 +39,8 @@ public class BlocoController {
 	}
 
 	@GetMapping("/cadastro")
-	public ModelAndView getBlocoCadastro(ModelMap model) {
-		model.addAttribute("bloco", new Bloco());
-		model.addAttribute("conteudo", "blocoCadastro");
-		return new ModelAndView("fragmentos/layoutSindico", model);
+	public ModelAndView getBlocoCadastro(@ModelAttribute("bloco") Bloco bloco) {
+		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "blocoCadastro");
 	}
 
 	@GetMapping("/{idBloco}/cadastro")

@@ -59,8 +59,7 @@ public class PessoaController {
 	}
 
 	@GetMapping("/cadastro")
-	public ModelAndView getPessoaCadastro(ModelMap model) {
-		model.addAttribute("pessoa", new Pessoa());
+	public ModelAndView getPessoaCadastro(@ModelAttribute("pessoa") Pessoa pessoa, ModelMap model) {
 		model.addAttribute("tipo", "");
 		model.addAttribute("conteudo", "pessoaCadastro");
 		return new ModelAndView("fragmentos/layoutSindico", model);
@@ -80,7 +79,7 @@ public class PessoaController {
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
-	@PostMapping("/cadastro/PF")
+	@PostMapping(value="/cadastro", params={"PF"})
 	public ModelAndView postPessoaFisicaCadastro(@Valid @ModelAttribute("pessoa") PessoaFisica pessoa,
 			BindingResult validacao, ModelMap model) {
 		pessoaService.validar(pessoa, validacao);
@@ -93,7 +92,7 @@ public class PessoaController {
 		return new ModelAndView("redirect:/sindico/condominos");
 	}
 
-	@PostMapping("/cadastro/PJ")
+	@PostMapping(value="/cadastro", params={"PJ"})
 	public ModelAndView postPessoaJuridicaCadastro(@Valid @ModelAttribute("pessoa") PessoaJuridica pessoa,
 			BindingResult validacao, ModelMap model) {
 		pessoaService.validar(pessoa, validacao);
@@ -106,7 +105,7 @@ public class PessoaController {
 		return new ModelAndView("redirect:/sindico/condominos");
 	}
 
-	@PutMapping("/cadastro/PF")
+	@PutMapping(value="/cadastro", params={"PF"})
 	public ModelAndView putPessoaFisicaCadastro(@Valid @ModelAttribute("pessoa") PessoaFisica pessoa,
 			BindingResult validacao, ModelMap model) {
 		pessoaService.validar(pessoa, validacao);
@@ -119,7 +118,7 @@ public class PessoaController {
 		return new ModelAndView("redirect:/sindico/condominos");
 	}
 
-	@PutMapping("/cadastro/PJ")
+	@PutMapping(value="/cadastro", params={"PJ"})
 	public ModelAndView putPessoaJuridicaCadastro(@Valid @ModelAttribute("pessoa") PessoaJuridica pessoa,
 			BindingResult validacao, ModelMap model) {
 		pessoaService.validar(pessoa, validacao);

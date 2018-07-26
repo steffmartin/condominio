@@ -33,7 +33,7 @@ import app.condominio.domain.enums.TipoCategoria;
 @Table(name = "categorias")
 public class Categoria implements Serializable {
 	
-	public static final int NIVEL_MAX = 3;
+	public static final int NIVEL_MAX = 4;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
