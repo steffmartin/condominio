@@ -47,7 +47,7 @@
 								<div class="invalid-feedback" th:errors="*{descricao}"></div>
 							</div>
 						</li>
-						<li class="list-group-item collapse in" id="C" th:if="${#ctx.classe == T(app.condominio.domain.enums.TipoClasseCategoria).C}">
+						<li class="list-group-item collapse show" id="C" th:if="${#ctx.classe == T(app.condominio.domain.enums.TipoClasseCategoria).C}">
 							<p class="text-primary">
 								<i class="fas fa-tasks"></i> Informações da categoria sintética
 							</p>

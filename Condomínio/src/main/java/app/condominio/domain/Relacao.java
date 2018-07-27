@@ -39,12 +39,14 @@ public class Relacao implements Serializable {
 	@MapsId("idPessoa")
 	@JoinColumn(name = "idpessoa")
 	@Fetch(FetchMode.JOIN)
+	@NotNull
 	private Pessoa pessoa;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("idMoradia")
 	@JoinColumn(name = "idmoradia")
 	@Fetch(FetchMode.JOIN)
+	@NotNull
 	private Moradia moradia;
 
 	@NotNull
@@ -65,6 +67,7 @@ public class Relacao implements Serializable {
 	private float participacaoDono;
 
 	public Relacao() {
+		relacaoId = new RelacaoId();
 	}
 
 	public Relacao(Pessoa pessoa, Moradia moradia) {
@@ -86,6 +89,7 @@ public class Relacao implements Serializable {
 	}
 
 	public void setPessoa(Pessoa pessoa) {
+		this.relacaoId.setIdPessoa(pessoa.getIdPessoa());
 		this.pessoa = pessoa;
 	}
 
@@ -94,6 +98,7 @@ public class Relacao implements Serializable {
 	}
 
 	public void setMoradia(Moradia moradia) {
+		this.relacaoId.setIdMoradia(moradia.getIdMoradia());
 		this.moradia = moradia;
 	}
 

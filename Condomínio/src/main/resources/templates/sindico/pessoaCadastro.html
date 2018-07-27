@@ -35,7 +35,7 @@
 								</div>
 							</div>
 						</li>
-						<li class="list-group-item collapse in" id="PF" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).F}">
+						<li class="list-group-item collapse show" id="PF" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).F}">
 							<p class="text-primary">
 								<i class="fas fa-user"></i> Informações principais do condômino
 							</p>
@@ -103,7 +103,7 @@
 								</div>
 							</div>
 						</li>
-						<li class="list-group-item collapse in" id="PJ" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).J}">
+						<li class="list-group-item collapse show" id="PJ" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).J}">
 							<p class="text-primary">
 								<i class="fas fa-user-tie"></i> Informações principais do condômino
 							</p>

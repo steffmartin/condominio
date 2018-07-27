@@ -57,13 +57,24 @@ main {
 	}
 }
 /* Personalização da listagem em formulário */
-.form-list .form-row:not(:first-child) label{
-	display:none;
+.form-list tr td:first-child{
+	padding-left:0px;
+}
+.form-list tr td:last-child{
+	padding-right:0px;
+}
+.form-list th{
+	font-weight:normal;
 }
 /* Ocultar legendas em formulários bloqueados */
-fieldset:disabled small, fieldset:disabled label a {
+fieldset:disabled small, fieldset:disabled label a, fieldset:disabled .hideMe {
 	display:none !important;
 }
+fieldset:disabled .input-group .hideMe ~ *{
+	border-top-left-radius: 0.25rem !important;
+	border-bottom-left-radius: 0.25rem !important;
+ }
+ 
 /* Sidebar */
 #sidebar {
 	min-width: 250px;
@@ -264,10 +275,9 @@ fieldset:disabled small, fieldset:disabled label a {
 .input-group .is-invalid + input{
 	border-left-color: transparent;
 }
-/* Margem inferior nos formulários
-.card .list-group.list-group-flush .list-group-item .form-row:last-child .form-group{
-	margin-bottom:0;
-}	 */
+input[type=date], input[type=datetime-local], input[type=month], input[type=time]{
+	height: 38px;
+}
 /* Correção do cursor em botões nos dropdowns */
 button.dropdown-item {
 	cursor: pointer;
