@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,7 +44,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Usuario lerLogado() {
-		return usuarioDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))) {
+			return null;
+		}
+		return usuarioDao.findByUsername(auth.getName());
 		// http://www.baeldung.com/get-user-in-spring-security
 		// http://www.baeldung.com/spring-security-thymeleaf
 	}

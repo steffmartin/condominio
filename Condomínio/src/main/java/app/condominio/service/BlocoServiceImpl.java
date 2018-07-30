@@ -56,12 +56,6 @@ public class BlocoServiceImpl implements BlocoService {
 	}
 
 	@Override
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public boolean haCondominio() {
-		return usuarioService.lerLogado().getCondominio() != null;
-	}
-
-	@Override
 	public void validar(Bloco entidade, BindingResult validacao) {
 		// LATER ver se haverá validação de bloco a fazer
 		

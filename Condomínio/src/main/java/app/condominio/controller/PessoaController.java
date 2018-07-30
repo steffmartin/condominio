@@ -1,5 +1,7 @@
 package app.condominio.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import app.condominio.domain.Moradia;
 import app.condominio.domain.Pessoa;
 import app.condominio.domain.PessoaFisica;
 import app.condominio.domain.PessoaJuridica;
 import app.condominio.domain.enums.Estado;
 import app.condominio.domain.enums.Genero;
 import app.condominio.domain.enums.TipoPessoa;
+import app.condominio.domain.enums.TipoRelacao;
+import app.condominio.service.MoradiaService;
 import app.condominio.service.PessoaService;
 
 @Controller
@@ -31,9 +36,22 @@ public class PessoaController {
 	@Autowired
 	private PessoaService pessoaService;
 
+	@Autowired
+	MoradiaService moradiaService;
+
 	@ModelAttribute("generos")
 	public Genero[] generos() {
 		return Genero.values();
+	}
+
+	@ModelAttribute("moradias")
+	public List<Moradia> moradias() {
+		return moradiaService.listar();
+	}
+
+	@ModelAttribute("tiposRelacao")
+	public TipoRelacao[] tiposRelacao() {
+		return TipoRelacao.values();
 	}
 
 	@ModelAttribute("tipos")
@@ -44,11 +62,6 @@ public class PessoaController {
 	@ModelAttribute("estados")
 	public Estado[] estados() {
 		return Estado.values();
-	}
-
-	@ModelAttribute("haCondominio")
-	public boolean haCondominio() {
-		return pessoaService.haCondominio();
 	}
 
 	@GetMapping({ "", "/", "/lista", "/todos" })
@@ -79,7 +92,7 @@ public class PessoaController {
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
-	@PostMapping(value="/cadastro", params={"PF"})
+	@PostMapping(value = "/cadastro", params = { "PF" })
 	public ModelAndView postPessoaFisicaCadastro(@Valid @ModelAttribute("pessoa") PessoaFisica pessoa,
 			BindingResult validacao, ModelMap model) {
 		pessoaService.validar(pessoa, validacao);
@@ -92,7 +105,7 @@ public class PessoaController {
 		return new ModelAndView("redirect:/sindico/condominos");
 	}
 
-	@PostMapping(value="/cadastro", params={"PJ"})
+	@PostMapping(value = "/cadastro", params = { "PJ" })
 	public ModelAndView postPessoaJuridicaCadastro(@Valid @ModelAttribute("pessoa") PessoaJuridica pessoa,
 			BindingResult validacao, ModelMap model) {
 		pessoaService.validar(pessoa, validacao);
@@ -105,7 +118,7 @@ public class PessoaController {
 		return new ModelAndView("redirect:/sindico/condominos");
 	}
 
-	@PutMapping(value="/cadastro", params={"PF"})
+	@PutMapping(value = "/cadastro", params = { "PF" })
 	public ModelAndView putPessoaFisicaCadastro(@Valid @ModelAttribute("pessoa") PessoaFisica pessoa,
 			BindingResult validacao, ModelMap model) {
 		pessoaService.validar(pessoa, validacao);
@@ -118,7 +131,7 @@ public class PessoaController {
 		return new ModelAndView("redirect:/sindico/condominos");
 	}
 
-	@PutMapping(value="/cadastro", params={"PJ"})
+	@PutMapping(value = "/cadastro", params = { "PJ" })
 	public ModelAndView putPessoaJuridicaCadastro(@Valid @ModelAttribute("pessoa") PessoaJuridica pessoa,
 			BindingResult validacao, ModelMap model) {
 		pessoaService.validar(pessoa, validacao);

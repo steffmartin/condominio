@@ -39,11 +39,6 @@ public class ContaController {
 		return TipoContaBancaria.values();
 	}
 
-	@ModelAttribute("haCondominio")
-	public boolean haCondominio() {
-		return contaService.haCondominio();
-	}
-
 	@GetMapping({ "", "/", "/lista", "/todos" })
 	public ModelAndView getContas(ModelMap model) {
 		model.addAttribute("contas", contaService.listar());

@@ -15,7 +15,7 @@
 			Para cadastrar categorias é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
 		</div>
 		<p th:if="${haCondominio}" th:text="${categoria.idCategoria == null} ? 'Ao salvar, uma nova categoria será criada no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações da categoria atual serão atualizadas.')"></p>
-		<form th:class="${#ctx.classe == ''}?'needs-validation'" novalidate th:action="@{/sindico/categorias/cadastro}" th:if="${haCondominio}" th:object="${categoria}" th:method="${categoria.idCategoria == null} ? post : put">
+		<form th:class="${#ctx.classe == ''}?'needs-validation'" novalidate th:action="@{/sindico/{sub}categorias/cadastro/(sub=(${#ctx.classe == T(app.condominio.domain.enums.TipoClasseCategoria).S} ? 'sub' : ''))}" th:if="${haCondominio}" th:object="${categoria}" th:method="${categoria.idCategoria == null} ? post : put">
 			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
 				<input th:if="${#ctx.classe == T(app.condominio.domain.enums.TipoClasseCategoria).C}" type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idCategoria}" />
 				<div class="card">
@@ -72,10 +72,10 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-6">
-									<label>Ordenação</label> <input class="form-control" type="text" name="ordem" id="ordem" placeholder="Nº de sequência" /> <small>Dica: separe níveis por pontos (exemplo: 1.1.3).</small>
+									<label>Ordenação</label> <input disabled class="form-control" type="text" name="ordem" id="ordem" placeholder="Nº de sequência" /> <small>Dica: separe níveis por pontos (exemplo: 1.1.3).</small>
 								</div>
 								<div class="form-group col-md-6">
-									<label>Tipo</label> <select class="custom-select" id="tipo" name="tipo">
+									<label>Tipo</label> <select disabled class="custom-select" id="tipo" name="tipo">
 										<option value="" hidden="true">Selecione</option>
 										<option th:each="tipo : ${tiposCategoria}" th:value="${tipo}" th:text="${tipo.nome}"></option>
 									</select>

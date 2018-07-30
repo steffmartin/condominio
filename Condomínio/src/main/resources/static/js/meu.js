@@ -22,15 +22,15 @@ $(document).ready(function() {
 	});
 	$('#sidebarCollapse').on('click', function() {
 		$('#sidebar,#sidebarCollapse').toggleClass('active');
-		$('.collapse.show').toggleClass('show');
-		$('a[aria-expanded=true]').attr('aria-expanded', 'false');
+		$('#sidebar .collapse.show').toggleClass('show');
+		$('#sidebar a[aria-expanded=true]').attr('aria-expanded', 'false');
 	});
 	if ($('header').width() < 768 ){
 		$('#sidebarCollapse').click();
  }
 });
 
-//Remover placeholder nas telas somente leitura (alterado para CSS "fieldset:disabled input::placeholder")
+//Remover placeholder nas telas somente leitura
 $(document).ready(function() {
 $("fieldset:disabled").find(':input').removeAttr('placeholder');
 });
@@ -64,7 +64,7 @@ $('select[name=form-accordion-select]').change(function(){
 });
 
 // Botão para deletar linha em lista de formulário
-$('.form-list').on('click','button.delete',function(){
+$('.form-list table').on('click','button.delete',function(){
 	element = $(this).closest($(this).data('delete'));
 	oldId = element.attr('id');
 	oldId = oldId.replace('row','');

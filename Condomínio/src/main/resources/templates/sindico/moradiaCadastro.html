@@ -75,12 +75,12 @@
 								</div>
 							</div>
 						</li>
-						<li class="list-group-item">
+						<li class="list-group-item form-list">
 							<p class="text-primary">
 								<i class="fas fa-users"></i> Condôminos relacionados
 							</p>
 							<div class="table-responsive">
-								<table class="table table-sm mb-0 table-borderless form-list">
+								<table class="table table-sm mb-0 table-borderless">
 									<thead>
 										<tr>
 											<th style="min-width: 160px" class="pl-0" scope="col">Condômino</th>
@@ -89,7 +89,7 @@
 											<th scope="col">Data Final</th>
 										</tr>
 									</thead>
-									<tbody class="accordion">
+									<tbody>
 										<!--/* TR exemplo (Botão adicionar), classe d-none e disabled nos inputs */-->
 										<tr class="d-none collapse">
 											<td><input disabled type="hidden" name="relacoes[].moradia" th:value="*{idMoradia}" />
@@ -153,7 +153,7 @@
 							</div>
 							<div class="form-row mt-3 hideMe">
 								<div class="form-group col">
-									<button class="float-right btn btn-outline-secondary text-truncate clone" data-parent=".form-list tbody" data-example=".form-list tbody tr.d-none" type="button" title="Nova relação">
+									<button class="float-right btn btn-outline-secondary text-truncate clone" data-parent=".form-list table tbody" data-example=".form-list table tbody tr.d-none" type="button" title="Nova relação">
 										<i class="fas fa-user-plus"></i><span> Adicionar uma linha</span>
 									</button>
 								</div>

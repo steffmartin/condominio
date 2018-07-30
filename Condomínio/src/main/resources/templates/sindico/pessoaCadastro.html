@@ -15,7 +15,7 @@
 			Para cadastrar condôminos é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
 		</div>
 		<p th:if="${haCondominio}" th:text="${pessoa.idPessoa == null} ? 'Ao salvar, um novo condômino será criado no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações do condômino atual serão atualizadas.')"></p>
-		<form th:class="${#ctx.tipo == ''}?'needs-validation'" novalidate th:action="'#'" th:if="${haCondominio}" th:object="${pessoa}" th:method="${pessoa.idPessoa == null} ? post : put">
+		<form th:class="${#ctx.tipo == ''}?'needs-validation'" novalidate th:action="@{/sindico/condominos/cadastro(${'P' + #ctx.tipo})}" th:if="${haCondominio}" th:object="${pessoa}" th:method="${pessoa.idPessoa == null} ? post : put">
 			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
 				<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idPessoa}" />
 				<div class="card">
@@ -78,25 +78,25 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-6">
-									<label>Nome</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{nome}" placeholder="Nome do condômino" />
+									<label>Nome</label> <input disabled class="form-control" type="text" th:errorclass="is-invalid" th:field="*{nome}" placeholder="Nome do condômino" />
 									<div class="invalid-feedback" th:errors="*{nome}"></div>
 								</div>
 								<div class="form-group col-md-6">
-									<label>Sobrenome</label> <input class="form-control" type="text" name="sobrenome" id="sobrenome" placeholder="Sobrenome do condômino" />
+									<label>Sobrenome</label> <input disabled class="form-control" type="text" name="sobrenome" id="sobrenome" placeholder="Sobrenome do condômino" />
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-3">
-									<label>CPF</label> <input class="form-control" type="number" name="cpf" id="cpf" placeholder="O CPF do condômino" /> <small>Somente números</small>
+									<label>CPF</label> <input disabled class="form-control" type="number" name="cpf" id="cpf" placeholder="O CPF do condômino" /> <small>Somente números</small>
 								</div>
 								<div class="form-group col-md-3">
-									<label>RG</label> <input class="form-control" type="text" name="rg" id="rg" placeholder="A Identidade do condômino" />
+									<label>RG</label> <input disabled class="form-control" type="text" name="rg" id="rg" placeholder="A Identidade do condômino" />
 								</div>
 								<div class="form-group col-md-3">
-									<label>Data de Nascimento</label> <input class="form-control" type="date" name="nascimento" id="nascimento" placeholder="A data de nascimento" />
+									<label>Data de Nascimento</label> <input disabled class="form-control" type="date" name="nascimento" id="nascimento" placeholder="A data de nascimento" />
 								</div>
 								<div class="form-group col-md-3">
-									<label>Gênero</label> <select class="custom-select" id="genero" name="genero">
+									<label>Gênero</label> <select disabled class="custom-select" id="genero" name="genero">
 										<option value="" hidden="true">Selecione</option>
 										<option th:each="genero : ${generos}" th:value="${genero}" th:text="${genero.nome}"></option>
 									</select>
@@ -149,30 +149,30 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-6">
-									<label>Nome Fantasia</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{nome}" placeholder="Nome da empresa" />
+									<label>Nome Fantasia</label> <input disabled class="form-control" type="text" th:errorclass="is-invalid" th:field="*{nome}" placeholder="Nome da empresa" />
 									<div class="invalid-feedback" th:errors="*{nome}"></div>
 								</div>
 								<div class="form-group col-md-6">
-									<label>Razão Social</label> <input class="form-control" type="text" name="razaoSocial" id="razaoSocial" placeholder="A razão social da empresa" />
+									<label>Razão Social</label> <input disabled class="form-control" type="text" name="razaoSocial" id="razaoSocial" placeholder="A razão social da empresa" />
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-6">
-									<label>Nome do Representante</label> <input class="form-control" type="text" name="nomeRepresentante" id="nomeRepresentante" placeholder="Nome do responsável pela empresa" />
+									<label>Nome do Representante</label> <input disabled class="form-control" type="text" name="nomeRepresentante" id="nomeRepresentante" placeholder="Nome do responsável pela empresa" />
 								</div>
 								<div class="form-group col-md-6">
-									<label>Sobrenome do Representante</label> <input class="form-control" type="text" name="sobrenomeRepresentante" id="sobrenomeRepresentante" placeholder="Sobrenome do responsável pela empresa" />
+									<label>Sobrenome do Representante</label> <input disabled class="form-control" type="text" name="sobrenomeRepresentante" id="sobrenomeRepresentante" placeholder="Sobrenome do responsável pela empresa" />
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<label>CNPJ</label> <input class="form-control" type="number" name="cnpj" id="cnpj" placeholder="O CNPJ da empresa" /> <small>Somente números</small>
+									<label>CNPJ</label> <input disabled class="form-control" type="number" name="cnpj" id="cnpj" placeholder="O CNPJ da empresa" /> <small>Somente números</small>
 								</div>
 								<div class="form-group col-md-4">
-									<label>Inscrição Estadual</label> <input class="form-control" type="number" name="ie" id="ie" placeholder="A IE da empresa" />
+									<label>Inscrição Estadual</label> <input disabled class="form-control" type="number" name="ie" id="ie" placeholder="A IE da empresa" />
 								</div>
 								<div class="form-group col-md-4">
-									<label>Inscrição Municipal</label> <input class="form-control" type="number" name="im" id="im" placeholder="A IM da empresa" />
+									<label>Inscrição Municipal</label> <input disabled class="form-control" type="number" name="im" id="im" placeholder="A IM da empresa" />
 								</div>
 							</div>
 						</li>
@@ -240,6 +240,90 @@
 								</div>
 							</div>
 
+						</li>
+						<li class="list-group-item form-list">
+							<p class="text-primary">
+								<i class="fas fa-home fa-xs"></i><i class="fas fa-home fa-xs"></i> Moradias relacionadas
+							</p>
+							<div class="table-responsive">
+								<table class="table table-sm mb-0 table-borderless">
+									<thead>
+										<tr>
+											<th style="min-width: 160px" class="pl-0" scope="col">Moradia</th>
+											<th style="min-width: 240px" scope="col">Tipo e Participação</th>
+											<th scope="col">Data Inicial</th>
+											<th scope="col">Data Final</th>
+										</tr>
+									</thead>
+									<tbody>
+										<!--/* TR exemplo (Botão adicionar), classe d-none e disabled nos inputs */-->
+										<tr class="d-none collapse">
+											<td><input disabled type="hidden" name="relacoes[].pessoa" th:value="*{idPessoa}" />
+												<div class="input-group">
+													<div class="input-group-prepend hideMe">
+														<button disabled class="btn btn-outline-secondary delete" data-delete="tr" type="button" title="Excluir relação">
+															<i class="fas fa-user-times"></i>
+														</button>
+													</div>
+													<select disabled class="custom-select last" name="relacoes[].moradia">
+														<option value="" hidden="true">Selecione</option>
+														<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
+													</select>
+												</div></td>
+											<td><div class="input-group">
+													<select disabled class="custom-select" name="relacoes[].tipo">
+														<option value="" hidden="true">Selecione</option>
+														<option th:each="tr : ${tiposRelacao}" th:value="${tr}" th:text="${tr.nome}"></option>
+													</select> <input disabled class="form-control col-4" type="number" step=".001" max="100" name="relacoes[].participacaoDono" placeholder="Quota" value="0.0" />
+													<div class="input-group-append">
+														<span class="input-group-text last">%</span>
+													</div>
+												</div></td>
+											<td><input disabled class="form-control" type="date" name="relacoes[].dataEntrada" placeholder="A data de entrada" /></td>
+											<td><input disabled class="form-control" type="date" name="relacoes[].dataSaida" placeholder="A data de saída" /></td>
+										</tr>
+										<!--/* TR oficial */-->
+										<tr class="collapse show" th:each="relacao, stat : *{relacoes}" th:id="'row'+${stat.index}">
+											<td><input type="hidden" th:field="*{relacoes[__${stat.index}__].pessoa}" />
+												<div class="input-group">
+													<div class="input-group-prepend hideMe">
+														<button class="btn btn-outline-secondary delete" data-delete="tr" type="button" title="Excluir relação">
+															<i class="fas fa-user-times"></i>
+														</button>
+													</div>
+													<select class="custom-select last" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].moradia}">
+														<option value="" hidden="true">Selecione</option>
+														<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
+													</select>
+													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].moradia}"></div>
+													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].pessoa}"></div>
+												</div></td>
+											<td><div class="input-group">
+													<select class="custom-select" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].tipo}">
+														<option value="" hidden="true">Selecione</option>
+														<option th:each="tr : ${tiposRelacao}" th:value="${tr}" th:text="${tr.nome}"></option>
+													</select> <input class="form-control col-4" type="number" step=".001" max="100" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].participacaoDono}" placeholder="Quota" />
+													<div class="input-group-append">
+														<span class="input-group-text last">%</span>
+													</div>
+													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].tipo}"></div>
+													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].participacaoDono}"></div>
+												</div></td>
+											<td><input class="form-control" type="date" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].dataEntrada}" placeholder="A data de entrada" />
+												<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].dataEntrada}"></div></td>
+											<td><input class="form-control" type="date" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].dataSaida}" placeholder="A data de saída" />
+												<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].dataSaida}"></div></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="form-row mt-3 hideMe">
+								<div class="form-group col">
+									<button class="float-right btn btn-outline-secondary text-truncate clone" data-parent=".form-list table tbody" data-example=".form-list table tbody tr.d-none" type="button" title="Nova relação">
+										<i class="fas fa-user-plus"></i><span> Adicionar uma linha</span>
+									</button>
+								</div>
+							</div>
 						</li>
 					</ul>
 				</div>

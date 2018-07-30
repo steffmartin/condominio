@@ -14,7 +14,7 @@ public class CPFValidator implements ConstraintValidator<CPF, String> {
 	@Override
 	public boolean isValid(String cpf, ConstraintValidatorContext cxt) {
 
-		if (cpf.length() == 0) {
+		if (cpf == null || cpf.length() == 0) {
 			return true;
 		}
 		// Fonte:

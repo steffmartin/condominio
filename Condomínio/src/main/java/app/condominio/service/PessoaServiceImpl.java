@@ -54,12 +54,6 @@ public class PessoaServiceImpl implements PessoaService {
 	public void excluir(Pessoa entidade) {
 		pessoaDao.delete(entidade);
 	}
-	
-	@Override
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public boolean haCondominio() {
-		return usuarioService.lerLogado().getCondominio() != null;
-	}
 
 	@Override
 	public void validar(Pessoa entidade, BindingResult validacao) {

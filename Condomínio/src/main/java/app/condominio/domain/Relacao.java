@@ -14,7 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
@@ -32,8 +34,11 @@ public class Relacao implements Serializable {
 	// https://vladmihalcea.com/the-best-way-to-map-a-many-to-many-association-with-extra-columns-when-using-jpa-and-hibernate/
 	// https://www.thoughts-on-java.org/many-relationships-additional-properties/
 	
+	//TODO excluir todas as relações só funciona no pessoaService, não funciona no moradiaService.
+	//FIXME incluir uma moradia nova já com relações, não aceita. O mesmo para um novo usuário.
+	
 	@EmbeddedId
-	private RelacaoId relacaoId;
+	private RelacaoId relacaoId = new RelacaoId();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("idPessoa")
@@ -64,18 +69,15 @@ public class Relacao implements Serializable {
 
 	@Column(name = "participacaodono")
 	@Max(100)
+	@Min(0)
 	private float participacaoDono;
-
-	public Relacao() {
-		relacaoId = new RelacaoId();
+	
+	@AssertTrue
+	private boolean isParticipacaoDono() {
+		return this.tipo != TipoRelacao.P || this.participacaoDono > 0;
+		
 	}
-
-	public Relacao(Pessoa pessoa, Moradia moradia) {
-		this.pessoa = pessoa;
-		this.moradia = moradia;
-		this.relacaoId = new RelacaoId(pessoa.getIdPessoa(), moradia.getIdMoradia());
-	}
-
+	
 	public RelacaoId getRelacaoId() {
 		return relacaoId;
 	}
@@ -167,14 +169,6 @@ public class Relacao implements Serializable {
 
 		@Column(name = "idmoradia")
 		private Long idMoradia;
-
-		public RelacaoId() {
-		}
-
-		public RelacaoId(Long idPessoa, Long idMoradia) {
-			this.idPessoa = idPessoa;
-			this.idMoradia = idMoradia;
-		}
 
 		public Long getIdPessoa() {
 			return idPessoa;

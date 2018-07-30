@@ -64,7 +64,6 @@ public class MoradiaServiceImpl implements MoradiaService {
 	@Override
 	public void validar(Moradia entidade, BindingResult validacao) {
 		// LATER ver se haverá validação de moradia a fazer
-		
 	}
 
 }

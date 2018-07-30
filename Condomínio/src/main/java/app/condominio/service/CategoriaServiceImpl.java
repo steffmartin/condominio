@@ -71,12 +71,6 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public boolean haCondominio() {
-		return usuarioService.lerLogado().getCondominio() != null;
-	}
-
-	@Override
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Categoria entidade, BindingResult validacao) {
 		Categoria categoriaPai = entidade.getCategoriaPai();
 		Long idCategoria = entidade.getIdCategoria();

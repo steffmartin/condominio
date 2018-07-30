@@ -14,11 +14,9 @@ html {
 	position: relative;
 	min-height: 100%;
 }
-
 body {
 	padding-bottom: 56px; /* Tamanho do rodapé */
 }
-
 .footer {
 	position: absolute;
 	bottom: 0;
@@ -27,16 +25,19 @@ body {
 	line-height: 56px;
 }
 
-/* Margens do conteúdo */
+/* Margens padrão */
 main {
 	margin-top: 16px;
 	margin-bottom: 16px;
 }
 
-/* Personalização de tabela de listagem */
+/* Tabelas customizadas */
+
+.crud-list th, .crud-list td, .form-list th, .form-list td{
+	white-space: nowrap;
+}
 .crud-list th, .crud-list td{
 	vertical-align: middle !important;
-	white-space: nowrap;
 }
 .crud-list tbody tr td:last-child{
 	text-align: right !important;
@@ -48,15 +49,6 @@ main {
 .crud-list tr:hover .btn{
 	visibility:visible;
 }
-@media ( max-width : 768px) {
-	.crud-list .btn span{
-		display:none;
-	}
-	.crud-list .btn{
-		min-width:35px;
-	}
-}
-/* Personalização da listagem em formulário */
 .form-list tr td:first-child{
 	padding-left:0px;
 }
@@ -66,7 +58,16 @@ main {
 .form-list th{
 	font-weight:normal;
 }
-/* Ocultar legendas em formulários bloqueados */
+@media ( max-width : 768px) {
+	.crud-list .btn span, .form-list .clone span{
+		display:none;
+	}
+	.crud-list .btn{
+		min-width:35px;
+	}
+}
+
+/* Personalização das páginas Somente Leitura */
 fieldset:disabled small, fieldset:disabled label a, fieldset:disabled .hideMe {
 	display:none !important;
 }
@@ -74,6 +75,9 @@ fieldset:disabled .input-group .hideMe ~ *{
 	border-top-left-radius: 0.25rem !important;
 	border-bottom-left-radius: 0.25rem !important;
  }
+fieldset:disabled input::placeholder{
+  color:transparent;
+}
  
 /* Sidebar */
 #sidebar {
@@ -101,9 +105,8 @@ fieldset:disabled .input-group .hideMe ~ *{
 }
 
 #sidebar ~ main {
-	margin-left: 80px; /* 80 do menu + um pouco do toggler */
 	padding-right: 15px;
-    padding-left: 15px;
+    padding-left: 95px; /* 80px devido ao sidebar */
     width:100%;
 }
 
@@ -240,7 +243,7 @@ fieldset:disabled .input-group .hideMe ~ *{
 		margin-left: 0 !important;
 	}
 	#sidebar ~ main {
-		margin-left: 0px !important; /* 10px do toggler */
+		padding-left: 15px;
 	}
 	#sidebar ul li a {
 		padding: 20px 10px;
@@ -259,15 +262,21 @@ fieldset:disabled .input-group .hideMe ~ *{
 		margin-left: 0;
 	}
 }
+
 /* CORREÇÕES do BOOTSTRAP 4 */
-/*  Para que o menu SAIR não fique escondido em tela pequena */
+
+/* Correção nos dropdowns */
 @media ( min-width : 768px) {
 	.dropdown-menu-md-right {
 		right: 0;
 		left: auto;
 	}
 }
-/*  Correção da borda nos formulários */
+button.dropdown-item {
+	cursor: pointer;
+}
+
+/*  Correções nos inputs de formulários */
 .input-group .last {
 	border-top-right-radius: 0.25rem !important;
 	border-bottom-right-radius: 0.25rem !important;
@@ -278,14 +287,6 @@ fieldset:disabled .input-group .hideMe ~ *{
 input[type=date], input[type=datetime-local], input[type=month], input[type=time]{
 	height: 38px;
 }
-/* Correção do cursor em botões nos dropdowns */
-button.dropdown-item {
-	cursor: pointer;
-}
-/* Placeholder dos inputs */
 input:placeholder-shown {
   text-overflow: ellipsis;
-}
-fieldset:disabled input::placeholder{
-  color:transparent;
 }

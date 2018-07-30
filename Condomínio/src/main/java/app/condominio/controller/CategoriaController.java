@@ -40,11 +40,6 @@ public class CategoriaController {
 		return TipoClasseCategoria.values();
 	}
 
-	@ModelAttribute("haCondominio")
-	public boolean haCondominio() {
-		return categoriaService.haCondominio();
-	}
-
 	@ModelAttribute("categorias")
 	public List<Categoria> categorias() {
 		return categoriaService.listar();
