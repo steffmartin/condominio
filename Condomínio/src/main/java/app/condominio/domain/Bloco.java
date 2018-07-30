@@ -19,9 +19,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "blocos")
@@ -41,7 +38,7 @@ public class Bloco implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	private Condominio condominio;
 
 	@OneToMany(mappedBy = "bloco", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)

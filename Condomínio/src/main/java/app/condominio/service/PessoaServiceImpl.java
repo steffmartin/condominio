@@ -1,6 +1,7 @@
 package app.condominio.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import app.condominio.dao.PessoaDao;
 import app.condominio.domain.Condominio;
 import app.condominio.domain.Pessoa;
+import app.condominio.domain.Relacao;
 
 @Service
 @Transactional
@@ -51,14 +53,31 @@ public class PessoaServiceImpl implements PessoaService {
 	}
 
 	@Override
+	public void setRelacaoPessoa(Pessoa entidade) {
+		Iterator<Relacao> it = entidade.getRelacoes().iterator();
+		while (it.hasNext()) {
+			Relacao relacao = it.next();
+			if (relacao.getPessoa() == null) {
+				relacao.setPessoa(entidade);
+			}
+		}
+	}
+
+	@Override
 	public void excluir(Pessoa entidade) {
 		pessoaDao.delete(entidade);
 	}
 
 	@Override
 	public void validar(Pessoa entidade, BindingResult validacao) {
-		// LATER ver se haverá validação de pessoa a fazer
-		
+		// Em uma relação é obrigatório ter a moradia
+		List<Relacao> relacoes = entidade.getRelacoes();
+		for (int i = 0; i < relacoes.size(); i++) {
+			if (relacoes.get(i).getMoradia() == null) {
+				validacao.rejectValue("relacoes[" + i + "].moradia", "NotNull");
+			}
+		}
+
 	}
 
 }

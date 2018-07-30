@@ -25,9 +25,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import app.condominio.domain.enums.Estado;
 
 @SuppressWarnings("serial")
@@ -81,7 +78,7 @@ public class Pessoa implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	private Condominio condominio;
 	
 	@OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

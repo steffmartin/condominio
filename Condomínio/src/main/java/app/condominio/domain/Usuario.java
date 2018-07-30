@@ -66,7 +66,7 @@ public class Usuario implements Serializable {
 	@Column(name = "autorizacao")
 	private Set<Autorizacao> autorizacoes = new HashSet<>();
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JoinColumn(name="idcondominio")
 	private Condominio condominio;
 

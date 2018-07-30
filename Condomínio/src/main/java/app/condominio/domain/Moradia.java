@@ -24,9 +24,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import app.condominio.domain.enums.TipoMoradia;
 
 @SuppressWarnings("serial")
@@ -61,7 +58,7 @@ public class Moradia implements Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idbloco")
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	private Bloco bloco;
 	
 	@OneToMany(mappedBy = "moradia", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

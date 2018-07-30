@@ -23,9 +23,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import app.condominio.domain.enums.TipoCategoria;
 
 @SuppressWarnings("serial")
@@ -58,12 +55,12 @@ public class Categoria implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcategoriapai")
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	private Categoria categoriaPai;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	private Condominio condominio;
 	
 	@OneToMany(mappedBy = "categoriaPai", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)

@@ -15,9 +15,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "subcategorias")
@@ -36,9 +33,9 @@ public class Subcategoria implements Serializable {
 	private String descricao;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idcategoria")
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	private Categoria categoriaPai;
 
 	public Long getIdSubcategoria() {

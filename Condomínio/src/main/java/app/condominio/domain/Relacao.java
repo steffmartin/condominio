@@ -30,28 +30,26 @@ import app.condominio.domain.enums.TipoRelacao;
 @Table(name = "pessoa_moradia")
 public class Relacao implements Serializable {
 
-	//Tutoriais:
+	// Tutoriais:
 	// https://vladmihalcea.com/the-best-way-to-map-a-many-to-many-association-with-extra-columns-when-using-jpa-and-hibernate/
 	// https://www.thoughts-on-java.org/many-relationships-additional-properties/
-	
-	//TODO excluir todas as relações só funciona no pessoaService, não funciona no moradiaService.
-	//FIXME incluir uma moradia nova já com relações, não aceita. O mesmo para um novo usuário.
-	
+
+	// FIXME excluir todas as relações só funciona no pessoaService, não funciona no
+	// moradiaService.
+
 	@EmbeddedId
-	private RelacaoId relacaoId = new RelacaoId();
+	private IdRelacao idRelacao = new IdRelacao();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("idPessoa")
 	@JoinColumn(name = "idpessoa")
 	@Fetch(FetchMode.JOIN)
-	@NotNull
 	private Pessoa pessoa;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("idMoradia")
 	@JoinColumn(name = "idmoradia")
 	@Fetch(FetchMode.JOIN)
-	@NotNull
 	private Moradia moradia;
 
 	@NotNull
@@ -71,19 +69,25 @@ public class Relacao implements Serializable {
 	@Max(100)
 	@Min(0)
 	private float participacaoDono;
-	
+
 	@AssertTrue
 	private boolean isParticipacaoDono() {
 		return this.tipo != TipoRelacao.P || this.participacaoDono > 0;
-		
-	}
-	
-	public RelacaoId getRelacaoId() {
-		return relacaoId;
+
 	}
 
-	public void setRelacaoId(RelacaoId relacaoId) {
-		this.relacaoId = relacaoId;
+	@AssertTrue
+	private boolean isDataSaida() {
+		return this.dataSaida == null || this.dataEntrada == null || this.dataEntrada.isBefore(this.dataSaida)
+				|| this.dataEntrada.isEqual(this.dataSaida);
+	}
+
+	public IdRelacao getIdRelacao() {
+		return idRelacao;
+	}
+
+	public void setIdRelacao(IdRelacao idRelacao) {
+		this.idRelacao = idRelacao;
 	}
 
 	public Pessoa getPessoa() {
@@ -91,8 +95,10 @@ public class Relacao implements Serializable {
 	}
 
 	public void setPessoa(Pessoa pessoa) {
-		this.relacaoId.setIdPessoa(pessoa.getIdPessoa());
 		this.pessoa = pessoa;
+		if (pessoa != null) {
+			this.idRelacao.setIdPessoa(pessoa.getIdPessoa());
+		}
 	}
 
 	public Moradia getMoradia() {
@@ -100,8 +106,10 @@ public class Relacao implements Serializable {
 	}
 
 	public void setMoradia(Moradia moradia) {
-		this.relacaoId.setIdMoradia(moradia.getIdMoradia());
 		this.moradia = moradia;
+		if (moradia != null) {
+			this.idRelacao.setIdMoradia(moradia.getIdMoradia());
+		}
 	}
 
 	public TipoRelacao getTipo() {
@@ -140,7 +148,7 @@ public class Relacao implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((relacaoId == null) ? 0 : relacaoId.hashCode());
+		result = prime * result + ((idRelacao == null) ? 0 : idRelacao.hashCode());
 		return result;
 	}
 
@@ -153,16 +161,16 @@ public class Relacao implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Relacao other = (Relacao) obj;
-		if (relacaoId == null) {
-			if (other.relacaoId != null)
+		if (idRelacao == null) {
+			if (other.idRelacao != null)
 				return false;
-		} else if (!relacaoId.equals(other.relacaoId))
+		} else if (!idRelacao.equals(other.idRelacao))
 			return false;
 		return true;
 	}
 
 	@Embeddable
-	public static class RelacaoId implements Serializable {
+	public static class IdRelacao implements Serializable {
 
 		@Column(name = "idpessoa")
 		private Long idPessoa;
@@ -203,7 +211,7 @@ public class Relacao implements Serializable {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			RelacaoId other = (RelacaoId) obj;
+			IdRelacao other = (IdRelacao) obj;
 			if (idMoradia == null) {
 				if (other.idMoradia != null)
 					return false;

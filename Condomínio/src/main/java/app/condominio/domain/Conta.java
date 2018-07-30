@@ -18,9 +18,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "contas")
@@ -45,7 +42,7 @@ public class Conta implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	private Condominio condominio;
 
 	public Long getIdConta() {

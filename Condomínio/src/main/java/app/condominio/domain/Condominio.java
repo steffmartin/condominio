@@ -53,7 +53,7 @@ public class Condominio implements Serializable {
 	@Size(max = 100)
 	private String email;
 
-	// LATER fazer validação no método condominioService min e max = 10
+	// TODO fazer validação min e max = 10
 	@Size(max = 10)
 	private String telefone;
 
