@@ -26,7 +26,7 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<label>Tipo</label> <select required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse" autofocus th:disabled="${pessoa.idPessoa != null}">
+									<label>Tipo</label> <select required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse:not(.form-list tr)" autofocus th:disabled="${pessoa.idPessoa != null}">
 										<option value="" hidden="true">Selecione</option>
 										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #ctx.tipo}" data-toggle="collapse" th:data-target="'#P'+ ${t}" th:data-form-action="@{/sindico/condominos/cadastro(${'P' + t})}"></option>
 									</select>
@@ -243,7 +243,7 @@
 						</li>
 						<li class="list-group-item form-list">
 							<p class="text-primary">
-								<i class="fas fa-home fa-xs"></i><i class="fas fa-home fa-xs"></i> Moradias relacionadas
+								<i class="fas fa-home"></i> Moradias relacionadas
 							</p>
 							<div class="table-responsive">
 								<table class="table table-sm mb-0 table-borderless">
@@ -319,8 +319,8 @@
 							</div>
 							<div class="form-row mt-3 hideMe">
 								<div class="form-group col">
-									<button class="float-right btn btn-outline-secondary text-truncate clone" data-parent=".form-list table tbody" data-example=".form-list table tbody tr.d-none" type="button" title="Nova relação">
-										<i class="fas fa-user-plus"></i><span> Adicionar uma linha</span>
+									<button class="btn btn-outline-secondary btn-sm text-truncate clone" data-parent=".form-list table tbody" data-example=".form-list table tbody tr.d-none" type="button" title="Nova relação">
+										<i class="fas fa-user-plus"></i><span> Nova</span>
 									</button>
 								</div>
 							</div>

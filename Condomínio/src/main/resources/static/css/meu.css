@@ -65,6 +65,13 @@ main {
 	.crud-list .btn{
 		min-width:35px;
 	}
+	.table-responsive::after, .table-responsive::before{
+	content: '\f101';
+	color: var(--primary);
+	font-family: 'FontAwesome';
+	text-align: right;
+	display: block;
+	}
 }
 
 /* Personalização das páginas Somente Leitura */
