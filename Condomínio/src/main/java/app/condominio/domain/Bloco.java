@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @SuppressWarnings("serial")
@@ -36,6 +37,8 @@ public class Bloco implements Serializable {
 	@Size(max = 30)
 	private String descricao;
 
+	//TODO colocar este campo obrigatorio
+	//@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
 	//@Fetch(FetchMode.JOIN)

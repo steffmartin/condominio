@@ -65,6 +65,10 @@ public class Moradia implements Serializable {
 	@OrderBy(value = "dataEntrada")
 	@Valid
 	private List<Relacao> relacoes = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "moradia", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OrderBy(value="numero, parcela")
+	private List<Cobranca> cobrancas = new ArrayList<>();
 
 	public Long getIdMoradia() {
 		return idMoradia;
@@ -136,6 +140,14 @@ public class Moradia implements Serializable {
 
 	public void setRelacoes(List<Relacao> relacoes) {
 		this.relacoes = relacoes;
+	}
+
+	public List<Cobranca> getCobrancas() {
+		return cobrancas;
+	}
+
+	public void setCobrancas(List<Cobranca> cobrancas) {
+		this.cobrancas = cobrancas;
 	}
 
 	@Override

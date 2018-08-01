@@ -266,6 +266,7 @@
 														</button>
 													</div>
 													<select disabled class="custom-select last" name="relacoes[].moradia">
+														<option th:unless="${#lists.isEmpty(moradias)}"value="">---</option>
 														<option value="" hidden="true">Selecione</option>
 														<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
 													</select>

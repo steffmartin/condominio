@@ -101,6 +101,7 @@
 													</div>
 													<select disabled class="custom-select last" name="relacoes[].pessoa">
 														<option value="" hidden="true">Selecione</option>
+														<option th:unless="${#lists.isEmpty(pessoas)}"value="">---</option>
 														<option th:each="p : ${pessoas}" th:value="${p.idPessoa}" th:text="${p.nome}"></option>
 													</select>
 												</div></td>

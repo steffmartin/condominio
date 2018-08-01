@@ -208,3 +208,37 @@ CREATE TABLE Pessoa_Moradia (
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
+
+CREATE TABLE Cobrancas (
+  idCobranca BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  idMoradia BIGINT UNSIGNED NOT NULL,
+  motivoEmissao CHAR NULL,
+  numero VARCHAR(10) NULL,
+  parcela INTEGER UNSIGNED NULL,
+  dataEmissao DATE NULL,
+  dataVencimento DATE NULL,
+  valor DECIMAL(9,2) NULL,
+  desconto DECIMAL(9,2) NULL,
+  abatimento DECIMAL(9,2) NULL,
+  outrasDeducoes DECIMAL(9,2) NULL,
+  jurosMora DECIMAL(9,2) NULL,
+  multa DECIMAL(9,2) NULL,
+  outrosAcrescimos DECIMAL(9,2) NULL,
+  total DECIMAL(9,2) NULL,
+  historico VARCHAR(255) NULL,
+  percentualJuroMes FLOAT NULL,
+  percentualMulta FLOAT NULL,
+  situacao CHAR NULL,
+  dataRecebimento DATE NULL,
+  motivoBaixa CHAR NULL,
+  idCondominio BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY(idCobranca),
+  FOREIGN KEY(idCondominio)
+    REFERENCES Condominios(idCondominio)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+  FOREIGN KEY(idMoradia)
+    REFERENCES Moradias(idMoradia)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);

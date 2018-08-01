@@ -58,6 +58,8 @@ public class Categoria implements Serializable {
 	//@Fetch(FetchMode.JOIN)
 	private Categoria categoriaPai;
 
+	//TODO colocar este campo obrigatório
+	//@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
 	//@Fetch(FetchMode.JOIN)

@@ -38,8 +38,10 @@ public class Conta implements Serializable {
 
 	// DECIMAL(9,2) no MySQL
 	@NotNull
-	private BigDecimal saldo = new BigDecimal(0);
+	private BigDecimal saldo = BigDecimal.ZERO;
 
+	//TODO colocar este campo obrigatório
+	//@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
 	//@Fetch(FetchMode.JOIN)

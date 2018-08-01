@@ -92,6 +92,8 @@ public class Condominio implements Serializable {
 	// Dicas de relações:
 	// https://vladmihalcea.com/a-beginners-guide-to-jpa-and-hibernate-cascade-types/
 
+	//TODO colocar este campo obrigatório. Ideia: ter no controller geral o usuario logado sempre pronto.
+	//@NotNull
 	@OneToOne(mappedBy = "condominio", fetch = FetchType.LAZY)
 	private Usuario sindico;
 
@@ -111,6 +113,10 @@ public class Condominio implements Serializable {
 	//@Where(clause="idCategoriaPai IS NULL")
 	@OrderBy(value="ordem")
 	private List<Categoria> categorias = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OrderBy(value="numero, parcela")
+	private List<Cobranca> cobrancas = new ArrayList<>();
 
 	public Long getIdCondominio() {
 		return idCondominio;
@@ -270,6 +276,14 @@ public class Condominio implements Serializable {
 
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
+	}
+
+	public List<Cobranca> getCobrancas() {
+		return cobrancas;
+	}
+
+	public void setCobrancas(List<Cobranca> cobrancas) {
+		this.cobrancas = cobrancas;
 	}
 
 	@Override

@@ -24,11 +24,12 @@ public class CondominioController {
 	@Autowired
 	private CondominioService condominioService;
 
+
 	@ModelAttribute("estados")
 	public Estado[] estados() {
 		return Estado.values();
 	}
-
+	
 	@GetMapping("/cadastro")
 	public ModelAndView getCondominioCadastro(ModelMap model) {
 		Condominio condominio = condominioService.ler();

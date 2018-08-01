@@ -70,10 +70,6 @@ public class Usuario implements Serializable {
 	@JoinColumn(name="idcondominio")
 	private Condominio condominio;
 
-	public Usuario() {
-		super();
-	}
-
 	public Long getId() {
 		return id;
 	}

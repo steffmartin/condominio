@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import app.condominio.domain.enums.Estado;
@@ -76,6 +77,8 @@ public class Pessoa implements Serializable {
 	@Size(max = 8)
 	private String cep;
 
+	//TODO colocar este campo obrigatório
+	//@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
 	//@Fetch(FetchMode.JOIN)
