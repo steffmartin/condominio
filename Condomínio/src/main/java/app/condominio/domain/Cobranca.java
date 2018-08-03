@@ -40,7 +40,7 @@ public class Cobranca implements Serializable {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "motivoemissao")
-	private MotivoEmissao motivoEmissao;
+	private MotivoEmissao motivoEmissao = MotivoEmissao.O;
 
 	@Size(max = 10)
 	@NotBlank
@@ -107,7 +107,7 @@ public class Cobranca implements Serializable {
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private SituacaoCobranca situacao;
+	private SituacaoCobranca situacao = SituacaoCobranca.N;
 
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@Column(name = "datarecebimento")

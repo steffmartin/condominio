@@ -70,4 +70,5 @@ public class BlocoController {
 		blocoService.excluir(blocoService.ler(idObj));
 		return new ModelAndView("redirect:/sindico/blocos");
 	}
+
 }

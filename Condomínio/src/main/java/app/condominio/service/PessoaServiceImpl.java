@@ -69,6 +69,7 @@ public class PessoaServiceImpl implements PessoaService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Pessoa entidade, BindingResult validacao) {
 		// Em uma relação é obrigatório ter a moradia
 		List<Relacao> relacoes = entidade.getRelacoes();

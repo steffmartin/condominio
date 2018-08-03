@@ -58,6 +58,7 @@ public class ContaServiceImpl implements ContaService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Conta entidade, BindingResult validacao) {
 		// LATER ver se haverá validação de conta a fazer
 		

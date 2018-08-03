@@ -75,6 +75,7 @@ public class MoradiaServiceImpl implements MoradiaService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Moradia entidade, BindingResult validacao) {
 
 		// Em uma relação é obrigatório ter a pessoa
