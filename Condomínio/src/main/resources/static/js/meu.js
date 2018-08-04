@@ -136,3 +136,10 @@ $('input.calc-add,input.calc-sub').on('change keyup', function(){
 	});
 	$('input.calc-tot').val(tot.toFixed(2));
 });
+
+//Seleciona o conteúdo de um campo number zerado
+$("input[type=number]").click(function () {
+	if($(this).val() == 0){
+		$(this).select();
+	}   
+});

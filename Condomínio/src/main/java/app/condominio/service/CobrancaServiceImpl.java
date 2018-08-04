@@ -62,6 +62,7 @@ public class CobrancaServiceImpl implements CobrancaService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Cobranca entidade, BindingResult validacao) {
 		try {
+			// Total deve bater com os campos totalizados
 			if (0 != entidade.getTotal()
 					.compareTo(entidade.getValor().subtract(entidade.getDesconto()).subtract(entidade.getAbatimento())
 							.subtract(entidade.getOutrasDeducoes()).add(entidade.getJurosMora())
@@ -69,6 +70,23 @@ public class CobrancaServiceImpl implements CobrancaService {
 				validacao.rejectValue("total", "typeMismatch");
 			}
 		} catch (NullPointerException e) {
+		}
+		// Vencimento não pode ser antes da emissão
+		if (entidade.getDataVencimento() != null && entidade.getDataVencimento().isBefore(entidade.getDataEmissao())) {
+			validacao.rejectValue("dataVencimento", "typeMismatch");
+		}
+		if (entidade.getDataRecebimento() != null) {
+			// Data de recebimento tem que ser maior/igual emissão
+			if (entidade.getDataRecebimento().isBefore(entidade.getDataEmissao())) {
+				validacao.rejectValue("dataRecebimento", "typeMismatch");
+			}
+			// Motivo baixa é obrigatório se tiver recebimento
+			if (entidade.getMotivoBaixa() == null) {
+				validacao.rejectValue("motivoBaixa", "NotNull");
+			}
+			// Motivo baixa é em branco se NÃO tiver recebimento
+		} else if (entidade.getMotivoBaixa() != null) {
+			validacao.rejectValue("motivoBaixa", "Null");
 		}
 
 	}

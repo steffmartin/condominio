@@ -22,12 +22,13 @@
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item">
 							<p class="text-primary">
-								<i class="fas fa-home"></i> Informações principais da moradia
+								<i class="fas fa-home"></i> Informações principais
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-4">
 									<label>Bloco</label> <select autofocus class="custom-select" id="bloco" th:errorclass="is-invalid" th:field="*{bloco}">
 										<option value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(blocos)}" value="">---</option>
 										<option th:each="bloco : ${blocos}" th:value="${bloco.idBloco}" th:text="${bloco.sigla}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{bloco}"></div>
@@ -101,7 +102,7 @@
 													</div>
 													<select disabled class="custom-select last" name="relacoes[].pessoa">
 														<option value="" hidden="true">Selecione</option>
-														<option th:unless="${#lists.isEmpty(pessoas)}"value="">---</option>
+														<option th:if="${#lists.isEmpty(pessoas)}" value="">---</option>
 														<option th:each="p : ${pessoas}" th:value="${p.idPessoa}" th:text="${p.nome}"></option>
 													</select>
 												</div></td>

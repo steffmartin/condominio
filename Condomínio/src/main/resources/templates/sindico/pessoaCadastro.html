@@ -22,7 +22,7 @@
 					<ul class="list-group list-group-flush" id="accordion">
 						<li class="list-group-item">
 							<p class="text-primary">
-								<i class="fas fa-list"></i> Tipo do condômino
+								<i class="fas fa-list"></i> Tipo de condômino
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-4">
@@ -37,7 +37,7 @@
 						</li>
 						<li class="list-group-item collapse show" id="PF" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).F}">
 							<p class="text-primary">
-								<i class="fas fa-user"></i> Informações principais do condômino
+								<i class="fas fa-user"></i> Informações principais
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-6">
@@ -74,7 +74,7 @@
 						</li>
 						<li class="list-group-item collapse" id="PF" th:unless="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).F}">
 							<p class="text-primary">
-								<i class="fas fa-user"></i> Informações principais do condômino
+								<i class="fas fa-user"></i> Informações principais
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-6">
@@ -105,7 +105,7 @@
 						</li>
 						<li class="list-group-item collapse show" id="PJ" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).J}">
 							<p class="text-primary">
-								<i class="fas fa-user-tie"></i> Informações principais do condômino
+								<i class="fas fa-user-tie"></i> Informações principais
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-6">
@@ -145,7 +145,7 @@
 						</li>
 						<li class="list-group-item collapse" id="PJ" th:unless="${#ctx.tipo == T(app.condominio.domain.enums.TipoPessoa).J}">
 							<p class="text-primary">
-								<i class="fas fa-user-tie"></i> Informações principais do condômino
+								<i class="fas fa-user-tie"></i> Informações principais
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-6">
@@ -178,7 +178,7 @@
 						</li>
 						<li class="list-group-item">
 							<p class="text-primary">
-								<i class="fas fa-envelope"></i> Dados de contato do condômino
+								<i class="fas fa-envelope"></i> Dados de contato
 							</p>
 							<div class="form-group">
 								<label>E-mail</label> <input class="form-control" type="email" th:errorclass="is-invalid" th:field="*{email}" placeholder="O e-mail do condômino" />
@@ -199,7 +199,7 @@
 						</li>
 						<li class="list-group-item">
 							<p class="text-primary">
-								<i class="fas fa-map-marker-alt"></i> Residência do condômino
+								<i class="fas fa-map-marker-alt"></i> Residência
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-10">
@@ -266,7 +266,7 @@
 														</button>
 													</div>
 													<select disabled class="custom-select last" name="relacoes[].moradia">
-														<option th:unless="${#lists.isEmpty(moradias)}"value="">---</option>
+														<option th:if="${#lists.isEmpty(moradias)}"value="">---</option>
 														<option value="" hidden="true">Selecione</option>
 														<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
 													</select>

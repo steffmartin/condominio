@@ -3,25 +3,19 @@ package app.condominio.domain.enums;
 public enum MotivoEmissao {
 
 	// @formatter:off
-	O("Normal", "Ordinária"),
-	E("Avulsa", "Extraordinária"),
-	R("Renegociação", null);
+	O("Normal"),
+	E("Extra"),
+	A("Avulsa"),
+	R("Renegociação");
 	// @formatter:on
 
 	private final String nome;
-	
-	private final String sinonimo;
 
-	private MotivoEmissao(String nome, String sinonimo) {
+	private MotivoEmissao(String nome) {
 		this.nome = nome;
-		this.sinonimo = sinonimo;
 	}
 
 	public String getNome() {
 		return nome;
-	}
-
-	public String getSinonimo() {
-		return sinonimo;
 	}
 }

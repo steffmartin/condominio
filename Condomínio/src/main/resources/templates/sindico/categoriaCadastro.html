@@ -22,7 +22,7 @@
 					<ul class="list-group list-group-flush" id="accordion">
 						<li class="list-group-item">
 							<p class="text-primary">
-								<i class="fas fa-list-ol"></i> Informações principais da categoria
+								<i class="fas fa-list-ol"></i> Informações principais
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-6">
@@ -49,7 +49,7 @@
 						</li>
 						<li class="list-group-item collapse show" id="C" th:if="${#ctx.classe == T(app.condominio.domain.enums.TipoClasseCategoria).C}">
 							<p class="text-primary">
-								<i class="fas fa-tasks"></i> Informações da categoria sintética
+								<i class="fas fa-tasks"></i> Dados da categoria sintética
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-6">
@@ -68,7 +68,7 @@
 						</li>
 						<li class="list-group-item collapse" id="C" th:unless="${#ctx.classe == T(app.condominio.domain.enums.TipoClasseCategoria).C}">
 							<p class="text-primary">
-								<i class="fas fa-tasks"></i> Informações da categoria sintética
+								<i class="fas fa-tasks"></i> Dados da categoria sintética
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-6">

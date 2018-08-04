@@ -4,7 +4,8 @@ public enum SituacaoCobranca {
 
 	// @formatter:off
 	N("Normal"),
-	P("Protesto"),
+	A("Notificado"),
+	P("Protestado"),
 	J("Ação Judicial"),
 	O("Outras");
 	// @formatter:on

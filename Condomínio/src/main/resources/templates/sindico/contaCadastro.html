@@ -22,7 +22,7 @@
 					<ul class="list-group list-group-flush" id="accordion">
 						<li class="list-group-item">
 							<p class="text-primary">
-								<i class="fas fa-list"></i> Tipo da conta
+								<i class="fas fa-list"></i> Tipo de conta
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-4">
@@ -37,7 +37,7 @@
 						</li>
 						<li class="list-group-item">
 							<p class="text-primary">
-								<i class="fas fa-money-bill-alt"></i> Informações principais da conta
+								<i class="fas fa-money-bill-alt"></i> Informações principais
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-2">
@@ -54,16 +54,15 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text">R$</span>
 										</div>
-										<input th:disabled="${conta.idConta != null}" class="form-control last" type="number" step=".01" th:errorclass="is-invalid" th:field="*{saldo}" placeholder="Saldo inicial da conta" />
+										<input class="form-control last" type="number" step=".01" th:errorclass="is-invalid" th:field="*{saldo}" placeholder="Saldo inicial da conta" />
 										<div class="invalid-feedback" th:errors="*{saldo}"></div>
 									</div>
-									<small th:text="${conta.idConta != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>
 								</div>
 							</div>
 						</li>
 						<li class="list-group-item collapse show" id="BC" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoConta).BC}">
 							<p class="text-primary">
-								<i class="fas fa-university"></i> Informações da conta bancária
+								<i class="fas fa-university"></i> Dados da conta bancária
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-3">
@@ -97,7 +96,7 @@
 						</li>
 						<li class="list-group-item collapse" id="BC" th:unless="${#ctx.tipo == T(app.condominio.domain.enums.TipoConta).BC}">
 							<p class="text-primary">
-								<i class="fas fa-university"></i> Informações da conta bancária
+								<i class="fas fa-university"></i> Dados da conta bancária
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-3">

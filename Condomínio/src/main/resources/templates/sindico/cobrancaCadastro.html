@@ -22,13 +22,72 @@
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item">
 							<p class="text-primary">
-								<i class="fas fa-money-check-alt"></i> Informações principais da cobrança
+								<i class="fas fa-money-check-alt"></i> Informações principais
 							</p>
-							<div class="form-row"></div>
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label>Data de emissão</label> <input class="form-control" type="date" th:errorclass="is-invalid" th:field="*{dataEmissao}" placeholder="Data de emissão" />
+									<div class="invalid-feedback" th:errors="*{dataEmissao}"></div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Número</label>
+									<div class="input-group">
+										<input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{numero}" placeholder="Número" /> <input class="form-control last" type="text" th:errorclass="is-invalid" th:field="*{parcela}" placeholder="Parcela" />
+										<div class="invalid-feedback" th:errors="*{numero}"></div>
+										<div class="invalid-feedback" th:errors="*{parcela}"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Motivo da emissão</label> <select class="custom-select" id="motivoEmissao" th:errorclass="is-invalid" th:field="*{motivoEmissao}">
+										<option value="" hidden="true">Selecione</option>
+										<option th:each="motivo : ${motivosEmissao}" th:value="${motivo}" th:text="${motivo.nome}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{motivoEmissao}"></div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Data de vencimento</label> <input class="form-control" type="date" th:errorclass="is-invalid" th:field="*{dataVencimento}" placeholder="Data de vencimento" />
+									<div class="invalid-feedback" th:errors="*{dataVencimento}"></div>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Moradia</label> <select class="custom-select last" th:errorclass="is-invalid" th:field="*{moradia}">
+										<option value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(moradias)}" value="">---</option>
+										<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{moradia}"></div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Multa por atraso</label>
+									<div class="input-group">
+										<input class="form-control" type="number" step=".001" th:errorclass="is-invalid" th:field="*{percentualMulta}" placeholder="Porcentagem" />
+										<div class="input-group-append">
+											<span class="input-group-text last">%</span>
+										</div>
+										<div class="invalid-feedback" th:errors="*{percentualMulta}"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Juros por atraso</label>
+									<div class="input-group">
+										<input class="form-control" type="number" step=".001" th:errorclass="is-invalid" th:field="*{percentualJurosMes}" placeholder="Porcentagem" />
+										<div class="input-group-append">
+											<span class="input-group-text last">% ao mês</span>
+										</div>
+										<div class="invalid-feedback" th:errors="*{percentualJurosMes}"></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Descrição</label>
+								<textarea class="form-control" rows="3" th:errorclass="is-invalid" th:field="*{descricao}" placeholder="Outros detalhes da cobrança ou uma mensagem ao devedor."></textarea>
+								<div class="invalid-feedback" th:errors="*{descricao}"></div>
+							</div>
 						</li>
 						<li class="list-group-item">
 							<p class="text-primary">
-								<i class="fas fa-dollar-sign"></i> Valores da cobrança
+								<i class="fas fa-dollar-sign"></i> Valores
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-3">
@@ -107,7 +166,7 @@
 									<label>Total</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
-											<span class="input-group-text">R$</span> <span class="input-group-text">=</span>
+											<span class="input-group-text">R$</span>
 										</div>
 										<input readonly class="form-control last calc-tot" type="number" step=".01" th:errorclass="is-invalid" th:field="*{total}" placeholder="Total" />
 										<div class="invalid-feedback" th:errors="*{total}"></div>
@@ -115,12 +174,31 @@
 								</div>
 							</div>
 						</li>
-						<!--  <li th:unless="${cobranca.idCobranca == null}" class="list-group-item">-->
-						<li class="list-group-item">
+						<li th:unless="${cobranca.idCobranca == null}" class="list-group-item">
 							<p class="text-primary">
-								<i class="fas fa-hand-holding-usd"></i> Acompanhamento da cobrança
+								<i class="fas fa-hand-holding-usd"></i> Acompanhamento
 							</p>
-							<div class="form-row"></div>
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label>Situação</label> <select class="custom-select" id="situacao" th:errorclass="is-invalid" th:field="*{situacao}">
+										<option value="" hidden="true">Selecione</option>
+										<option th:each="situacao : ${situacoes}" th:value="${situacao}" th:text="${situacao.nome}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{situacao}"></div>
+								</div>
+								<div class="form-group col-md-4">
+									<label>Data de recebimento</label> <input class="form-control" type="date" th:errorclass="is-invalid" th:field="*{dataRecebimento}" placeholder="Data de baixa" />
+									<div class="invalid-feedback" th:errors="*{dataRecebimento}"></div>
+								</div>
+								<div class="form-group col-md-4">
+									<label>Motivo da baixa</label> <select class="custom-select" id="motivoBaixa" th:errorclass="is-invalid" th:field="*{motivoBaixa}">
+										<option value="" hidden="true">Selecione</option>
+										<option value="">---</option>
+										<option th:each="motivo : ${motivosBaixa}" th:value="${motivo}" th:text="${motivo.nome}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{motivoBaixa}"></div>
+								</div>
+							</div>
 						</li>
 					</ul>
 				</div>

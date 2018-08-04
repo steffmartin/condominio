@@ -25,11 +25,10 @@
 				<thead class="thead-light">
 					<tr>
 						<th scope="col">Número</th>
-						<th scope="col">Parcela</th>
 						<th scope="col">Moradia</th>
-						<th scope="col">Vencimento</th>
 						<th scope="col">Valor</th>
 						<th scope="col">Total</th>
+						<th scope="col">Vencimento</th>
 						<th scope="col">Situação</th>
 						<th scope="col">Recebimento</th>
 						<th></th>
@@ -37,15 +36,14 @@
 				</thead>
 				<tbody>
 					<tr th:each="cobranca : ${cobrancas}">
-						<th scope="row" th:text="${cobranca.numero}"></th>
-						<th scope="row" th:text="${cobranca.parcela}"></th>
+						<th scope="row" th:text="${cobranca.numero} + (${cobranca.parcela != null}?(' - '+${cobranca.parcela}):'')"></th>
 						<td th:text="|Bloco ${cobranca.moradia.bloco.sigla} - Moradia ${cobranca.moradia.sigla}|"></td>
-						<td th:text="${cobranca.dataVencimento}"></td>
 						<td th:text="'R$ ' + ${cobranca.valor}"></td>
 						<td th:text="'R$ ' + ${cobranca.total}"></td>
+						<td th:text="${cobranca.dataVencimento}"></td>
 						<td th:text="${cobranca.situacao.nome}"></td>
-						<td th:text="${dataRecebimento}?:'Em aberto'"></td>
-						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/cobrancas/{idCobranca}/cadastro(idCobranca=${cobranca.idCobranca},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/cobrancas/{idCobranca}/cadastro(idCobranca=${cobranca.idCobranca})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${cobranca.idCobranca}" th:data-obs="${cobranca.numero} + ' (parcela ' + (${cobranca.parcela}?:'única') + ')'"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+						<td th:text="${cobranca.dataRecebimento}?:'Em aberto'"></td>
+						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/cobrancas/{idCobranca}/cadastro(idCobranca=${cobranca.idCobranca},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/cobrancas/{idCobranca}/cadastro(idCobranca=${cobranca.idCobranca})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${cobranca.idCobranca}" th:data-obs="${cobranca.numero} + (${cobranca.parcela != null}?(' - '+${cobranca.parcela}):'')"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 					</tr>
 				</tbody>
 			</table>

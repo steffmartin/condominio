@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -47,7 +46,8 @@ public class Cobranca implements Serializable {
 	private String numero;
 
 	@Min(0)
-	private int parcela;
+	@Size(max = 3)
+	private String parcela;
 
 	@NotNull
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -95,11 +95,11 @@ public class Cobranca implements Serializable {
 	private BigDecimal total = BigDecimal.ZERO;
 
 	@Size(max = 255)
-	private String historico;
+	private String descricao;
 
 	@Min(0)
-	@Column(name = "percentualjuromes")
-	private float percentualJuroMes;
+	@Column(name = "percentualjurosmes")
+	private float percentualJurosMes;
 
 	@Min(0)
 	@Column(name = "percentualmulta")
@@ -129,16 +129,6 @@ public class Cobranca implements Serializable {
 	@JoinColumn(name = "idcondominio")
 	// @Fetch(FetchMode.JOIN)
 	private Condominio condominio;
-
-	@AssertTrue
-	private boolean isDataRecebimento() {
-		return dataRecebimento == null || dataRecebimento.equals(dataEmissao) || dataRecebimento.isAfter(dataEmissao);
-	}
-
-	@AssertTrue
-	private boolean isMotivoBaixa() {
-		return (dataRecebimento == null && motivoBaixa == null) || (dataRecebimento != null && motivoBaixa != null);
-	}
 
 	public Long getIdCobranca() {
 		return idCobranca;
@@ -172,11 +162,11 @@ public class Cobranca implements Serializable {
 		this.numero = numero;
 	}
 
-	public int getParcela() {
+	public String getParcela() {
 		return parcela;
 	}
 
-	public void setParcela(int parcela) {
+	public void setParcela(String parcela) {
 		this.parcela = parcela;
 	}
 
@@ -260,20 +250,20 @@ public class Cobranca implements Serializable {
 		this.total = total;
 	}
 
-	public String getHistorico() {
-		return historico;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setHistorico(String historico) {
-		this.historico = historico;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public float getPercentualJurosMes() {
-		return percentualJuroMes;
+		return percentualJurosMes;
 	}
 
 	public void setPercentualJurosMes(float percentualJurosMes) {
-		this.percentualJuroMes = percentualJurosMes;
+		this.percentualJurosMes = percentualJurosMes;
 	}
 
 	public float getPercentualMulta() {
