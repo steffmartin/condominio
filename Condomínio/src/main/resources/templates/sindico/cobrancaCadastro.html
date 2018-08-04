@@ -1,0 +1,135 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Cobrança</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Cadastro da Cobrança</h3>
+		<div th:unless="${haCondominio}" class="alert alert-warning">
+			<h6>Condomínio não cadastrado</h6>
+			Para cadastrar cobranças é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
+		</div>
+		<p th:if="${haCondominio}" th:text="${cobranca.idCobranca == null} ? 'Ao salvar, uma nova cobrança será criada para a moradia selecionada.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações da cobrança atual serão atualizadas.')"></p>
+		<form th:if="${haCondominio}" th:action="@{/sindico/cobrancas/cadastro}" th:object="${cobranca}" th:method="${cobranca.idCobranca == null} ? post : put" novalidate>
+			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
+				<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idCobranca}" />
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-money-check-alt"></i> Informações principais da cobrança
+							</p>
+							<div class="form-row"></div>
+						</li>
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-dollar-sign"></i> Valores da cobrança
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label>Valor</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span>
+										</div>
+										<input class="form-control last calc-add" type="number" step=".01" th:errorclass="is-invalid" th:field="*{valor}" placeholder="Valor da cobrança" />
+										<div class="invalid-feedback" th:errors="*{valor}"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Descontos</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span>
+										</div>
+										<input class="form-control last calc-sub" type="number" step=".01" th:errorclass="is-invalid" th:field="*{desconto}" placeholder="Descontos concedidos" />
+										<div class="invalid-feedback" th:errors="*{desconto}"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Abatimentos</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span>
+										</div>
+										<input class="form-control last calc-sub" type="number" step=".01" th:errorclass="is-invalid" th:field="*{abatimento}" placeholder="Abatimentos efetuados" />
+										<div class="invalid-feedback" th:errors="*{abatimento}"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Outras deduções</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span>
+										</div>
+										<input class="form-control last calc-sub" type="number" step=".01" th:errorclass="is-invalid" th:field="*{outrasDeducoes}" placeholder="Outras deduções" />
+										<div class="invalid-feedback" th:errors="*{outrasDeducoes}"></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label>Juros</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span>
+										</div>
+										<input class="form-control last calc-add" type="number" step=".01" th:errorclass="is-invalid" th:field="*{jurosMora}" placeholder="Juros de mora" />
+										<div class="invalid-feedback" th:errors="*{jurosMora}"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Multa</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span>
+										</div>
+										<input class="form-control last calc-add" type="number" step=".01" th:errorclass="is-invalid" th:field="*{multa}" placeholder="Multa lançada" />
+										<div class="invalid-feedback" th:errors="*{multa}"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Outros acréscimos</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span>
+										</div>
+										<input class="form-control last calc-add" type="number" step=".01" th:errorclass="is-invalid" th:field="*{outrosAcrescimos}" placeholder="Outros acréscimos" />
+										<div class="invalid-feedback" th:errors="*{outrosAcrescimos}"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Total</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span> <span class="input-group-text">=</span>
+										</div>
+										<input readonly class="form-control last calc-tot" type="number" step=".01" th:errorclass="is-invalid" th:field="*{total}" placeholder="Total" />
+										<div class="invalid-feedback" th:errors="*{total}"></div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<!--  <li th:unless="${cobranca.idCobranca == null}" class="list-group-item">-->
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-hand-holding-usd"></i> Acompanhamento da cobrança
+							</p>
+							<div class="form-row"></div>
+						</li>
+					</ul>
+				</div>
+			</fieldset>
+			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
+			<a class="btn btn-secondary" th:href="@{/sindico/cobrancas}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+		</form>
+		</main>
+	</th:block>
+
+</body>
+</html>

@@ -41,7 +41,7 @@ public class CobrancaServiceImpl implements CobrancaService {
 	public List<Cobranca> listar() {
 		Condominio condominio = usuarioService.lerLogado().getCondominio();
 		if (condominio == null) {
-			return new ArrayList<Cobranca>();
+			return new ArrayList<>();
 		}
 		return condominio.getCobrancas();
 	}
@@ -61,7 +61,15 @@ public class CobrancaServiceImpl implements CobrancaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Cobranca entidade, BindingResult validacao) {
-		// TODO ver se validacoes da cobrança passarao para cá
+		try {
+			if (0 != entidade.getTotal()
+					.compareTo(entidade.getValor().subtract(entidade.getDesconto()).subtract(entidade.getAbatimento())
+							.subtract(entidade.getOutrasDeducoes()).add(entidade.getJurosMora())
+							.add(entidade.getMulta()).add(entidade.getOutrosAcrescimos()))) {
+				validacao.rejectValue("total", "typeMismatch");
+			}
+		} catch (NullPointerException e) {
+		}
 
 	}
 

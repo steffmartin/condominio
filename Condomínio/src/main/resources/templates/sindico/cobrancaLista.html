@@ -1,0 +1,80 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Cobranças</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light float-left">Cobranças</h3>
+		<div class="btn-group mb-3 float-right">
+			<a class="btn btn-light" th:href="@{/sindico/cobrancas/cadastro}"><i class="fas fa-plus"></i> Nova</a>
+			<button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+			<div class="dropdown-menu dropdown-menu-right">
+				<a class="dropdown-item" th:href="@{/sindico/cobrancas/cadastro}">Criar cobrança</a> <a class="dropdown-item" href="#">Criar em lote</a> <a class="dropdown-item" href="#">Importar</a>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-hover table-sm crud-list mb-0">
+				<caption class="pb-0">
+					<span th:text="${#lists.isEmpty(cobrancas)} ? 'Nenhuma' : 'Há '+${#lists.size(cobrancas)}"></span> <span th:text="${#lists.size(cobrancas)>1} ? 'cobranças cadastradas' : 'cobrança cadastrada'"></span>.
+				</caption>
+				<thead class="thead-light">
+					<tr>
+						<th scope="col">Número</th>
+						<th scope="col">Parcela</th>
+						<th scope="col">Moradia</th>
+						<th scope="col">Vencimento</th>
+						<th scope="col">Valor</th>
+						<th scope="col">Total</th>
+						<th scope="col">Situação</th>
+						<th scope="col">Recebimento</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="cobranca : ${cobrancas}">
+						<th scope="row" th:text="${cobranca.numero}"></th>
+						<th scope="row" th:text="${cobranca.parcela}"></th>
+						<td th:text="|Bloco ${cobranca.moradia.bloco.sigla} - Moradia ${cobranca.moradia.sigla}|"></td>
+						<td th:text="${cobranca.dataVencimento}"></td>
+						<td th:text="'R$ ' + ${cobranca.valor}"></td>
+						<td th:text="'R$ ' + ${cobranca.total}"></td>
+						<td th:text="${cobranca.situacao.nome}"></td>
+						<td th:text="${dataRecebimento}?:'Em aberto'"></td>
+						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/cobrancas/{idCobranca}/cadastro(idCobranca=${cobranca.idCobranca},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/cobrancas/{idCobranca}/cadastro(idCobranca=${cobranca.idCobranca})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${cobranca.idCobranca}" th:data-obs="${cobranca.numero} + ' (parcela ' + (${cobranca.parcela}?:'única') + ')'"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</main>
+		<!--/* Modal */-->
+		<div th:unless="${#lists.isEmpty(cobrancas)}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">
+			<div class="modal-dialog  modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Confirmar Exclusão</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+					</div>
+					<form th:action="@{/sindico/cobrancas/excluir}" th:method="delete" novalidate>
+						<input type="hidden" id="idObj" name="idObj" />
+						<div class="modal-body">
+							Confirma a exclusão da cobrança '<span></span>'?
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-danger">Excluir</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

@@ -120,25 +120,15 @@ public class Cobranca implements Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idmoradia")
-	//@Fetch(FetchMode.JOIN)
+	// @Fetch(FetchMode.JOIN)
 	private Moradia moradia;
-	
-	//TODO colocar este campo obrigatório
-	//@NotNull
+
+	// TODO colocar este campo obrigatório
+	// @NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	//@Fetch(FetchMode.JOIN)
+	// @Fetch(FetchMode.JOIN)
 	private Condominio condominio;
-
-	@AssertTrue
-	private boolean isTotal() {
-		try {
-			return total.equals(valor.subtract(desconto).subtract(abatimento).subtract(outrasDeducoes).add(jurosMora)
-					.add(multa).add(outrosAcrescimos));
-		} catch (NullPointerException e) {
-			return false;
-		}
-	}
 
 	@AssertTrue
 	private boolean isDataRecebimento() {
@@ -336,18 +326,23 @@ public class Cobranca implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Cobranca other = (Cobranca) obj;
 		if (idCobranca == null) {
-			if (other.idCobranca != null)
+			if (other.idCobranca != null) {
 				return false;
-		} else if (!idCobranca.equals(other.idCobranca))
+			}
+		} else if (!idCobranca.equals(other.idCobranca)) {
 			return false;
+		}
 		return true;
 	}
 }
