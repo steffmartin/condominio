@@ -242,3 +242,55 @@ CREATE TABLE Cobrancas (
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
+
+CREATE TABLE Periodos (
+  idPeriodo BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  inicio DATE NULL,
+  fim DATE NULL,
+  encerrado BOOL NULL,
+  idCondominio BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY(idPeriodo),
+  FOREIGN KEY(idCondominio)
+    REFERENCES Condominios(idCondominio)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Orcamentos (
+  idOrcamento BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  idPeriodo BIGINT UNSIGNED NOT NULL,
+  idSubcategoria BIGINT UNSIGNED NOT NULL,
+  orcado DECIMAL(9,2) NULL,
+  PRIMARY KEY(idOrcamento),
+  FOREIGN KEY(idSubcategoria)
+    REFERENCES Subcategorias(idSubcategoria)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+  FOREIGN KEY(idPeriodo)
+    REFERENCES Periodos(idPeriodo)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Lancamentos (
+  idLancamento BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  idPeriodo BIGINT UNSIGNED NOT NULL,
+  idSubcategoria BIGINT UNSIGNED NOT NULL,
+  data DATE NULL,
+  valor DECIMAL(9,2) NULL,
+  descricao VARCHAR(255) NULL,
+  idConta BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY(idLancamento),
+  FOREIGN KEY(idConta)
+    REFERENCES Contas(idConta)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+  FOREIGN KEY(idSubcategoria)
+    REFERENCES Subcategorias(idSubcategoria)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+  FOREIGN KEY(idPeriodo)
+    REFERENCES Periodos(idPeriodo)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);

@@ -2,7 +2,10 @@ package app.condominio.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +16,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -40,12 +45,16 @@ public class Conta implements Serializable {
 	@NotNull
 	private BigDecimal saldo = BigDecimal.ZERO;
 
-	//TODO colocar este campo obrigatório
-	//@NotNull
+	// TODO colocar este campo obrigatório
+	// @NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	//@Fetch(FetchMode.JOIN)
+	// @Fetch(FetchMode.JOIN)
 	private Condominio condominio;
+
+	@OneToMany(mappedBy = "conta", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OrderBy(value = "data, subcategoria.categoriaPai.ordem, subcategoria.descricao")
+	private List<Lancamento> lancamentos = new ArrayList<>();
 
 	public Long getIdConta() {
 		return idConta;
@@ -87,6 +96,14 @@ public class Conta implements Serializable {
 		this.condominio = condominio;
 	}
 
+	public List<Lancamento> getLancamentos() {
+		return lancamentos;
+	}
+
+	public void setLancamentos(List<Lancamento> lancamentos) {
+		this.lancamentos = lancamentos;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -97,18 +114,23 @@ public class Conta implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Conta other = (Conta) obj;
 		if (idConta == null) {
-			if (other.idConta != null)
+			if (other.idConta != null) {
 				return false;
-		} else if (!idConta.equals(other.idConta))
+			}
+		} else if (!idConta.equals(other.idConta)) {
 			return false;
+		}
 		return true;
 	}
 }

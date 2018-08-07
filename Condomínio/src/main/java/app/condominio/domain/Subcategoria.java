@@ -1,7 +1,10 @@
 package app.condominio.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,9 +25,9 @@ import javax.validation.constraints.Size;
 @Table(name = "subcategorias")
 public class Subcategoria implements Serializable {
 
-	//https://api.jquery.com/load/
-	//Usar Ajax para mostrar as subcategorias de uma categoria
-		
+	// https://api.jquery.com/load/
+	// Usar Ajax para mostrar as subcategorias de uma categoria
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idsubcategoria")
@@ -35,8 +40,16 @@ public class Subcategoria implements Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idcategoria")
-	//@Fetch(FetchMode.JOIN)
+	// @Fetch(FetchMode.JOIN)
 	private Categoria categoriaPai;
+
+	@OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OrderBy(value = "periodo.inicio, periodo.fim")
+	private List<Orcamento> orcamentos = new ArrayList<>();
+
+	@OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OrderBy(value = "data")
+	private List<Lancamento> lancamentos = new ArrayList<>();
 
 	public Long getIdSubcategoria() {
 		return idSubcategoria;
@@ -72,6 +85,22 @@ public class Subcategoria implements Serializable {
 		this.categoriaPai = categoriaPai;
 	}
 
+	public List<Orcamento> getOrcamentos() {
+		return orcamentos;
+	}
+
+	public void setOrcamentos(List<Orcamento> orcamentos) {
+		this.orcamentos = orcamentos;
+	}
+
+	public List<Lancamento> getLancamentos() {
+		return lancamentos;
+	}
+
+	public void setLancamentos(List<Lancamento> lancamentos) {
+		this.lancamentos = lancamentos;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -82,18 +111,23 @@ public class Subcategoria implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Subcategoria other = (Subcategoria) obj;
 		if (idSubcategoria == null) {
-			if (other.idSubcategoria != null)
+			if (other.idSubcategoria != null) {
 				return false;
-		} else if (!idSubcategoria.equals(other.idSubcategoria))
+			}
+		} else if (!idSubcategoria.equals(other.idSubcategoria)) {
 			return false;
+		}
 		return true;
 	}
 }

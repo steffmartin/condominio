@@ -92,8 +92,9 @@ public class Condominio implements Serializable {
 	// Dicas de relações:
 	// https://vladmihalcea.com/a-beginners-guide-to-jpa-and-hibernate-cascade-types/
 
-	//TODO colocar este campo obrigatório. Ideia: ter no controller geral o usuario logado sempre pronto.
-	//@NotNull
+	// TODO colocar este campo obrigatório. Ideia: ter no controller geral o usuario
+	// logado sempre pronto.
+	// @NotNull
 	@OneToOne(mappedBy = "condominio", fetch = FetchType.LAZY)
 	private Usuario sindico;
 
@@ -104,19 +105,23 @@ public class Condominio implements Serializable {
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@OrderBy(value = "nome")
 	private List<Pessoa> pessoas = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@OrderBy(value = "sigla")
 	private List<Conta> contas = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	//@Where(clause="idCategoriaPai IS NULL")
-	@OrderBy(value="ordem")
+	// @Where(clause="idCategoriaPai IS NULL")
+	@OrderBy(value = "ordem")
 	private List<Categoria> categorias = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value="numero, parcela")
+	@OrderBy(value = "numero, parcela")
 	private List<Cobranca> cobrancas = new ArrayList<>();
+
+	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OrderBy(value = "inicio, fim")
+	private List<Periodo> periodos = new ArrayList<>();
 
 	public Long getIdCondominio() {
 		return idCondominio;
@@ -286,6 +291,14 @@ public class Condominio implements Serializable {
 		this.cobrancas = cobrancas;
 	}
 
+	public List<Periodo> getPeriodos() {
+		return periodos;
+	}
+
+	public void setPeriodos(List<Periodo> periodos) {
+		this.periodos = periodos;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -296,18 +309,23 @@ public class Condominio implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Condominio other = (Condominio) obj;
 		if (idCondominio == null) {
-			if (other.idCondominio != null)
+			if (other.idCondominio != null) {
 				return false;
-		} else if (!idCondominio.equals(other.idCondominio))
+			}
+		} else if (!idCondominio.equals(other.idCondominio)) {
 			return false;
+		}
 		return true;
 	}
 
