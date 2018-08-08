@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -43,11 +42,12 @@ public class Periodo implements Serializable {
 	private boolean encerrado = false;
 
 	@OneToMany(mappedBy = "periodo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value = "subcategoria.categoriaPai.ordem, subcategoria.descricao")
+	// @OrderBy(value = "subcategoria.categoriaPai.ordem, subcategoria.descricao")
 	private List<Orcamento> orcamentos = new ArrayList<>();
 
 	@OneToMany(mappedBy = "periodo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value = "data, subcategoria.categoriaPai.ordem, subcategoria.descricao")
+	// @OrderBy(value = "data, subcategoria.categoriaPai.ordem,
+	// subcategoria.descricao")
 	private List<Lancamento> lancamentos = new ArrayList<>();
 
 	// TODO colocar este campo obrigatório

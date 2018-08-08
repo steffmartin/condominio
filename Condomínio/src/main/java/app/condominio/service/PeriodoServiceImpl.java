@@ -87,8 +87,32 @@ public class PeriodoServiceImpl implements PeriodoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Periodo entidade, BindingResult validacao) {
-		// LATER ver se haverá validação de bloco a fazer
 
+		try {
+			// Data final não pode ser menor que a inicial
+			if (entidade.getFim().isBefore(entidade.getInicio())) {
+				validacao.rejectValue("fim", "typeMismatch");
+			}
+			// Não pode repetir período
+			List<Periodo> periodos = listar();
+			for (Periodo p : periodos) {
+				if (entidade.getInicio().isBefore(p.getInicio()) && entidade.getFim().isAfter(p.getFim())) {
+					validacao.rejectValue("inicio", "Unique");
+					validacao.rejectValue("fim", "Unique");
+					break;
+				}
+			}
+			if (!validacao.hasFieldErrors("inicio") && haPeriodo(entidade.getInicio())
+					&& !entidade.equals(ler(entidade.getInicio()))) {
+				validacao.rejectValue("inicio", "Unique");
+			}
+			if (!validacao.hasFieldErrors("fim") && haPeriodo(entidade.getFim())
+					&& !entidade.equals(ler(entidade.getInicio()))) {
+				validacao.rejectValue("fim", "Unique");
+			}
+		} catch (NullPointerException e) {
+			// Se alguma data estiver vazia, já há uma validação no bean
+		}
 	}
 
 }

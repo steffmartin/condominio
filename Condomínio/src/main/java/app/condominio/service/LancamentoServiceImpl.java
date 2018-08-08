@@ -54,6 +54,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 
 	@Override
 	public void editar(Lancamento entidade) {
+		entidade.setPeriodo(periodoService.ler(entidade.getData()));
 		lancamentoDao.save(entidade);
 
 	}
@@ -67,9 +68,11 @@ public class LancamentoServiceImpl implements LancamentoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Lancamento entidade, BindingResult validacao) {
-		// Só permitir lançamento se o período existir
+		// Só permitir lançamento se o período existir e estiver aberto
 		if (!periodoService.haPeriodo(entidade.getData())) {
 			validacao.rejectValue("data", "Inexistente");
+		} else if (periodoService.ler(entidade.getData()).isEncerrado()) {
+			validacao.rejectValue("data", "Final");
 		}
 
 	}

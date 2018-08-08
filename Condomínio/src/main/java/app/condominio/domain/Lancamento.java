@@ -56,6 +56,9 @@ public class Lancamento implements Serializable {
 	@Size(max = 255)
 	private String descricao;
 
+	@Size(max = 20)
+	private String documento;
+
 	// TODO colocar este campo obrigatório
 	// @NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -109,6 +112,14 @@ public class Lancamento implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
 	}
 
 	public Conta getConta() {

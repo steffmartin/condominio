@@ -64,7 +64,10 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Orcamento entidade, BindingResult validacao) {
-		// TODO Auto-generated method stub
+		// Só permitir se o período estiver aberto
+		if (entidade.getPeriodo().isEncerrado()) {
+			validacao.rejectValue("data", "Final");
+		}
 
 	}
 

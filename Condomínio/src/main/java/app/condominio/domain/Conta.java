@@ -17,7 +17,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -53,7 +52,8 @@ public class Conta implements Serializable {
 	private Condominio condominio;
 
 	@OneToMany(mappedBy = "conta", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value = "data, subcategoria.categoriaPai.ordem, subcategoria.descricao")
+	// @OrderBy(value = "data, subcategoria.categoriaPai.ordem,
+	// subcategoria.descricao")
 	private List<Lancamento> lancamentos = new ArrayList<>();
 
 	public Long getIdConta() {

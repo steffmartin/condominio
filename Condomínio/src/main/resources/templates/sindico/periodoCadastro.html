@@ -1,0 +1,55 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Período</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Cadastro do Período</h3>
+		<div th:unless="${haCondominio}" class="alert alert-warning">
+			<h6>Condomínio não cadastrado</h6>
+			Para cadastrar períodos é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
+		</div>
+		<p th:if="${haCondominio}" th:text="${periodo.idPeriodo == null} ? 'Ao salvar, um novo período será criado no condomínio.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações do período atual serão atualizadas.')"></p>
+		<form th:if="${haCondominio}" th:action="@{/sindico/periodos/cadastro}" th:object="${periodo}" th:method="${periodo.idPeriodo == null} ? post : put" novalidate>
+			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
+				<input type="hidden" th:field="*{condominio}" /> <input type="hidden" th:field="*{idPeriodo}" />
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="far fa-calendar-alt"></i> Informações principais
+							</p>
+							<div class="form-row">
+								<div class="form-group" th:classappend="${periodo.idPeriodo == null}?'col-md-6':'col-md-4'">
+									<label>Data inicial</label> <input class="form-control" type="date" th:errorclass="is-invalid" th:field="*{inicio}" placeholder="Início do período" />
+									<div class="invalid-feedback" th:errors="*{inicio}"></div>
+								</div>
+								<div class="form-group" th:classappend="${periodo.idPeriodo == null}?'col-md-6':'col-md-4'">
+									<label>Data final</label> <input class="form-control" type="date" th:errorclass="is-invalid" th:field="*{fim}" placeholder="Final do período" />
+									<div class="invalid-feedback" th:errors="*{fim}"></div>
+								</div>
+								<div th:unless="${periodo.idPeriodo == null}" class="form-group col-md-4">
+									<label>Situação</label>
+									<div class="custom-control custom-checkbox">
+										<input class="custom-control-input" type="checkbox" th:errorclass="is-invalid" name="encerrado" id="encerrado" th:field="*{encerrado}" /> <label for="encerrado" class="custom-control-label">Período encerrado.</label>
+										<div class="invalid-feedback" th:errors="*{encerrado}"></div>
+									</div>
+								</div>
+
+							</div>
+						</li>
+					</ul>
+				</div>
+			</fieldset>
+			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
+			<a class="btn btn-secondary" th:href="@{/sindico/periodos}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+		</form>
+		</main>
+	</th:block>
+</body>
+</html>

@@ -44,7 +44,7 @@ public class Subcategoria implements Serializable {
 	private Categoria categoriaPai;
 
 	@OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value = "periodo.inicio, periodo.fim")
+	// @OrderBy(value = "periodo.inicio, periodo.fim")
 	private List<Orcamento> orcamentos = new ArrayList<>();
 
 	@OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)

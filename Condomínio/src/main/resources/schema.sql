@@ -279,6 +279,7 @@ CREATE TABLE Lancamentos (
   data DATE NULL,
   valor DECIMAL(9,2) NULL,
   descricao VARCHAR(255) NULL,
+  documento VARCHAR(20) NULL,
   idConta BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idLancamento),
   FOREIGN KEY(idConta)

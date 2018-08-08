@@ -1,0 +1,71 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Períodos</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light float-left">Períodos</h3>
+		<div class="btn-group mb-3 float-right">
+			<a class="btn btn-light" th:href="@{/sindico/periodos/cadastro}"><i class="fas fa-plus"></i> Novo</a>
+			<button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+			<div class="dropdown-menu dropdown-menu-right">
+				<a class="dropdown-item" th:href="@{/sindico/periodos/cadastro}">Criar período</a> <a class="dropdown-item" href="#">Criar em lote</a> <a class="dropdown-item" href="#">Importar</a>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-hover table-sm crud-list mb-0">
+				<caption class="pb-0">
+					<span th:text="${#lists.isEmpty(periodos)} ? 'Nenhum' : 'Há '+${#lists.size(periodos)}"></span> <span th:text="${#lists.size(periodos)>1} ? 'períodos cadastrados' : 'período cadastrado'"></span>.
+				</caption>
+				<thead class="thead-light">
+					<tr>
+						<th scope="col">Data inicial</th>
+						<th scope="col">Data final</th>
+						<th scope="col">Situação</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="periodo : ${periodos}">
+						<th scope="row" th:text="${periodo.inicio}"></th>
+						<th scope="row" th:text="${periodo.fim}"></th>
+						<td th:text="${periodo.encerrado} ? 'Encerrado' : 'Aberto'"></td>
+						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/periodos/{idPeriodo}/cadastro(idPeriodo=${periodo.idPeriodo},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/periodos/{idPeriodo}/cadastro(idPeriodo=${periodo.idPeriodo})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${periodo.idPeriodo}" th:data-obs="|${periodo.inicio} a ${periodo.fim}|"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</main>
+		<!--/* Modal */-->
+		<div th:unless="${#lists.isEmpty(periodos)}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">
+			<div class="modal-dialog  modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Confirmar Exclusão</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+					</div>
+					<form th:action="@{/sindico/periodos/excluir}" th:method="delete" novalidate>
+						<input type="hidden" id="idObj" name="idObj" />
+						<div class="modal-body">
+							Confirma a exclusão do período '<span></span>'?
+							<div class="alert alert-danger mt-3 mb-0">Os lançamentos e orçamentos deste período, se houver, também serão excluídos.</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-danger">Excluir</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>
