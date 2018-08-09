@@ -27,7 +27,7 @@
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label>Classe <a class="text-secondary" tabindex="-1" data-toggle="modal" href="#modalInfo" title="O que é isso?"><i class="fas fa-question-circle"></i></a></label> <select required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse" autofocus th:disabled="${categoria.idCategoria != null}">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="t : ${tiposClasseCategoria}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #ctx.classe}" data-toggle="collapse" th:data-target="'#'+ ${t}" th:data-form-action="@{/sindico/{sub}categorias/cadastro/(sub=(${t == T(app.condominio.domain.enums.TipoClasseCategoria).S} ? 'sub' : ''))}"></option>
 									</select>
 									<div class="invalid-feedback">Campo obrigatório.</div>
@@ -35,8 +35,8 @@
 								</div>
 								<div class="form-group col-md-6">
 									<label>Categoria superior</label> <select class="custom-select" id="categoriaPai" th:errorclass="is-invalid" th:field="*{categoriaPai}">
-										<option value="" hidden="true">Selecione</option>
-										<option value="">---</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option value="">(Nenhuma)</option>
 										<option th:each="c : ${categorias}" th:value="${c.idCategoria}" th:text="|${c.ordem} - ${c.descricao}|"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{categoriaPai}"></div>
@@ -59,7 +59,7 @@
 								</div>
 								<div class="form-group col-md-6">
 									<label>Tipo</label> <select class="custom-select" id="tipo" th:errorclass="is-invalid" th:field="*{tipo}" th:disabled="${categoria.idCategoria != null}">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="tipo : ${tiposCategoria}" th:value="${tipo}" th:text="${tipo.nome}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{tipo}"></div>
@@ -76,7 +76,7 @@
 								</div>
 								<div class="form-group col-md-6">
 									<label>Tipo</label> <select disabled class="custom-select" id="tipo" name="tipo">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="tipo : ${tiposCategoria}" th:value="${tipo}" th:text="${tipo.nome}"></option>
 									</select>
 								</div>

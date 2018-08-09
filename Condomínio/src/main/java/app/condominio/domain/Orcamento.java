@@ -25,15 +25,13 @@ public class Orcamento implements Serializable {
 	@Column(name = "idorcamento")
 	private Long idOrcamento;
 
-	// TODO colocar este campo obrigatório
-	// @NotNull
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idperiodo")
 	// @Fetch(FetchMode.JOIN)
 	private Periodo periodo;
 
-	// TODO colocar este campo obrigatório
-	// @NotNull
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idsubcategoria")
 	// @Fetch(FetchMode.JOIN)

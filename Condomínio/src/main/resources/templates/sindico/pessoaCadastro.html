@@ -27,7 +27,7 @@
 							<div class="form-row">
 								<div class="form-group col-md-4">
 									<label>Tipo</label> <select required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse:not(.form-list tr)" autofocus th:disabled="${pessoa.idPessoa != null}">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #ctx.tipo}" data-toggle="collapse" th:data-target="'#P'+ ${t}" th:data-form-action="@{/sindico/condominos/cadastro(${'P' + t})}"></option>
 									</select>
 									<div class="invalid-feedback">Campo obrigatório.</div>
@@ -65,7 +65,7 @@
 								</div>
 								<div class="form-group col-md-3">
 									<label>Gênero</label> <select class="custom-select" id="genero" th:errorclass="is-invalid" th:field="*{genero}">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="genero : ${generos}" th:value="${genero}" th:text="${genero.nome}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{genero}"></div>
@@ -97,7 +97,7 @@
 								</div>
 								<div class="form-group col-md-3">
 									<label>Gênero</label> <select disabled class="custom-select" id="genero" name="genero">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="genero : ${generos}" th:value="${genero}" th:text="${genero.nome}"></option>
 									</select>
 								</div>
@@ -233,7 +233,7 @@
 								</div>
 								<div class="form-group col-md-4">
 									<label>Estado</label> <select class="custom-select" id="estado" th:errorclass="is-invalid" th:field="*{estado}">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.nome}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{estado}"></div>
@@ -266,14 +266,14 @@
 														</button>
 													</div>
 													<select disabled class="custom-select last" name="relacoes[].moradia">
-														<option th:if="${#lists.isEmpty(moradias)}"value="">---</option>
-														<option value="" hidden="true">Selecione</option>
+														<option th:if="${#lists.isEmpty(moradias)}"value="" disabled>Não há moradias cadastradas</option>
+														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 														<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
 													</select>
 												</div></td>
 											<td><div class="input-group">
 													<select disabled class="custom-select" name="relacoes[].tipo">
-														<option value="" hidden="true">Selecione</option>
+														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 														<option th:each="tr : ${tiposRelacao}" th:value="${tr}" th:text="${tr.nome}"></option>
 													</select> <input disabled class="form-control col-4" type="number" step=".001" max="100" name="relacoes[].participacaoDono" placeholder="Quota" value="0.0" />
 													<div class="input-group-append">
@@ -293,7 +293,7 @@
 														</button>
 													</div>
 													<select class="custom-select last" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].moradia}">
-														<option value="" hidden="true">Selecione</option>
+														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 														<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
 													</select>
 													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].moradia}"></div>
@@ -301,7 +301,7 @@
 												</div></td>
 											<td><div class="input-group">
 													<select class="custom-select" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].tipo}">
-														<option value="" hidden="true">Selecione</option>
+														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 														<option th:each="tr : ${tiposRelacao}" th:value="${tr}" th:text="${tr.nome}"></option>
 													</select> <input class="form-control col-4" type="number" step=".001" max="100" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].participacaoDono}" placeholder="Quota" />
 													<div class="input-group-append">

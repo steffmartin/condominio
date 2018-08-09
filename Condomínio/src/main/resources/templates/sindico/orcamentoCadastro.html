@@ -1,0 +1,65 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Orçamento</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Cadastro do Orçamento</h3>
+		<p th:text="${orcamento.idOrcamento == null} ? 'Ao salvar, um novo orçamento será criado no período selecionado.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' : 'Ao salvar, as informações do orçamento atual serão atualizadas.')"></p>
+		<form th:action="@{/sindico/orcamentos/cadastro}" th:object="${orcamento}" th:method="${orcamento.idOrcamento == null} ? post : put" novalidate>
+			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
+				<input type="hidden" th:field="*{idOrcamento}" />
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-file-invoice-dollar"></i> Informações principais
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label>Período</label> <select autofocus class="custom-select" id="periodo" th:errorclass="is-invalid" th:field="*{periodo}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(periodos)}" value="" disabled>Não há períodos cadastrados</option>
+										<option th:each="periodo : ${periodos}" th:value="${periodo.idPeriodo}" th:text="|${periodo.inicio} a ${periodo.fim}|"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{periodo}"></div>
+								</div>
+								<div class="form-group col-md-4">
+									<label>Categoria</label> <select autofocus class="custom-select" id="subcategoria" th:errorclass="is-invalid" th:field="*{subcategoria}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(categorias)}" value="" disabled>Não há categorias cadastradas</option>
+										<th:block th:each="categoria : ${categorias}">
+											<option value="" disabled th:text="|${categoria.ordem} - ${categoria.descricao}|"></option>
+											<option th:each="subcategoria : ${categoria.subcategorias}" th:value="${subcategoria.idSubcategoria}" th:text="|${subcategoria.categoriaPai.ordem}.${subcategoriaStat.count} - ${subcategoria.descricao}|"></option>
+										</th:block>
+									</select>
+									<div class="invalid-feedback" th:errors="*{subcategoria}"></div>
+								</div>
+								<div class="form-group col-md-4">
+									<label>Valor orçado</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span>
+										</div>
+										<input class="form-control last calc-add" type="number" step=".01" th:errorclass="is-invalid" th:field="*{orcado}" placeholder="Valor previsto" />
+										<div class="invalid-feedback" th:errors="*{orcado}"></div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</fieldset>
+			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
+			<a class="btn btn-secondary" th:href="@{/sindico/orcamentos}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+		</form>
+		</main>
+	</th:block>
+
+</body>
+</html>

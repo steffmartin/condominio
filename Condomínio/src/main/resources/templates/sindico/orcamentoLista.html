@@ -1,0 +1,70 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Orçamentos</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light float-left">Orçamentos</h3>
+		<div class="btn-group mb-3 float-right">
+			<a class="btn btn-light" th:href="@{/sindico/orcamentos/cadastro}"><i class="fas fa-plus"></i> Novo</a>
+			<button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+			<div class="dropdown-menu dropdown-menu-right">
+				<a class="dropdown-item" th:href="@{/sindico/orcamentos/cadastro}">Criar orçamento</a> <a class="dropdown-item" href="#">Criar em lote</a> <a class="dropdown-item" href="#">Importar</a>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-hover table-sm crud-list mb-0">
+				<caption class="pb-0">
+					<span th:text="${#lists.isEmpty(orcamentos)} ? 'Nenhum' : 'Há '+${#lists.size(orcamentos)}"></span> <span th:text="${#lists.size(orcamentos)>1} ? 'orçamentos cadastrados' : 'orçamento cadastrado'"></span>.
+				</caption>
+				<thead class="thead-light">
+					<tr>
+						<th scope="col">Período</th>
+						<th scope="col">Categoria</th>
+						<th scope="col">Valor orçado</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="orcamento : ${orcamentos}">
+						<th scope="row" th:text="|${orcamento.periodo.inicio} a ${orcamento.periodo.fim}|"></th>
+						<td th:text="${orcamento.subcategoria.descricao}"></td>
+						<td th:text="${'R$ ' + orcamento.orcado}"></td>
+						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/orcamentos/{idOrcamento}/cadastro(idOrcamento=${orcamento.idOrcamento},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/orcamentos/{idOrcamento}/cadastro(idOrcamento=${orcamento.idOrcamento})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${orcamento.idOrcamento}" th:data-obs="|${orcamento.periodo.inicio} a ${orcamento.periodo.fim} - ${orcamento.subcategoria.descricao}|"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</main>
+		<!--/* Modal */-->
+		<div th:unless="${#lists.isEmpty(orcamentos)}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">
+			<div class="modal-dialog  modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Confirmar Exclusão</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+					</div>
+					<form th:action="@{/sindico/orcamentos/excluir}" th:method="delete" novalidate>
+						<input type="hidden" id="idObj" name="idObj" />
+						<div class="modal-body">
+							Confirma a exclusão do orçamento '<span></span>'?
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-danger">Excluir</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

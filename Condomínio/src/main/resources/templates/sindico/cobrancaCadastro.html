@@ -39,7 +39,7 @@
 								</div>
 								<div class="form-group col-md-3">
 									<label>Motivo da emissão</label> <select class="custom-select" id="motivoEmissao" th:errorclass="is-invalid" th:field="*{motivoEmissao}">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="motivo : ${motivosEmissao}" th:value="${motivo}" th:text="${motivo.nome}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{motivoEmissao}"></div>
@@ -52,8 +52,8 @@
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label>Moradia</label> <select class="custom-select last" th:errorclass="is-invalid" th:field="*{moradia}">
-										<option value="" hidden="true">Selecione</option>
-										<option th:if="${#lists.isEmpty(moradias)}" value="">---</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(moradias)}" value="" disabled>Não há moradias cadastradas</option>
 										<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{moradia}"></div>
@@ -181,7 +181,7 @@
 							<div class="form-row">
 								<div class="form-group col-md-4">
 									<label>Situação</label> <select class="custom-select" id="situacao" th:errorclass="is-invalid" th:field="*{situacao}">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="situacao : ${situacoes}" th:value="${situacao}" th:text="${situacao.nome}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{situacao}"></div>
@@ -192,7 +192,7 @@
 								</div>
 								<div class="form-group col-md-4">
 									<label>Motivo da baixa</label> <select class="custom-select" id="motivoBaixa" th:errorclass="is-invalid" th:field="*{motivoBaixa}">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option value="">---</option>
 										<option th:each="motivo : ${motivosBaixa}" th:value="${motivo}" th:text="${motivo.nome}"></option>
 									</select>

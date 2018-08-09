@@ -64,11 +64,19 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Orcamento entidade, BindingResult validacao) {
-		// Só permitir se o período estiver aberto
-		if (entidade.getPeriodo().isEncerrado()) {
-			validacao.rejectValue("data", "Final");
+		if (entidade.getPeriodo() != null) {
+			// Só permitir se o período estiver aberto
+			if (entidade.getPeriodo().isEncerrado()) {
+				validacao.rejectValue("periodo", "Final");
+			}
+			// Não pode ter orçamento repetido
+			for (Orcamento o : entidade.getPeriodo().getOrcamentos()) {
+				if (o.getSubcategoria().equals(entidade.getSubcategoria())) {
+					validacao.rejectValue("subcategoria", "Unique");
+					break;
+				}
+			}
 		}
-
 	}
 
 }

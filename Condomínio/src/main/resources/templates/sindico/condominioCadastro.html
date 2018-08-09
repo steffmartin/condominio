@@ -98,7 +98,7 @@
 								</div>
 								<div class="form-group col-md-4">
 									<label>Estado</label> <select class="custom-select" id="estado" th:errorclass="is-invalid" th:field="*{estado}">
-										<option value="" hidden="true">Selecione</option>
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.nome}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{estado}"></div>
