@@ -76,13 +76,10 @@ public class Pessoa implements Serializable {
 	@Size(max = 8)
 	private String cep;
 
-	//TODO colocar este campo obrigatório
-	//@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	//@Fetch(FetchMode.JOIN)
 	private Condominio condominio;
-	
+
 	@OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy(value = "dataEntrada")
 	@Valid
@@ -210,18 +207,23 @@ public class Pessoa implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Pessoa other = (Pessoa) obj;
 		if (idPessoa == null) {
-			if (other.idPessoa != null)
+			if (other.idPessoa != null) {
 				return false;
-		} else if (!idPessoa.equals(other.idPessoa))
+			}
+		} else if (!idPessoa.equals(other.idPessoa)) {
 			return false;
+		}
 		return true;
 	}
 

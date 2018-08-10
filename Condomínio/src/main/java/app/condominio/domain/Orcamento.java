@@ -28,13 +28,11 @@ public class Orcamento implements Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idperiodo")
-	// @Fetch(FetchMode.JOIN)
 	private Periodo periodo;
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idsubcategoria")
-	// @Fetch(FetchMode.JOIN)
 	private Subcategoria subcategoria;
 
 	@NotNull

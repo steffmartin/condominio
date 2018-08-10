@@ -40,11 +40,9 @@ public class Subcategoria implements Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idcategoria")
-	// @Fetch(FetchMode.JOIN)
 	private Categoria categoriaPai;
 
 	@OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	// @OrderBy(value = "periodo.inicio, periodo.fim")
 	private List<Orcamento> orcamentos = new ArrayList<>();
 
 	@OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -59,6 +57,7 @@ public class Subcategoria implements Serializable {
 		this.idSubcategoria = idSubcategoria;
 	}
 
+	// TODO revisar a página e ver se dá pra tirar usando instanceof
 	// Método necessário para uso do Thymeleaf
 	public void setIdCategoria(Long idSubcategoria) {
 		setIdSubcategoria(idSubcategoria);

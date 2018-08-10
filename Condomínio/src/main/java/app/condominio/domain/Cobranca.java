@@ -58,7 +58,6 @@ public class Cobranca implements Serializable {
 	@Column(name = "datavencimento")
 	private LocalDate dataVencimento;
 
-	// DECIMAL(9,2) no MySQL
 	@NotNull
 	@Min(0)
 	private BigDecimal valor = BigDecimal.ZERO;
@@ -120,14 +119,10 @@ public class Cobranca implements Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idmoradia")
-	// @Fetch(FetchMode.JOIN)
 	private Moradia moradia;
 
-	// TODO colocar este campo obrigatório
-	// @NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	// @Fetch(FetchMode.JOIN)
 	private Condominio condominio;
 
 	public Long getIdCobranca() {

@@ -40,21 +40,18 @@ public class Conta implements Serializable {
 	@Size(max = 30)
 	private String descricao;
 
-	// DECIMAL(9,2) no MySQL
 	@NotNull
 	private BigDecimal saldo = BigDecimal.ZERO;
 
-	// TODO colocar este campo obrigatório
-	// @NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	// @Fetch(FetchMode.JOIN)
 	private Condominio condominio;
 
 	@OneToMany(mappedBy = "conta", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	// @OrderBy(value = "data, subcategoria.categoriaPai.ordem,
-	// subcategoria.descricao")
-	private List<Lancamento> lancamentos = new ArrayList<>();
+	private List<Movimento> movimentos = new ArrayList<>();
+
+	@OneToMany(mappedBy = "contaInversa", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<Transferencia> transferenciasRecebidas = new ArrayList<>();
 
 	public Long getIdConta() {
 		return idConta;
@@ -96,12 +93,20 @@ public class Conta implements Serializable {
 		this.condominio = condominio;
 	}
 
-	public List<Lancamento> getLancamentos() {
-		return lancamentos;
+	public List<Movimento> getMovimentos() {
+		return movimentos;
 	}
 
-	public void setLancamentos(List<Lancamento> lancamentos) {
-		this.lancamentos = lancamentos;
+	public void setMovimentos(List<Movimento> movimentos) {
+		this.movimentos = movimentos;
+	}
+
+	public List<Transferencia> getTransferenciasRecebidas() {
+		return transferenciasRecebidas;
+	}
+
+	public void setTransferenciasRecebidas(List<Transferencia> transferenciasRecebidas) {
+		this.transferenciasRecebidas = transferenciasRecebidas;
 	}
 
 	@Override

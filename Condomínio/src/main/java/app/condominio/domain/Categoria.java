@@ -29,7 +29,7 @@ import app.condominio.domain.enums.TipoCategoria;
 @Entity
 @Table(name = "categorias")
 public class Categoria implements Serializable {
-	
+
 	public static final int NIVEL_MAX = 4;
 
 	@Id
@@ -47,24 +47,20 @@ public class Categoria implements Serializable {
 
 	@Max(NIVEL_MAX)
 	private int nivel;
-	
-	//TODO criar método para ordenação atomática
-	@Size(min=1,max=255)
+
+	// TODO criar método para ordenação atomática
+	@Size(min = 1, max = 255)
 	@NotBlank
 	private String ordem;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcategoriapai")
-	//@Fetch(FetchMode.JOIN)
 	private Categoria categoriaPai;
 
-	//TODO colocar este campo obrigatório
-	//@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	//@Fetch(FetchMode.JOIN)
 	private Condominio condominio;
-	
+
 	@OneToMany(mappedBy = "categoriaPai", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Categoria> categoriasFilhas = new ArrayList<>();
 
@@ -158,18 +154,23 @@ public class Categoria implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Categoria other = (Categoria) obj;
 		if (idCategoria == null) {
-			if (other.idCategoria != null)
+			if (other.idCategoria != null) {
 				return false;
-		} else if (!idCategoria.equals(other.idCategoria))
+			}
+		} else if (!idCategoria.equals(other.idCategoria)) {
 			return false;
+		}
 		return true;
 	}
 

@@ -94,7 +94,6 @@ public class Condominio implements Serializable {
 
 	// TODO colocar este campo obrigatório. Ideia: ter no controller geral o usuario
 	// logado sempre pronto.
-	// @NotNull
 	@OneToOne(mappedBy = "condominio", fetch = FetchType.LAZY)
 	private Usuario sindico;
 
@@ -111,7 +110,6 @@ public class Condominio implements Serializable {
 	private List<Conta> contas = new ArrayList<>();
 
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	// @Where(clause="idCategoriaPai IS NULL")
 	@OrderBy(value = "ordem")
 	private List<Categoria> categorias = new ArrayList<>();
 

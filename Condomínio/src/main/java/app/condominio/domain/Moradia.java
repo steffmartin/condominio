@@ -58,16 +58,15 @@ public class Moradia implements Serializable {
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idbloco")
-	//@Fetch(FetchMode.JOIN)
 	private Bloco bloco;
-	
+
 	@OneToMany(mappedBy = "moradia", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy(value = "dataEntrada")
 	@Valid
 	private List<Relacao> relacoes = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "moradia", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value="numero, parcela")
+	@OrderBy(value = "numero, parcela")
 	private List<Cobranca> cobrancas = new ArrayList<>();
 
 	public Long getIdMoradia() {
@@ -160,18 +159,23 @@ public class Moradia implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Moradia other = (Moradia) obj;
 		if (idMoradia == null) {
-			if (other.idMoradia != null)
+			if (other.idMoradia != null) {
 				return false;
-		} else if (!idMoradia.equals(other.idMoradia))
+			}
+		} else if (!idMoradia.equals(other.idMoradia)) {
 			return false;
+		}
 		return true;
 	}
 }

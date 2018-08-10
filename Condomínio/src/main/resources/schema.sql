@@ -272,26 +272,55 @@ CREATE TABLE Orcamentos (
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Lancamentos (
-  idLancamento BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  idPeriodo BIGINT UNSIGNED NOT NULL,
-  idSubcategoria BIGINT UNSIGNED NOT NULL,
+CREATE TABLE Movimentos (
+  idMovimento BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   data DATE NULL,
   valor DECIMAL(9,2) NULL,
-  descricao VARCHAR(255) NULL,
   documento VARCHAR(20) NULL,
+  descricao VARCHAR(255) NULL,
   idConta BIGINT UNSIGNED NOT NULL,
-  PRIMARY KEY(idLancamento),
+  PRIMARY KEY(idMovimento),
   FOREIGN KEY(idConta)
     REFERENCES Contas(idConta)
       ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Transferencias (
+  idMovimento BIGINT UNSIGNED NOT NULL,
+  saida BOOL NULL,
+  idContaInversa BIGINT UNSIGNED NOT NULL,
+  idMovimentoInverso BIGINT UNSIGNED NULL,
+  PRIMARY KEY(idMovimento),
+  FOREIGN KEY(idContaInversa)
+    REFERENCES Contas(idConta)
+      ON DELETE CASCADE
       ON UPDATE CASCADE,
+  FOREIGN KEY(idMovimento)
+    REFERENCES Movimentos(idMovimento)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+  FOREIGN KEY(idMovimentoInverso)
+    REFERENCES Transferencias(idMovimento)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE Lancamentos (
+  idMovimento BIGINT UNSIGNED NOT NULL,
+  idPeriodo BIGINT UNSIGNED NOT NULL,
+  idSubcategoria BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY(idMovimento),
   FOREIGN KEY(idSubcategoria)
     REFERENCES Subcategorias(idSubcategoria)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   FOREIGN KEY(idPeriodo)
     REFERENCES Periodos(idPeriodo)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+  FOREIGN KEY(idMovimento)
+    REFERENCES Movimentos(idMovimento)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );

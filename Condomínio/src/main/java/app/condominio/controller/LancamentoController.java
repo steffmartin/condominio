@@ -20,17 +20,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import app.condominio.domain.Categoria;
 import app.condominio.domain.Conta;
-import app.condominio.domain.Lancamento;
+import app.condominio.domain.Movimento;
 import app.condominio.service.CategoriaService;
 import app.condominio.service.ContaService;
-import app.condominio.service.LancamentoService;
+import app.condominio.service.MovimentoService;
 
 @Controller
 @RequestMapping("sindico/lancamentos")
 public class LancamentoController {
 
 	@Autowired
-	private LancamentoService lancamentoService;
+	private MovimentoService lancamentoService;
 
 	@Autowired
 	private CategoriaService categoriaService;
@@ -56,7 +56,7 @@ public class LancamentoController {
 	}
 
 	@GetMapping("/cadastro")
-	public ModelAndView getLancamentoCadastro(@ModelAttribute("lancamento") Lancamento lancamento) {
+	public ModelAndView getLancamentoCadastro(@ModelAttribute("lancamento") Movimento lancamento) {
 		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "lancamentoCadastro");
 	}
 
@@ -68,7 +68,7 @@ public class LancamentoController {
 	}
 
 	@PostMapping("/cadastro")
-	public ModelAndView postLancamentoCadastro(@Valid @ModelAttribute("lancamento") Lancamento lancamento,
+	public ModelAndView postLancamentoCadastro(@Valid @ModelAttribute("lancamento") Movimento lancamento,
 			BindingResult validacao) {
 		lancamentoService.validar(lancamento, validacao);
 		if (validacao.hasErrors()) {
@@ -79,7 +79,7 @@ public class LancamentoController {
 	}
 
 	@PutMapping("/cadastro")
-	public ModelAndView putLancamentoCadastro(@Valid @ModelAttribute("lancamento") Lancamento lancamento,
+	public ModelAndView putLancamentoCadastro(@Valid @ModelAttribute("lancamento") Movimento lancamento,
 			BindingResult validacao) {
 		lancamentoService.validar(lancamento, validacao);
 		if (validacao.hasErrors()) {

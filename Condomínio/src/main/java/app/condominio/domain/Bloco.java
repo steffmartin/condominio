@@ -36,15 +36,14 @@ public class Bloco implements Serializable {
 	@Size(max = 30)
 	private String descricao;
 
-	//TODO colocar este campo obrigatorio
-	//@NotNull
+	// TODO para todos os relacionamentos com condomínio, tentar colocar o
+	// condomínio no formulário ao invés de fazer no service
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
-	//@Fetch(FetchMode.JOIN)
 	private Condominio condominio;
 
 	@OneToMany(mappedBy = "bloco", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value="sigla")
+	@OrderBy(value = "sigla")
 	private List<Moradia> moradias = new ArrayList<>();
 
 	public Long getIdBloco() {
@@ -97,18 +96,23 @@ public class Bloco implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Bloco other = (Bloco) obj;
 		if (idBloco == null) {
-			if (other.idBloco != null)
+			if (other.idBloco != null) {
 				return false;
-		} else if (!idBloco.equals(other.idBloco))
+			}
+		} else if (!idBloco.equals(other.idBloco)) {
 			return false;
+		}
 		return true;
 	}
 }
