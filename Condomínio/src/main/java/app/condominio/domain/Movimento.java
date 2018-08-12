@@ -39,7 +39,7 @@ public class Movimento implements Serializable {
 
 	@NotNull
 	@Min(0)
-	private BigDecimal valor = BigDecimal.ZERO;
+	private BigDecimal valor;
 
 	@Size(max = 20)
 	private String documento;

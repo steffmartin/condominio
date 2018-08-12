@@ -54,7 +54,7 @@
 									<label>Moradia</label> <select class="custom-select last" th:errorclass="is-invalid" th:field="*{moradia}">
 										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:if="${#lists.isEmpty(moradias)}" value="" disabled>Não há moradias cadastradas</option>
-										<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
+										<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="${m}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{moradia}"></div>
 								</div>

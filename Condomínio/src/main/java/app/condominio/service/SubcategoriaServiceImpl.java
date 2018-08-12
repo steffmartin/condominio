@@ -35,7 +35,13 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Subcategoria> listar() {
-		return subcategoriaDao.findAllByCategoriaPai(categoriaService.listar());
+		return subcategoriaDao.findAllByCategoriaPaiIn(categoriaService.listar());
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public int contagem() {
+		return subcategoriaDao.countByCategoriaPaiIn(categoriaService.listar());
 	}
 
 	@Override
@@ -53,7 +59,8 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Subcategoria entidade, BindingResult validacao) {
-		// Não pode "alterar" de uma categoria DESPESA para uma categoria RECEITA e vice-versa
+		// Não pode "alterar" de uma categoria DESPESA para uma categoria RECEITA e
+		// vice-versa
 		if (entidade.getIdSubcategoria() != null) {
 			Subcategoria anterior = ler(entidade.getIdSubcategoria());
 			if (anterior.getCategoriaPai().getTipo() != entidade.getCategoriaPai().getTipo()) {

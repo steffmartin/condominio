@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @SuppressWarnings("serial")
@@ -40,8 +39,7 @@ public class Conta implements Serializable {
 	@Size(max = 30)
 	private String descricao;
 
-	@NotNull
-	private BigDecimal saldo = BigDecimal.ZERO;
+	private BigDecimal saldo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
@@ -107,6 +105,15 @@ public class Conta implements Serializable {
 
 	public void setTransferenciasRecebidas(List<Transferencia> transferenciasRecebidas) {
 		this.transferenciasRecebidas = transferenciasRecebidas;
+	}
+
+	@Override
+	public String toString() {
+		return sigla;
+	}
+
+	public String numero() {
+		return "";
 	}
 
 	@Override

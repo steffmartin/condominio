@@ -59,7 +59,7 @@ main {
 	font-weight:normal;
 }
 @media ( max-width : 768px) {
-	.crud-list .btn span, .form-list .clone span{
+	.crud-list .btn span{
 		display:none;
 	}
 	.crud-list .btn{

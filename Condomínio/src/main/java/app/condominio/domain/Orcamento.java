@@ -37,7 +37,7 @@ public class Orcamento implements Serializable {
 
 	@NotNull
 	@Min(0)
-	private BigDecimal orcado = BigDecimal.ZERO;
+	private BigDecimal orcado;
 
 	public Long getIdOrcamento() {
 		return idOrcamento;
@@ -69,6 +69,11 @@ public class Orcamento implements Serializable {
 
 	public void setOrcado(BigDecimal orcado) {
 		this.orcado = orcado;
+	}
+
+	@Override
+	public String toString() {
+		return periodo.toString() + " - " + subcategoria.getDescricao();
 	}
 
 	@Override

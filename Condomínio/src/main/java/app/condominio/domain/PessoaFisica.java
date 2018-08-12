@@ -18,22 +18,22 @@ import app.condominio.domain.validators.CPF;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "pessoasfisicas")
-@PrimaryKeyJoinColumn(name="idpessoa")
+@PrimaryKeyJoinColumn(name = "idpessoa")
 public class PessoaFisica extends Pessoa {
 
 	@NotBlank
 	@Size(min = 1, max = 100)
 	private String sobrenome;
-	
+
 	@CPF
 	private String cpf;
-	
+
 	@Size(max = 14)
 	private String rg;
-	
+
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate nascimento;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Genero genero;
 
@@ -76,4 +76,20 @@ public class PessoaFisica extends Pessoa {
 	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
+
+	@Override
+	public String cpfCnpj() {
+		return cpf;
+	};
+
+	@Override
+	public String toString() {
+		if (sobrenome != null) {
+			return getNome() + " " + sobrenome;
+		} else {
+			return super.toString();
+		}
+
+	}
+
 }

@@ -34,12 +34,12 @@
 				</thead>
 				<tbody>
 					<tr th:each="pessoa : ${pessoas}">
-						<th scope="row" th:text="${pessoa instanceof T(app.condominio.domain.PessoaFisica)} ? (|${pessoa.nome} ${pessoa.sobrenome}|) : ${pessoa.nome}"></th>
-						<td th:text="${pessoa instanceof T(app.condominio.domain.PessoaFisica)} ? ${pessoa.cpf} : ${pessoa.cnpj}"></td>
+						<th scope="row" th:text="${pessoa}"></th>
+						<td th:text="${pessoa.cpfCnpj()}"></td>
 						<td th:text="${pessoa.telefone}"></td>
 						<td th:text="${pessoa.celular}"></td>
 						<td th:text="${pessoa.email}"></td>
-						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/condominos/{idPessoa}/cadastro(idPessoa=${pessoa.idPessoa},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/condominos/{idPessoa}/cadastro(idPessoa=${pessoa.idPessoa})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${pessoa.idPessoa}" th:data-obs="${pessoa.nome}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/condominos/{idPessoa}/cadastro(idPessoa=${pessoa.idPessoa},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/condominos/{idPessoa}/cadastro(idPessoa=${pessoa.idPessoa})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${pessoa.idPessoa}" th:data-obs="${pessoa}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 					</tr>
 				</tbody>
 			</table>

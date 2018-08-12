@@ -44,16 +44,17 @@ public class Moradia implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoMoradia tipo;
 
-	private float area;
+	private Float area;
 
+	@NotNull
 	@Max(100)
 	@Column(name = "fracaoideal")
-	private float fracaoIdeal;
+	private Float fracaoIdeal;
 
 	@Size(max = 30)
 	private String matricula;
 
-	private int vagas;
+	private Integer vagas;
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -93,19 +94,19 @@ public class Moradia implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public float getArea() {
+	public Float getArea() {
 		return area;
 	}
 
-	public void setArea(float area) {
+	public void setArea(Float area) {
 		this.area = area;
 	}
 
-	public float getFracaoIdeal() {
+	public Float getFracaoIdeal() {
 		return fracaoIdeal;
 	}
 
-	public void setFracaoIdeal(float fracaoIdeal) {
+	public void setFracaoIdeal(Float fracaoIdeal) {
 		this.fracaoIdeal = fracaoIdeal;
 	}
 
@@ -117,11 +118,11 @@ public class Moradia implements Serializable {
 		this.matricula = matricula;
 	}
 
-	public int getVagas() {
+	public Integer getVagas() {
 		return vagas;
 	}
 
-	public void setVagas(int vagas) {
+	public void setVagas(Integer vagas) {
 		this.vagas = vagas;
 	}
 
@@ -147,6 +148,11 @@ public class Moradia implements Serializable {
 
 	public void setCobrancas(List<Cobranca> cobrancas) {
 		this.cobrancas = cobrancas;
+	}
+
+	@Override
+	public String toString() {
+		return bloco.toString() + " - " + sigla;
 	}
 
 	@Override

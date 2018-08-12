@@ -32,10 +32,10 @@
 				</thead>
 				<tbody>
 					<tr th:each="periodo : ${periodos}">
-						<th scope="row" th:text="${periodo.inicio}"></th>
-						<th scope="row" th:text="${periodo.fim}"></th>
+						<th scope="row" th:text="${#temporals.format(periodo.inicio,'dd/MM/yyyy')}"></th>
+						<th scope="row" th:text="${#temporals.format(periodo.fim,'dd/MM/yyyy')}"></th>
 						<td th:text="${periodo.encerrado} ? 'Encerrado' : 'Aberto'"></td>
-						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/periodos/{idPeriodo}/cadastro(idPeriodo=${periodo.idPeriodo},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/periodos/{idPeriodo}/cadastro(idPeriodo=${periodo.idPeriodo})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${periodo.idPeriodo}" th:data-obs="|${periodo.inicio} a ${periodo.fim}|"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/periodos/{idPeriodo}/cadastro(idPeriodo=${periodo.idPeriodo},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/periodos/{idPeriodo}/cadastro(idPeriodo=${periodo.idPeriodo})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${periodo.idPeriodo}" th:data-obs="${periodo}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 					</tr>
 				</tbody>
 			</table>

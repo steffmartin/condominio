@@ -1,6 +1,5 @@
 package app.condominio.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.OrcamentoDao;
-import app.condominio.domain.Condominio;
 import app.condominio.domain.Orcamento;
-import app.condominio.domain.Periodo;
 
 @Service
 @Transactional
@@ -22,7 +19,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	private OrcamentoDao orcamentoDao;
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private PeriodoService periodoService;
 
 	@Override
 	public void salvar(Orcamento entidade) {
@@ -39,14 +36,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Orcamento> listar() {
-		List<Orcamento> orcamentos = new ArrayList<>();
-		Condominio condominio = usuarioService.lerLogado().getCondominio();
-		if (condominio != null) {
-			for (Periodo periodo : condominio.getPeriodos()) {
-				orcamentos.addAll(periodo.getOrcamentos());
-			}
-		}
-		return orcamentos;
+		return orcamentoDao.findAllByPeriodoIn(periodoService.listar());
 	}
 
 	@Override
@@ -66,15 +56,16 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	public void validar(Orcamento entidade, BindingResult validacao) {
 		if (entidade.getPeriodo() != null) {
 			// Só permitir se o período estiver aberto
-			if (entidade.getPeriodo().isEncerrado()) {
+			if (entidade.getPeriodo().getEncerrado()) {
 				validacao.rejectValue("periodo", "Final");
 			}
 			// Não pode ter orçamento repetido
-			for (Orcamento o : entidade.getPeriodo().getOrcamentos()) {
-				if (o.getSubcategoria().equals(entidade.getSubcategoria())) {
-					validacao.rejectValue("subcategoria", "Unique");
-					break;
-				}
+			else if (entidade.getSubcategoria() != null && ((entidade.getIdOrcamento() == null
+					&& orcamentoDao.existsByPeriodoAndSubcategoria(entidade.getPeriodo(), entidade.getSubcategoria()))
+					|| (entidade.getIdOrcamento() != null
+							&& orcamentoDao.existsByPeriodoAndSubcategoriaAndIdOrcamentoNot(entidade.getPeriodo(),
+									entidade.getSubcategoria(), entidade.getIdOrcamento())))) {
+				validacao.rejectValue("subcategoria", "Unique");
 			}
 		}
 	}

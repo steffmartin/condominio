@@ -43,7 +43,7 @@ public class Usuario implements Serializable {
 	private String password;
 
 	@AssertTrue
-	private boolean ativo;
+	private Boolean ativo;
 	// LATER A validação @AssertTrue inutiliza o uso de usuário ativo e inativo do
 	// Spring Security
 
@@ -65,9 +65,9 @@ public class Usuario implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "autorizacao")
 	private Set<Autorizacao> autorizacoes = new HashSet<>();
-	
+
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@JoinColumn(name="idcondominio")
+	@JoinColumn(name = "idcondominio")
 	private Condominio condominio;
 
 	public Long getId() {
@@ -94,11 +94,11 @@ public class Usuario implements Serializable {
 		this.password = password;
 	}
 
-	public boolean isAtivo() {
+	public Boolean getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(boolean ativo) {
+	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
 
@@ -152,18 +152,23 @@ public class Usuario implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Usuario other = (Usuario) obj;
 		if (id == null) {
-			if (other.id != null)
+			if (other.id != null) {
 				return false;
-		} else if (!id.equals(other.id))
+			}
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
 		return true;
 	}
 

@@ -25,7 +25,7 @@
 									<label>Período</label> <select autofocus class="custom-select" id="periodo" th:errorclass="is-invalid" th:field="*{periodo}">
 										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:if="${#lists.isEmpty(periodos)}" value="" disabled>Não há períodos cadastrados</option>
-										<option th:each="periodo : ${periodos}" th:value="${periodo.idPeriodo}" th:text="|${periodo.inicio} a ${periodo.fim}|"></option>
+										<option th:each="periodo : ${periodos}" th:value="${periodo.idPeriodo}" th:text="${periodo}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{periodo}"></div>
 								</div>
@@ -34,7 +34,7 @@
 										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:if="${#lists.isEmpty(categorias)}" value="" disabled>Não há categorias cadastradas</option>
 										<th:block th:each="categoria : ${categorias}">
-											<option value="" disabled th:text="|${categoria.ordem} - ${categoria.descricao}|"></option>
+											<option value="" disabled th:text="${categoria}"></option>
 											<option th:each="subcategoria : ${categoria.subcategorias}" th:value="${subcategoria.idSubcategoria}" th:text="|${subcategoria.categoriaPai.ordem}.${subcategoriaStat.count} - ${subcategoria.descricao}|"></option>
 										</th:block>
 									</select>

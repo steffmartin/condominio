@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.MovimentoDao;
-import app.condominio.domain.Condominio;
-import app.condominio.domain.Conta;
 import app.condominio.domain.Lancamento;
 import app.condominio.domain.Movimento;
 import app.condominio.domain.Transferencia;
@@ -24,7 +22,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 	private MovimentoDao movimentoDao;
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private ContaService contaService;
 
 	@Autowired
 	private PeriodoService periodoService;
@@ -44,7 +42,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 			contrapartida.setDescricao(entidade.getDescricao());
 			contrapartida.setConta(((Transferencia) entidade).getContaInversa());
 			contrapartida.setContaInversa(entidade.getConta());
-			contrapartida.setSaida(!((Transferencia) entidade).isSaida());
+			contrapartida.setSaida(!((Transferencia) entidade).getSaida());
 			contrapartida.setMovimentoInverso((Transferencia) entidade);
 			((Transferencia) entidade).setMovimentoInverso(contrapartida);
 			listaSalvar.add(contrapartida);
@@ -62,14 +60,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Movimento> listar() {
-		List<Movimento> movimentos = new ArrayList<>();
-		Condominio condominio = usuarioService.lerLogado().getCondominio();
-		if (condominio != null) {
-			for (Conta conta : condominio.getContas()) {
-				movimentos.addAll(conta.getMovimentos());
-			}
-		}
-		return movimentos;
+		return movimentoDao.findAllByContaIn(contaService.listar());
 	}
 
 	@Override
@@ -85,7 +76,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 			((Transferencia) entidade).getMovimentoInverso().setDescricao(entidade.getDescricao());
 			((Transferencia) entidade).getMovimentoInverso().setConta(((Transferencia) entidade).getContaInversa());
 			((Transferencia) entidade).getMovimentoInverso().setContaInversa(entidade.getConta());
-			((Transferencia) entidade).getMovimentoInverso().setSaida(!((Transferencia) entidade).isSaida());
+			((Transferencia) entidade).getMovimentoInverso().setSaida(!((Transferencia) entidade).getSaida());
 			((Transferencia) entidade).getMovimentoInverso().setMovimentoInverso((Transferencia) entidade);
 			listaSalvar.add(((Transferencia) entidade).getMovimentoInverso());
 		}
@@ -110,7 +101,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 		if (entidade instanceof Lancamento) {
 			if (!periodoService.haPeriodo(entidade.getData())) {
 				validacao.rejectValue("data", "Inexistente");
-			} else if (periodoService.ler(entidade.getData()).isEncerrado()) {
+			} else if (periodoService.ler(entidade.getData()).getEncerrado()) {
 				validacao.rejectValue("data", "Final");
 			}
 		}

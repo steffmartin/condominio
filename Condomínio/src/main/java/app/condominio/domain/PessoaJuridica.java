@@ -87,4 +87,17 @@ public class PessoaJuridica extends Pessoa {
 		this.sobrenomeRepresentante = sobrenomeRepresentante;
 	}
 
+	@Override
+	public String cpfCnpj() {
+		return cnpj;
+	};
+
+	@Override
+	public String toString() {
+		if (razaoSocial != null) {
+			return razaoSocial;
+		} else {
+			return super.toString();
+		}
+	}
 }

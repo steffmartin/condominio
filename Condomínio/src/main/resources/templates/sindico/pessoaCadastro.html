@@ -268,14 +268,14 @@
 													<select disabled class="custom-select last" name="relacoes[].moradia">
 														<option th:if="${#lists.isEmpty(moradias)}"value="" disabled>Não há moradias cadastradas</option>
 														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-														<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
+														<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="${m}"></option>
 													</select>
 												</div></td>
 											<td><div class="input-group">
 													<select disabled class="custom-select" name="relacoes[].tipo">
 														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 														<option th:each="tr : ${tiposRelacao}" th:value="${tr}" th:text="${tr.nome}"></option>
-													</select> <input disabled class="form-control col-4" type="number" step=".001" max="100" name="relacoes[].participacaoDono" placeholder="Quota" value="0.0" />
+													</select> <input disabled class="form-control col-4" type="number" step=".001" max="100" name="relacoes[].participacaoDono" placeholder="Quota" />
 													<div class="input-group-append">
 														<span class="input-group-text last">%</span>
 													</div>
@@ -294,7 +294,7 @@
 													</div>
 													<select class="custom-select last" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].moradia}">
 														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-														<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="|Bloco ${m.bloco.sigla} - Moradia ${m.sigla}|"></option>
+														<option th:each="m : ${moradias}" th:value="${m.idMoradia}" th:text="${m}"></option>
 													</select>
 													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].moradia}"></div>
 													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].pessoa}"></div>
@@ -319,9 +319,9 @@
 								</table>
 							</div>
 							<div class="form-row mt-3 hideMe">
-								<div class="form-group col">
-									<button class="btn btn-outline-secondary btn-sm text-truncate clone" data-parent=".form-list table tbody" data-example=".form-list table tbody tr.d-none" type="button" title="Nova relação">
-										<i class="fas fa-plus"></i><span> Nova</span>
+								<div class="form-group col-12">
+									<button class="btn btn-light btn-block clone" data-parent=".form-list table tbody" data-example=".form-list table tbody tr.d-none" type="button" title="Nova relação">
+										<i class="fas fa-plus"></i><span> Nova relação</span>
 									</button>
 								</div>
 							</div>

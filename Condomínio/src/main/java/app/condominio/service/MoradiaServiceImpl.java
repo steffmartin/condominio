@@ -1,6 +1,5 @@
 package app.condominio.service;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.MoradiaDao;
-import app.condominio.domain.Bloco;
-import app.condominio.domain.Condominio;
 import app.condominio.domain.Moradia;
 import app.condominio.domain.Relacao;
 
@@ -24,12 +21,11 @@ public class MoradiaServiceImpl implements MoradiaService {
 	private MoradiaDao moradiaDao;
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private BlocoService blocoService;
 
 	@Override
 	public void salvar(Moradia entidade) {
 		moradiaDao.save(entidade);
-
 	}
 
 	@Override
@@ -41,14 +37,7 @@ public class MoradiaServiceImpl implements MoradiaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Moradia> listar() {
-		List<Moradia> moradias = new ArrayList<>();
-		Condominio condominio = usuarioService.lerLogado().getCondominio();
-		if (condominio != null) {
-			for (Bloco bloco : condominio.getBlocos()) {
-				moradias.addAll(bloco.getMoradias());
-			}
-		}
-		return moradias;
+		return moradiaDao.findAllByBlocoIn(blocoService.listar());
 	}
 
 	@Override

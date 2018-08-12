@@ -37,7 +37,7 @@
 									<label>Categoria superior</label> <select class="custom-select" id="categoriaPai" th:errorclass="is-invalid" th:field="*{categoriaPai}">
 										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option value="">(Nenhuma)</option>
-										<option th:each="c : ${categorias}" th:value="${c.idCategoria}" th:text="|${c.ordem} - ${c.descricao}|"></option>
+										<option th:each="c : ${categorias}" th:value="${c.idCategoria}" th:text="${c}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{categoriaPai}"></div>
 								</div>

@@ -198,6 +198,15 @@ public class Pessoa implements Serializable {
 	}
 
 	@Override
+	public String toString() {
+		return nome;
+	}
+
+	public String cpfCnpj() {
+		return null;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

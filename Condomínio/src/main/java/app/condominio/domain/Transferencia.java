@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class Transferencia extends Movimento {
 
 	@NotNull
-	private boolean saida = true;
+	private Boolean saida = true;
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -27,11 +27,11 @@ public class Transferencia extends Movimento {
 	@JoinColumn(name = "idmovimentoinverso")
 	private Transferencia movimentoInverso;
 
-	public boolean isSaida() {
+	public Boolean getSaida() {
 		return saida;
 	}
 
-	public void setSaida(boolean saida) {
+	public void setSaida(Boolean saida) {
 		this.saida = saida;
 	}
 

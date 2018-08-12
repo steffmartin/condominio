@@ -2,6 +2,7 @@ package app.condominio.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class Periodo implements Serializable {
 	private LocalDate fim;
 
 	@NotNull
-	private boolean encerrado = false;
+	private Boolean encerrado = false;
 
 	@OneToMany(mappedBy = "periodo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Orcamento> orcamentos = new ArrayList<>();
@@ -75,11 +76,11 @@ public class Periodo implements Serializable {
 		this.fim = fim;
 	}
 
-	public boolean isEncerrado() {
+	public Boolean getEncerrado() {
 		return encerrado;
 	}
 
-	public void setEncerrado(boolean encerrado) {
+	public void setEncerrado(Boolean encerrado) {
 		this.encerrado = encerrado;
 	}
 
@@ -105,6 +106,12 @@ public class Periodo implements Serializable {
 
 	public void setLancamentos(List<Lancamento> lancamentos) {
 		this.lancamentos = lancamentos;
+	}
+
+	@Override
+	public String toString() {
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		return inicio.format(formato) + " a " + fim.format(formato);
 	}
 
 	@Override

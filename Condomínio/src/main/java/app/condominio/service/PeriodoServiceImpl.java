@@ -46,31 +46,16 @@ public class PeriodoServiceImpl implements PeriodoService {
 		return condominio.getPeriodos();
 	}
 
-	// TODO trocar por consulta SQL estes 2 métodos
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean haPeriodo(LocalDate data) {
-		List<Periodo> periodos = listar();
-		for (Periodo p : periodos) {
-			if ((p.getInicio().isBefore(data) || p.getInicio().isEqual(data))
-					&& (p.getFim().isEqual(data) || p.getFim().isAfter(data))) {
-				return true;
-			}
-		}
-		return false;
+		return periodoDao.existsByInicioLessThanEqualAndFimGreaterThanEqual(data, data);
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Periodo ler(LocalDate data) {
-		List<Periodo> periodos = listar();
-		for (Periodo p : periodos) {
-			if ((p.getInicio().isBefore(data) || p.getInicio().isEqual(data))
-					&& (p.getFim().isEqual(data) || p.getFim().isAfter(data))) {
-				return p;
-			}
-		}
-		return null;
+		return periodoDao.findOneByInicioLessThanEqualAndFimGreaterThanEqual(data, data);
 	}
 
 	@Override
@@ -94,21 +79,21 @@ public class PeriodoServiceImpl implements PeriodoService {
 				validacao.rejectValue("fim", "typeMismatch");
 			}
 			// Não pode repetir período
-			List<Periodo> periodos = listar();
-			for (Periodo p : periodos) {
-				if (entidade.getInicio().isBefore(p.getInicio()) && entidade.getFim().isAfter(p.getFim())) {
+			if ((entidade.getIdPeriodo() == null
+					&& periodoDao.existsByInicioAfterAndFimBefore(entidade.getInicio(), entidade.getFim()))
+					|| (entidade.getIdPeriodo() != null && periodoDao.existsByInicioAfterAndFimBeforeAndIdPeriodoNot(
+							entidade.getInicio(), entidade.getFim(), entidade.getIdPeriodo()))) {
+				validacao.rejectValue("inicio", "Conflito");
+				validacao.rejectValue("fim", "Conflito");
+			} else {
+				if (!validacao.hasFieldErrors("inicio") && haPeriodo(entidade.getInicio())
+						&& !entidade.equals(ler(entidade.getInicio()))) {
 					validacao.rejectValue("inicio", "Unique");
-					validacao.rejectValue("fim", "Unique");
-					break;
 				}
-			}
-			if (!validacao.hasFieldErrors("inicio") && haPeriodo(entidade.getInicio())
-					&& !entidade.equals(ler(entidade.getInicio()))) {
-				validacao.rejectValue("inicio", "Unique");
-			}
-			if (!validacao.hasFieldErrors("fim") && haPeriodo(entidade.getFim())
-					&& !entidade.equals(ler(entidade.getInicio()))) {
-				validacao.rejectValue("fim", "Unique");
+				if (!validacao.hasFieldErrors("fim") && haPeriodo(entidade.getFim())
+						&& !entidade.equals(ler(entidade.getInicio()))) {
+					validacao.rejectValue("fim", "Unique");
+				}
 			}
 		} catch (NullPointerException e) {
 			// Se alguma data estiver vazia, já há uma validação no bean

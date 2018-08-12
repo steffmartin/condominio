@@ -32,10 +32,10 @@
 				</thead>
 				<tbody>
 					<tr th:each="orcamento : ${orcamentos}">
-						<th scope="row" th:text="|${orcamento.periodo.inicio} a ${orcamento.periodo.fim}|"></th>
+						<th scope="row" th:text="${orcamento.periodo}"></th>
 						<td th:text="${orcamento.subcategoria.descricao}"></td>
 						<td th:text="${'R$ ' + orcamento.orcado}"></td>
-						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/orcamentos/{idOrcamento}/cadastro(idOrcamento=${orcamento.idOrcamento},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/orcamentos/{idOrcamento}/cadastro(idOrcamento=${orcamento.idOrcamento})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${orcamento.idOrcamento}" th:data-obs="|${orcamento.periodo.inicio} a ${orcamento.periodo.fim} - ${orcamento.subcategoria.descricao}|"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/orcamentos/{idOrcamento}/cadastro(idOrcamento=${orcamento.idOrcamento},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/orcamentos/{idOrcamento}/cadastro(idOrcamento=${orcamento.idOrcamento})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${orcamento.idOrcamento}" th:data-obs="${orcamento}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 					</tr>
 				</tbody>
 			</table>

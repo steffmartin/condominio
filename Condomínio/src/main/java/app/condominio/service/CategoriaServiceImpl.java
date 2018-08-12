@@ -47,7 +47,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	public List<Categoria> listar() {
 		Condominio condominio = usuarioService.lerLogado().getCondominio();
 		if (condominio == null) {
-			return new ArrayList<Categoria>();
+			return new ArrayList<>();
 		}
 		return condominio.getCategorias();
 	}
@@ -85,8 +85,6 @@ public class CategoriaServiceImpl implements CategoriaService {
 				validacao.rejectValue("categoriaPai", "typeMismatch", new Object[] { 0, "não é do mesmo tipo" }, null);
 			}
 			// Não pode ser filha dela mesma ou de uma das filhas dela
-			// if (idCategoria != null && (categoriaPai.equals(entidade) ||
-			// ehSuperior(ler(idCategoria), categoriaPai))) {
 			if (idCategoria != null && (categoriaPai.equals(entidade)
 					|| categoriaPai.getOrdem().startsWith(ler(idCategoria).getOrdem()))) {
 				validacao.rejectValue("categoriaPai", "typeMismatch", new Object[] { 0, "é igual ou inferior a esta" },
@@ -105,15 +103,5 @@ public class CategoriaServiceImpl implements CategoriaService {
 			}
 		}
 	}
-
-	// Diz se 1 é superior a 2 hierarquicamente (método recursivo)
-	/*
-	 * @Transactional(readOnly = true, propagation = Propagation.SUPPORTS) private
-	 * boolean ehSuperior(Categoria categoria1, Categoria categoria2) { Boolean
-	 * retorno = false; if (!categoria1.getCategoriasFilhas().isEmpty()) { for
-	 * (Categoria c : categoria1.getCategoriasFilhas()) { if (c.equals(categoria2))
-	 * { retorno = true; break; } else { retorno = ehSuperior(c, categoria2); } } }
-	 * return retorno; }
-	 */
 
 }

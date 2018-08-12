@@ -22,6 +22,7 @@ import app.condominio.domain.Categoria;
 import app.condominio.domain.enums.TipoCategoria;
 import app.condominio.domain.enums.TipoClasseCategoria;
 import app.condominio.service.CategoriaService;
+import app.condominio.service.SubcategoriaService;
 
 @Controller
 @RequestMapping({ "sindico/categorias", "sindico/plano-de-contas" })
@@ -29,6 +30,9 @@ public class CategoriaController {
 
 	@Autowired
 	private CategoriaService categoriaService;
+
+	@Autowired
+	private SubcategoriaService subcategoriaService;
 
 	@ModelAttribute("tiposCategoria")
 	public TipoCategoria[] tiposCategoria() {
@@ -46,8 +50,10 @@ public class CategoriaController {
 	}
 
 	@GetMapping({ "", "/", "/lista", "/todos" })
-	public ModelAndView getCategorias() {
-		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "categoriaLista");
+	public ModelAndView getCategorias(ModelMap model) {
+		model.addAttribute("contagemSubcategorias", subcategoriaService.contagem());
+		model.addAttribute("conteudo", "categoriaLista");
+		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
 	@GetMapping("/cadastro")

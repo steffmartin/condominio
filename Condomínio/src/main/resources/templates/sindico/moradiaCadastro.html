@@ -10,14 +10,6 @@
 	<th:block th:fragment="conteudo">
 		<main role="main">
 		<h3 class="font-weight-light">Cadastro da Moradia</h3>
-		<!-- 
-		<div th:if="${#lists.isEmpty(blocos)}" class="alert alert-warning">
-			<h6>Blocos não cadastrados</h6>
-			Para cadastrar moradias é preciso cadastar ao menos um bloco, <a class="text-warning" th:href="@{/sindico/blocos/cadastro}">clique aqui</a>.
-		</div>
-		<p th:unless="${#lists.isEmpty(blocos)}" th:text="${moradia.idMoradia == null} ? 'Ao salvar, uma nova moradia será criada no bloco selecionado.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' : 'Ao salvar, as informações da moradia atual serão atualizadas.')"></p>
-		<form th:unless="${#lists.isEmpty(blocos)}" th:action="@{/sindico/moradias/cadastro}" th:object="${moradia}" th:method="${moradia.idMoradia == null} ? post : put" novalidate>
-		 -->
 		<p th:text="${moradia.idMoradia == null} ? 'Ao salvar, uma nova moradia será criada no bloco selecionado.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' : 'Ao salvar, as informações da moradia atual serão atualizadas.')"></p>
 		<form th:action="@{/sindico/moradias/cadastro}" th:object="${moradia}" th:method="${moradia.idMoradia == null} ? post : put" novalidate>
 			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
@@ -107,14 +99,14 @@
 													<select disabled class="custom-select last" name="relacoes[].pessoa">
 														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 														<option th:if="${#lists.isEmpty(pessoas)}" value="" disabled>Não há condôminos cadastrados</option>
-														<option th:each="p : ${pessoas}" th:value="${p.idPessoa}" th:text="${p.nome}"></option>
+														<option th:each="p : ${pessoas}" th:value="${p.idPessoa}" th:text="${p}"></option>
 													</select>
 												</div></td>
 											<td><div class="input-group">
 													<select disabled class="custom-select" name="relacoes[].tipo">
 														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 														<option th:each="tr : ${tiposRelacao}" th:value="${tr}" th:text="${tr.nome}"></option>
-													</select> <input disabled class="form-control col-4" type="number" step=".001" max="100" name="relacoes[].participacaoDono" placeholder="Quota" value="0.0" />
+													</select> <input disabled class="form-control col-4" type="number" step=".001" max="100" name="relacoes[].participacaoDono" placeholder="Quota" />
 													<div class="input-group-append">
 														<span class="input-group-text last">%</span>
 													</div>
@@ -133,7 +125,7 @@
 													</div>
 													<select class="custom-select last" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].pessoa}">
 														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-														<option th:each="p : ${pessoas}" th:value="${p.idPessoa}" th:text="${p.nome}"></option>
+														<option th:each="p : ${pessoas}" th:value="${p.idPessoa}" th:text="${p}"></option>
 													</select>
 													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].moradia}"></div>
 													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].pessoa}"></div>
@@ -158,9 +150,9 @@
 								</table>
 							</div>
 							<div class="form-row mt-3 hideMe">
-								<div class="form-group col">
-									<button class="btn btn-outline-secondary btn-sm text-truncate clone" data-parent=".form-list table tbody" data-example=".form-list table tbody tr.d-none" type="button" title="Nova relação">
-										<i class="fas fa-plus"></i><span> Nova</span>
+								<div class="form-group col-12">
+									<button class="btn btn-light btn-block clone" data-parent=".form-list table tbody" data-example=".form-list table tbody tr.d-none" type="button" title="Nova relação">
+										<i class="fas fa-plus"></i><span> Nova relação</span>
 									</button>
 								</div>
 							</div>

@@ -38,7 +38,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Usuario ler(String username) {
-		return usuarioDao.findByUsername(username);
+		return usuarioDao.findOneByUsername(username);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))) {
 			return null;
 		}
-		return usuarioDao.findByUsername(auth.getName());
+		return usuarioDao.findOneByUsername(auth.getName());
 		// http://www.baeldung.com/get-user-in-spring-security
 		// http://www.baeldung.com/spring-security-thymeleaf
 	}
@@ -99,20 +99,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 					+ "\n\nPor segurança este link só é válido até o final do dia.";
 			emailService.enviarEmail(para, assunto, mensagem);
 			return true;
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	@Override
 	public boolean redefinirSenha(String username, String token, String password) {
 		// LATER Alterar redefinição de senha para tabela de tokens e expiração
-		Usuario usuario = usuarioDao.findByUsername(username);
+		Usuario usuario = usuarioDao.findOneByUsername(username);
 		if (usuario != null && getToken(usuario.getPassword()).equals(token)) {
 			usuario.setPassword(passwordEncoder.encode(password));
 			usuarioDao.save(usuario);
 			return true;
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	private String getToken(String texto) {

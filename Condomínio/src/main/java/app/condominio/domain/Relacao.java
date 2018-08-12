@@ -68,16 +68,16 @@ public class Relacao implements Serializable {
 	@Column(name = "participacaodono")
 	@Max(100)
 	@Min(0)
-	private float participacaoDono;
+	private Float participacaoDono;
 
 	@AssertTrue
-	private boolean isParticipacaoDono() {
+	private Boolean isParticipacaoDono() {
 		return this.tipo != TipoRelacao.P || this.participacaoDono > 0;
 
 	}
 
 	@AssertTrue
-	private boolean isDataSaida() {
+	private Boolean isDataSaida() {
 		return this.dataSaida == null || this.dataEntrada == null || this.dataEntrada.isBefore(this.dataSaida)
 				|| this.dataEntrada.isEqual(this.dataSaida);
 	}
@@ -136,12 +136,17 @@ public class Relacao implements Serializable {
 		this.dataSaida = dataSaida;
 	}
 
-	public float getParticipacaoDono() {
+	public Float getParticipacaoDono() {
 		return participacaoDono;
 	}
 
-	public void setParticipacaoDono(float participacaoDono) {
+	public void setParticipacaoDono(Float participacaoDono) {
 		this.participacaoDono = participacaoDono;
+	}
+
+	@Override
+	public String toString() {
+		return pessoa.toString() + ", " + tipo.name().toLowerCase() + " de " + moradia.toString();
 	}
 
 	@Override
@@ -154,18 +159,23 @@ public class Relacao implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Relacao other = (Relacao) obj;
 		if (idRelacao == null) {
-			if (other.idRelacao != null)
+			if (other.idRelacao != null) {
 				return false;
-		} else if (!idRelacao.equals(other.idRelacao))
+			}
+		} else if (!idRelacao.equals(other.idRelacao)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -205,23 +215,30 @@ public class Relacao implements Serializable {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj)
+			if (this == obj) {
 				return true;
-			if (obj == null)
+			}
+			if (obj == null) {
 				return false;
-			if (getClass() != obj.getClass())
+			}
+			if (getClass() != obj.getClass()) {
 				return false;
+			}
 			IdRelacao other = (IdRelacao) obj;
 			if (idMoradia == null) {
-				if (other.idMoradia != null)
+				if (other.idMoradia != null) {
 					return false;
-			} else if (!idMoradia.equals(other.idMoradia))
+				}
+			} else if (!idMoradia.equals(other.idMoradia)) {
 				return false;
+			}
 			if (idPessoa == null) {
-				if (other.idPessoa != null)
+				if (other.idPessoa != null) {
 					return false;
-			} else if (!idPessoa.equals(other.idPessoa))
+				}
+			} else if (!idPessoa.equals(other.idPessoa)) {
 				return false;
+			}
 			return true;
 		}
 

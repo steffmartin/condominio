@@ -6,8 +6,8 @@ import app.condominio.domain.Usuario;
 
 public interface UsuarioDao extends CrudRepository<Usuario, Long> {
 
-	Usuario findByUsername(String username);
-	
+	Usuario findOneByUsername(String username);
+
 	Boolean existsByUsername(String username);
 
 }

@@ -33,7 +33,7 @@
 					<tr th:each="bloco : ${blocos}">
 						<th scope="row" th:text="${bloco.sigla}"></th>
 						<td th:text="${bloco.descricao}"></td>
-						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/blocos/{idBloco}/cadastro(idBloco=${bloco.idBloco},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/blocos/{idBloco}/cadastro(idBloco=${bloco.idBloco})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${bloco.idBloco}" th:data-obs="${bloco.sigla}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/blocos/{idBloco}/cadastro(idBloco=${bloco.idBloco},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/blocos/{idBloco}/cadastro(idBloco=${bloco.idBloco})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${bloco.idBloco}" th:data-obs="${bloco}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 					</tr>
 				</tbody>
 			</table>

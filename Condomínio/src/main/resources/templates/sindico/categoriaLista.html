@@ -20,7 +20,7 @@
 		<div class="table-responsive">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="${#lists.isEmpty(categorias)} ? 'Nenhuma' : 'Há '+${#lists.size(categorias)}"></span> <span th:text="${#lists.size(categorias)>1} ? 'categorias sintéticas cadastradas' : 'contegoria cadastrada'"></span>.
+					<span th:text="${#lists.isEmpty(categorias)} ? 'Nenhuma' : 'Há '+${(#lists.size(categorias) + contagemSubcategorias)}"></span> <span th:text="${(#lists.size(categorias) + contagemSubcategorias)>1} ? 'categorias cadastradas' : 'contegoria cadastrada'"></span>.
 				</caption>
 				<thead class="thead-light">
 					<tr>
@@ -38,14 +38,14 @@
 							<td th:text="${categoria.descricao}" th:class="${categoria.nivel == 1}? 'text-uppercase font-weight-bold' : (${categoria.nivel == 2}? 'text-uppercase' : (${categoria.nivel > 2}? 'pl-'+${categoria.nivel}))"></td>
 							<td>Sintética</td>
 							<td th:text="${categoria.tipo.nome}"></td>
-							<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/categorias/{idCategoria}/cadastro(idCategoria=${categoria.idCategoria},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/categorias/{idCategoria}/cadastro(idCategoria=${categoria.idCategoria})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${categoria.idCategoria}" th:data-obs="${categoria.descricao}" th:data-modal-action="@{/sindico/categorias/excluir}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+							<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/categorias/{idCategoria}/cadastro(idCategoria=${categoria.idCategoria},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/categorias/{idCategoria}/cadastro(idCategoria=${categoria.idCategoria})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${categoria.idCategoria}" th:data-obs="${categoria}" th:data-modal-action="@{/sindico/categorias/excluir}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 						</tr>
 						<tr th:each="subcategoria : ${categoria.subcategorias}">
 							<th scope="row" th:text="${subcategoria.categoriaPai.ordem}+'.'+${subcategoriaStat.count}"></th>
 							<td class="font-weight-light" th:text="${subcategoria.descricao}" th:classappend="'pl-'+${subcategoria.categoriaPai.nivel}"></td>
 							<td>Analítica</td>
 							<td th:text="${subcategoria.categoriaPai.tipo.nome}"></td>
-							<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/subcategorias/{idSubcategoria}/cadastro(idSubcategoria=${subcategoria.idSubcategoria},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/subcategorias/{idSubcategoria}/cadastro(idSubcategoria=${subcategoria.idSubcategoria})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${subcategoria.idSubcategoria}" th:data-obs="${subcategoria.descricao}" th:data-modal-action="@{/sindico/subcategorias/excluir}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
+							<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/subcategorias/{idSubcategoria}/cadastro(idSubcategoria=${subcategoria.idSubcategoria},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/subcategorias/{idSubcategoria}/cadastro(idSubcategoria=${subcategoria.idSubcategoria})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${subcategoria.idSubcategoria}" th:data-obs="${subcategoria.categoriaPai.ordem}+'.'+${subcategoriaStat.count}+' - '+${subcategoria.descricao}" th:data-modal-action="@{/sindico/subcategorias/excluir}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 						</tr>
 					</th:block>
 				</tbody>

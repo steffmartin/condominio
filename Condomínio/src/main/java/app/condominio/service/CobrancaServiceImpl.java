@@ -1,5 +1,6 @@
 package app.condominio.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,6 @@ public class CobrancaServiceImpl implements CobrancaService {
 	public void salvar(Cobranca entidade) {
 		entidade.setCondominio(usuarioService.lerLogado().getCondominio());
 		cobrancaDao.save(entidade);
-
 	}
 
 	@Override
@@ -61,15 +61,34 @@ public class CobrancaServiceImpl implements CobrancaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Cobranca entidade, BindingResult validacao) {
-		try {
-			// Total deve bater com os campos totalizados
-			if (0 != entidade.getTotal()
-					.compareTo(entidade.getValor().subtract(entidade.getDesconto()).subtract(entidade.getAbatimento())
-							.subtract(entidade.getOutrasDeducoes()).add(entidade.getJurosMora())
-							.add(entidade.getMulta()).add(entidade.getOutrosAcrescimos()))) {
+		// Total deve bater com os campos totalizados
+		if (entidade.getValor() != null && entidade.getTotal() != null) {
+			BigDecimal teste = entidade.getValor();
+			if (entidade.getDesconto() != null) {
+				teste = teste.subtract(entidade.getDesconto());
+			}
+			if (entidade.getAbatimento() != null) {
+				teste = teste.subtract(entidade.getAbatimento());
+			}
+			if (entidade.getOutrasDeducoes() != null) {
+				teste = teste.subtract(entidade.getOutrasDeducoes());
+			}
+			if (entidade.getJurosMora() != null) {
+				teste = teste.add(entidade.getJurosMora());
+			}
+			if (entidade.getMulta() != null) {
+				teste = teste.add(entidade.getMulta());
+			}
+			if (entidade.getOutrosAcrescimos() != null) {
+				teste = teste.add(entidade.getOutrosAcrescimos());
+			}
+			if (entidade.getTotal().compareTo(teste) != 0) {
 				validacao.rejectValue("total", "typeMismatch");
 			}
-		} catch (NullPointerException e) {
+			// Valor não pode ser zero
+			if (entidade.getValor().compareTo(BigDecimal.ZERO) == 0) {
+				validacao.rejectValue("valor", "NotNull");
+			}
 		}
 		// Vencimento não pode ser antes da emissão
 		if (entidade.getDataVencimento() != null && entidade.getDataVencimento().isBefore(entidade.getDataEmissao())) {

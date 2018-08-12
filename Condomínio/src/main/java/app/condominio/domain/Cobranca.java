@@ -60,49 +60,43 @@ public class Cobranca implements Serializable {
 
 	@NotNull
 	@Min(0)
-	private BigDecimal valor = BigDecimal.ZERO;
+	private BigDecimal valor;
 
-	@NotNull
 	@Min(0)
-	private BigDecimal desconto = BigDecimal.ZERO;
+	private BigDecimal desconto;
 
-	@NotNull
 	@Min(0)
-	private BigDecimal abatimento = BigDecimal.ZERO;
+	private BigDecimal abatimento;
 
-	@NotNull
 	@Min(0)
 	@Column(name = "outrasdeducoes")
-	private BigDecimal outrasDeducoes = BigDecimal.ZERO;
+	private BigDecimal outrasDeducoes;
 
-	@NotNull
 	@Min(0)
 	@Column(name = "jurosmora")
-	private BigDecimal jurosMora = BigDecimal.ZERO;
+	private BigDecimal jurosMora;
 
-	@NotNull
 	@Min(0)
-	private BigDecimal multa = BigDecimal.ZERO;
+	private BigDecimal multa;
 
-	@NotNull
 	@Min(0)
 	@Column(name = "outrosacrescimos")
-	private BigDecimal outrosAcrescimos = BigDecimal.ZERO;
+	private BigDecimal outrosAcrescimos;
 
 	@Min(0)
 	@NotNull
-	private BigDecimal total = BigDecimal.ZERO;
+	private BigDecimal total;
 
 	@Size(max = 255)
 	private String descricao;
 
 	@Min(0)
 	@Column(name = "percentualjurosmes")
-	private float percentualJurosMes;
+	private Float percentualJurosMes;
 
 	@Min(0)
 	@Column(name = "percentualmulta")
-	private float percentualMulta;
+	private Float percentualMulta;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -253,19 +247,19 @@ public class Cobranca implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public float getPercentualJurosMes() {
+	public Float getPercentualJurosMes() {
 		return percentualJurosMes;
 	}
 
-	public void setPercentualJurosMes(float percentualJurosMes) {
+	public void setPercentualJurosMes(Float percentualJurosMes) {
 		this.percentualJurosMes = percentualJurosMes;
 	}
 
-	public float getPercentualMulta() {
+	public Float getPercentualMulta() {
 		return percentualMulta;
 	}
 
-	public void setPercentualMulta(float percentualMulta) {
+	public void setPercentualMulta(Float percentualMulta) {
 		this.percentualMulta = percentualMulta;
 	}
 
@@ -299,6 +293,15 @@ public class Cobranca implements Serializable {
 
 	public void setCondominio(Condominio condominio) {
 		this.condominio = condominio;
+	}
+
+	@Override
+	public String toString() {
+		String s = numero;
+		if (parcela != null) {
+			s += " - " + parcela;
+		}
+		return s;
 	}
 
 	@Override

@@ -88,4 +88,17 @@ public class ContaBancaria extends Conta {
 		this.contaDv = contaDv;
 	}
 
+	@Override
+	public String numero() {
+		String s = banco + " " + agencia;
+		if (agenciaDv != null) {
+			s += "-" + agenciaDv;
+		}
+		s += " " + conta;
+		if (contaDv != null) {
+			s += "-" + contaDv;
+		}
+		return s;
+	}
+
 }

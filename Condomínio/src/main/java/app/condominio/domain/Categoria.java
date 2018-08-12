@@ -46,7 +46,7 @@ public class Categoria implements Serializable {
 	private String descricao;
 
 	@Max(NIVEL_MAX)
-	private int nivel;
+	private Integer nivel;
 
 	// TODO criar método para ordenação atomática
 	@Size(min = 1, max = 255)
@@ -68,7 +68,7 @@ public class Categoria implements Serializable {
 	@OrderBy(value = "descricao")
 	private List<Subcategoria> Subcategorias = new ArrayList<>();
 
-	public static int getNivelMax() {
+	public static Integer getNivelMax() {
 		return NIVEL_MAX;
 	}
 
@@ -96,11 +96,11 @@ public class Categoria implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public int getNivel() {
+	public Integer getNivel() {
 		return nivel;
 	}
 
-	public void setNivel(int nivel) {
+	public void setNivel(Integer nivel) {
 		this.nivel = nivel;
 	}
 
@@ -142,6 +142,11 @@ public class Categoria implements Serializable {
 
 	public void setSubcategorias(List<Subcategoria> subcategorias) {
 		Subcategorias = subcategorias;
+	}
+
+	@Override
+	public String toString() {
+		return ordem + " - " + descricao;
 	}
 
 	@Override
