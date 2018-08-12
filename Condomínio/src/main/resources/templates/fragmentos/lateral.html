@@ -3,35 +3,36 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <body>
 	<th:block th:fragment="lateral">
-		<nav id="sidebar" class="bg-primary navbar-dark active">
+		<nav id="sidebar" class="bg-primary navbar-dark active d-print-none">
+			<div id="sidebarExpand" class="bg-primary mt-2 mb-2 text-center d-none d-md-block"><i class="fas fa-exchange-alt"></i></div>
 			<ul class="list-unstyled navbar-nav">
-				<li class="nav-item"><a class="nav-link" th:href="@{/sindico}" title="Página Inicial"> <i class="fab fa-font-awesome-flag"></i> Início
+				<li class="nav-item"><a class="nav-link" th:classappend="${ativo[0] == 'painel'}? 'active'" th:href="@{/sindico}" title="Painel do Condomínio"> <i class="fab fa-font-awesome-flag"></i> Painel
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#condominioSubmenu" data-toggle="collapse" title="Condomínio"> <i class="fas fa-building"></i> Condomínio
+				<li class="nav-item"><a class="nav-link" th:classappend="${ativo[0] == 'condominio'}? 'active'" href="#condominioSubmenu" data-toggle="collapse" title="Condomínio"> <i class="fas fa-building"></i> Condomínio
 				</a>
 					<ul class="collapse list-unstyled" id="condominioSubmenu">
-						<li><a class="nav-link" th:href="@{/sindico/condominio/cadastro}" title="Cadastro do Condomínio">Cadastro</a></li>
-						<li><a class="nav-link" th:href="@{/sindico/blocos}" title="Cadastro de Blocos">Blocos</a></li>
-						<li><a class="nav-link" th:href="@{/sindico/moradias}" title="Cadastro de Moradias">Moradias</a></li>
-						<li><a class="nav-link" th:href="@{/sindico/condominos}" title="Cadastro de Condôminos">Condôminos</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'cadastro'}? 'active'" th:href="@{/sindico/condominio/cadastro}" title="Cadastro do Condomínio">Cadastro</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'blocos'}? 'active'" th:href="@{/sindico/blocos}" title="Cadastro de Blocos">Blocos</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'moradias'}? 'active'" th:href="@{/sindico/moradias}" title="Cadastro de Moradias">Moradias</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'condominos'}? 'active'" th:href="@{/sindico/condominos}" title="Cadastro de Condôminos">Condôminos</a></li>
 					</ul></li>
-				<li class="nav-item"><a class="nav-link" href="#financasSubmenu" data-toggle="collapse"> <i class="fas fa-piggy-bank"></i> Financeiro
+				<li class="nav-item"><a class="nav-link" th:classappend="${ativo[0] == 'financeiro'}? 'active'" href="#financasSubmenu" data-toggle="collapse"> <i class="fas fa-piggy-bank"></i> Financeiro
 				</a>
 					<ul class="collapse list-unstyled" id="financasSubmenu">
-						<li><a class="nav-link" th:href="@{/sindico/contas}" title="Cadastro de Contas de Movimentação">Contas</a></li>
-						<li><a class="nav-link" th:href="@{/sindico/cobrancas}" title="Cadastro de Cobranças">Cobranças</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'contas'}? 'active'" th:href="@{/sindico/contas}" title="Cadastro de Contas de Movimentação">Contas</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'cobrancas'}? 'active'" th:href="@{/sindico/cobrancas}" title="Cadastro de Cobranças">Cobranças</a></li>
 					</ul></li>
-				<li class="nav-item"><a class="nav-link" href="#contabilidadeSubmenu" data-toggle="collapse"> <i class="fas fa-calculator"></i> Contabilidade
+				<li class="nav-item"><a class="nav-link" th:classappend="${ativo[0] == 'contabilidade'}? 'active'" href="#contabilidadeSubmenu" data-toggle="collapse"> <i class="fas fa-calculator"></i> Contabilidade
 				</a>
 					<ul class="collapse list-unstyled" id="contabilidadeSubmenu">
-						<li><a class="nav-link" th:href="@{/sindico/categorias}" title="Cadastro de Categorias e Subcategorias">Categorias</a></li>
-						<li><a class="nav-link" th:href="@{/sindico/periodos}" title="Cadastro de Períodos">Períodos</a></li>
-						<li><a class="nav-link" th:href="@{/sindico/orcamentos}" title="Cadastro de Orçamentos">Orçamentos</a></li>
-						<li><a class="nav-link" th:href="@{/sindico/lancamentos}" title="Cadastro de Lançamentos">Lançamentos</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'categorias'}? 'active'" th:href="@{/sindico/categorias}" title="Cadastro de Categorias e Subcategorias">Categorias</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'periodos'}? 'active'" th:href="@{/sindico/periodos}" title="Cadastro de Períodos">Períodos</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'orcamentos'}? 'active'" th:href="@{/sindico/orcamentos}" title="Cadastro de Orçamentos">Orçamentos</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'lancamentos'}? 'active'" th:href="@{/sindico/lancamentos}" title="Cadastro de Lançamentos">Lançamentos</a></li>
 					</ul></li>
 			</ul>
 		</nav>
-		<div id="sidebarCollapse" class="bg-primary text-light active"></div>
+		<div id="sidebarCollapse" class="bg-primary text-light active d-md-none"></div>
 	</th:block>
 </body>
 </html>

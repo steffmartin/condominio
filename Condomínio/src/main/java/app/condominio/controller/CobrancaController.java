@@ -36,6 +36,11 @@ public class CobrancaController {
 	@Autowired
 	MoradiaService moradiaService;
 
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "financeiro", "cobrancas" };
+	}
+
 	@ModelAttribute("motivosEmissao")
 	public MotivoEmissao[] motivosEmissao() {
 		return MotivoEmissao.values();

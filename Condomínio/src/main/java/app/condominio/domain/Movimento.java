@@ -48,6 +48,8 @@ public class Movimento implements Serializable {
 	@Size(max = 255)
 	private String descricao;
 
+	private Boolean reducao;
+
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idconta")
@@ -91,6 +93,14 @@ public class Movimento implements Serializable {
 
 	public void setDocumento(String documento) {
 		this.documento = documento;
+	}
+
+	public Boolean getReducao() {
+		return reducao;
+	}
+
+	public void setReducao(Boolean reducao) {
+		this.reducao = reducao;
 	}
 
 	public Conta getConta() {

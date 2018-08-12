@@ -81,59 +81,78 @@ fieldset:disabled input::placeholder{
 }
  
 /* Sidebar */
+/* Sidebar expandido grande */
 #sidebar {
 	min-width: 250px;
 	max-width: 250px;
-	margin-top: 16px; /* altura da barra superior */
-	height: calc(100% - 88px); /* 88 = 56 + 16 + 16 altura da barra superior */
+	margin-top: 16px;
+	height: calc(100% - 88px); /* 88 = 56 + 16 + 16 */
 	transition: all 0.3s;
 	position: fixed;
+	border-top-right-radius: .5rem !important;
 	border-bottom-right-radius: .5rem !important;
 	z-index: 999;
 	overflow: hidden !important;
 }
-
+#sidebar ~ main {
+	padding-right: 16px;
+    padding-left: 96px; /* 80px devido ao sidebar + 16px */
+    width:100%;
+}
 #sidebar ul li a{
+	text-align: left;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	padding: 10px;
+	font-size: 1.1em;
+	display: block;
 }
-
-#sidebarCollapse {
-	margin-top: 16px;
-	margin-left: 250px;
-	transition: all 0.3s;
+#sidebar ul li a:hover {
+	background: #0069d9;
 }
-
-#sidebar ~ main {
-	padding-right: 15px;
-    padding-left: 95px; /* 80px devido ao sidebar */
-    width:100%;
-}
-
-#sidebarCollapse.active {
-	margin-left: 80px;
-}
-
-#sidebar a, #sidebar a:hover, #sidebar a:focus {
-	transition: all 0.3s;
-}
-
 #sidebar ul ul a {
 	font-size: 0.9em !important;
 	padding-left: 30px !important;
 }
+#sidebar ul li a i {
+	margin-right: 10px;
+}
+#sidebar a, #sidebar a:hover, #sidebar a:focus {
+	transition: all 0.3s;
+}
+#sidebar a[data-toggle="collapse"] {
+	position: relative;
+}
 
+#sidebar a[data-toggle="collapse"]::before
+	{
+	content: '\f107';
+	font-family: 'FontAwesome';
+	display: block;
+	position: absolute;
+	right: 20px;
+	top: 15px;
+	font-size: 0.6em;
+}
+
+#sidebar a[aria-expanded="true"]::before {
+	content: '\f106';
+}
+
+#sidebarExpand{
+	cursor: pointer;
+	color: rgba(255, 255, 255, .5);
+}
+#sidebarExpand:hover{
+	color: rgba(255, 255, 255, .75);
+}
+/*Sidebar comprimido pequeno*/
 #sidebar.active {
 	min-width: 80px;
 	max-width: 80px;
 	text-align: center;
 }
-
-#sidebar ul li a {
-	text-align: left;
-}
-
 #sidebar.active ul li a {
 	padding: 20px 10px;
 	text-align: center;
@@ -159,77 +178,31 @@ fieldset:disabled input::placeholder{
 	-ms-transform: translateX(50%);
 	transform: translateX(50%);
 }
-
-#sidebar ul li a {
-	padding: 10px;
-	font-size: 1.1em;
-	display: block;
-}
-
-#sidebarCollapse {
-	padding: 5px 2px;
-	border: 1px solid transparent;
-	border-top-right-radius: .5rem;
-	border-bottom-right-radius: .5rem;
-	position: fixed;
-	z-index: 999;
-}
-
-#sidebarCollapse::before {
-	content: '\f104';
-	color: rgba(255, 255, 255, .5);
-	font-family: 'FontAwesome';
-	display: block;
-}
-
-#sidebarCollapse.active::before {
-	content: '\f105';
-}
-
-#sidebarCollapse:hover::before {
-	color: rgba(255, 255, 255, .75);
-}
-
-#sidebarCollapse:not(:disabled ):not(.disabled ){
-	cursor: pointer;
-}
-
-#sidebar ul li a:hover {
-	background: #0069d9;
-}
-
-#sidebar ul li a i {
-	margin-right: 10px;
-}
-
-#sidebar a[data-toggle="collapse"] {
-	position: relative;
-}
-
-#sidebar a[data-toggle="collapse"]::before
-	{
-	content: '\f107';
-	font-family: 'FontAwesome';
-	display: block;
-	position: absolute;
-	right: 20px;
-	top: 15px;
-	font-size: 0.6em;
-}
-
-#sidebar a[aria-expanded="true"]::before {
-	content: '\f106';
-}
-
+/* Sidebar celulares */
 @media ( max-width : 768px) {
 	#sidebarCollapse {
+		margin-top: 16px;
+		transition: all 0.3s;
 		margin-left: 0 !important;
+		padding: 5px 2px;
+		border: 1px solid transparent;
+		border-top-right-radius: .5rem;
+		border-bottom-right-radius: .5rem;
+		position: fixed;
+		z-index: 999;
+		cursor:pointer;
 	}
 	#sidebarCollapse.active {
 		margin-left: 80px !important;
 	}
 	#sidebarCollapse::before {
 		content: '\f105' !important;
+		color: rgba(255, 255, 255, .5);
+		font-family: 'FontAwesome';
+		display: block;
+	}
+	#sidebarCollapse:hover::before {
+		color: rgba(255, 255, 255, .75);
 	}
 	#sidebarCollapse.active::before {
 		content: '\f104' !important;
@@ -239,6 +212,7 @@ fieldset:disabled input::placeholder{
 		max-width: 80px;
 		text-align: center;
 		margin-left: -80px !important;
+		border-top-right-radius: 0 !important;
 	}
 	#sidebar.active {
 		margin-left: 0 !important;
@@ -263,7 +237,18 @@ fieldset:disabled input::placeholder{
 		margin-left: 0;
 	}
 }
-
+/* Ajustes para impressão */
+@media print {
+	body {
+	padding-top: 0px;
+	}
+	body {
+	padding-bottom: 0px;
+	}
+   #sidebar ~ main {
+    padding-left: 16px;
+	}
+}
 /* CORREÇÕES do BOOTSTRAP 4 */
 
 /* Correção nos dropdowns */

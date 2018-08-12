@@ -42,7 +42,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 			contrapartida.setDescricao(entidade.getDescricao());
 			contrapartida.setConta(((Transferencia) entidade).getContaInversa());
 			contrapartida.setContaInversa(entidade.getConta());
-			contrapartida.setSaida(!((Transferencia) entidade).getSaida());
+			contrapartida.setReducao(!((Transferencia) entidade).getReducao());
 			contrapartida.setMovimentoInverso((Transferencia) entidade);
 			((Transferencia) entidade).setMovimentoInverso(contrapartida);
 			listaSalvar.add(contrapartida);
@@ -76,7 +76,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 			((Transferencia) entidade).getMovimentoInverso().setDescricao(entidade.getDescricao());
 			((Transferencia) entidade).getMovimentoInverso().setConta(((Transferencia) entidade).getContaInversa());
 			((Transferencia) entidade).getMovimentoInverso().setContaInversa(entidade.getConta());
-			((Transferencia) entidade).getMovimentoInverso().setSaida(!((Transferencia) entidade).getSaida());
+			((Transferencia) entidade).getMovimentoInverso().setReducao(!((Transferencia) entidade).getReducao());
 			((Transferencia) entidade).getMovimentoInverso().setMovimentoInverso((Transferencia) entidade);
 			listaSalvar.add(((Transferencia) entidade).getMovimentoInverso());
 		}

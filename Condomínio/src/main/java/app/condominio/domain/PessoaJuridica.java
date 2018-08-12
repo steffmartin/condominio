@@ -1,9 +1,12 @@
 package app.condominio.domain;
 
+import java.text.ParseException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.swing.text.MaskFormatter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -89,8 +92,18 @@ public class PessoaJuridica extends Pessoa {
 
 	@Override
 	public String cpfCnpj() {
-		return cnpj;
-	};
+		if (cnpj == null) {
+			return cnpj;
+		} else {
+			try {
+				MaskFormatter formatador = new MaskFormatter("##.###.###/####-##");
+				formatador.setValueContainsLiteralCharacters(false);
+				return formatador.valueToString(cnpj);
+			} catch (ParseException e) {
+				return cnpj;
+			}
+		}
+	}
 
 	@Override
 	public String toString() {

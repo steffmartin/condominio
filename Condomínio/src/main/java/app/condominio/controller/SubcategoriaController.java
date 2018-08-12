@@ -35,6 +35,11 @@ public class SubcategoriaController {
 	@Autowired
 	private CategoriaService categoriaService;
 
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "contabilidade", "categorias" };
+	}
+
 	@ModelAttribute("tiposCategoria")
 	public TipoCategoria[] tiposCategoria() {
 		return TipoCategoria.values();
@@ -44,7 +49,7 @@ public class SubcategoriaController {
 	public TipoClasseCategoria[] tiposClasseCategoria() {
 		return TipoClasseCategoria.values();
 	}
-	
+
 	@ModelAttribute("categorias")
 	public List<Categoria> categorias() {
 		return categoriaService.listar();
@@ -56,7 +61,8 @@ public class SubcategoriaController {
 	}
 
 	@GetMapping("/cadastro")
-	public ModelAndView getSubcategoriaCadastro(@ModelAttribute("categoria") Subcategoria subcategoria, ModelMap model) {
+	public ModelAndView getSubcategoriaCadastro(@ModelAttribute("categoria") Subcategoria subcategoria,
+			ModelMap model) {
 		model.addAttribute("classe", TipoClasseCategoria.S);
 		model.addAttribute("conteudo", "categoriaCadastro");
 		return new ModelAndView("fragmentos/layoutSindico", model);

@@ -278,6 +278,7 @@ CREATE TABLE Movimentos (
   valor DECIMAL(9,2) NULL,
   documento VARCHAR(20) NULL,
   descricao VARCHAR(255) NULL,
+  reducao BOOL NULL,
   idConta BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idMovimento),
   FOREIGN KEY(idConta)
@@ -288,7 +289,6 @@ CREATE TABLE Movimentos (
 
 CREATE TABLE Transferencias (
   idMovimento BIGINT UNSIGNED NOT NULL,
-  saida BOOL NULL,
   idContaInversa BIGINT UNSIGNED NOT NULL,
   idMovimentoInverso BIGINT UNSIGNED NULL,
   PRIMARY KEY(idMovimento),

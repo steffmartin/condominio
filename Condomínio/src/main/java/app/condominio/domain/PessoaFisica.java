@@ -1,5 +1,6 @@
 package app.condominio.domain;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
@@ -7,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.swing.text.MaskFormatter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -79,8 +81,18 @@ public class PessoaFisica extends Pessoa {
 
 	@Override
 	public String cpfCnpj() {
-		return cpf;
-	};
+		if (cpf == null) {
+			return null;
+		} else {
+			try {
+				MaskFormatter formatador = new MaskFormatter("###.###.###-##");
+				formatador.setValueContainsLiteralCharacters(false);
+				return formatador.valueToString(cpf);
+			} catch (ParseException e) {
+				return cpf;
+			}
+		}
+	}
 
 	@Override
 	public String toString() {

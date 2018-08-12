@@ -1,14 +1,16 @@
 package app.condominio.dao;
 
+import java.util.Collection;
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import app.condominio.domain.Conta;
 import app.condominio.domain.Movimento;
 
-public interface MovimentoDao extends CrudRepository<Movimento, Long> {
+public interface MovimentoDao extends PagingAndSortingRepository<Movimento, Long> {
 
-	List<Movimento> findAllByContaIn(Iterable<Conta> conta);
+	// TODO definir ordenação
+	List<Movimento> findAllByContaIn(Collection<Conta> conta);
 
 }

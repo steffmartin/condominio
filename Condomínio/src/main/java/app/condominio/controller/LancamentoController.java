@@ -38,6 +38,11 @@ public class LancamentoController {
 	@Autowired
 	private ContaService contaService;
 
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "contabilidade", "lancamentos" };
+	}
+
 	@ModelAttribute("categorias")
 	public List<Categoria> categorias() {
 		return categoriaService.listar();

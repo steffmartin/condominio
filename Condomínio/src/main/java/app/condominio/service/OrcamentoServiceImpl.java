@@ -36,7 +36,9 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Orcamento> listar() {
-		return orcamentoDao.findAllByPeriodoIn(periodoService.listar());
+		return orcamentoDao
+				.findAllByPeriodoInOrderByPeriodo_InicioAscSubcategoria_CategoriaPai_OrdemAscSubcategoria_DescricaoAsc(
+						periodoService.listar());
 	}
 
 	@Override

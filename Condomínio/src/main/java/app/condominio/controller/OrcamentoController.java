@@ -38,6 +38,11 @@ public class OrcamentoController {
 	@Autowired
 	private CategoriaService categoriaService;
 
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "contabilidade", "orcamentos" };
+	}
+
 	@ModelAttribute("periodos")
 	public List<Periodo> periodos() {
 		return periodoService.listar();

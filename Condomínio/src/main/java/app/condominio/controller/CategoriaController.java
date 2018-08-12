@@ -34,6 +34,11 @@ public class CategoriaController {
 	@Autowired
 	private SubcategoriaService subcategoriaService;
 
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "contabilidade", "categorias" };
+	}
+
 	@ModelAttribute("tiposCategoria")
 	public TipoCategoria[] tiposCategoria() {
 		return TipoCategoria.values();

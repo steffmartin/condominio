@@ -17,10 +17,7 @@
 
 // Funcionamento do Sidebar
 $(document).ready(function() {
-	$("#sidebar").mCustomScrollbar({
-		theme : "minimal"
-	});
-	$('#sidebarCollapse').on('click', function() {
+	$('#sidebarCollapse,#sidebarExpand').on('click', function() {
 		$('#sidebar,#sidebarCollapse').toggleClass('active');
 		$('#sidebar .collapse.show').toggleClass('show');
 		$('#sidebar a[aria-expanded=true]').attr('aria-expanded', 'false');
@@ -30,9 +27,25 @@ $(document).ready(function() {
  }
 });
 
+//Scrools Customizados
+$(document).ready(function(){
+	
+	$("#sidebar").mCustomScrollbar({
+		axis:"y",
+		theme : "minimal"
+	});
+	
+	$(".table-responsive").mCustomScrollbar({
+		axis:"x",
+		theme:"inset-dark",
+		scrollButtons:{ enable: true }
+	});
+	
+});
+
 //Remover placeholder nas telas somente leitura
 $(document).ready(function() {
-$("fieldset:disabled").find(':input').removeAttr('placeholder');
+	$("fieldset:disabled").find(':input').removeAttr('placeholder');
 });
 
 //Modal de excluir com conteúdo e formulário dinâmico
@@ -135,11 +148,4 @@ $('input.calc-add,input.calc-sub').on('change keyup', function(){
 		tot -= parseFloat($(this).val() || 0);
 	});
 	$('input.calc-tot').val(tot.toFixed(2));
-});
-
-//Seleciona o conteúdo de um campo number zerado
-$("input[type=number]").click(function () {
-	if($(this).val() == 0){
-		$(this).select();
-	}   
 });

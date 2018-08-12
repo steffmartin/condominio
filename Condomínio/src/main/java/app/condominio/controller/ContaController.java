@@ -29,6 +29,11 @@ public class ContaController {
 	@Autowired
 	private ContaService contaService;
 
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "financeiro", "contas" };
+	}
+
 	@ModelAttribute("tipos")
 	public TipoConta[] tiposConta() {
 		return TipoConta.values();
@@ -57,7 +62,7 @@ public class ContaController {
 	public ModelAndView getContaEditar(@PathVariable("idConta") Long idConta, ModelMap model) {
 		Conta conta = contaService.ler(idConta);
 		if (conta instanceof ContaBancaria) {
-			model.addAttribute("conta", (ContaBancaria) conta);
+			model.addAttribute("conta", conta);
 			model.addAttribute("tipo", TipoConta.BC);
 		} else {
 			model.addAttribute("conta", conta);
@@ -67,8 +72,8 @@ public class ContaController {
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
-	//@PostMapping({ "/cadastro/CX", "/cadastro" })
-	@PostMapping(value="/cadastro", params={"CX"})
+	// @PostMapping({ "/cadastro/CX", "/cadastro" })
+	@PostMapping(value = "/cadastro", params = { "CX" })
 	public ModelAndView postContaCadastro(@Valid @ModelAttribute("conta") Conta conta, BindingResult validacao,
 			ModelMap model) {
 		contaService.validar(conta, validacao);
@@ -81,8 +86,8 @@ public class ContaController {
 		return new ModelAndView("redirect:/sindico/contas");
 	}
 
-	//@PostMapping("/cadastro/BC")
-	@PostMapping(value="/cadastro", params={"BC"})
+	// @PostMapping("/cadastro/BC")
+	@PostMapping(value = "/cadastro", params = { "BC" })
 	public ModelAndView postContaBancariaCadastro(@Valid @ModelAttribute("conta") ContaBancaria conta,
 			BindingResult validacao, ModelMap model) {
 		contaService.validar(conta, validacao);
@@ -95,8 +100,8 @@ public class ContaController {
 		return new ModelAndView("redirect:/sindico/contas");
 	}
 
-	//@PutMapping({ "/cadastro/CX", "/cadastro" })
-	@PutMapping(value="/cadastro", params={"CX"})
+	// @PutMapping({ "/cadastro/CX", "/cadastro" })
+	@PutMapping(value = "/cadastro", params = { "CX" })
 	public ModelAndView putContaCadastro(@Valid @ModelAttribute("conta") Conta conta, BindingResult validacao,
 			ModelMap model) {
 		contaService.validar(conta, validacao);
@@ -109,8 +114,8 @@ public class ContaController {
 		return new ModelAndView("redirect:/sindico/contas");
 	}
 
-	//@PutMapping("/cadastro/BC")
-	@PutMapping(value="/cadastro", params={"BC"})
+	// @PutMapping("/cadastro/BC")
+	@PutMapping(value = "/cadastro", params = { "BC" })
 	public ModelAndView putContaBancariaCadastro(@Valid @ModelAttribute("conta") ContaBancaria conta,
 			BindingResult validacao, ModelMap model) {
 		contaService.validar(conta, validacao);

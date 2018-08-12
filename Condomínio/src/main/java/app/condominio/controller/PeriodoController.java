@@ -26,6 +26,11 @@ public class PeriodoController {
 	@Autowired
 	private PeriodoService periodoService;
 
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "contabilidade", "periodos" };
+	}
+
 	@GetMapping({ "", "/", "/lista", "/todos" })
 	public ModelAndView getPeriodos(ModelMap model) {
 		model.addAttribute("periodos", periodoService.listar());

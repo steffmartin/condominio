@@ -39,6 +39,11 @@ public class PessoaController {
 	@Autowired
 	MoradiaService moradiaService;
 
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "condominio", "condominos" };
+	}
+
 	@ModelAttribute("generos")
 	public Genero[] generos() {
 		return Genero.values();
@@ -82,10 +87,10 @@ public class PessoaController {
 	public ModelAndView getPessoaEditar(@PathVariable("idPessoa") Long idPessoa, ModelMap model) {
 		Pessoa pessoa = pessoaService.ler(idPessoa);
 		if (pessoa instanceof PessoaFisica) {
-			model.addAttribute("pessoa", (PessoaFisica) pessoa);
+			model.addAttribute("pessoa", pessoa);
 			model.addAttribute("tipo", TipoPessoa.F);
 		} else {
-			model.addAttribute("pessoa", (PessoaJuridica) pessoa);
+			model.addAttribute("pessoa", pessoa);
 			model.addAttribute("tipo", TipoPessoa.J);
 		}
 		model.addAttribute("conteudo", "pessoaCadastro");

@@ -39,7 +39,12 @@ public class MoradiaController {
 
 	@Autowired
 	private PessoaService pessoaService;
-	
+
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "condominio", "moradias" };
+	}
+
 	@ModelAttribute("tipos")
 	public TipoMoradia[] tipos() {
 		return TipoMoradia.values();

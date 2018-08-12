@@ -35,7 +35,7 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Subcategoria> listar() {
-		return subcategoriaDao.findAllByCategoriaPaiIn(categoriaService.listar());
+		return subcategoriaDao.findAllByCategoriaPaiInOrderByCategoriaPai_OrdemAscDescricao(categoriaService.listar());
 	}
 
 	@Override

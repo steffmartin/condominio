@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,9 +34,11 @@ public class InicioController {
 		}
 		return retorno;
 	}
-	
+
 	@GetMapping("/sindico")
-	public ModelAndView sindico() {
-		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "inicio");
+	public ModelAndView sindico(ModelMap model) {
+		model.addAttribute("ativo", new String[] { "painel", "" });
+		model.addAttribute("conteudo", "inicio");
+		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 }
