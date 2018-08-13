@@ -58,7 +58,7 @@ main {
 .form-list th{
 	font-weight:normal;
 }
-@media ( max-width : 768px) {
+@media ( max-width : 767px) {
 	.crud-list .btn span{
 		display:none;
 	}
@@ -179,7 +179,7 @@ fieldset:disabled input::placeholder{
 	transform: translateX(50%);
 }
 /* Sidebar celulares */
-@media ( max-width : 768px) {
+@media ( max-width : 767px) {
 	#sidebarCollapse {
 		margin-top: 16px;
 		transition: all 0.3s;

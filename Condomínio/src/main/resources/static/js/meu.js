@@ -18,7 +18,7 @@
 // Funcionamento do Sidebar
 $(document).ready(function() {
 	$('#sidebarCollapse,#sidebarExpand').on('click', function() {
-		$('#sidebar,#sidebarCollapse').toggleClass('active');
+		$('#sidebar,#sidebarCollapse,#sidebarExpand').toggleClass('active');
 		$('#sidebar .collapse.show').toggleClass('show');
 		$('#sidebar a[aria-expanded=true]').attr('aria-expanded', 'false');
 	});
@@ -40,6 +40,7 @@ $(document).ready(function(){
 		theme:"inset-dark",
 		scrollButtons:{ enable: true }
 	});
+	$(".table-responsive").removeClass("mCustomScrollbar");
 	
 });
 

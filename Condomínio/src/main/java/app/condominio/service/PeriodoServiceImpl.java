@@ -49,13 +49,15 @@ public class PeriodoServiceImpl implements PeriodoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean haPeriodo(LocalDate data) {
-		return periodoDao.existsByInicioLessThanEqualAndFimGreaterThanEqual(data, data);
+		return periodoDao.existsByCondominioAndInicioLessThanEqualAndFimGreaterThanEqual(
+				usuarioService.lerLogado().getCondominio(), data, data);
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Periodo ler(LocalDate data) {
-		return periodoDao.findOneByInicioLessThanEqualAndFimGreaterThanEqual(data, data);
+		return periodoDao.findOneByCondominioAndInicioLessThanEqualAndFimGreaterThanEqual(
+				usuarioService.lerLogado().getCondominio(), data, data);
 	}
 
 	@Override
@@ -79,10 +81,12 @@ public class PeriodoServiceImpl implements PeriodoService {
 				validacao.rejectValue("fim", "typeMismatch");
 			}
 			// Não pode repetir período
-			if ((entidade.getIdPeriodo() == null
-					&& periodoDao.existsByInicioAfterAndFimBefore(entidade.getInicio(), entidade.getFim()))
-					|| (entidade.getIdPeriodo() != null && periodoDao.existsByInicioAfterAndFimBeforeAndIdPeriodoNot(
-							entidade.getInicio(), entidade.getFim(), entidade.getIdPeriodo()))) {
+			if ((entidade.getIdPeriodo() == null && periodoDao.existsByCondominioAndInicioAfterAndFimBefore(
+					usuarioService.lerLogado().getCondominio(), entidade.getInicio(), entidade.getFim()))
+					|| (entidade.getIdPeriodo() != null
+							&& periodoDao.existsByCondominioAndInicioAfterAndFimBeforeAndIdPeriodoNot(
+									usuarioService.lerLogado().getCondominio(), entidade.getInicio(), entidade.getFim(),
+									entidade.getIdPeriodo()))) {
 				validacao.rejectValue("inicio", "Conflito");
 				validacao.rejectValue("fim", "Conflito");
 			} else {

@@ -4,16 +4,20 @@ import java.time.LocalDate;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import app.condominio.domain.Condominio;
 import app.condominio.domain.Periodo;
 
 public interface PeriodoDao extends PagingAndSortingRepository<Periodo, Long> {
 
-	boolean existsByInicioLessThanEqualAndFimGreaterThanEqual(LocalDate inicio, LocalDate fim);
+	boolean existsByCondominioAndInicioLessThanEqualAndFimGreaterThanEqual(Condominio condominio, LocalDate inicio,
+			LocalDate fim);
 
-	boolean existsByInicioAfterAndFimBefore(LocalDate inicio, LocalDate fim);
+	boolean existsByCondominioAndInicioAfterAndFimBefore(Condominio condominio, LocalDate inicio, LocalDate fim);
 
-	boolean existsByInicioAfterAndFimBeforeAndIdPeriodoNot(LocalDate inicio, LocalDate fim, Long idPeriodo);
+	boolean existsByCondominioAndInicioAfterAndFimBeforeAndIdPeriodoNot(Condominio condominio, LocalDate inicio,
+			LocalDate fim, Long idPeriodo);
 
-	Periodo findOneByInicioLessThanEqualAndFimGreaterThanEqual(LocalDate inicio, LocalDate fim);
+	Periodo findOneByCondominioAndInicioLessThanEqualAndFimGreaterThanEqual(Condominio condominio, LocalDate inicio,
+			LocalDate fim);
 
 }
