@@ -1,0 +1,99 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Movimento</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Cadastro do Movimento</h3>
+		<p th:text="${movimento.idMovimento == null} ? 'Ao salvar, um novo movimento será criado no período da data informada.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações do movimento atual serão atualizadas.')"></p>
+		<form th:class="${#ctx.tipo == ''}?'needs-validation'" novalidate th:action="@{/sindico/movimentos/cadastro(${#ctx.tipo}?:'M')}" th:object="${movimento}" th:method="${movimento.idMovimento == null} ? post : put">
+			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
+				<input type="hidden" th:field="*{idMovimento}" />
+				<div class="card">
+					<ul class="list-group list-group-flush" id="accordion">
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-list"></i> Tipo de movimento
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label>Tipo</label> <select required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse" autofocus th:disabled="${movimento.idMovimento != null}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:each="t : ${tiposClasseMovimento}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #ctx.tipo}" data-toggle="collapse" th:data-target="'#'+ ${t}" th:data-form-action="@{/sindico/movimentos/cadastro(${t})}"></option>
+									</select>
+									<div class="invalid-feedback">Campo obrigatório.</div>
+									<small th:text="${movimento.idMovimento != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>
+								</div>
+							</div>
+						</li>
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-file-invoice-dollar"></i> Informações principais
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label>Data</label> <input class="form-control" type="date" th:errorclass="is-invalid" th:field="*{data}" placeholder="Data do movimento" />
+									<div class="invalid-feedback" th:errors="*{data}"></div>
+								</div>
+								<div class="form-group col-md-4">
+									<label>Documento</label> <input autofocus class="form-control" type="text" th:errorclass="is-invalid" th:field="*{documento}" placeholder="Número do documento" />
+									<div class="invalid-feedback" th:errors="*{documento}"></div>
+								</div>
+								<div class="form-group col-md-4">
+									<label>Valor</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span>
+										</div>
+										<input class="form-control last calc-add" type="number" step=".01" th:errorclass="is-invalid" th:field="*{valor}" placeholder="Valor do movimento" />
+										<div class="invalid-feedback" th:errors="*{valor}"></div>
+									</div>
+								</div>
+								<input type="hidden" th:field="*{reducao}" />
+							</div>
+							<div class="form-group">
+								<label>Descrição</label>
+								<textarea class="form-control" rows="3" th:errorclass="is-invalid" th:field="*{descricao}" placeholder="Outros detalhes ou histórico do movimento."></textarea>
+								<div class="invalid-feedback" th:errors="*{descricao}"></div>
+							</div>
+						</li>
+						<li class="list-group-item collapse show" id="L" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoClasseMovimento).L}">
+							<p class="text-primary">
+								<i class="fas fa-coins"></i> Detalhes do lançamento
+							</p>
+							<div class="form-row"></div>
+						</li>
+						<li class="list-group-item collapse" id="L" th:unless="${#ctx.tipo == T(app.condominio.domain.enums.TipoClasseMovimento).L}">
+							<p class="text-primary">
+								<i class="fas fa-coins"></i> Detalhes do lançamento
+							</p>
+							<div class="form-row"></div>
+						</li>
+						<li class="list-group-item collapse show" id="T" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoClasseMovimento).T}">
+							<p class="text-primary">
+								<i class="fas fa-exchange-alt"></i> Detalhes da transferência
+							</p>
+							<div class="form-row"></div>
+						</li>
+						<li class="list-group-item collapse" id="T" th:unless="${#ctx.tipo == T(app.condominio.domain.enums.TipoClasseMovimento).T}">
+							<p class="text-primary">
+								<i class="fas fa-exchange-alt"></i> Detalhes da transferência
+							</p>
+							<div class="form-row"></div>
+						</li>
+					</ul>
+				</div>
+			</fieldset>
+			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
+			<a class="btn btn-secondary" th:href="@{/sindico/movimentos}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+		</form>
+		</main>
+	</th:block>
+
+</body>
+</html>

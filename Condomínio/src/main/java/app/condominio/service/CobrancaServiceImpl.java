@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import app.condominio.dao.CobrancaDao;
 import app.condominio.domain.Cobranca;
 import app.condominio.domain.Condominio;
+import app.condominio.domain.enums.SituacaoCobranca;
 
 @Service
 @Transactional
@@ -26,6 +27,7 @@ public class CobrancaServiceImpl implements CobrancaService {
 
 	@Override
 	public void salvar(Cobranca entidade) {
+		entidade.setSituacao(SituacaoCobranca.N);
 		entidade.setCondominio(usuarioService.lerLogado().getCondominio());
 		cobrancaDao.save(entidade);
 	}
@@ -106,6 +108,10 @@ public class CobrancaServiceImpl implements CobrancaService {
 			// Motivo baixa é em branco se NÃO tiver recebimento
 		} else if (entidade.getMotivoBaixa() != null) {
 			validacao.rejectValue("motivoBaixa", "Null");
+		}
+		// Situação Cobrança não pode ser nula (exceto novos registros)
+		if (entidade.getIdCobranca() != null && entidade.getSituacao() == null) {
+			validacao.rejectValue("situacao", "NotNull");
 		}
 
 	}

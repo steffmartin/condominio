@@ -1,5 +1,6 @@
 package app.condominio.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -70,6 +71,8 @@ public class CobrancaController {
 
 	@GetMapping("/cadastro")
 	public ModelAndView getCobrancaCadastro(@ModelAttribute("cobranca") Cobranca cobranca) {
+		cobranca.setDataEmissao(LocalDate.now());
+		cobranca.setMotivoEmissao(MotivoEmissao.O);
 		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "cobrancaCadastro");
 	}
 

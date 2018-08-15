@@ -39,7 +39,7 @@ public class Cobranca implements Serializable {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "motivoemissao")
-	private MotivoEmissao motivoEmissao = MotivoEmissao.O;
+	private MotivoEmissao motivoEmissao;
 
 	@Size(max = 10)
 	@NotBlank
@@ -52,7 +52,7 @@ public class Cobranca implements Serializable {
 	@NotNull
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@Column(name = "dataemissao")
-	private LocalDate dataEmissao = LocalDate.now();
+	private LocalDate dataEmissao;
 
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@Column(name = "datavencimento")
@@ -98,9 +98,8 @@ public class Cobranca implements Serializable {
 	@Column(name = "percentualmulta")
 	private Float percentualMulta;
 
-	@NotNull
 	@Enumerated(EnumType.STRING)
-	private SituacaoCobranca situacao = SituacaoCobranca.N;
+	private SituacaoCobranca situacao;
 
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@Column(name = "datarecebimento")

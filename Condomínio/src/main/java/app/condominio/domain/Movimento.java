@@ -3,6 +3,7 @@ package app.condominio.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -109,6 +110,17 @@ public class Movimento implements Serializable {
 
 	public void setConta(Conta conta) {
 		this.conta = conta;
+	}
+
+	@Override
+	public String toString() {
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		String s = data.format(formato) + " - ";
+		if (documento != null) {
+			s += documento + " - ";
+		}
+		s += "R$ " + valor;
+		return s;
 	}
 
 	@Override
