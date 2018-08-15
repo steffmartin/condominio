@@ -17,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -45,7 +44,6 @@ public class Movimento implements Serializable {
 	@Size(max = 20)
 	private String documento;
 
-	@NotBlank
 	@Size(max = 255)
 	private String descricao;
 
@@ -110,6 +108,14 @@ public class Movimento implements Serializable {
 
 	public void setConta(Conta conta) {
 		this.conta = conta;
+	}
+
+	public String detalhe() {
+		if (reducao) {
+			return "Saída";
+		} else {
+			return "Entrada";
+		}
 	}
 
 	@Override

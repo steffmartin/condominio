@@ -13,6 +13,7 @@ import app.condominio.dao.MovimentoDao;
 import app.condominio.domain.Lancamento;
 import app.condominio.domain.Movimento;
 import app.condominio.domain.Transferencia;
+import app.condominio.domain.enums.TipoCategoria;
 
 @Service
 @Transactional
@@ -33,7 +34,13 @@ public class MovimentoServiceImpl implements MovimentoService {
 		Transferencia contrapartida;
 		if (entidade instanceof Lancamento) {
 			((Lancamento) entidade).setPeriodo(periodoService.ler(entidade.getData()));
+			if (((Lancamento) entidade).getSubcategoria().getCategoriaPai().getTipo().equals(TipoCategoria.D)) {
+				entidade.setReducao(Boolean.TRUE);
+			} else {
+				entidade.setReducao(Boolean.FALSE);
+			}
 		} else if (entidade instanceof Transferencia) {
+			entidade.setReducao(Boolean.TRUE);
 			// TODO ver se tem forma mais prática
 			contrapartida = new Transferencia();
 			contrapartida.setData(entidade.getData());
@@ -42,8 +49,8 @@ public class MovimentoServiceImpl implements MovimentoService {
 			contrapartida.setDescricao(entidade.getDescricao());
 			contrapartida.setConta(((Transferencia) entidade).getContaInversa());
 			contrapartida.setContaInversa(entidade.getConta());
-			contrapartida.setReducao(!((Transferencia) entidade).getReducao());
-			contrapartida.setMovimentoInverso((Transferencia) entidade);
+			contrapartida.setReducao(Boolean.FALSE);
+			contrapartida.setMovimentoInverso(entidade);
 			((Transferencia) entidade).setMovimentoInverso(contrapartida);
 			listaSalvar.add(contrapartida);
 		}
@@ -68,6 +75,11 @@ public class MovimentoServiceImpl implements MovimentoService {
 		List<Movimento> listaSalvar = new ArrayList<>();
 		if (entidade instanceof Lancamento) {
 			((Lancamento) entidade).setPeriodo(periodoService.ler(entidade.getData()));
+			if (((Lancamento) entidade).getSubcategoria().getCategoriaPai().getTipo().equals(TipoCategoria.D)) {
+				entidade.setReducao(Boolean.TRUE);
+			} else {
+				entidade.setReducao(Boolean.FALSE);
+			}
 		} else if (entidade instanceof Transferencia) {
 			// TODO ver se tem forma mais prática
 			((Transferencia) entidade).getMovimentoInverso().setData(entidade.getData());
@@ -75,9 +87,9 @@ public class MovimentoServiceImpl implements MovimentoService {
 			((Transferencia) entidade).getMovimentoInverso().setDocumento(entidade.getDocumento());
 			((Transferencia) entidade).getMovimentoInverso().setDescricao(entidade.getDescricao());
 			((Transferencia) entidade).getMovimentoInverso().setConta(((Transferencia) entidade).getContaInversa());
-			((Transferencia) entidade).getMovimentoInverso().setContaInversa(entidade.getConta());
+			((Transferencia) ((Transferencia) entidade).getMovimentoInverso()).setContaInversa(entidade.getConta());
 			((Transferencia) entidade).getMovimentoInverso().setReducao(!((Transferencia) entidade).getReducao());
-			((Transferencia) entidade).getMovimentoInverso().setMovimentoInverso((Transferencia) entidade);
+			((Transferencia) ((Transferencia) entidade).getMovimentoInverso()).setMovimentoInverso(entidade);
 			listaSalvar.add(((Transferencia) entidade).getMovimentoInverso());
 		}
 		listaSalvar.add(entidade);
@@ -98,12 +110,17 @@ public class MovimentoServiceImpl implements MovimentoService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Movimento entidade, BindingResult validacao) {
 		// Só permitir lançamento se o período existir e estiver aberto
-		if (entidade instanceof Lancamento) {
+		if (entidade instanceof Lancamento && entidade.getData() != null) {
 			if (!periodoService.haPeriodo(entidade.getData())) {
 				validacao.rejectValue("data", "Inexistente");
 			} else if (periodoService.ler(entidade.getData()).getEncerrado()) {
 				validacao.rejectValue("data", "Final");
 			}
+		}
+		// Não permitir transferência para conta igual
+		if (entidade instanceof Transferencia && entidade.getConta() != null
+				&& entidade.getConta().equals(((Transferencia) entidade).getContaInversa())) {
+			validacao.rejectValue("contaInversa", "Conflito");
 		}
 	}
 

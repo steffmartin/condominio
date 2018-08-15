@@ -39,4 +39,15 @@ public class Lancamento extends Movimento {
 		this.subcategoria = subcategoria;
 	}
 
+	@Override
+	public String detalhe() {
+		String s;
+		if (getReducao()) {
+			s = "Despesa com ";
+		} else {
+			s = "Receita de ";
+		}
+		return s + subcategoria.getDescricao().toLowerCase();
+	}
+
 }

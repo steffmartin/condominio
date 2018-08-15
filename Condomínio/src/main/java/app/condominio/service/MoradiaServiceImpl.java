@@ -42,6 +42,9 @@ public class MoradiaServiceImpl implements MoradiaService {
 
 	@Override
 	public void editar(Moradia entidade) {
+		// FIXME excluir todas as relações só funciona no pessoaService, não funciona no
+		// moradiaService.
+
 		moradiaDao.save(entidade);
 
 	}

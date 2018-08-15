@@ -32,7 +32,7 @@
 								<div class="form-group col-md-3">
 									<label>Número</label>
 									<div class="input-group">
-										<input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{numero}" placeholder="Número" /> <input class="form-control last" type="text" th:errorclass="is-invalid" th:field="*{parcela}" placeholder="Parcela" />
+										<input autofocus class="form-control" type="text" th:errorclass="is-invalid" th:field="*{numero}" placeholder="Número" /> <input class="form-control last" type="text" th:errorclass="is-invalid" th:field="*{parcela}" placeholder="Parcela" />
 										<div class="invalid-feedback" th:errors="*{numero}"></div>
 										<div class="invalid-feedback" th:errors="*{parcela}"></div>
 									</div>

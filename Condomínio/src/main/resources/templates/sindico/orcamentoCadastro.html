@@ -30,7 +30,7 @@
 									<div class="invalid-feedback" th:errors="*{periodo}"></div>
 								</div>
 								<div class="form-group col-md-4">
-									<label>Categoria</label> <select autofocus class="custom-select" id="subcategoria" th:errorclass="is-invalid" th:field="*{subcategoria}">
+									<label>Categoria</label> <select  class="custom-select" id="subcategoria" th:errorclass="is-invalid" th:field="*{subcategoria}">
 										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:if="${#lists.isEmpty(categorias)}" value="" disabled>Não há categorias cadastradas</option>
 										<th:block th:each="categoria : ${categorias}">

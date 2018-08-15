@@ -11,7 +11,7 @@
 		<main role="main">
 		<h3 class="font-weight-light">Cadastro do Movimento</h3>
 		<p th:text="${movimento.idMovimento == null} ? 'Ao salvar, um novo movimento será criado no período da data informada.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações do movimento atual serão atualizadas.')"></p>
-		<form th:class="${#ctx.tipo == ''}?'needs-validation'" novalidate th:action="@{/sindico/movimentos/cadastro(${#ctx.tipo}?:'M')}" th:object="${movimento}" th:method="${movimento.idMovimento == null} ? post : put">
+		<form th:class="!${#ctx.tipo}?'needs-validation'" novalidate th:action="@{/sindico/movimentos/cadastro(${#ctx.tipo}?:'M')}" th:object="${movimento}" th:method="${movimento.idMovimento == null} ? post : put">
 			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
 				<input type="hidden" th:field="*{idMovimento}" />
 				<div class="card">
@@ -22,7 +22,7 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<label>Tipo</label> <select required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse" autofocus th:disabled="${movimento.idMovimento != null}">
+									<label>Tipo</label> <select autofocus required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse"  th:disabled="${movimento.idMovimento != null}">
 										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="t : ${tiposClasseMovimento}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #ctx.tipo}" data-toggle="collapse" th:data-target="'#'+ ${t}" th:data-form-action="@{/sindico/movimentos/cadastro(${t})}"></option>
 									</select>
@@ -41,7 +41,7 @@
 									<div class="invalid-feedback" th:errors="*{data}"></div>
 								</div>
 								<div class="form-group col-md-4">
-									<label>Documento</label> <input autofocus class="form-control" type="text" th:errorclass="is-invalid" th:field="*{documento}" placeholder="Número do documento" />
+									<label>Documento</label> <input  class="form-control" type="text" th:errorclass="is-invalid" th:field="*{documento}" placeholder="Número do documento" />
 									<div class="invalid-feedback" th:errors="*{documento}"></div>
 								</div>
 								<div class="form-group col-md-4">
@@ -66,25 +66,101 @@
 							<p class="text-primary">
 								<i class="fas fa-coins"></i> Detalhes do lançamento
 							</p>
-							<div class="form-row"></div>
+							<input type="hidden" th:field="*{periodo}" />
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Conta</label> <select  class="custom-select" id="conta" th:errorclass="is-invalid" th:field="*{conta}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(contas)}" value="" disabled>Não há contas cadastradas</option>
+										<option th:each="c : ${contas}" th:value="${c.idConta}" th:text="${c}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{conta}"></div>
+								</div>
+								<div class="form-group col-md-6">
+									<label>Categoria</label> <select  class="custom-select" id="subcategoria" th:errorclass="is-invalid" th:field="*{subcategoria}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(categorias)}" value="" disabled>Não há categorias cadastradas</option>
+										<th:block th:each="categoria : ${categorias}">
+											<option value="" disabled th:text="${categoria}"></option>
+											<option th:each="subcategoria : ${categoria.subcategorias}" th:value="${subcategoria.idSubcategoria}" th:text="|${subcategoria.categoriaPai.ordem}.${subcategoriaStat.count} - ${subcategoria.descricao}|"></option>
+										</th:block>
+									</select>
+									<div class="invalid-feedback" th:errors="*{subcategoria}"></div>
+								</div>
+							</div>
 						</li>
 						<li class="list-group-item collapse" id="L" th:unless="${#ctx.tipo == T(app.condominio.domain.enums.TipoClasseMovimento).L}">
 							<p class="text-primary">
 								<i class="fas fa-coins"></i> Detalhes do lançamento
 							</p>
-							<div class="form-row"></div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Conta</label> <select  disabled class="custom-select" id="conta" th:errorclass="is-invalid" th:field="*{conta}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(contas)}" value="" disabled>Não há contas cadastradas</option>
+										<option th:each="c : ${contas}" th:value="${c.idConta}" th:text="${c}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{conta}"></div>
+								</div>
+								<div class="form-group col-md-6">
+									<label>Categoria</label> <select  disabled class="custom-select" id="subcategoria" name="subcategoria">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(categorias)}" value="" disabled>Não há categorias cadastradas</option>
+										<th:block th:each="categoria : ${categorias}">
+											<option value="" disabled th:text="${categoria}"></option>
+											<option th:each="subcategoria : ${categoria.subcategorias}" th:value="${subcategoria.idSubcategoria}" th:text="|${subcategoria.categoriaPai.ordem}.${subcategoriaStat.count} - ${subcategoria.descricao}|"></option>
+										</th:block>
+									</select>
+								</div>
+							</div>
 						</li>
 						<li class="list-group-item collapse show" id="T" th:if="${#ctx.tipo == T(app.condominio.domain.enums.TipoClasseMovimento).T}">
 							<p class="text-primary">
 								<i class="fas fa-exchange-alt"></i> Detalhes da transferência
 							</p>
-							<div class="form-row"></div>
+							<input type="hidden" th:field="*{movimentoInverso}" />
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Conta</label> <select  class="custom-select" id="conta" th:errorclass="is-invalid" th:field="*{conta}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(contas)}" value="" disabled>Não há contas cadastradas</option>
+										<option th:each="c : ${contas}" th:value="${c.idConta}" th:text="${c}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{conta}"></div>
+									<small th:text="!*{reducao}?'O valor será transferido da conta de origem para esta conta':_">O valor será transferido desta conta para a conta de destino</small>
+								</div>
+								<div class="form-group col-md-6">
+									<label th:text="!*{reducao}?'Conta de origem':_">Conta de destino</label> <select  class="custom-select" id="contaInversa" th:errorclass="is-invalid" th:field="*{contaInversa}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(contas)}" value="" disabled>Não há contas cadastradas</option>
+										<option th:each="c : ${contas}" th:value="${c.idConta}" th:text="${c}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{contaInversa}"></div>
+								</div>
+							</div>
 						</li>
 						<li class="list-group-item collapse" id="T" th:unless="${#ctx.tipo == T(app.condominio.domain.enums.TipoClasseMovimento).T}">
 							<p class="text-primary">
 								<i class="fas fa-exchange-alt"></i> Detalhes da transferência
 							</p>
-							<div class="form-row"></div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Conta</label> <select disabled  class="custom-select" id="conta" th:errorclass="is-invalid" th:field="*{conta}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(contas)}" value="" disabled>Não há contas cadastradas</option>
+										<option th:each="c : ${contas}" th:value="${c.idConta}" th:text="${c}"></option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{conta}"></div>
+									<small>O valor será transferido desta conta para a conta de destino.</small>
+								</div>
+								<div class="form-group col-md-6">
+									<label>Conta de destino</label> <select disabled  class="custom-select" id="contaInversa" name="contaInversa">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(contas)}" value="" disabled>Não há contas cadastradas</option>
+										<option th:each="c : ${contas}" th:value="${c.idConta}" th:text="${c}"></option>
+									</select>
+								</div>
+							</div>
 						</li>
 					</ul>
 				</div>

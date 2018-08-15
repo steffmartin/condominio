@@ -20,9 +20,9 @@ public class Transferencia extends Movimento {
 	@JoinColumn(name = "idcontainversa")
 	private Conta contaInversa;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idmovimentoinverso")
-	private Transferencia movimentoInverso;
+	private Movimento movimentoInverso;
 
 	public Conta getContaInversa() {
 		return contaInversa;
@@ -32,12 +32,21 @@ public class Transferencia extends Movimento {
 		this.contaInversa = contaInversa;
 	}
 
-	public Transferencia getMovimentoInverso() {
+	public Movimento getMovimentoInverso() {
 		return movimentoInverso;
 	}
 
-	public void setMovimentoInverso(Transferencia movimentoInverso) {
+	public void setMovimentoInverso(Movimento movimentoInverso) {
 		this.movimentoInverso = movimentoInverso;
+	}
+
+	@Override
+	public String detalhe() {
+		if (getReducao()) {
+			return "Transferência de saída";
+		} else {
+			return "Transferência de entrada";
+		}
 	}
 
 }

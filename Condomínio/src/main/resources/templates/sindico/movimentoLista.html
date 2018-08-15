@@ -28,17 +28,17 @@
 						<th scope="col">Documento</th>
 						<th scope="col">Valor</th>
 						<th scope="col">Conta</th>
-						<th scope="col">Descrição</th>
+						<th scope="col">Detalhe</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="movimento : ${movimentos}">
-						<th scope="row" th:text="${movimento.data}"></th>
-						<td scope="row" th:text="${movimento.documento}"></td>
+						<th scope="row" th:text="${#temporals.format(movimento.data,'dd/MM/yyyy')}"></th>
+						<th scope="row" th:text="${movimento.documento}"></th>
 						<td th:text="|R$ ${movimento.valor}|"></td>
-						<td th:text="${documento.conta}"></td>
-						<td th:text="${documento.descricao}"></td>
+						<td th:text="${movimento.conta.sigla}"></td>
+						<td th:text="${movimento.detalhe()}"></td>
 						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/movimentos/{idMovimento}/cadastro(idMovimento=${movimento.idMovimento},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/movimentos/{idMovimento}/cadastro(idMovimento=${movimento.idMovimento})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${movimento.idMovimento}" th:data-obs="${movimento}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 					</tr>
 				</tbody>

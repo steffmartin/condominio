@@ -30,6 +30,14 @@
 						<li><a class="nav-link" th:classappend="${ativo[1] == 'orcamentos'}? 'active'" th:href="@{/sindico/orcamentos}" title="Cadastro de Orçamentos">Orçamentos</a></li>
 						<li><a class="nav-link" th:classappend="${ativo[1] == 'movimentos'}? 'active'" th:href="@{/sindico/movimentos}" title="Cadastro de Movimentos">Movimentos</a></li>
 					</ul></li>
+				<li class="nav-item"><a class="nav-link" th:classappend="${ativo[0] == 'relatorios'}? 'active'" href="#relatoriosSubmenu" data-toggle="collapse"> <i class="fas fa-chart-line"></i> Relatórios
+				</a>
+					<ul class="collapse list-unstyled" id="relatoriosSubmenu">
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'cadastrais'}? 'active'" th:href="@{/sindico/relatorios}" title="Relatórios Cadastrais">Cadastrais</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'financeiros'}? 'active'" th:href="@{/sindico/relatorios}" title="Relatórios Financeiros">Financeiros</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'contabeis'}? 'active'" th:href="@{/sindico/relatorios}" title="Relatórios Contábeis">Contábeis</a></li>
+						<li><a class="nav-link" th:classappend="${ativo[1] == 'diversos'}? 'active'" th:href="@{/sindico/relatorios}" title="Relatórios Diversos">Diversos</a></li>
+					</ul></li>
 			</ul>
 		</nav>
 		<div id="sidebarCollapse" class="bg-primary text-light active d-md-none"></div>

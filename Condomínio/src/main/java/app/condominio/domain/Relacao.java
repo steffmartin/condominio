@@ -34,9 +34,6 @@ public class Relacao implements Serializable {
 	// https://vladmihalcea.com/the-best-way-to-map-a-many-to-many-association-with-extra-columns-when-using-jpa-and-hibernate/
 	// https://www.thoughts-on-java.org/many-relationships-additional-properties/
 
-	// FIXME excluir todas as relações só funciona no pessoaService, não funciona no
-	// moradiaService.
-
 	@EmbeddedId
 	private IdRelacao idRelacao = new IdRelacao();
 

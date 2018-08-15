@@ -26,7 +26,7 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<label>Tipo</label> <select required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse" autofocus th:disabled="${conta.idConta != null}">
+									<label>Tipo</label> <select autofocus required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse"  th:disabled="${conta.idConta != null}">
 										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #ctx.tipo}" data-toggle="collapse" th:data-target="'#'+ ${t}" th:data-form-action="@{/sindico/contas/cadastro(${t})}"></option>
 									</select>
@@ -41,7 +41,7 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label>Sigla</label> <input autofocus class="form-control" type="text" th:errorclass="is-invalid" th:field="*{sigla}" placeholder="Uma abrevitura" />
+									<label>Sigla</label> <input  class="form-control" type="text" th:errorclass="is-invalid" th:field="*{sigla}" placeholder="Uma abrevitura" />
 									<div class="invalid-feedback" th:errors="*{sigla}"></div>
 								</div>
 								<div class="form-group col-md-7">

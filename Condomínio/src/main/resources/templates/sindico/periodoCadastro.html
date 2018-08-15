@@ -26,7 +26,7 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group" th:classappend="${periodo.idPeriodo == null}?'col-md-6':'col-md-4'">
-									<label>Data inicial</label> <input class="form-control" type="date" th:errorclass="is-invalid" th:field="*{inicio}" placeholder="Início do período" />
+									<label>Data inicial</label> <input autofocus class="form-control" type="date" th:errorclass="is-invalid" th:field="*{inicio}" placeholder="Início do período" />
 									<div class="invalid-feedback" th:errors="*{inicio}"></div>
 								</div>
 								<div class="form-group" th:classappend="${periodo.idPeriodo == null}?'col-md-6':'col-md-4'">

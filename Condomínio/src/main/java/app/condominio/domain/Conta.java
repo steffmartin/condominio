@@ -109,7 +109,11 @@ public class Conta implements Serializable {
 
 	@Override
 	public String toString() {
-		return sigla;
+		if (descricao != null) {
+			return sigla + " - " + descricao;
+		} else {
+			return sigla;
+		}
 	}
 
 	public String numero() {
