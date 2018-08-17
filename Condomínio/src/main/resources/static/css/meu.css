@@ -75,9 +75,8 @@ fieldset:disabled .input-group .hideMe ~ *{
 	border-top-left-radius: 0.25rem !important;
 	border-bottom-left-radius: 0.25rem !important;
  }
-fieldset:disabled input::placeholder{
+fieldset:disabled input::placeholder, fieldset:disabled textarea::placeholder{
   color:transparent;
-  /* TODO fieldset:disabled option[hidden] */
 }
  
 /* Sidebar */
