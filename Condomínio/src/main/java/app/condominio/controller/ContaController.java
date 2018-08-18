@@ -1,5 +1,7 @@
 package app.condominio.controller;
 
+import java.math.BigDecimal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,7 @@ public class ContaController {
 
 	@GetMapping("/cadastro")
 	public ModelAndView getContaCadastro(@ModelAttribute("conta") Conta conta, ModelMap model) {
+		conta.setSaldoInicial(BigDecimal.ZERO);
 		model.addAttribute("tipo", "");
 		model.addAttribute("conteudo", "contaCadastro");
 		return new ModelAndView("fragmentos/layoutSindico", model);

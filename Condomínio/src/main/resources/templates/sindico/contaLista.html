@@ -35,7 +35,7 @@
 					<tr th:each="conta : ${contas}">
 						<th scope="row" th:text="${conta.sigla}"></th>
 						<td th:text="${conta.descricao}"></td>
-						<td th:text="|R$ ${conta.saldo}|"></td>
+						<td th:text="|R$ ${conta.saldoAtual}|"></td>
 						<td th:text="${conta.numero()}"></td>
 						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/contas/{idConta}/cadastro(idConta=${conta.idConta},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/contas/{idConta}/cadastro(idConta=${conta.idConta})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${conta.idConta}" th:data-obs="${conta}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
 					</tr>

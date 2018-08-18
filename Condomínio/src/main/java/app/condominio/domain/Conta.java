@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @SuppressWarnings("serial")
@@ -39,7 +40,12 @@ public class Conta implements Serializable {
 	@Size(max = 30)
 	private String descricao;
 
-	private BigDecimal saldo;
+	@NotNull
+	@Column(name = "saldoinicial")
+	private BigDecimal saldoInicial;
+
+	@Column(name = "saldoatual")
+	private BigDecimal saldoAtual;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
@@ -75,12 +81,20 @@ public class Conta implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public BigDecimal getSaldo() {
-		return saldo;
+	public BigDecimal getSaldoInicial() {
+		return saldoInicial;
 	}
 
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
+	public void setSaldoInicial(BigDecimal saldoInicial) {
+		this.saldoInicial = saldoInicial;
+	}
+
+	public BigDecimal getSaldoAtual() {
+		return saldoAtual;
+	}
+
+	public void setSaldoAtual(BigDecimal saldoAtual) {
+		this.saldoAtual = saldoAtual;
 	}
 
 	public Condominio getCondominio() {

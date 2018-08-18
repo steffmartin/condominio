@@ -26,7 +26,7 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<label>Tipo</label> <select autofocus required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse"  th:disabled="${conta.idConta != null}">
+									<label>Tipo</label> <select autofocus required class="custom-select" name="form-accordion-select" data-form="main form" data-parent="#accordion .collapse" th:disabled="${conta.idConta != null}">
 										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="t : ${tipos}" th:value="${t}" th:text="${t.nome}" th:selected="${t == #ctx.tipo}" data-toggle="collapse" th:data-target="'#'+ ${t}" th:data-form-action="@{/sindico/contas/cadastro(${t})}"></option>
 									</select>
@@ -41,21 +41,32 @@
 							</p>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<label>Sigla</label> <input  class="form-control" type="text" th:errorclass="is-invalid" th:field="*{sigla}" placeholder="Uma abrevitura" />
+									<label>Sigla</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{sigla}" placeholder="Uma abrevitura" />
 									<div class="invalid-feedback" th:errors="*{sigla}"></div>
 								</div>
-								<div class="form-group col-md-7">
+								<div class="form-group" th:classappend="${param.somenteLeitura}?'col-md-4':'col-md-7'">
 									<label>Descrição</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{descricao}" placeholder="Uma descrição completa" />
 									<div class="invalid-feedback" th:errors="*{descricao}"></div>
 								</div>
 								<div class="form-group col-md-3">
-									<label>Saldo<span th:if="${conta.idConta == null}"> de abertura</span></label>
+									<label>Saldo de abertura</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text">R$</span>
 										</div>
-										<input class="form-control last" type="number" step=".01" th:errorclass="is-invalid" th:field="*{saldo}" placeholder="Saldo inicial da conta" />
-										<div class="invalid-feedback" th:errors="*{saldo}"></div>
+										<input class="form-control last" type="number" step=".01" th:errorclass="is-invalid" th:field="*{saldoInicial}" placeholder="Saldo inicial da conta" />
+										<div class="invalid-feedback" th:errors="*{saldoInicial}"></div>
+										<small th:if="${conta.idConta != null}">Alterar este campo afetará o saldo atual da conta</small>
+									</div>
+								</div>
+								<div th:if="${param.somenteLeitura}" class="form-group col-md-3">
+									<label>Saldo atual</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">R$</span>
+										</div>
+										<input class="form-control last" type="number" step=".01" th:errorclass="is-invalid" th:field="*{saldoAtual}" placeholder="Saldo atual da conta" />
+										<div class="invalid-feedback" th:errors="*{saldoAtual}"></div>
 									</div>
 								</div>
 							</div>
