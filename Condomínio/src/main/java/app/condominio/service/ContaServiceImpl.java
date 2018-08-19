@@ -49,10 +49,8 @@ public class ContaServiceImpl implements ContaService {
 	@Override
 	public void editar(Conta entidade) {
 		Conta antiga = ler(entidade.getIdConta());
-		if (antiga.getSaldoInicial().compareTo(entidade.getSaldoInicial()) != 0) {
-			entidade.setSaldoAtual(
-					entidade.getSaldoAtual().subtract(antiga.getSaldoInicial()).add(entidade.getSaldoInicial()));
-		}
+		entidade.setSaldoAtual(
+				antiga.getSaldoAtual().subtract(antiga.getSaldoInicial()).add(entidade.getSaldoInicial()));
 		contaDao.save(entidade);
 	}
 
@@ -65,7 +63,22 @@ public class ContaServiceImpl implements ContaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Conta entidade, BindingResult validacao) {
-		// TODO validar conta com sigla repetida
+		// VALIDAÇÕES NA INCLUSÃO
+		if (entidade.getIdConta() == null) {
+			// Sigla não pode repetir
+			if (contaDao.existsBySiglaAndCondominio(entidade.getSigla(), usuarioService.lerLogado().getCondominio())) {
+				validacao.rejectValue("sigla", "Unique");
+			}
+		}
+		// VALIDAÇÕES NA ALTERAÇÃO
+		else {
+			// Sigla não pode repetir
+			if (contaDao.existsBySiglaAndCondominioAndIdContaNot(entidade.getSigla(),
+					usuarioService.lerLogado().getCondominio(), entidade.getIdConta())) {
+				validacao.rejectValue("sigla", "Unique");
+			}
+		}
+		// VALIDAÇÕES EM AMBOS
 
 	}
 }
