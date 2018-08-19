@@ -40,7 +40,7 @@ public class BlocoServiceImpl implements BlocoService {
 	public List<Bloco> listar() {
 		Condominio condominio = usuarioService.lerLogado().getCondominio();
 		if (condominio == null) {
-			return new ArrayList<Bloco>();
+			return new ArrayList<>();
 		}
 		return condominio.getBlocos();
 	}
@@ -58,7 +58,7 @@ public class BlocoServiceImpl implements BlocoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Bloco entidade, BindingResult validacao) {
-		// LATER ver se haverá validação de bloco a fazer
-		
+		// TODO validar bloco com sigla repetida
+
 	}
 }

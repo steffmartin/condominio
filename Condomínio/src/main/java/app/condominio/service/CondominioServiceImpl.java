@@ -13,8 +13,9 @@ import app.condominio.domain.Usuario;
 @Transactional
 public class CondominioServiceImpl implements CondominioService {
 
-	//LATER ao ler/editar/excluir, tratar casos do usuário alterar o ID na URL ou fonte e enxergar entidades de outro usuário (todas as classes)
-	
+	// LATER ao ler/editar/excluir, tratar casos do usuário alterar o ID na URL ou
+	// fonte e enxergar entidades de outro usuário (todas as classes)
+
 	@Autowired
 	private CondominioDao condominioDao;
 

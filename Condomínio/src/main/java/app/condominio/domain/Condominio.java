@@ -53,7 +53,6 @@ public class Condominio implements Serializable {
 	@Size(max = 100)
 	private String email;
 
-	// TODO fazer validação min e max = 10
 	@Size(max = 10)
 	private String telefone;
 
@@ -92,7 +91,8 @@ public class Condominio implements Serializable {
 	// Dicas de relações:
 	// https://vladmihalcea.com/a-beginners-guide-to-jpa-and-hibernate-cascade-types/
 
-	// TODO colocar este campo obrigatório. Ideia: ter no controller geral o usuario
+	// LATER colocar este campo obrigatório. Ideia: ter no controller geral o
+	// usuario
 	// logado sempre pronto.
 	@OneToOne(mappedBy = "condominio", fetch = FetchType.LAZY)
 	private Usuario sindico;

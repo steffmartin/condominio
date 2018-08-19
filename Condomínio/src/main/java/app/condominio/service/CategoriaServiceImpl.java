@@ -61,7 +61,6 @@ public class CategoriaServiceImpl implements CategoriaService {
 			entidade.setNivel(1);
 		}
 		categoriaDao.save(entidade);
-		// TODO reescrever ordem das categoriasFilhas
 	}
 
 	@Override

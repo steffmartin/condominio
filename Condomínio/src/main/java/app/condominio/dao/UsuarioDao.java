@@ -10,4 +10,6 @@ public interface UsuarioDao extends PagingAndSortingRepository<Usuario, Long> {
 
 	Boolean existsByUsername(String username);
 
+	Boolean existsByUsernameAndIdNot(String username, Long id);
+
 }

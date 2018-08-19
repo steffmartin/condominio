@@ -10,7 +10,7 @@
 	<th:block th:fragment="conteudo">
 		<main role="main">
 		<h3 class="font-weight-light">Cadastro do Condomínio</h3>
-		<p>As informações abaixo serão usadas pelo Condomínio App para diversas funcionalidades como, por exemplo, imprimir relatórios e enviar e-mails.</p>
+		<p th:text="${condominio.idCondominio == null} ? 'As informações abaixo serão usadas pelo Condomínio App para diversas funcionalidades como, por exemplo, imprimir relatórios e enviar e-mails.' : (${param.somenteLeitura} ? 'As informações não podem ser alteradas neste modo.' :  'Ao salvar, as informações do condomínio serão atualizadas.')"></p>
 		<form th:action="@{/sindico/condominio/cadastro}" th:object="${condominio}" th:method="${condominio.idCondominio == null} ? post : put" novalidate>
 			<fieldset th:disabled="${param.somenteLeitura}" class="mb-3">
 				<input type="hidden" th:field="*{idCondominio}" />

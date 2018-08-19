@@ -36,8 +36,6 @@ public class Bloco implements Serializable {
 	@Size(max = 30)
 	private String descricao;
 
-	// TODO para todos os relacionamentos com condomínio, tentar colocar o
-	// condomínio no formulário ao invés de fazer no service
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcondominio")
 	private Condominio condominio;

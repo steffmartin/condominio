@@ -43,6 +43,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Usuario ler(Long id) {
+		return usuarioDao.findById(id).get();
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Usuario lerLogado() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))) {
@@ -55,6 +61,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public void editar(Usuario usuario) {
+		if (!usuario.getPassword().startsWith("{bcrypt}")) {
+			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		}
+		if (usuario.getAutorizacoes().isEmpty()) {
+			usuario.setAutorizacoes(ler(usuario.getId()).getAutorizacoes());
+		}
 		usuarioDao.save(usuario);
 	}
 
@@ -81,11 +93,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 		salvar(usuario);
 	}
 
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	private boolean existe(String username) {
-		return username != null && usuarioDao.existsByUsername(username);
-	}
-
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean redefinirSenha(String username) {
@@ -109,8 +116,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 		// LATER Alterar redefinição de senha para tabela de tokens e expiração
 		Usuario usuario = usuarioDao.findOneByUsername(username);
 		if (usuario != null && getToken(usuario.getPassword()).equals(token)) {
-			usuario.setPassword(passwordEncoder.encode(password));
-			usuarioDao.save(usuario);
+			usuario.setPassword(password);
+			editar(usuario);
 			return true;
 		} else {
 			return false;
@@ -130,8 +137,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Usuario usuario, BindingResult validacao) {
 		// Não pode criar um usuário com username repetido
-		if (existe(usuario.getUsername())) {
+		if (usuario.getUsername() != null
+				&& ((usuario.getId() == null && usuarioDao.existsByUsername(usuario.getUsername()))
+						|| (usuario.getId() != null
+								&& usuarioDao.existsByUsernameAndIdNot(usuario.getUsername(), usuario.getId())))) {
 			validacao.rejectValue("username", "Unique");
+		}
+		// Deve aceitar os termos
+		if (!usuario.getAtivo()) {
+			validacao.rejectValue("ativo", "AssertTrue");
 		}
 	}
 

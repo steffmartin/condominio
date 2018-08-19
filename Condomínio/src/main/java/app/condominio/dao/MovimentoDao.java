@@ -10,7 +10,6 @@ import app.condominio.domain.Movimento;
 
 public interface MovimentoDao extends PagingAndSortingRepository<Movimento, Long> {
 
-	// TODO definir ordenação
 	List<Movimento> findAllByContaIn(Collection<Conta> conta);
 
 }

@@ -20,6 +20,9 @@
 			<div th:if="${param.redefinido}">
 				<div class="alert alert-success">Senha redefinida, tente entrar novamente!</div>
 			</div>
+			<div th:if="${param.alterado}">
+				<div class="alert alert-success">Seu cadastro foi alterado, você precisa entrar novamente!</div>
+			</div>
 			<div th:if="${param.novo}">
 				<div class="alert alert-success">Sua conta foi criada, obrigado!</div>
 			</div>

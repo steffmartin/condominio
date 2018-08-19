@@ -3,7 +3,9 @@ package app.condominio.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,18 +26,37 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 
 	@GetMapping("/cadastrar")
-	public ModelAndView getCadastroSindico(@ModelAttribute("sindico") Usuario sindico) {
-		return new ModelAndView("fragmentos/layoutSite", "conteudo", "sindicoCadastrar");
+	public ModelAndView getCadastrarSindico(@ModelAttribute("sindico") Usuario sindico) {
+		return new ModelAndView("fragmentos/layoutSite", "conteudo", "sindicoCadastro");
 	}
 
 	@PostMapping("/cadastrar")
-	public ModelAndView postCadastroSindico(@Valid @ModelAttribute("sindico") Usuario sindico, BindingResult validacao) {
+	public ModelAndView postCadastrarSindico(@Valid @ModelAttribute("sindico") Usuario sindico,
+			BindingResult validacao) {
 		usuarioService.validar(sindico, validacao);
 		if (validacao.hasErrors()) {
-			return new ModelAndView("fragmentos/layoutSite", "conteudo", "sindicoCadastrar");
+			return new ModelAndView("fragmentos/layoutSite", "conteudo", "sindicoCadastro");
 		}
 		usuarioService.salvarSindico(sindico);
 		return new ModelAndView("redirect:/login?novo");
+	}
+
+	@GetMapping("/cadastro")
+	public ModelAndView getCadastroSindico(ModelMap model) {
+		model.addAttribute("sindico", usuarioService.lerLogado());
+		model.addAttribute("conteudo", "sindicoCadastro");
+		return new ModelAndView("fragmentos/layoutSite", model);
+	}
+
+	@PutMapping("/cadastro")
+	public ModelAndView putCadastroSindico(@Valid @ModelAttribute("sindico") Usuario sindico, BindingResult validacao) {
+		usuarioService.validar(sindico, validacao);
+		if (validacao.hasErrors()) {
+			return new ModelAndView("fragmentos/layoutSite", "conteudo", "sindicoCadastro");
+		}
+		usuarioService.editar(sindico);
+		SecurityContextHolder.clearContext();
+		return new ModelAndView("redirect:/entrar?alterado");
 	}
 
 	@GetMapping("/redefinir")
@@ -47,8 +68,9 @@ public class UsuarioController {
 	public String postRedefinir(@RequestParam("username") String username) {
 		if (usuarioService.redefinirSenha(username)) {
 			return "redirect:/conta/redefinir?email&username=" + username;
-		} else
+		} else {
 			return "redirect:/conta/redefinir?erro&username=" + username;
+		}
 	}
 
 	@PutMapping("/redefinir")
@@ -56,7 +78,8 @@ public class UsuarioController {
 			@RequestParam("token") String token) {
 		if (usuarioService.redefinirSenha(username, token, password)) {
 			return "redirect:/login?redefinido";
-		} else
+		} else {
 			return "redirect:/conta/redefinir?invalido";
+		}
 	}
 }

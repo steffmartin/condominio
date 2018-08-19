@@ -51,7 +51,7 @@ public class ContaServiceImpl implements ContaService {
 		Conta antiga = ler(entidade.getIdConta());
 		if (antiga.getSaldoInicial().compareTo(entidade.getSaldoInicial()) != 0) {
 			entidade.setSaldoAtual(
-					antiga.getSaldoAtual().subtract(antiga.getSaldoInicial()).add(entidade.getSaldoInicial()));
+					entidade.getSaldoAtual().subtract(antiga.getSaldoInicial()).add(entidade.getSaldoInicial()));
 		}
 		contaDao.save(entidade);
 	}
@@ -65,7 +65,7 @@ public class ContaServiceImpl implements ContaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Conta entidade, BindingResult validacao) {
-		// LATER ver se haverá validação de conta a fazer
+		// TODO validar conta com sigla repetida
 
 	}
 }
