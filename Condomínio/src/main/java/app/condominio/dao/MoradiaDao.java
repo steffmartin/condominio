@@ -12,4 +12,8 @@ public interface MoradiaDao extends PagingAndSortingRepository<Moradia, Long> {
 
 	List<Moradia> findAllByBlocoInOrderByBloco_SiglaAscSiglaAsc(Collection<Bloco> bloco);
 
+	Boolean existsBySiglaAndBloco(String sigla, Bloco bloco);
+
+	Boolean existsBySiglaAndBlocoAndIdMoradiaNot(String sigla, Bloco bloco, Long idMoradia);
+
 }

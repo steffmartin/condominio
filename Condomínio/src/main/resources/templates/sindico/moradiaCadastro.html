@@ -116,7 +116,8 @@
 										</tr>
 										<!--/* TR oficial */-->
 										<tr class="collapse show" th:each="relacao, stat : *{relacoes}" th:id="'row'+${stat.index}">
-											<td><input type="hidden" th:field="*{relacoes[__${stat.index}__].moradia}" />
+											<td>
+											<input type="hidden" th:name="'relacoes[' + ${stat.index} + '].moradia'" th:id="'relacoes' + ${stat.index} + '.moradia'" th:value="*{idMoradia}" />
 												<div class="input-group">
 													<div class="input-group-prepend hideMe">
 														<button class="btn btn-outline-secondary delete" data-delete="tr" type="button" title="Excluir relação">
@@ -125,9 +126,9 @@
 													</div>
 													<select class="custom-select last" th:errorclass="is-invalid" th:field="*{relacoes[__${stat.index}__].pessoa}">
 														<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+														<option th:if="${#lists.isEmpty(pessoas)}" value="" disabled>Não há condôminos cadastrados</option>
 														<option th:each="p : ${pessoas}" th:value="${p.idPessoa}" th:text="${p}"></option>
 													</select>
-													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].moradia}"></div>
 													<div class="invalid-feedback" th:errors="*{relacoes[__${stat.index}__].pessoa}"></div>
 												</div></td>
 											<td><div class="input-group">

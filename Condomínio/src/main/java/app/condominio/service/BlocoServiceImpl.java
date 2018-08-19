@@ -58,7 +58,21 @@ public class BlocoServiceImpl implements BlocoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Bloco entidade, BindingResult validacao) {
-		// TODO validar bloco com sigla repetida
-
+		// VALIDAÇÕES NA INCLUSÃO
+		if (entidade.getIdBloco() == null) {
+			// Sigla não pode repetir
+			if (blocoDao.existsBySiglaAndCondominio(entidade.getSigla(), usuarioService.lerLogado().getCondominio())) {
+				validacao.rejectValue("sigla", "Unique");
+			}
+		}
+		// VALIDAÇÕES NA ALTERAÇÃO
+		else {
+			// Sigla não pode repetir
+			if (blocoDao.existsBySiglaAndCondominioAndIdBlocoNot(entidade.getSigla(),
+					usuarioService.lerLogado().getCondominio(), entidade.getIdBloco())) {
+				validacao.rejectValue("sigla", "Unique");
+			}
+		}
+		// VALIDAÇÕES EM AMBOS
 	}
 }

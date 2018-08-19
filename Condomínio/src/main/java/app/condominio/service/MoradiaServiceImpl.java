@@ -69,7 +69,23 @@ public class MoradiaServiceImpl implements MoradiaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Moradia entidade, BindingResult validacao) {
-
+		// VALIDAÇÕES NA INCLUSÃO
+		if (entidade.getIdMoradia() == null) {
+			// Sigla não pode repetir
+			if (entidade.getBloco() != null
+					&& moradiaDao.existsBySiglaAndBloco(entidade.getSigla(), entidade.getBloco())) {
+				validacao.rejectValue("sigla", "Unique");
+			}
+		}
+		// VALIDAÇÕES NA ALTERAÇÃO
+		else {
+			// Sigla não pode repetir
+			if (entidade.getBloco() != null && moradiaDao.existsBySiglaAndBlocoAndIdMoradiaNot(entidade.getSigla(),
+					entidade.getBloco(), entidade.getIdMoradia())) {
+				validacao.rejectValue("sigla", "Unique");
+			}
+		}
+		// VALIDAÇÕES EM AMBOS
 		// Em uma relação é obrigatório ter a pessoa
 		List<Relacao> relacoes = entidade.getRelacoes();
 		for (int i = 0; i < relacoes.size(); i++) {
