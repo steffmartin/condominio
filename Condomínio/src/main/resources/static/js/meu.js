@@ -38,7 +38,8 @@ $(document).ready(function(){
 	$(".table-responsive").mCustomScrollbar({
 		axis:"x",
 		theme:"inset-dark",
-		scrollButtons:{ enable: true }
+		scrollButtons:{ enable: true },
+		advanced:{ updateOnSelectorChange: "th" }
 	});
 	$(".table-responsive").removeClass("mCustomScrollbar");
 	

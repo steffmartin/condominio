@@ -67,6 +67,7 @@ public class Relacao implements Serializable {
 	@Min(0)
 	private Float participacaoDono;
 
+	// FIXME estas validações não estão funcionando na entidade PESSOA
 	@AssertTrue
 	private Boolean isParticipacaoDono() {
 		return this.tipo != TipoRelacao.P || this.participacaoDono > 0;
