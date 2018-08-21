@@ -71,34 +71,46 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Categoria entidade, BindingResult validacao) {
-		Categoria categoriaPai = entidade.getCategoriaPai();
-		Long idCategoria = entidade.getIdCategoria();
-		// Se tiver uma categoria pai...
-		if (categoriaPai != null) {
-			// Não pode criar mais níveis do que o parametrizado
-			if (categoriaPai.getNivel() >= Categoria.NIVEL_MAX) {
-				validacao.rejectValue("categoriaPai", "Max", new Object[] { 0, Categoria.NIVEL_MAX }, null);
-			}
-			// Não pode ter um tipo diferente do tipo do pai
-			if (categoriaPai.getTipo() != entidade.getTipo()) {
-				validacao.rejectValue("categoriaPai", "typeMismatch", new Object[] { 0, "não é do mesmo tipo" }, null);
-			}
-			// Não pode ser filha dela mesma ou de uma das filhas dela
-			if (idCategoria != null && (categoriaPai.equals(entidade)
-					|| categoriaPai.getOrdem().startsWith(ler(idCategoria).getOrdem()))) {
-				validacao.rejectValue("categoriaPai", "typeMismatch", new Object[] { 0, "é igual ou inferior a esta" },
-						null);
-			}
-			// Ordem tem que ser sequência da categoria superior
-			if (!entidade.getOrdem().startsWith(categoriaPai.getOrdem())) {
-				validacao.rejectValue("ordem", "typeMismatch");
+		// VALIDAÇÕES NA INCLUSÃO
+		if (entidade.getIdCategoria() == null) {
+			// Ordem não pode repetir
+			if (categoriaDao.existsByOrdemAndCondominio(entidade.getOrdem(),
+					usuarioService.lerLogado().getCondominio())) {
+				validacao.rejectValue("ordem", "Unique");
 			}
 		}
-		if (idCategoria != null) {
+		// VALIDAÇÕES NA ALTERAÇÃO
+		else {
+			// Ordem não pode repetir
+			if (categoriaDao.existsByOrdemAndCondominioAndIdCategoriaNot(entidade.getOrdem(),
+					usuarioService.lerLogado().getCondominio(), entidade.getIdCategoria())) {
+				validacao.rejectValue("ordem", "Unique");
+			}
 			// Não pode "alterar" o tipo da categoria de RECEITA para DESPESA e vice-versa
 			Categoria anterior = ler(entidade.getIdCategoria());
 			if (entidade.getTipo() != anterior.getTipo()) {
 				validacao.rejectValue("tipo", "Final");
+			}
+			// Não pode ser filha dela mesma ou de uma das filhas dela
+			if ((entidade.getCategoriaPai() != null) && (entidade.getCategoriaPai().equals(entidade)
+					|| entidade.getCategoriaPai().getOrdem().startsWith(ler(entidade.getIdCategoria()).getOrdem()))) {
+				validacao.rejectValue("categoriaPai", "typeMismatch", new Object[] { 0, "é igual ou inferior a esta" },
+						null);
+			}
+		}
+		// VALIDAÇÕES EM AMBOS
+		if (entidade.getCategoriaPai() != null) {
+			// Não pode criar mais níveis do que o parametrizado
+			if (entidade.getCategoriaPai().getNivel() >= Categoria.NIVEL_MAX) {
+				validacao.rejectValue("categoriaPai", "Max", new Object[] { 0, Categoria.NIVEL_MAX }, null);
+			}
+			// Não pode ter um tipo diferente do tipo do pai
+			if (entidade.getCategoriaPai().getTipo() != entidade.getTipo()) {
+				validacao.rejectValue("tipo", "typeMismatch");
+			}
+			// Ordem tem que ser sequência da categoria superior
+			if (!entidade.getOrdem().startsWith(entidade.getCategoriaPai().getOrdem())) {
+				validacao.rejectValue("ordem", "typeMismatch");
 			}
 		}
 	}

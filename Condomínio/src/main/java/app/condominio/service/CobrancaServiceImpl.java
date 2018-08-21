@@ -63,55 +63,65 @@ public class CobrancaServiceImpl implements CobrancaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Cobranca entidade, BindingResult validacao) {
-		// Total deve bater com os campos totalizados
-		if (entidade.getValor() != null && entidade.getTotal() != null) {
-			BigDecimal teste = entidade.getValor();
-			if (entidade.getDesconto() != null) {
-				teste = teste.subtract(entidade.getDesconto());
+		// VALIDAÇÕES NA INCLUSÃO
+		if (entidade.getIdCobranca() == null) {
+			// TODO validação: não pode repetir numero+parcela+emissao+moradia
+		}
+		// VALIDAÇÕES NA ALTERAÇÃO
+		else {
+			if (entidade.getDataRecebimento() != null) {
+				// Data de recebimento tem que ser maior/igual emissão
+				if (entidade.getDataRecebimento().isBefore(entidade.getDataEmissao())) {
+					validacao.rejectValue("dataRecebimento", "typeMismatch");
+				}
+				// Motivo baixa é obrigatório se tiver recebimento
+				if (entidade.getMotivoBaixa() == null) {
+					validacao.rejectValue("motivoBaixa", "NotNull");
+				}
+				// Motivo baixa é em branco se NÃO tiver recebimento
+			} else if (entidade.getMotivoBaixa() != null) {
+				validacao.rejectValue("motivoBaixa", "Null");
 			}
-			if (entidade.getAbatimento() != null) {
-				teste = teste.subtract(entidade.getAbatimento());
-			}
-			if (entidade.getOutrasDeducoes() != null) {
-				teste = teste.subtract(entidade.getOutrasDeducoes());
-			}
-			if (entidade.getJurosMora() != null) {
-				teste = teste.add(entidade.getJurosMora());
-			}
-			if (entidade.getMulta() != null) {
-				teste = teste.add(entidade.getMulta());
-			}
-			if (entidade.getOutrosAcrescimos() != null) {
-				teste = teste.add(entidade.getOutrosAcrescimos());
-			}
-			if (entidade.getTotal().compareTo(teste) != 0) {
-				validacao.rejectValue("total", "typeMismatch");
-			}
-			// Valor não pode ser zero
-			if (entidade.getValor().compareTo(BigDecimal.ZERO) == 0) {
-				validacao.rejectValue("valor", "NotNull");
+			// Situação Cobrança não pode ser nula
+			if (entidade.getSituacao() == null) {
+				validacao.rejectValue("situacao", "NotNull");
 			}
 		}
+		// VALIDAÇÕES EM AMBOS
 		// Vencimento não pode ser antes da emissão
 		if (entidade.getDataVencimento() != null && entidade.getDataVencimento().isBefore(entidade.getDataEmissao())) {
 			validacao.rejectValue("dataVencimento", "typeMismatch");
 		}
-		if (entidade.getDataRecebimento() != null) {
-			// Data de recebimento tem que ser maior/igual emissão
-			if (entidade.getDataRecebimento().isBefore(entidade.getDataEmissao())) {
-				validacao.rejectValue("dataRecebimento", "typeMismatch");
+		if (entidade.getValor() != null && entidade.getTotal() != null) {
+			// Valor não pode ser zero
+			if (entidade.getValor().compareTo(BigDecimal.ZERO) == 0) {
+				validacao.rejectValue("valor", "NotNull");
+			} else {
+				// Total deve bater com os campos totalizados
+				BigDecimal teste = entidade.getValor();
+				if (entidade.getDesconto() != null) {
+					teste = teste.subtract(entidade.getDesconto());
+				}
+				if (entidade.getAbatimento() != null) {
+					teste = teste.subtract(entidade.getAbatimento());
+				}
+				if (entidade.getOutrasDeducoes() != null) {
+					teste = teste.subtract(entidade.getOutrasDeducoes());
+				}
+				if (entidade.getJurosMora() != null) {
+					teste = teste.add(entidade.getJurosMora());
+				}
+				if (entidade.getMulta() != null) {
+					teste = teste.add(entidade.getMulta());
+				}
+				if (entidade.getOutrosAcrescimos() != null) {
+					teste = teste.add(entidade.getOutrosAcrescimos());
+				}
+				if (entidade.getTotal().compareTo(teste) != 0) {
+					validacao.rejectValue("total", "typeMismatch");
+				}
 			}
-			// Motivo baixa é obrigatório se tiver recebimento
-			if (entidade.getMotivoBaixa() == null) {
-				validacao.rejectValue("motivoBaixa", "NotNull");
-			}
-			// Motivo baixa é em branco se NÃO tiver recebimento
-		} else if (entidade.getMotivoBaixa() != null) {
-			validacao.rejectValue("motivoBaixa", "Null");
-		}
-		// Situação Cobrança não pode ser nula (exceto novos registros)
-		if (entidade.getIdCobranca() != null && entidade.getSituacao() == null) {
-			validacao.rejectValue("situacao", "NotNull");
+
 		}
 
 	}

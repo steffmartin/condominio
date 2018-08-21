@@ -46,7 +46,6 @@ public class Moradia implements Serializable {
 
 	private Float area;
 
-	@NotNull
 	@Max(100)
 	@Column(name = "fracaoideal")
 	private Float fracaoIdeal;

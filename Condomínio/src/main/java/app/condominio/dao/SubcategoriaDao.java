@@ -14,4 +14,9 @@ public interface SubcategoriaDao extends PagingAndSortingRepository<Subcategoria
 
 	int countByCategoriaPaiIn(Collection<Categoria> categoriaPai);
 
+	Boolean existsByDescricaoAndCategoriaPai(String descricao, Categoria categoriaPai);
+
+	Boolean existsByDescricaoAndCategoriaPaiAndIdSubcategoriaNot(String descricao, Categoria categoriaPai,
+			Long idSubcategoria);
+
 }

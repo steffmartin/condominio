@@ -56,8 +56,10 @@ public class SubcategoriaController {
 	}
 
 	@GetMapping({ "", "/", "/lista", "/todos" })
-	public ModelAndView getSubcategorias() {
-		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "categoriaLista");
+	public ModelAndView getSubcategorias(ModelMap model) {
+		model.addAttribute("contagemSubcategorias", subcategoriaService.contagem());
+		model.addAttribute("conteudo", "categoriaLista");
+		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
 	@GetMapping("/cadastro")

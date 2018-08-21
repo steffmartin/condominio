@@ -58,11 +58,12 @@
 									<small>Dica: separe níveis por pontos (exemplo: 1.1.3).</small>
 								</div>
 								<div class="form-group col-md-6">
-									<label>Tipo</label> <select class="custom-select" id="tipo" th:errorclass="is-invalid" th:field="*{tipo}" th:disabled="${categoria.idCategoria != null}">
+									<label>Tipo</label> <select class="custom-select" id="tipo" th:errorclass="is-invalid" th:field="*{tipo}">
 										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
-										<option th:each="tipo : ${tiposCategoria}" th:value="${tipo}" th:text="${tipo.nome}"></option>
+										<option th:each="tipo : ${tiposCategoria}" th:value="${tipo}" th:text="${tipo.nome}" th:disabled="${categoria.idCategoria != null && categoria.tipo != tipo}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{tipo}"></div>
+									<small th:text="${categoria.idCategoria != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>
 								</div>
 							</div>
 						</li>
@@ -79,6 +80,7 @@
 										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
 										<option th:each="tipo : ${tiposCategoria}" th:value="${tipo}" th:text="${tipo.nome}"></option>
 									</select>
+									<small th:text="${categoria.idCategoria != null} ? 'Este campo não pode ser modificado.' : _">Após salvar, este campo não poderá ser modificado.</small>
 								</div>
 							</div>
 						</li>

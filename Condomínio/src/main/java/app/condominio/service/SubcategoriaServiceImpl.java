@@ -59,15 +59,30 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Subcategoria entidade, BindingResult validacao) {
-		// Não pode "alterar" de uma categoria DESPESA para uma categoria RECEITA e
-		// vice-versa
-		if (entidade.getIdSubcategoria() != null) {
-			Subcategoria anterior = ler(entidade.getIdSubcategoria());
-			if (anterior.getCategoriaPai().getTipo() != entidade.getCategoriaPai().getTipo()) {
-				validacao.rejectValue("categoriaPai", "typeMismatch");
+		// VALIDAÇÕES NA INCLUSÃO
+		if (entidade.getIdSubcategoria() == null) {
+			// Não pode repetir descrição na mesma categoria Pai
+			if (entidade.getCategoriaPai() != null && subcategoriaDao
+					.existsByDescricaoAndCategoriaPai(entidade.getDescricao(), entidade.getCategoriaPai())) {
+				validacao.rejectValue("descricao", "Unique");
 			}
 		}
-
+		// VALIDAÇÕES NA ALTERAÇÃO
+		else {
+			// Não pode repetir descrição na mesma categoria Pai
+			if (entidade.getCategoriaPai() != null
+					&& subcategoriaDao.existsByDescricaoAndCategoriaPaiAndIdSubcategoriaNot(entidade.getDescricao(),
+							entidade.getCategoriaPai(), entidade.getIdSubcategoria())) {
+				validacao.rejectValue("descricao", "Unique");
+			}
+			// Não pode inverter receitas e despesas
+			Subcategoria anterior = ler(entidade.getIdSubcategoria());
+			if (anterior.getCategoriaPai().getTipo() != entidade.getCategoriaPai().getTipo()) {
+				validacao.rejectValue("categoriaPai", "typeMismatch",
+						new Object[] { 0, "não é do mesmo tipo da anterior" }, null);
+			}
+		}
+		// VALIDAÇÕES EM AMBOS
 	}
 
 }

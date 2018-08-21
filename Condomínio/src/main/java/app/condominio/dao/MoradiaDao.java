@@ -16,4 +16,6 @@ public interface MoradiaDao extends PagingAndSortingRepository<Moradia, Long> {
 
 	Boolean existsBySiglaAndBlocoAndIdMoradiaNot(String sigla, Bloco bloco, Long idMoradia);
 
+	void deleteMoradia_RelacoesByIdMoradia(Long idMoradia);
+
 }

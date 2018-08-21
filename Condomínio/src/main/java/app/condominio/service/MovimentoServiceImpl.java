@@ -108,8 +108,17 @@ public class MovimentoServiceImpl implements MovimentoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Movimento entidade, BindingResult validacao) {
+		// VALIDAÇÕES NA INCLUSÃO
+		// if (entidade.getIdMovimento() == null) {
+		//
+		// }
+		// // VALIDAÇÕES NA ALTERAÇÃO
+		// else {
+		//
+		// }
+		// VALIDAÇÕES EM AMBOS
 		// Só permitir lançamento se o período existir e estiver aberto
-		if (entidade instanceof Lancamento && entidade.getData() != null) {
+		if (entidade.getData() != null && entidade instanceof Lancamento) {
 			if (!periodoService.haPeriodo(entidade.getData())) {
 				validacao.rejectValue("data", "Inexistente");
 			} else if (periodoService.ler(entidade.getData()).getEncerrado()) {
@@ -117,7 +126,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 			}
 		}
 		// Não permitir transferência para conta igual
-		if (entidade instanceof Transferencia && entidade.getConta() != null
+		if (entidade.getConta() != null && entidade instanceof Transferencia
 				&& entidade.getConta().equals(((Transferencia) entidade).getContaInversa())) {
 			validacao.rejectValue("contaInversa", "Conflito");
 		}
