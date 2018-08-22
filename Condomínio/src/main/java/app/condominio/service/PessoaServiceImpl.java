@@ -42,7 +42,7 @@ public class PessoaServiceImpl implements PessoaService {
 	public List<Pessoa> listar() {
 		Condominio condominio = usuarioService.lerLogado().getCondominio();
 		if (condominio == null) {
-			return new ArrayList<Pessoa>();
+			return new ArrayList<>();
 		}
 		return condominio.getPessoas();
 	}
@@ -71,6 +71,15 @@ public class PessoaServiceImpl implements PessoaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Pessoa entidade, BindingResult validacao) {
+		// VALIDAÇÕES NA INCLUSÃO
+		if (entidade.getIdPessoa() == null) {
+			// TODO não repetir cpf/cnpj
+		}
+		// VALIDAÇÕES NA ALTERAÇÃO
+		else {
+
+		}
+		// VALIDAÇÕES EM AMBOS
 		// Em uma relação é obrigatório ter a moradia
 		List<Relacao> relacoes = entidade.getRelacoes();
 		for (int i = 0; i < relacoes.size(); i++) {

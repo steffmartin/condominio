@@ -56,20 +56,26 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Orcamento entidade, BindingResult validacao) {
-		if (entidade.getPeriodo() != null) {
-			// Só permitir se o período estiver aberto
-			if (entidade.getPeriodo().getEncerrado()) {
-				validacao.rejectValue("periodo", "Final");
-			}
-			// Não pode ter orçamento repetido
-			else if (entidade.getSubcategoria() != null && ((entidade.getIdOrcamento() == null
-					&& orcamentoDao.existsByPeriodoAndSubcategoria(entidade.getPeriodo(), entidade.getSubcategoria()))
-					|| (entidade.getIdOrcamento() != null
-							&& orcamentoDao.existsByPeriodoAndSubcategoriaAndIdOrcamentoNot(entidade.getPeriodo(),
-									entidade.getSubcategoria(), entidade.getIdOrcamento())))) {
+		// VALIDAÇÕES NA INCLUSÃO
+		if (entidade.getIdOrcamento() == null) {
+			// Não permitir incluir orçamento repetido
+			if (entidade.getPeriodo() != null && entidade.getSubcategoria() != null
+					&& orcamentoDao.existsByPeriodoAndSubcategoria(entidade.getPeriodo(), entidade.getSubcategoria())) {
 				validacao.rejectValue("subcategoria", "Unique");
 			}
 		}
+		// VALIDAÇÕES NA ALTERAÇÃO
+		else {
+			// Não permitir um orçamento repetido
+			if (entidade.getPeriodo() != null && entidade.getSubcategoria() != null
+					&& orcamentoDao.existsByPeriodoAndSubcategoriaAndIdOrcamentoNot(entidade.getPeriodo(),
+							entidade.getSubcategoria(), entidade.getIdOrcamento())) {
+				validacao.rejectValue("subcategoria", "Unique");
+			}
+		}
+		// VALIDAÇÕES EM AMBOS
+		if (entidade.getPeriodo() != null && entidade.getPeriodo().getEncerrado()) {
+			validacao.rejectValue("periodo", "Final");
+		}
 	}
-
 }

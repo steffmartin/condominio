@@ -65,10 +65,22 @@ public class CobrancaServiceImpl implements CobrancaService {
 	public void validar(Cobranca entidade, BindingResult validacao) {
 		// VALIDAÇÕES NA INCLUSÃO
 		if (entidade.getIdCobranca() == null) {
-			// TODO validação: não pode repetir numero+parcela+emissao+moradia
+			if (entidade.getDataEmissao() != null && entidade.getMoradia() != null
+					&& cobrancaDao.existsByNumeroAndParcelaAndDataEmissaoAndMoradiaAndCondominio(entidade.getNumero(),
+							entidade.getParcela(), entidade.getDataEmissao(), entidade.getMoradia(),
+							usuarioService.lerLogado().getCondominio())) {
+				validacao.rejectValue("moradia", "Unique", new Object[] { 0, entidade.toString() }, null);
+			}
 		}
 		// VALIDAÇÕES NA ALTERAÇÃO
 		else {
+			if (entidade.getDataEmissao() != null && entidade.getMoradia() != null
+					&& cobrancaDao.existsByNumeroAndParcelaAndDataEmissaoAndMoradiaAndCondominioAndIdCobrancaNot(
+							entidade.getNumero(), entidade.getParcela(), entidade.getDataEmissao(),
+							entidade.getMoradia(), usuarioService.lerLogado().getCondominio(),
+							entidade.getIdCobranca())) {
+				validacao.rejectValue("moradia", "Unique", new Object[] { 0, entidade.toString() }, null);
+			}
 			if (entidade.getDataRecebimento() != null) {
 				// Data de recebimento tem que ser maior/igual emissão
 				if (entidade.getDataRecebimento().isBefore(entidade.getDataEmissao())) {

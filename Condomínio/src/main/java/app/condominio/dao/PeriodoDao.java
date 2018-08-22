@@ -12,6 +12,9 @@ public interface PeriodoDao extends PagingAndSortingRepository<Periodo, Long> {
 	boolean existsByCondominioAndInicioLessThanEqualAndFimGreaterThanEqual(Condominio condominio, LocalDate inicio,
 			LocalDate fim);
 
+	boolean existsByCondominioAndInicioLessThanEqualAndFimGreaterThanEqualAndIdPeriodoNot(Condominio condominio,
+			LocalDate inicio, LocalDate fim, Long idPeriodo);
+
 	boolean existsByCondominioAndInicioAfterAndFimBefore(Condominio condominio, LocalDate inicio, LocalDate fim);
 
 	boolean existsByCondominioAndInicioAfterAndFimBeforeAndIdPeriodoNot(Condominio condominio, LocalDate inicio,

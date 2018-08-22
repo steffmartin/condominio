@@ -74,33 +74,54 @@ public class PeriodoServiceImpl implements PeriodoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Periodo entidade, BindingResult validacao) {
-
-		try {
-			// Data final não pode ser menor que a inicial
-			if (entidade.getFim().isBefore(entidade.getInicio())) {
-				validacao.rejectValue("fim", "typeMismatch");
-			}
-			// Não pode repetir período
-			if ((entidade.getIdPeriodo() == null && periodoDao.existsByCondominioAndInicioAfterAndFimBefore(
-					usuarioService.lerLogado().getCondominio(), entidade.getInicio(), entidade.getFim()))
-					|| (entidade.getIdPeriodo() != null
-							&& periodoDao.existsByCondominioAndInicioAfterAndFimBeforeAndIdPeriodoNot(
-									usuarioService.lerLogado().getCondominio(), entidade.getInicio(), entidade.getFim(),
-									entidade.getIdPeriodo()))) {
-				validacao.rejectValue("inicio", "Conflito");
-				validacao.rejectValue("fim", "Conflito");
-			} else {
-				if (!validacao.hasFieldErrors("inicio") && haPeriodo(entidade.getInicio())
-						&& !entidade.equals(ler(entidade.getInicio()))) {
-					validacao.rejectValue("inicio", "Unique");
-				}
-				if (!validacao.hasFieldErrors("fim") && haPeriodo(entidade.getFim())
-						&& !entidade.equals(ler(entidade.getInicio()))) {
-					validacao.rejectValue("fim", "Unique");
+		// VALIDAÇÕES NA INCLUSÃO
+		if (entidade.getIdPeriodo() == null) {
+			if (entidade.getInicio() != null && entidade.getFim() != null) {
+				// Não pode repetir período
+				if (periodoDao.existsByCondominioAndInicioAfterAndFimBefore(usuarioService.lerLogado().getCondominio(),
+						entidade.getInicio(), entidade.getFim())) {
+					validacao.rejectValue("inicio", "Conflito");
+					validacao.rejectValue("fim", "Conflito");
+				} else {
+					if (periodoDao.existsByCondominioAndInicioLessThanEqualAndFimGreaterThanEqual(
+							usuarioService.lerLogado().getCondominio(), entidade.getInicio(), entidade.getInicio())) {
+						validacao.rejectValue("inicio", "Unique");
+					}
+					if (periodoDao.existsByCondominioAndInicioLessThanEqualAndFimGreaterThanEqual(
+							usuarioService.lerLogado().getCondominio(), entidade.getFim(), entidade.getFim())) {
+						validacao.rejectValue("fim", "Unique");
+					}
 				}
 			}
-		} catch (NullPointerException e) {
-			// Se alguma data estiver vazia, já há uma validação no bean
+		}
+		// VALIDAÇÕES NA ALTERAÇÃO
+		else {
+			if (entidade.getInicio() != null && entidade.getFim() != null) {
+				// Não pode repetir período
+				if (periodoDao.existsByCondominioAndInicioAfterAndFimBeforeAndIdPeriodoNot(
+						usuarioService.lerLogado().getCondominio(), entidade.getInicio(), entidade.getFim(),
+						entidade.getIdPeriodo())) {
+					validacao.rejectValue("inicio", "Conflito");
+					validacao.rejectValue("fim", "Conflito");
+				} else {
+					if (periodoDao.existsByCondominioAndInicioLessThanEqualAndFimGreaterThanEqualAndIdPeriodoNot(
+							usuarioService.lerLogado().getCondominio(), entidade.getInicio(), entidade.getInicio(),
+							entidade.getIdPeriodo())) {
+						validacao.rejectValue("inicio", "Unique");
+					}
+					if (periodoDao.existsByCondominioAndInicioLessThanEqualAndFimGreaterThanEqualAndIdPeriodoNot(
+							usuarioService.lerLogado().getCondominio(), entidade.getFim(), entidade.getFim(),
+							entidade.getIdPeriodo())) {
+						validacao.rejectValue("fim", "Unique");
+					}
+				}
+			}
+		}
+		// VALIDAÇÕES EM AMBOS
+		// Data final não pode ser menor que a inicial
+		if (entidade.getInicio() != null && entidade.getFim() != null
+				&& entidade.getFim().isBefore(entidade.getInicio())) {
+			validacao.rejectValue("fim", "typeMismatch");
 		}
 	}
 

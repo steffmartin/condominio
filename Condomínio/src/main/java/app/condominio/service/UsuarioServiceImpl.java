@@ -136,13 +136,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void validar(Usuario usuario, BindingResult validacao) {
-		// Não pode criar um usuário com username repetido
-		if (usuario.getUsername() != null
-				&& ((usuario.getId() == null && usuarioDao.existsByUsername(usuario.getUsername()))
-						|| (usuario.getId() != null
-								&& usuarioDao.existsByUsernameAndIdNot(usuario.getUsername(), usuario.getId())))) {
-			validacao.rejectValue("username", "Unique");
+		// VALIDAÇÕES NA INCLUSÃO
+		if (usuario.getId() == null) {
+			// Não pode criar um usuário com username repetido
+			if (usuario.getUsername() != null && usuarioDao.existsByUsername(usuario.getUsername())) {
+				validacao.rejectValue("username", "Unique");
+			}
 		}
+		// VALIDAÇÕES NA ALTERAÇÃO
+		else {
+			// Não pode criar um usuário com username repetido
+			if (usuario.getUsername() != null
+					&& usuarioDao.existsByUsernameAndIdNot(usuario.getUsername(), usuario.getId())) {
+				validacao.rejectValue("username", "Unique");
+			}
+		}
+		// VALIDAÇÕES EM AMBOS
 		// Deve aceitar os termos
 		if (!usuario.getAtivo()) {
 			validacao.rejectValue("ativo", "AssertTrue");
