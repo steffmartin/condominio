@@ -324,3 +324,63 @@ CREATE TABLE Lancamentos (
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
+
+DELIMITER $$
+CREATE TRIGGER atSaldoOnInsertMovimento
+BEFORE INSERT ON Movimentos
+FOR EACH ROW
+BEGIN
+	IF NEW.reducao THEN
+		UPDATE Contas
+        SET saldoAtual = saldoAtual - NEW.valor
+        WHERE idConta = NEW.idConta;
+    ELSE
+		UPDATE Contas
+        SET saldoAtual = saldoAtual + NEW.valor
+        WHERE idConta = NEW.idConta;
+    END IF;
+END;$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER atSaldoOnDeleteMovimento
+BEFORE DELETE ON Movimentos
+FOR EACH ROW
+BEGIN
+	IF OLD.reducao THEN
+		UPDATE Contas
+        SET saldoAtual = saldoAtual + OLD.valor
+        WHERE idConta = OLD.idConta;
+    ELSE
+		UPDATE Contas
+        SET saldoAtual = saldoAtual - OLD.valor
+        WHERE idConta = OLD.idConta;
+    END IF;
+END;$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER atSaldoOnUpdateMovimento
+BEFORE UPDATE ON Movimentos
+FOR EACH ROW
+BEGIN
+	IF OLD.reducao THEN
+		UPDATE Contas
+        SET saldoAtual = saldoAtual + OLD.valor
+        WHERE idConta = OLD.idConta;
+    ELSE
+		UPDATE Contas
+        SET saldoAtual = saldoAtual - OLD.valor
+        WHERE idConta = OLD.idConta;
+    END IF;
+	IF NEW.reducao THEN
+		UPDATE Contas
+        SET saldoAtual = saldoAtual - NEW.valor
+        WHERE idConta = NEW.idConta;
+    ELSE
+		UPDATE Contas
+        SET saldoAtual = saldoAtual + NEW.valor
+        WHERE idConta = NEW.idConta;
+    END IF;
+END;$$
+DELIMITER ;

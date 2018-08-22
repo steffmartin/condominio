@@ -11,8 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.PessoaDao;
+import app.condominio.dao.PessoaFisicaDao;
+import app.condominio.dao.PessoaJuridicaDao;
 import app.condominio.domain.Condominio;
 import app.condominio.domain.Pessoa;
+import app.condominio.domain.PessoaFisica;
+import app.condominio.domain.PessoaJuridica;
 import app.condominio.domain.Relacao;
 
 @Service
@@ -21,6 +25,12 @@ public class PessoaServiceImpl implements PessoaService {
 
 	@Autowired
 	private PessoaDao pessoaDao;
+
+	@Autowired
+	private PessoaFisicaDao pessoaFisicaDao;
+
+	@Autowired
+	private PessoaJuridicaDao pessoaJuridicaDao;
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -73,11 +83,33 @@ public class PessoaServiceImpl implements PessoaService {
 	public void validar(Pessoa entidade, BindingResult validacao) {
 		// VALIDAÇÕES NA INCLUSÃO
 		if (entidade.getIdPessoa() == null) {
-			// TODO não repetir cpf/cnpj
+			if (entidade instanceof PessoaFisica) {
+				if (((PessoaFisica) entidade).getCpf() != null && pessoaFisicaDao.existsByCpfAndCondominio(
+						((PessoaFisica) entidade).getCpf(), usuarioService.lerLogado().getCondominio())) {
+					validacao.rejectValue("cpf", "Unique");
+				}
+			} else if (entidade instanceof PessoaJuridica) {
+				if (((PessoaJuridica) entidade).getCnpj() != null && pessoaJuridicaDao.existsByCnpjAndCondominio(
+						((PessoaJuridica) entidade).getCnpj(), usuarioService.lerLogado().getCondominio())) {
+					validacao.rejectValue("cnpj", "Unique");
+				}
+			}
 		}
 		// VALIDAÇÕES NA ALTERAÇÃO
 		else {
-
+			if (entidade instanceof PessoaFisica) {
+				if (((PessoaFisica) entidade).getCpf() != null
+						&& pessoaFisicaDao.existsByCpfAndCondominioAndIdPessoaNot(((PessoaFisica) entidade).getCpf(),
+								usuarioService.lerLogado().getCondominio(), entidade.getIdPessoa())) {
+					validacao.rejectValue("cpf", "Unique");
+				}
+			} else if (entidade instanceof PessoaJuridica) {
+				if (((PessoaJuridica) entidade).getCnpj() != null && pessoaJuridicaDao
+						.existsByCnpjAndCondominioAndIdPessoaNot(((PessoaJuridica) entidade).getCnpj(),
+								usuarioService.lerLogado().getCondominio(), entidade.getIdPessoa())) {
+					validacao.rejectValue("cnpj", "Unique");
+				}
+			}
 		}
 		// VALIDAÇÕES EM AMBOS
 		// Em uma relação é obrigatório ter a moradia
