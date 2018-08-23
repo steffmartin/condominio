@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -66,19 +65,6 @@ public class Relacao implements Serializable {
 	@Max(100)
 	@Min(0)
 	private Float participacaoDono;
-
-	// FIXME estas validações não estão funcionando na entidade PESSOA
-	@AssertTrue
-	private Boolean isParticipacaoDono() {
-		return this.tipo != TipoRelacao.P || this.participacaoDono > 0;
-
-	}
-
-	@AssertTrue
-	private Boolean isDataSaida() {
-		return this.dataSaida == null || this.dataEntrada == null || this.dataEntrada.isBefore(this.dataSaida)
-				|| this.dataEntrada.isEqual(this.dataSaida);
-	}
 
 	public IdRelacao getIdRelacao() {
 		return idRelacao;

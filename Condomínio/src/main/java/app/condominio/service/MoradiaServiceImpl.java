@@ -1,7 +1,9 @@
 package app.condominio.service;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,9 @@ import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.MoradiaDao;
 import app.condominio.domain.Moradia;
+import app.condominio.domain.Pessoa;
 import app.condominio.domain.Relacao;
+import app.condominio.domain.enums.TipoRelacao;
 
 @Service
 @Transactional
@@ -83,11 +87,30 @@ public class MoradiaServiceImpl implements MoradiaService {
 			}
 		}
 		// VALIDAÇÕES EM AMBOS
-		// Em uma relação é obrigatório ter a pessoa
+		// Validar relação
 		List<Relacao> relacoes = entidade.getRelacoes();
+		Set<Pessoa> pessoas = new HashSet<>();
 		for (int i = 0; i < relacoes.size(); i++) {
+			// Em uma relação é obrigatório ter a pessoa
 			if (relacoes.get(i).getPessoa() == null) {
 				validacao.rejectValue("relacoes[" + i + "].pessoa", "NotNull");
+			} else {
+				if (pessoas.contains(relacoes.get(i).getPessoa())) {
+					validacao.rejectValue("relacoes[" + i + "].moradia", "Unique");
+				} else {
+					pessoas.add(relacoes.get(i).getPessoa());
+				}
+				// LATER permitir repetir pessoa em períodos diferentes, tem que mudar BD
+			}
+			// Se for proprietário é obrigatório ter o percentual
+			if (TipoRelacao.P.equals(relacoes.get(i).getTipo())
+					&& (relacoes.get(i).getParticipacaoDono() == null || relacoes.get(i).getParticipacaoDono() == 0)) {
+				validacao.rejectValue("relacoes[" + i + "].participacaoDono", "NotNull");
+			}
+			// Se tiver data de saída não pode ser menor que a entrada
+			if (relacoes.get(i).getDataEntrada() != null && relacoes.get(i).getDataSaida() != null
+					&& relacoes.get(i).getDataSaida().isBefore(relacoes.get(i).getDataEntrada())) {
+				validacao.rejectValue("relacoes[" + i + "].dataSaida", "typeMismatch");
 			}
 		}
 	}

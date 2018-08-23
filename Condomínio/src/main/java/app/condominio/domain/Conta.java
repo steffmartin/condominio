@@ -44,8 +44,8 @@ public class Conta implements Serializable {
 	@Column(name = "saldoinicial")
 	private BigDecimal saldoInicial;
 
-	// TODO fazer procedure para atualizar saldo ao inserir, editar ou excluir
-	// movimentos
+	// O saldo é atualizado por TRIGGER ao modificar a tabela Movimentos, e é
+	// atualizado no JAVA ao modificar a tabela Contas
 	@Column(name = "saldoatual")
 	private BigDecimal saldoAtual;
 

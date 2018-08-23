@@ -1,8 +1,10 @@
 package app.condominio.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,12 @@ import app.condominio.dao.PessoaDao;
 import app.condominio.dao.PessoaFisicaDao;
 import app.condominio.dao.PessoaJuridicaDao;
 import app.condominio.domain.Condominio;
+import app.condominio.domain.Moradia;
 import app.condominio.domain.Pessoa;
 import app.condominio.domain.PessoaFisica;
 import app.condominio.domain.PessoaJuridica;
 import app.condominio.domain.Relacao;
+import app.condominio.domain.enums.TipoRelacao;
 
 @Service
 @Transactional
@@ -112,11 +116,29 @@ public class PessoaServiceImpl implements PessoaService {
 			}
 		}
 		// VALIDAÇÕES EM AMBOS
-		// Em uma relação é obrigatório ter a moradia
+		// Validar relação
 		List<Relacao> relacoes = entidade.getRelacoes();
+		Set<Moradia> moradias = new HashSet<>();
 		for (int i = 0; i < relacoes.size(); i++) {
+			// Em uma relação é obrigatório ter a pessoa
 			if (relacoes.get(i).getMoradia() == null) {
 				validacao.rejectValue("relacoes[" + i + "].moradia", "NotNull");
+			} else {
+				if (moradias.contains(relacoes.get(i).getMoradia())) {
+					validacao.rejectValue("relacoes[" + i + "].moradia", "Unique");
+				} else {
+					moradias.add(relacoes.get(i).getMoradia());
+				}
+			}
+			// Se for proprietário é obrigatório ter o percentual
+			if (TipoRelacao.P.equals(relacoes.get(i).getTipo())
+					&& (relacoes.get(i).getParticipacaoDono() == null || relacoes.get(i).getParticipacaoDono() == 0)) {
+				validacao.rejectValue("relacoes[" + i + "].participacaoDono", "NotNull");
+			}
+			// Se tiver data de saída não pode ser menor que a entrada
+			if (relacoes.get(i).getDataEntrada() != null && relacoes.get(i).getDataSaida() != null
+					&& relacoes.get(i).getDataSaida().isBefore(relacoes.get(i).getDataEntrada())) {
+				validacao.rejectValue("relacoes[" + i + "].dataSaida", "typeMismatch");
 			}
 		}
 
