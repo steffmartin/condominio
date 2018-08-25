@@ -72,10 +72,12 @@ public class Cobranca implements Serializable {
 	@Column(name = "outrasdeducoes")
 	private BigDecimal outrasDeducoes;
 
+	// Juros tem atualização no banco de dados
 	@Min(0)
 	@Column(name = "jurosmora")
 	private BigDecimal jurosMora;
 
+	// Multa tem atualização no banco de dados
 	@Min(0)
 	private BigDecimal multa;
 
@@ -83,6 +85,7 @@ public class Cobranca implements Serializable {
 	@Column(name = "outrosacrescimos")
 	private BigDecimal outrosAcrescimos;
 
+	// Total é atualizado no banco de dados quando Juros e Multa são atualizados
 	@Min(0)
 	@NotNull
 	private BigDecimal total;

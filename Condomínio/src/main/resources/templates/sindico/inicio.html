@@ -10,8 +10,206 @@
 	<th:block th:fragment="conteudo">
 		<main role="main">
 		<h3 class="font-weight-light">Painel do Condomínio</h3>
+		<div class="form-row">
+			<div class="form-group col-md-3 col-sm-6">
+				<div class="card border-success">
+					<div class="card-header">Saldo em Conta</div>
+					<div class="card-body text-success">
+						<h5 class="card-title">Success card title</h5>
+						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-md-3 col-sm-6">
+				<div class="card border-danger">
+					<div class="card-header">Inadimplência Total</div>
+					<div class="card-body text-danger">
+						<h5 class="card-title">Danger card title</h5>
+						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-md-3 col-sm-6">
+				<div class="card border-dark">
+					<div class="card-header">Header</div>
+					<div class="card-body text-dark">
+						<h5 class="card-title">Primary card title</h5>
+						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-md-3 col-sm-6">
+				<div class="card border-dark">
+					<div class="card-header">Header</div>
+					<div class="card-body text-dark">
+						<h5 class="card-title">Primary card title</h5>
+						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<div class="card border-black">
+					<div class="card-header">Resumo do Mês</div>
+					<div class="card-body">
+						<canvas id="resumoMensal"></canvas>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+				<div class="card border-black">
+					<div class="card-header">Orçado x Realizado</div>
+					<div class="card-body form-row">
+						<div class="form-group col-sm-6">
+							<canvas id="myChart2"></canvas>
+						</div>
+						<div class="form-group col-sm-6">
+							<canvas id="myChart3"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		</main>
 	</th:block>
+	<th:block th:fragment="jsAdicional">
+		<!--/*
+		<script th:src="@{/js/moment.min.js}"></script>
+		<script th:src="@{/js/Chart.js}"></script>
+		*/-->
+		<script th:src="@{/js/Chart.min.js}"></script>
+		<script>
+		new Chart(document.getElementById("resumoMensal"), {
+			type: 'horizontalBar',
+			data: {
+				labels: ['Receitas','Despesas'],
+				datasets: [{ 
+					data: [1589.00,1350.10],
+					label: 'Total (R$)',
+					backgroundColor: [
+					'rgba(75, 192, 192, 0.5)',
+					'rgba(255, 99, 132, 0.5)'
+					],
+					borderColor: [
+					'rgba(75, 192, 192, 1)',
+					'rgba(255,99,132,1)'
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				animation: {
+					duration: 3000
+				},
+				scales: {
+					xAxes: [{
+						display:true,
+						ticks: {
+							display: true,
+							beginAtZero:true,
+							callback: function(value, index, values) {
+								return 'R$' + value;
+							}
+						},
+						gridLines:{
+							display:false,
+							drawBorder: true
+						}
+					}],
+					yAxes: [{
+						display: true,
+						ticks: {
+							display: true
+						},
+						gridLines:{
+							display:false,
+							drawBorder: true
+						}
+					}
+					]
+				},
+				legend: {
+					display: false
+				}
+			}
+		});
+			var ctx = $("#myChart2");
+			var myChart = new Chart(ctx, {
+				type : 'doughnut',
+				data : {
+					labels : [ "Red", "Blue", "Yellow", "Green", "Purple",
+							"Orange" ],
+					datasets : [ {
+						label : '# of Votes',
+						data : [ 12, 19, 3, 5, 2, 3 ],
+						backgroundColor : [ 'rgba(255, 99, 132, 0.2)',
+								'rgba(54, 162, 235, 0.2)',
+								'rgba(255, 206, 86, 0.2)',
+								'rgba(75, 192, 192, 0.2)',
+								'rgba(153, 102, 255, 0.2)',
+								'rgba(255, 159, 64, 0.2)' ],
+						borderColor : [ 'rgba(255,99,132,1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(75, 192, 192, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)' ],
+						borderWidth : 1
+					} ]
+				},
+				options : {
+					legend: {
+			            display: false
+					},
+					scales : {
+						yAxes : [ {
+							ticks : {
+								beginAtZero : true
+							}
+						} ]
+					}
+				}
+			});
+			var ctx = $("#myChart3");
+			var myChart = new Chart(ctx, {
+				type : 'doughnut',
+				data : {
+					labels : [ "Red", "Blue", "Yellow", "Green", "Purple",
+							"Orange" ],
+					datasets : [ {
+						label : '# of Votes',
+						data : [ 12, 19, 3, 5, 2, 3 ],
+						backgroundColor : [ 'rgba(255, 99, 132, 0.2)',
+								'rgba(54, 162, 235, 0.2)',
+								'rgba(255, 206, 86, 0.2)',
+								'rgba(75, 192, 192, 0.2)',
+								'rgba(153, 102, 255, 0.2)',
+								'rgba(255, 159, 64, 0.2)' ],
+						borderColor : [ 'rgba(255,99,132,1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(75, 192, 192, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)' ],
+						borderWidth : 1
+					} ]
+				},
+				options : {
+					legend: {
+			            display: false
+					},
+					scales : {
+						yAxes : [ {
+							ticks : {
+								beginAtZero : true
+							}
+						} ]
+					}
+				}
+			});
+		</script>
 
+	</th:block>
 </body>
 </html>

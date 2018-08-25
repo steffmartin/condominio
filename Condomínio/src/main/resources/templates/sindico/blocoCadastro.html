@@ -33,15 +33,16 @@
 									<label>Descrição</label> <input class="form-control" type="text" th:errorclass="is-invalid" th:field="*{descricao}" placeholder="Uma descrição completa" />
 									<div class="invalid-feedback" th:errors="*{descricao}"></div>
 								</div>
-							</div>							
+							</div>
 						</li>
 					</ul>
 				</div>
 			</fieldset>
-			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button> <a class="btn btn-secondary" th:href="@{/sindico/blocos}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
+			<button th:unless="${param.somenteLeitura}" type="submit" class="btn btn-primary">Salvar</button>
+			<a class="btn btn-secondary" th:href="@{/sindico/blocos}" role="button" th:text="${param.somenteLeitura}?'Voltar':_">Cancelar</a>
 		</form>
 		</main>
 	</th:block>
-
+	<th:block th:fragment="jsAdicional"></th:block>
 </body>
 </html>

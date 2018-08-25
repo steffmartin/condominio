@@ -36,5 +36,6 @@
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scroll.min.js}"></script>
 	<script th:src="@{/js/meu.js}"></script>
+	<th:block th:replace="'sindico/' + ${conteudo} :: jsAdicional" />
 </body>
 </html>

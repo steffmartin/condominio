@@ -384,3 +384,19 @@ BEGIN
     END IF;
 END;$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE EVENT atTotalCobrancaDiariamente
+ON SCHEDULE EVERY 1 DAY STARTS '2018-08-26 00:01:00' DO
+BEGIN
+	UPDATE Cobrancas
+    SET
+		total = total - multa - jurosMora,
+		multa = valor * (percentualMulta/100),
+        jurosMora = valor * (percentualJurosMes/30/100) * DATEDIFF(CURRENT_DATE,dataVencimento),
+        total = total + multa + jurosMora
+    WHERE
+		dataRecebimento IS NULL
+        AND dataVencimento < CURRENT_DATE;
+END;$$
+DELIMITER ;
