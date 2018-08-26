@@ -45,7 +45,6 @@ public class Cobranca implements Serializable {
 	@NotBlank
 	private String numero;
 
-	@Min(0)
 	@Size(max = 3)
 	private String parcela;
 

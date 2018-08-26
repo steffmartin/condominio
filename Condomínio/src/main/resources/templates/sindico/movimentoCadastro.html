@@ -127,7 +127,7 @@
 										<option th:each="c : ${contas}" th:value="${c.idConta}" th:text="${c}"></option>
 									</select>
 									<div class="invalid-feedback" th:errors="*{conta}"></div>
-									<small th:text="!*{reducao}?'O valor será transferido da conta de origem para esta conta':_">O valor será transferido desta conta para a conta de destino</small>
+									<small th:text="!(*{reducao}?:'true')?'O valor será transferido da conta de origem para esta conta':_">O valor será transferido desta conta para a conta de destino</small>
 								</div>
 								<div class="form-group col-md-6">
 									<label th:text="!*{reducao}?'Conta de origem':_">Conta de destino</label> <select  class="custom-select" id="contaInversa" th:errorclass="is-invalid" th:field="*{contaInversa}">

@@ -25,7 +25,7 @@ public class BlocoServiceImpl implements BlocoService {
 
 	@Override
 	public void salvar(Bloco entidade) {
-		entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		padronizar(entidade);
 		blocoDao.save(entidade);
 	}
 
@@ -47,6 +47,7 @@ public class BlocoServiceImpl implements BlocoService {
 
 	@Override
 	public void editar(Bloco entidade) {
+		padronizar(entidade);
 		blocoDao.save(entidade);
 	}
 
@@ -75,4 +76,13 @@ public class BlocoServiceImpl implements BlocoService {
 		}
 		// VALIDAÇÕES EM AMBOS
 	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public void padronizar(Bloco entidade) {
+		if (entidade.getCondominio() == null) {
+			entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		}
+	}
+
 }

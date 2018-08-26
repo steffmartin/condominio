@@ -78,4 +78,11 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 			validacao.rejectValue("periodo", "Final");
 		}
 	}
+
+	@Override
+	public void padronizar(Orcamento entidade) {
+		// Nada a padronizar por enquanto
+
+	}
+
 }

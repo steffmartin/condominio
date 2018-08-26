@@ -1,5 +1,6 @@
 package app.condominio.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 
 	@Override
 	public void salvar(Movimento entidade) {
+		padronizar(entidade);
 		List<Movimento> listaSalvar = new ArrayList<>();
 		Transferencia contrapartida;
 		if (entidade instanceof Lancamento) {
@@ -72,6 +74,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 
 	@Override
 	public void editar(Movimento entidade) {
+		padronizar(entidade);
 		List<Movimento> listaSalvar = new ArrayList<>();
 		if (entidade instanceof Lancamento) {
 			((Lancamento) entidade).setPeriodo(periodoService.ler(entidade.getData()));
@@ -129,6 +132,14 @@ public class MovimentoServiceImpl implements MovimentoService {
 		if (entidade.getConta() != null && entidade instanceof Transferencia
 				&& entidade.getConta().equals(((Transferencia) entidade).getContaInversa())) {
 			validacao.rejectValue("contaInversa", "Conflito");
+		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public void padronizar(Movimento entidade) {
+		if (entidade.getData() == null) {
+			entidade.setData(LocalDate.now());
 		}
 	}
 

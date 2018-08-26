@@ -41,7 +41,7 @@ public class PessoaServiceImpl implements PessoaService {
 
 	@Override
 	public void salvar(Pessoa entidade) {
-		entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		padronizar(entidade);
 		pessoaDao.save(entidade);
 	}
 
@@ -63,18 +63,8 @@ public class PessoaServiceImpl implements PessoaService {
 
 	@Override
 	public void editar(Pessoa entidade) {
+		padronizar(entidade);
 		pessoaDao.save(entidade);
-	}
-
-	@Override
-	public void setRelacaoPessoa(Pessoa entidade) {
-		Iterator<Relacao> it = entidade.getRelacoes().iterator();
-		while (it.hasNext()) {
-			Relacao relacao = it.next();
-			if (relacao.getPessoa() == null) {
-				relacao.setPessoa(entidade);
-			}
-		}
 	}
 
 	@Override
@@ -139,6 +129,25 @@ public class PessoaServiceImpl implements PessoaService {
 			if (relacoes.get(i).getDataEntrada() != null && relacoes.get(i).getDataSaida() != null
 					&& relacoes.get(i).getDataSaida().isBefore(relacoes.get(i).getDataEntrada())) {
 				validacao.rejectValue("relacoes[" + i + "].dataSaida", "typeMismatch");
+			}
+		}
+
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public void padronizar(Pessoa entidade) {
+		if (entidade.getCondominio() == null) {
+			entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		}
+		Iterator<Relacao> it = entidade.getRelacoes().iterator();
+		while (it.hasNext()) {
+			Relacao relacao = it.next();
+			if (relacao.getPessoa() == null) {
+				relacao.setPessoa(entidade);
+			}
+			if (relacao.getParticipacaoDono() == null) {
+				relacao.setParticipacaoDono(new Float(0));
 			}
 		}
 

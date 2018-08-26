@@ -100,7 +100,6 @@ public class PessoaController {
 	@PostMapping(value = "/cadastro", params = { "PF" })
 	public ModelAndView postPessoaFisicaCadastro(@Valid @ModelAttribute("pessoa") PessoaFisica pessoa,
 			BindingResult validacao, ModelMap model) {
-		pessoaService.setRelacaoPessoa(pessoa);
 		pessoaService.validar(pessoa, validacao);
 		if (validacao.hasErrors()) {
 			model.addAttribute("tipo", TipoPessoa.F);

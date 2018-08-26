@@ -85,4 +85,11 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 		// VALIDAÇÕES EM AMBOS
 	}
 
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public void padronizar(Subcategoria entidade) {
+		// Não há o que padronizar por enquanto
+
+	}
+
 }

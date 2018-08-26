@@ -1,6 +1,7 @@
 package app.condominio.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import app.condominio.dao.CobrancaDao;
 import app.condominio.domain.Cobranca;
 import app.condominio.domain.Condominio;
+import app.condominio.domain.enums.MotivoEmissao;
 import app.condominio.domain.enums.SituacaoCobranca;
 
 @Service
@@ -27,8 +29,7 @@ public class CobrancaServiceImpl implements CobrancaService {
 
 	@Override
 	public void salvar(Cobranca entidade) {
-		entidade.setSituacao(SituacaoCobranca.N);
-		entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		padronizar(entidade);
 		cobrancaDao.save(entidade);
 	}
 
@@ -50,8 +51,8 @@ public class CobrancaServiceImpl implements CobrancaService {
 
 	@Override
 	public void editar(Cobranca entidade) {
+		padronizar(entidade);
 		cobrancaDao.save(entidade);
-
 	}
 
 	@Override
@@ -136,6 +137,47 @@ public class CobrancaServiceImpl implements CobrancaService {
 
 		}
 
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public void padronizar(Cobranca entidade) {
+		if (entidade.getDataEmissao() == null) {
+			entidade.setDataEmissao(LocalDate.now());
+		}
+		if (entidade.getMotivoEmissao() == null) {
+			entidade.setMotivoEmissao(MotivoEmissao.O);
+		}
+		if (entidade.getSituacao() == null) {
+			entidade.setSituacao(SituacaoCobranca.N);
+		}
+		if (entidade.getCondominio() == null) {
+			entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		}
+		if (entidade.getDesconto() == null) {
+			entidade.setDesconto(BigDecimal.ZERO);
+		}
+		if (entidade.getAbatimento() == null) {
+			entidade.setAbatimento(BigDecimal.ZERO);
+		}
+		if (entidade.getOutrasDeducoes() == null) {
+			entidade.setOutrasDeducoes(BigDecimal.ZERO);
+		}
+		if (entidade.getJurosMora() == null) {
+			entidade.setJurosMora(BigDecimal.ZERO);
+		}
+		if (entidade.getMulta() == null) {
+			entidade.setMulta(BigDecimal.ZERO);
+		}
+		if (entidade.getOutrosAcrescimos() == null) {
+			entidade.setOutrosAcrescimos(BigDecimal.ZERO);
+		}
+		if (entidade.getPercentualJurosMes() == null) {
+			entidade.setPercentualJurosMes(new Float(0));
+		}
+		if (entidade.getPercentualMulta() == null) {
+			entidade.setPercentualMulta(new Float(0));
+		}
 	}
 
 }

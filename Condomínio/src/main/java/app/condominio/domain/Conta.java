@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @SuppressWarnings("serial")
@@ -40,7 +39,6 @@ public class Conta implements Serializable {
 	@Size(max = 30)
 	private String descricao;
 
-	@NotNull
 	@Column(name = "saldoinicial")
 	private BigDecimal saldoInicial;
 

@@ -49,6 +49,7 @@ public class CondominioController {
 	@PostMapping("/cadastro")
 	public ModelAndView postCondominioCadastro(@Valid @ModelAttribute("condominio") Condominio condominio,
 			BindingResult validacao) {
+		condominioService.validar(condominio, validacao);
 		if (validacao.hasErrors()) {
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "condominioCadastro");
 		}
@@ -59,6 +60,7 @@ public class CondominioController {
 	@PutMapping("/cadastro")
 	public ModelAndView putCondominioCadastro(@Valid @ModelAttribute("condominio") Condominio condominio,
 			BindingResult validacao) {
+		condominioService.validar(condominio, validacao);
 		if (validacao.hasErrors()) {
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "condominioCadastro");
 		}

@@ -33,12 +33,14 @@
 									<label>Data final</label> <input class="form-control" type="date" th:errorclass="is-invalid" th:field="*{fim}" placeholder="Final do período" />
 									<div class="invalid-feedback" th:errors="*{fim}"></div>
 								</div>
+								<input th:if="${periodo.idPeriodo == null}" type="hidden" th:name="encerrado" th:id="encerrado" th:value="false" />
 								<div th:unless="${periodo.idPeriodo == null}" class="form-group col-md-4">
-									<label>Situação</label>
-									<div class="custom-control custom-checkbox">
-										<input class="custom-control-input" type="checkbox" th:errorclass="is-invalid" name="encerrado" id="encerrado" th:field="*{encerrado}" /> <label for="encerrado" class="custom-control-label">Período encerrado.</label>
-										<div class="invalid-feedback" th:errors="*{encerrado}"></div>
-									</div>
+									<label>Situação</label> <select class="custom-select" id="encerrado" th:errorclass="is-invalid" th:field="*{encerrado}">
+										<option th:unless="${param.somenteLeitura}" value="" hidden="true">Selecione</option>
+										<option value="false">Em aberto</option>
+										<option value="true">Encerrado</option>
+									</select>
+									<div class="invalid-feedback" th:errors="*{encerrado}"></div>
 								</div>
 
 							</div>

@@ -2,14 +2,8 @@ package app.condominio.service;
 
 import app.condominio.domain.Condominio;
 
-public interface CondominioService {
-
-	public void salvar(Condominio condominio);
+public interface CondominioService extends CrudService<Condominio, Long> {
 
 	public Condominio ler();
-
-	public void editar(Condominio condominio);
-
-	public void excluir(Condominio condominio);
 
 }

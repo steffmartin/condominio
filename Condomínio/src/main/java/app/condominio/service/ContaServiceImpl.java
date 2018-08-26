@@ -1,5 +1,6 @@
 package app.condominio.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class ContaServiceImpl implements ContaService {
 
 	@Override
 	public void salvar(Conta entidade) {
-		entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		padronizar(entidade);
+		// TODO fazer esta alteração com trigger
 		entidade.setSaldoAtual(entidade.getSaldoInicial());
 		contaDao.save(entidade);
 	}
@@ -48,6 +50,8 @@ public class ContaServiceImpl implements ContaService {
 
 	@Override
 	public void editar(Conta entidade) {
+		padronizar(entidade);
+		// TODO fazer esta alteração com trigger
 		Conta antiga = ler(entidade.getIdConta());
 		entidade.setSaldoAtual(
 				antiga.getSaldoAtual().subtract(antiga.getSaldoInicial()).add(entidade.getSaldoInicial()));
@@ -81,4 +85,19 @@ public class ContaServiceImpl implements ContaService {
 		// VALIDAÇÕES EM AMBOS
 
 	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public void padronizar(Conta entidade) {
+		if (entidade.getCondominio() == null) {
+			entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		}
+		if (entidade.getSaldoInicial() == null) {
+			entidade.setSaldoInicial(BigDecimal.ZERO);
+		}
+		if (entidade.getSaldoAtual() == null) {
+			entidade.setSaldoAtual(BigDecimal.ZERO);
+		}
+	}
+
 }

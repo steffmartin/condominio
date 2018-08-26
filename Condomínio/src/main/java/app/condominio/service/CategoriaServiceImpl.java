@@ -25,14 +25,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 	@Override
 	public void salvar(Categoria entidade) {
-		Categoria categoriaPai = entidade.getCategoriaPai();
-		if (categoriaPai != null) {
-			entidade.setNivel(categoriaPai.getNivel() + 1);
-			entidade.setCondominio(categoriaPai.getCondominio());
-		} else {
-			entidade.setNivel(1);
-			entidade.setCondominio(usuarioService.lerLogado().getCondominio());
-		}
+		padronizar(entidade);
 		categoriaDao.save(entidade);
 	}
 
@@ -54,12 +47,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 	@Override
 	public void editar(Categoria entidade) {
-		Categoria categoriaPai = entidade.getCategoriaPai();
-		if (categoriaPai != null) {
-			entidade.setNivel(categoriaPai.getNivel() + 1);
-		} else {
-			entidade.setNivel(1);
-		}
+		padronizar(entidade);
 		categoriaDao.save(entidade);
 	}
 
@@ -113,6 +101,21 @@ public class CategoriaServiceImpl implements CategoriaService {
 				validacao.rejectValue("ordem", "typeMismatch");
 			}
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public void padronizar(Categoria entidade) {
+		if (entidade.getCondominio() == null) {
+			entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		}
+		Categoria categoriaPai = entidade.getCategoriaPai();
+		if (categoriaPai != null) {
+			entidade.setNivel(categoriaPai.getNivel() + 1);
+		} else {
+			entidade.setNivel(1);
+		}
+
 	}
 
 }

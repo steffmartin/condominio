@@ -26,7 +26,7 @@ public class PeriodoServiceImpl implements PeriodoService {
 
 	@Override
 	public void salvar(Periodo entidade) {
-		entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		padronizar(entidade);
 		periodoDao.save(entidade);
 	}
 
@@ -62,6 +62,7 @@ public class PeriodoServiceImpl implements PeriodoService {
 
 	@Override
 	public void editar(Periodo entidade) {
+		padronizar(entidade);
 		periodoDao.save(entidade);
 	}
 
@@ -122,6 +123,17 @@ public class PeriodoServiceImpl implements PeriodoService {
 		if (entidade.getInicio() != null && entidade.getFim() != null
 				&& entidade.getFim().isBefore(entidade.getInicio())) {
 			validacao.rejectValue("fim", "typeMismatch");
+		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public void padronizar(Periodo entidade) {
+		if (entidade.getCondominio() == null) {
+			entidade.setCondominio(usuarioService.lerLogado().getCondominio());
+		}
+		if (entidade.getEncerrado() == null) {
+			entidade.setEncerrado(Boolean.FALSE);
 		}
 	}
 

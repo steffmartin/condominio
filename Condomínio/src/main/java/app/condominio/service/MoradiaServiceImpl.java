@@ -29,6 +29,7 @@ public class MoradiaServiceImpl implements MoradiaService {
 
 	@Override
 	public void salvar(Moradia entidade) {
+		padronizar(entidade);
 		moradiaDao.save(entidade);
 	}
 
@@ -46,19 +47,9 @@ public class MoradiaServiceImpl implements MoradiaService {
 
 	@Override
 	public void editar(Moradia entidade) {
+		padronizar(entidade);
 		moradiaDao.save(entidade);
 		// FIXME Não está excluindo as relações quando não tem mais nenhuma relação
-	}
-
-	@Override
-	public void setRelacaoMoradia(Moradia entidade) {
-		Iterator<Relacao> it = entidade.getRelacoes().iterator();
-		while (it.hasNext()) {
-			Relacao relacao = it.next();
-			if (relacao.getMoradia() == null) {
-				relacao.setMoradia(entidade);
-			}
-		}
 	}
 
 	@Override
@@ -96,7 +87,7 @@ public class MoradiaServiceImpl implements MoradiaService {
 				validacao.rejectValue("relacoes[" + i + "].pessoa", "NotNull");
 			} else {
 				if (pessoas.contains(relacoes.get(i).getPessoa())) {
-					validacao.rejectValue("relacoes[" + i + "].moradia", "Unique");
+					validacao.rejectValue("relacoes[" + i + "].pessoa", "Unique");
 				} else {
 					pessoas.add(relacoes.get(i).getPessoa());
 				}
@@ -113,6 +104,31 @@ public class MoradiaServiceImpl implements MoradiaService {
 				validacao.rejectValue("relacoes[" + i + "].dataSaida", "typeMismatch");
 			}
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public void padronizar(Moradia entidade) {
+		if (entidade.getFracaoIdeal() == null) {
+			entidade.setFracaoIdeal(new Float(0));
+		}
+		if (entidade.getArea() == null) {
+			entidade.setArea(new Float(0));
+		}
+		if (entidade.getVagas() == null) {
+			entidade.setVagas(0);
+		}
+		Iterator<Relacao> it = entidade.getRelacoes().iterator();
+		while (it.hasNext()) {
+			Relacao relacao = it.next();
+			if (relacao.getMoradia() == null) {
+				relacao.setMoradia(entidade);
+			}
+			if (relacao.getParticipacaoDono() == null) {
+				relacao.setParticipacaoDono(new Float(0));
+			}
+		}
+
 	}
 
 }

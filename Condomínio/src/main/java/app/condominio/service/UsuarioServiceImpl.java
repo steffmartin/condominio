@@ -1,6 +1,7 @@
 package app.condominio.service;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	private void salvar(Usuario usuario) {
+	@Override
+	public void salvar(Usuario usuario) {
 		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 		usuarioDao.save(usuario);
 	}
@@ -156,6 +158,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 		if (!usuario.getAtivo()) {
 			validacao.rejectValue("ativo", "AssertTrue");
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Usuario> listar() {
+		// LATER fazer este método quando implementar o ADMIN
+		return null;
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public void padronizar(Usuario entidade) {
+		// Por enquanto nada a padronizar
+
 	}
 
 }

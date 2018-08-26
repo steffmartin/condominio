@@ -39,8 +39,7 @@ public class Periodo implements Serializable {
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate fim;
 
-	@NotNull
-	private Boolean encerrado = false;
+	private Boolean encerrado;
 
 	@OneToMany(mappedBy = "periodo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Orcamento> orcamentos = new ArrayList<>();

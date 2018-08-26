@@ -15,7 +15,9 @@ public interface CrudService<C, T> {
 	public void editar(C entidade);
 
 	public void excluir(C entidade);
-	
+
 	public void validar(C entidade, BindingResult validacao);
+
+	public void padronizar(C entidade);
 
 }

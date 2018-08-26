@@ -1,5 +1,6 @@
 package app.condominio.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -76,6 +77,7 @@ public class MovimentoController {
 
 	@GetMapping("/cadastro")
 	public ModelAndView getMovimentoCadastro(@ModelAttribute("movimento") Movimento movimento) {
+		movimento.setData(LocalDate.now());
 		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "movimentoCadastro");
 	}
 
