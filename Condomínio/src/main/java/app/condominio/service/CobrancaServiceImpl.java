@@ -180,4 +180,15 @@ public class CobrancaServiceImpl implements CobrancaService {
 		}
 	}
 
+	@Override
+	public BigDecimal inadimplencia() {
+		Condominio condominio = usuarioService.lerLogado().getCondominio();
+		if (condominio == null) {
+			return BigDecimal.ZERO;
+		} else {
+			return cobrancaDao.sumTotalByCondominioAndDataVencimentoBeforeAndDataRecebimentoIsNull(condominio,
+					LocalDate.now());
+		}
+	}
+
 }

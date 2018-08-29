@@ -100,4 +100,14 @@ public class ContaServiceImpl implements ContaService {
 		}
 	}
 
+	@Override
+	public BigDecimal saldoAtual() {
+		Condominio condominio = usuarioService.lerLogado().getCondominio();
+		if (condominio == null) {
+			return BigDecimal.ZERO;
+		} else {
+			return contaDao.sumSaldoAtualByCondominio(condominio);
+		}
+	}
+
 }

@@ -12,34 +12,38 @@
 		<h3 class="font-weight-light">Painel do Condomínio</h3>
 		<div class="row mt-3">
 			<div class="col-md-3 col-sm-6 mb-4">
-				<div class="card border-success">
-					<div class="card-body text-success order-1 row">
-						<h5 class="card-title">Saldo em conta</h5>
-						<p class="card-text">R$ 3.256,69</p>
+				<div class="card" th:classappend="${saldoAtual}<0?'border-danger':'border-success'">
+					<div class="card-body order-1" th:classappend="${saldoAtual}<0?'text-danger':'text-success'">
+						<h5 class="card-title text-truncate">Saldo em conta</h5>
+						<p class="card-text text-truncate">
+							<span th:text="'R$' + ${saldoAtual}?:'0,00'"></span> <a class="float-right"  th:classappend="${saldoAtual}<0?'text-danger':'text-success'" th:href="@{/sindico/contas}" title="Cadastro de Contas de Movimentação"><i class="fas fa-arrow-circle-right"></i></a>
+						</p>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-3 col-sm-6 mb-4 order-3 order-sm-2">
-				<div class="card border-danger">
-					<div class="card-body text-danger">
-						<h5 class="card-title">Inadimplência</h5>
-						<p class="card-text">R$ 7.650,20</p>
+				<div class="card" th:classappend="${inadimplencia}>0?'border-danger':'border-success'">
+					<div class="card-body" th:classappend="${inadimplencia}>0?'text-danger':'text-success'">
+						<h5 class="card-title text-truncate">Inadimplência</h5>
+						<p class="card-text text-truncate">
+							<span th:text="'R$' + ${inadimplencia}?:'0,00'"></span> <a class="float-right" th:classappend="${inadimplencia}>0?'text-danger':'text-success'" th:href="@{/sindico/cobrancas}" title="Cadastro de Cobranças"><i class="fas fa-arrow-circle-right"></i></a>
+						</p>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-3 col-sm-6 mb-4 order-5 order-sm-3">
-				<div class="card border-dark">
-					<div class="card-body text-dark">
-						<h5 class="card-title">Info</h5>
-						<p class="card-text">...</p>
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title text-truncate">Info</h5>
+						<p class="card-text text-truncate">...</p>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-3 col-sm-6 mb-4 order-6 order-sm-4">
-				<div class="card border-dark">
-					<div class="card-body text-dark">
-						<h5 class="card-title">Info</h5>
-						<p class="card-text">...</p>
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title text-truncate">Info</h5>
+						<p class="card-text text-truncate">...</p>
 					</div>
 				</div>
 			</div>
@@ -68,13 +72,13 @@
 		<script th:src="@{/js/Chart.js}"></script>
 		*/-->
 		<script th:src="@{/js/Chart.min.js}"></script>
-		<script>
+		<script th:inline="javascript">
 			new Chart(document.getElementById("resumoMensal"), {
 				type : 'horizontalBar',
 				data : {
 					labels : [ 'Receitas', 'Despesas' ],
 					datasets : [ {
-						data : [ 1589.00, 1350.10 ],
+						data : [[${receitaDespesaMes}]],
 						label : 'Total (R$)',
 						backgroundColor : [ 'rgba(75, 192, 192, 0.5)',
 								'rgba(255, 99, 132, 0.5)' ],
@@ -92,7 +96,7 @@
 						xAxes : [ {
 							display : true,
 							ticks : {
-								display : false,
+								display : true,
 								beginAtZero : true,
 								callback : function(value, index, values) {
 									return 'R$ ' + value;
@@ -100,7 +104,7 @@
 							},
 							gridLines : {
 								display : false,
-								drawBorder : false
+								drawBorder : true
 							}
 						} ],
 						yAxes : [ {
@@ -125,7 +129,7 @@
 					labels : [ 'Receitas', 'Despesas' ],
 					datasets : [
 							{
-								data : [ 1589.00, 1350.10 ],
+								data : [[${receitaDespesaOrcada}]],
 								label : 'Orçado (R$)',
 								backgroundColor : [ 'rgba(75, 192, 192, 0.75)',
 										'rgba(255, 99, 132, 0.75)' ],
@@ -134,7 +138,7 @@
 								borderWidth : 1
 							},
 							{
-								data : [ 1000, 800 ],
+								data : [[${receitaDespesaRealizada}]],
 								label : 'Realizado (R$)',
 								backgroundColor : [ 'rgba(75, 192, 192, 0.25)',
 										'rgba(255, 99, 132, 0.25)' ],
@@ -150,7 +154,7 @@
 					},
 					scales : {
 						yAxes : [ {
-							display : false,
+							display : true,
 							ticks : {
 								display : true,
 								beginAtZero : true,

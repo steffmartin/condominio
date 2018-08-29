@@ -1,5 +1,6 @@
 package app.condominio.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +11,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import app.condominio.dao.LancamentoDao;
 import app.condominio.dao.MovimentoDao;
+import app.condominio.domain.Conta;
 import app.condominio.domain.Lancamento;
 import app.condominio.domain.Movimento;
+import app.condominio.domain.Periodo;
 import app.condominio.domain.Transferencia;
 import app.condominio.domain.enums.TipoCategoria;
 
@@ -22,6 +26,9 @@ public class MovimentoServiceImpl implements MovimentoService {
 
 	@Autowired
 	private MovimentoDao movimentoDao;
+
+	@Autowired
+	private LancamentoDao lancamentoDao;
 
 	@Autowired
 	private ContaService contaService;
@@ -140,6 +147,26 @@ public class MovimentoServiceImpl implements MovimentoService {
 	public void padronizar(Movimento entidade) {
 		if (entidade.getData() == null) {
 			entidade.setData(LocalDate.now());
+		}
+	}
+
+	@Override
+	public BigDecimal[] receitaDespesaEntre(LocalDate inicio, LocalDate fim) {
+		BigDecimal[] resultado = new BigDecimal[2];
+		List<Conta> contas = contaService.listar();
+		if (!contas.isEmpty()) {
+			resultado[0] = lancamentoDao.sumValorByContaInAndDataBetweenAndReducao(contas, inicio, fim, Boolean.FALSE);
+			resultado[1] = lancamentoDao.sumValorByContaInAndDataBetweenAndReducao(contas, inicio, fim, Boolean.TRUE);
+		}
+		return resultado;
+	}
+
+	@Override
+	public BigDecimal[] receitaDespesa(Periodo periodo) {
+		if (periodo != null) {
+			return receitaDespesaEntre(periodo.getInicio(), periodo.getFim());
+		} else {
+			return new BigDecimal[2];
 		}
 	}
 

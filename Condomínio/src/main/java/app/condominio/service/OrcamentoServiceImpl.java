@@ -1,5 +1,6 @@
 package app.condominio.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.OrcamentoDao;
 import app.condominio.domain.Orcamento;
+import app.condominio.domain.Periodo;
+import app.condominio.domain.enums.TipoCategoria;
 
 @Service
 @Transactional
@@ -83,6 +86,16 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	public void padronizar(Orcamento entidade) {
 		// Nada a padronizar por enquanto
 
+	}
+
+	@Override
+	public BigDecimal[] totalOrcado(Periodo periodo) {
+		BigDecimal[] resultado = new BigDecimal[2];
+		if (periodo != null) {
+			resultado[0] = orcamentoDao.sumByPeriodoAndSubcategoria_CategoriaPai_Tipo(periodo, TipoCategoria.R);
+			resultado[1] = orcamentoDao.sumByPeriodoAndSubcategoria_CategoriaPai_Tipo(periodo, TipoCategoria.D);
+		}
+		return resultado;
 	}
 
 }
