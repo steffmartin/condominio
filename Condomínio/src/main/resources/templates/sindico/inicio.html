@@ -51,7 +51,7 @@
 				<div class="card border-black">
 					<div class="card-header">Resumo do Mês</div>
 					<div class="card-body ">
-						<canvas id="resumoMensal" style="max-height: 200px"></canvas>
+						<canvas id="resumoMensal" style="height: 200px"></canvas>
 					</div>
 				</div>
 			</div>
@@ -59,7 +59,7 @@
 				<div class="card border-black">
 					<div class="card-header">Orçamento do Período</div>
 					<div class="card-body ">
-						<canvas id="orcadoRealizado" style="max-height: 200px"></canvas>
+						<canvas id="orcadoRealizado" style="height: 200px"></canvas>
 					</div>
 				</div>
 			</div>
@@ -72,6 +72,7 @@
 		<script th:src="@{/js/Chart.js}"></script>
 		*/-->
 		<script th:src="@{/js/Chart.min.js}"></script>
+		<script th:src="@{/js/chartjs-plugin-datalabels.min.js}"></script>
 		<script th:inline="javascript">
 			new Chart(document.getElementById("resumoMensal"), {
 				type : 'horizontalBar',
@@ -90,13 +91,25 @@
 				options : {
 					maintainAspectRatio : false,
 					animation : {
-						duration : 3000
+						duration : 2000
+					},
+					tooltips:{
+						enabled: false
+					},
+					plugins: {
+			            datalabels: {
+							anchor: 'end',
+							align: 'right',
+							formatter: function(value, context) {
+							    return 'R$ ' + value.toFixed(2);
+							}
+						}
 					},
 					scales : {
 						xAxes : [ {
 							display : true,
 							ticks : {
-								display : true,
+								display : false,
 								beginAtZero : true,
 								callback : function(value, index, values) {
 									return 'R$ ' + value;
@@ -104,7 +117,7 @@
 							},
 							gridLines : {
 								display : false,
-								drawBorder : true
+								drawBorder : false
 							}
 						} ],
 						yAxes : [ {
@@ -130,7 +143,7 @@
 					datasets : [
 							{
 								data : [[${receitaDespesaOrcada}]],
-								label : 'Orçado (R$)',
+								label : 'Orçado',
 								backgroundColor : [ 'rgba(75, 192, 192, 0.75)',
 										'rgba(255, 99, 132, 0.75)' ],
 								borderColor : [ 'rgba(75, 192, 192, 1.5)',
@@ -139,7 +152,7 @@
 							},
 							{
 								data : [[${receitaDespesaRealizada}]],
-								label : 'Realizado (R$)',
+								label : 'Realizado',
 								backgroundColor : [ 'rgba(75, 192, 192, 0.25)',
 										'rgba(255, 99, 132, 0.25)' ],
 								borderColor : [ 'rgba(75, 192, 192, 0.5)',
@@ -150,13 +163,31 @@
 				options : {
 					maintainAspectRatio : false,
 					animation : {
-						duration : 3000
+						duration : 2000
+					},
+					tooltips:{
+						enabled: false
+					},
+					layout:{
+						padding:{
+							top: 5
+						}
+					},
+					plugins: {
+			            datalabels: {
+							anchor: 'end',
+							align: 'top',
+							textAlign: 'center',
+							formatter: function(value, context) {
+							    return context.chart.data.datasets[context.datasetIndex].label + '\nR$ ' + value.toFixed(2);
+							}
+						}
 					},
 					scales : {
 						yAxes : [ {
 							display : true,
 							ticks : {
-								display : true,
+								display : false,
 								beginAtZero : true,
 								callback : function(value, index, values) {
 									return 'R$ ' + value;
