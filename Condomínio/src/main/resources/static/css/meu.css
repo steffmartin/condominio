@@ -240,14 +240,13 @@ fieldset:disabled input::placeholder, fieldset:disabled textarea::placeholder{
 @media print {
 	body {
 	padding-top: 0px;
-	}
-	body {
 	padding-bottom: 0px;
 	}
    #sidebar ~ main {
     padding-left: 16px;
 	}
 }
+
 /* CORREÇÕES do BOOTSTRAP 4 */
 
 /* Correção nos dropdowns */
@@ -258,6 +257,9 @@ fieldset:disabled input::placeholder, fieldset:disabled textarea::placeholder{
 	}
 }
 button.dropdown-item {
+	cursor: pointer;
+}
+.list-group-item[data-toggle=collapse]{
 	cursor: pointer;
 }
 

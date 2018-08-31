@@ -103,8 +103,8 @@ public class ContaServiceImpl implements ContaService {
 	@Override
 	public BigDecimal saldoAtual() {
 		Condominio condominio = usuarioService.lerLogado().getCondominio();
-		if (condominio == null) {
-			return BigDecimal.ZERO;
+		if (condominio == null || condominio.getContas().isEmpty()) {
+			return BigDecimal.ZERO.setScale(2);
 		} else {
 			return contaDao.sumSaldoAtualByCondominio(condominio);
 		}

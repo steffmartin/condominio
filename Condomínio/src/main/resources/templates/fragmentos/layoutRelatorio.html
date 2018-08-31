@@ -1,0 +1,25 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+
+<!-- Meta tags -->
+<meta charset="utf-8" />
+
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/relatorios.css}" />
+<th:block th:replace="'sindico/' + ${conteudo} :: cssAdicional" />
+
+<title th:replace="'sindico/' + ${conteudo} :: title"></title>
+</head>
+<body id="sindico" onload="window.print()">
+	<th:block th:replace="'sindico/' + ${conteudo} :: conteudo" />
+	
+	<!-- JavaScript -->
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<th:block th:replace="'sindico/' + ${conteudo} :: jsAdicional" />
+</body>
+</html>

@@ -1,0 +1,49 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Relatórios</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Relatórios</h3>
+		<div class="accordion mt-3" id="listaRelatorios">
+			<ul class="list-group">
+				<li class="list-group-item d-flex justify-content-between align-items-center bg-light" data-toggle="collapse" data-target="#relatoriosCadastrais">Relatórios cadastrais<span class="badge badge-primary badge-pill">4</span>
+				</li>
+				<li id="relatoriosCadastrais" class="collapse show list-group-item" data-parent="#listaRelatorios">
+					<ul class="row">
+						<li class="col-12 col-sm-6 col-md-4 col-lg-3">Cadastro do condomínio</li>
+						<li class="col-12 col-sm-6 col-md-4 col-lg-3">Cadastro de blocos</li>
+						<li class="col-12 col-sm-6 col-md-4 col-lg-3">Cadastro de moradias</li>
+						<li class="col-12 col-sm-6 col-md-4 col-lg-3">Cadastro de condôminos</li>
+					</ul>
+				</li>
+				<li class="list-group-item d-flex justify-content-between align-items-center bg-light" data-toggle="collapse" data-target="#relatoriosFinanceiros">Relatórios financeiros<span class="badge badge-primary badge-pill">2</span>
+				</li>
+				<li id="relatoriosFinanceiros" class="collapse list-group-item" data-parent="#listaRelatorios">
+					<ul class="row">
+						<li class="col-12 col-sm-6 col-md-4 col-lg-3">Contas bancárias</li>
+						<li class="col-12 col-sm-6 col-md-4 col-lg-3">Inadimplência</li>
+					</ul>
+				</li>
+				<li class="list-group-item d-flex justify-content-between align-items-center bg-light" data-toggle="collapse" data-target="#relatoriosContabeis">Relatórios contábeis<span class="badge badge-primary badge-pill">3</span>
+				</li>
+				<li id="relatoriosContabeis" class="collapse list-group-item" data-parent="#listaRelatorios">
+					<ul class="row">
+						<li class="col-12 col-sm-6 col-md-4 col-lg-3">Cadastro de categorias</li>
+						<li class="col-12 col-sm-6 col-md-4 col-lg-3">Orçado x Realizado</li>
+						<li class="col-12 col-sm-6 col-md-4 col-lg-3">Livro Caixa</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		</main>
+	</th:block>
+	<th:block th:fragment="jsAdicional">
+	</th:block>
+</body>
+</html>

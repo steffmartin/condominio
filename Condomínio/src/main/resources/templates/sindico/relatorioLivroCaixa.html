@@ -1,0 +1,381 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:fragment="cssAdicional">
+	<style type="text/css">
+@page {
+	size: A4 landscape;
+}
+</style>
+</th:block>
+<title>Livro Caixa</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<div id="relatorio" class="page A4 paisagem">
+			<div id="relatorio_cabecalho" class="text-center">
+				<h5 class="font-weight-bold">Nome do Condomínio</h5>
+				<p>
+					<small>Endereço do condomínio, nº, bairro - Cidade, Estado<br /> Síndico: Nome do Síndico
+					</small>
+				</p>
+			</div>
+			<div id="relatorio_titulo" class="text-center">
+				<h6 class="font-weight-bold">Nome do Relatório</h6>
+				<p>
+					<small>Período: 01/08/2018 a 31/08/2018</small>
+				</p>
+			</div>
+			<div id="relatorio_conteudo">
+				<p>
+					<b>Saldo inicial:</b> R$ 9.999.999,99
+				</p>
+				<table class="table table-sm table-borderless">
+					<thead class="border-bottom">
+						<tr>
+							<th scope="col">Data</th>
+							<th scope="col" width="45%">Descrição</th>
+							<th scope="col">Documento</th>
+							<th scope="col">Entrada</th>
+							<th scope="col">Saída</th>
+							<th scope="col">Saldo</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>99/99/9999</td>
+							<td>1Descrição<br/><small>Categoria usada</small></td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>2Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>3Descrição 3Descrição 3Descrição 3Descrição3Descrição 3Descrição 3Descrição 3Descrição 3Descrição3Descri ção3Descrição3Descrição<br/><small>Categoria usada</small></td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>4Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>5Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>6Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>7Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>8Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>9Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>1Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>2Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>3Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>4Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>5Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>6Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>7Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>8Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>9Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>1Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>2Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>3Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>4Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>5Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>6Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td>99/99/9999</td>
+							<td>Descrição</td>
+							<td>999999999</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+							<td>R$ 9.999.999,99</td>
+						</tr>
+						<tr>
+							<td colspan="6"><p class="mt-3">
+									<b>Saldo final:</b> R$ 9.999.999,99
+								</p></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		</main>
+	</th:block>
+	<th:block th:fragment="jsAdicional"></th:block>
+</body>
+</html>
