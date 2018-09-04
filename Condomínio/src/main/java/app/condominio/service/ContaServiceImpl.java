@@ -101,6 +101,7 @@ public class ContaServiceImpl implements ContaService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public BigDecimal saldoAtual() {
 		Condominio condominio = usuarioService.lerLogado().getCondominio();
 		if (condominio == null || condominio.getContas().isEmpty()) {

@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import app.condominio.domain.Movimento;
 import app.condominio.service.CondominioService;
-import app.condominio.service.MovimentoService;
 import app.condominio.service.RelatorioService;
 
 @Controller
@@ -29,9 +28,6 @@ public class RelatorioController {
 
 	@Autowired
 	CondominioService condominioService;
-
-	@Autowired
-	MovimentoService movimentoService;
 
 	@ModelAttribute("ativo")
 	public String[] ativo() {
@@ -52,18 +48,20 @@ public class RelatorioController {
 	public ModelAndView postLivroCaixa(
 			@RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
 			@RequestParam("fim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim, ModelMap model) {
+
 		if (inicio.isAfter(fim)) {
 			model.addAttribute("fimInvalido", "true");
 			model.addAttribute("conteudo", "relatorioLivroCaixa");
 			return new ModelAndView("fragmentos/layoutSindico", model);
 		}
+
+		BigDecimal saldoInicial = relatorioService.saldoInicialTodasContasEm(inicio);
+		List<Movimento> lancamentos = relatorioService.lancamentosEntre(inicio, fim);
+
 		model.addAttribute("condominio", condominioService.ler());
 		model.addAttribute("inicio", inicio);
 		model.addAttribute("fim", fim);
-		// FIXME criar metodo pra pegar o saldo inicial
-		BigDecimal saldoInicial = new BigDecimal(50).setScale(2);
 		model.addAttribute("saldoInicial", saldoInicial);
-		List<Movimento> lancamentos = movimentoService.listarLancamentosEntre(inicio, fim);
 		model.addAttribute("lancamentos", lancamentos);
 		model.addAttribute("saldos", relatorioService.saldosAposMovimentos(lancamentos, saldoInicial));
 		model.addAttribute("relatorio", "relatorioLivroCaixa");

@@ -3,6 +3,7 @@ package app.condominio.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import app.condominio.dao.MovimentoDao;
 import app.condominio.domain.Conta;
 import app.condominio.domain.Lancamento;
 import app.condominio.domain.Movimento;
-import app.condominio.domain.Periodo;
 import app.condominio.domain.Transferencia;
 import app.condominio.domain.enums.TipoCategoria;
 
@@ -151,41 +151,20 @@ public class MovimentoServiceImpl implements MovimentoService {
 	}
 
 	@Override
-	public BigDecimal[] receitaDespesaEntre(LocalDate inicio, LocalDate fim) {
-		BigDecimal[] resultado = new BigDecimal[2];
-		List<Conta> contas = contaService.listar();
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public BigDecimal somaLancamentos(Collection<Conta> contas, LocalDate inicio, LocalDate fim, Boolean reducao) {
 		if (!contas.isEmpty()) {
-			resultado[0] = lancamentoDao.sumValorByContaInAndDataBetweenAndReducao(contas, inicio, fim, Boolean.FALSE);
-			resultado[1] = lancamentoDao.sumValorByContaInAndDataBetweenAndReducao(contas, inicio, fim, Boolean.TRUE);
-		}
-		if (resultado[0] == null) {
-			resultado[0] = BigDecimal.ZERO.setScale(2);
-		}
-		if (resultado[1] == null) {
-			resultado[1] = BigDecimal.ZERO.setScale(2);
-		}
-		return resultado;
-	}
-
-	@Override
-	public BigDecimal[] receitaDespesa(Periodo periodo) {
-		if (periodo != null) {
-			return receitaDespesaEntre(periodo.getInicio(), periodo.getFim());
+			return lancamentoDao.sumValorByContaInAndDataBetweenAndReducao(contas, inicio, fim, reducao);
 		} else {
-			BigDecimal[] resultado = new BigDecimal[2];
-			resultado[0] = BigDecimal.ZERO.setScale(2);
-			resultado[1] = BigDecimal.ZERO.setScale(2);
-			return resultado;
+			return BigDecimal.ZERO.setScale(2);
 		}
 	}
 
 	@Override
-	public List<Movimento> listarLancamentosEntre(LocalDate inicio, LocalDate fim) {
-		List<Conta> contas = contaService.listar();
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Lancamento> listarLancamentos(Collection<Conta> contas, LocalDate inicio, LocalDate fim) {
 		if (!contas.isEmpty()) {
-			List<Movimento> lancamentos = new ArrayList<>();
-			lancamentos.addAll(lancamentoDao.findAllByContaInAndDataBetweenOrderByDataAsc(contas, inicio, fim));
-			return lancamentos;
+			return lancamentoDao.findAllByContaInAndDataBetweenOrderByDataAsc(contas, inicio, fim);
 		}
 		return new ArrayList<>();
 	}

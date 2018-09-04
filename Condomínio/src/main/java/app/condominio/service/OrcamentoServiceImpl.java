@@ -83,25 +83,20 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public void padronizar(Orcamento entidade) {
 		// Nada a padronizar por enquanto
 
 	}
 
 	@Override
-	public BigDecimal[] totalOrcado(Periodo periodo) {
-		BigDecimal[] resultado = new BigDecimal[2];
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public BigDecimal somaOrcamentos(Periodo periodo, TipoCategoria tipo) {
 		if (periodo != null) {
-			resultado[0] = orcamentoDao.sumByPeriodoAndSubcategoria_CategoriaPai_Tipo(periodo, TipoCategoria.R);
-			resultado[1] = orcamentoDao.sumByPeriodoAndSubcategoria_CategoriaPai_Tipo(periodo, TipoCategoria.D);
+			return orcamentoDao.sumByPeriodoAndSubcategoria_CategoriaPai_Tipo(periodo, tipo);
+		} else {
+			return BigDecimal.ZERO.setScale(2);
 		}
-		if (resultado[0] == null) {
-			resultado[0] = BigDecimal.ZERO.setScale(2);
-		}
-		if (resultado[1] == null) {
-			resultado[1] = BigDecimal.ZERO.setScale(2);
-		}
-		return resultado;
 	}
 
 }

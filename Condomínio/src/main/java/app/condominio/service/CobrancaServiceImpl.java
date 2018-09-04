@@ -181,6 +181,7 @@ public class CobrancaServiceImpl implements CobrancaService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public BigDecimal inadimplencia() {
 		Condominio condominio = usuarioService.lerLogado().getCondominio();
 		if (condominio == null || condominio.getCobrancas().isEmpty()) {
