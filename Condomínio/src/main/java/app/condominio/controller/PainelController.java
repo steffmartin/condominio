@@ -27,6 +27,7 @@ public class PainelController {
 		return new String[] { "painel", "" };
 	}
 
+	// FIXME migrar estes métodos para o relatorioService.
 	@Autowired
 	ContaService contaService;
 

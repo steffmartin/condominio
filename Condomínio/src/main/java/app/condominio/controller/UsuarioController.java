@@ -25,6 +25,11 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "conta", "" };
+	}
+
 	@GetMapping("/cadastrar")
 	public ModelAndView getCadastrarSindico(@ModelAttribute("sindico") Usuario sindico) {
 		return new ModelAndView("fragmentos/layoutSite", "conteudo", "sindicoCadastro");

@@ -68,6 +68,14 @@ public class Usuario implements Serializable {
 	@JoinColumn(name = "idcondominio")
 	private Condominio condominio;
 
+	public String nomeCompleto() {
+		if (sobrenome != null) {
+			return nome + " " + sobrenome;
+		} else {
+			return nome;
+		}
+	}
+
 	public Long getId() {
 		return id;
 	}

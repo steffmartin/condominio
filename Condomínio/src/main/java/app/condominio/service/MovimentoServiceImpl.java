@@ -76,7 +76,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Movimento> listar() {
-		return movimentoDao.findAllByContaIn(contaService.listar());
+		return movimentoDao.findAllByContaInOrderByDataDesc(contaService.listar());
 	}
 
 	@Override
@@ -158,6 +158,12 @@ public class MovimentoServiceImpl implements MovimentoService {
 			resultado[0] = lancamentoDao.sumValorByContaInAndDataBetweenAndReducao(contas, inicio, fim, Boolean.FALSE);
 			resultado[1] = lancamentoDao.sumValorByContaInAndDataBetweenAndReducao(contas, inicio, fim, Boolean.TRUE);
 		}
+		if (resultado[0] == null) {
+			resultado[0] = BigDecimal.ZERO.setScale(2);
+		}
+		if (resultado[1] == null) {
+			resultado[1] = BigDecimal.ZERO.setScale(2);
+		}
 		return resultado;
 	}
 
@@ -166,8 +172,22 @@ public class MovimentoServiceImpl implements MovimentoService {
 		if (periodo != null) {
 			return receitaDespesaEntre(periodo.getInicio(), periodo.getFim());
 		} else {
-			return new BigDecimal[2];
+			BigDecimal[] resultado = new BigDecimal[2];
+			resultado[0] = BigDecimal.ZERO.setScale(2);
+			resultado[1] = BigDecimal.ZERO.setScale(2);
+			return resultado;
 		}
+	}
+
+	@Override
+	public List<Movimento> listarLancamentosEntre(LocalDate inicio, LocalDate fim) {
+		List<Conta> contas = contaService.listar();
+		if (!contas.isEmpty()) {
+			List<Movimento> lancamentos = new ArrayList<>();
+			lancamentos.addAll(lancamentoDao.findAllByContaInAndDataBetweenOrderByDataAsc(contas, inicio, fim));
+			return lancamentos;
+		}
+		return new ArrayList<>();
 	}
 
 }

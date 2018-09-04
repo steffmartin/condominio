@@ -5,10 +5,16 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class InicioController {
+
+	@ModelAttribute("ativo")
+	public String[] ativo() {
+		return new String[] { "inicio", "" };
+	}
 
 	@GetMapping({ "/", "", "/home", "/inicio" })
 	public ModelAndView inicio() {

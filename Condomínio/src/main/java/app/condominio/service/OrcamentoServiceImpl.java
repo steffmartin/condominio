@@ -95,6 +95,12 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 			resultado[0] = orcamentoDao.sumByPeriodoAndSubcategoria_CategoriaPai_Tipo(periodo, TipoCategoria.R);
 			resultado[1] = orcamentoDao.sumByPeriodoAndSubcategoria_CategoriaPai_Tipo(periodo, TipoCategoria.D);
 		}
+		if (resultado[0] == null) {
+			resultado[0] = BigDecimal.ZERO.setScale(2);
+		}
+		if (resultado[1] == null) {
+			resultado[1] = BigDecimal.ZERO.setScale(2);
+		}
 		return resultado;
 	}
 

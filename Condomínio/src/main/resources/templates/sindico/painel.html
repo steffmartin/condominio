@@ -67,12 +67,9 @@
 		</main>
 	</th:block>
 	<th:block th:fragment="jsAdicional">
-		<!--/*
-		<script th:src="@{/js/moment.min.js}"></script>
-		<script th:src="@{/js/Chart.js}"></script>
-		*/-->
 		<script th:src="@{/js/Chart.min.js}"></script>
 		<script th:src="@{/js/chartjs-plugin-datalabels.min.js}"></script>
+		<script th:src="@{/js/chartjs-plugin-deferred.min.js}"></script>
 		<script th:inline="javascript">
 			new Chart(document.getElementById("resumoMensal"), {
 				type : 'horizontalBar',
@@ -93,6 +90,11 @@
 					animation : {
 						duration : 2000
 					},
+					layout:{
+						padding:{
+							right: 70
+						}
+					},
 					tooltips:{
 						enabled: false
 					},
@@ -103,7 +105,10 @@
 							formatter: function(value, context) {
 							    return 'R$ ' + value.toFixed(2);
 							}
-						}
+						},
+						deferred: {
+					        yOffset: '50%'
+					    }
 					},
 					scales : {
 						xAxes : [ {
@@ -170,7 +175,7 @@
 					},
 					layout:{
 						padding:{
-							top: 5
+							top: 40
 						}
 					},
 					plugins: {
@@ -181,7 +186,10 @@
 							formatter: function(value, context) {
 							    return context.chart.data.datasets[context.datasetIndex].label + '\nR$ ' + value.toFixed(2);
 							}
-						}
+						},
+						deferred: {
+					        yOffset: '50%'
+					    }
 					},
 					scales : {
 						yAxes : [ {

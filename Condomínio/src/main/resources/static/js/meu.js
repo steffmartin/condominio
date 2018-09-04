@@ -1,4 +1,5 @@
 // Validação do formulário no FRONT-END, aplicar a classe 'needs-validation'
+// Usado em forms
 (function() {
 	'use strict';
 	window.addEventListener('load', function() {
@@ -16,6 +17,7 @@
 })();
 
 // Funcionamento do Sidebar
+// Usado na área do síndico
 $(document).ready(function() {
 	$('#sidebarCollapse,#sidebarExpand').on('click', function() {
 		$('#sidebar,#sidebarCollapse,#sidebarExpand').toggleClass('active');
@@ -28,6 +30,7 @@ $(document).ready(function() {
 });
 
 //Scrools Customizados
+//Usado no sidebar, nas listagens, nos formulários com linhas dinâmicas
 $(document).ready(function(){
 	
 	$("#sidebar").mCustomScrollbar({
@@ -46,11 +49,13 @@ $(document).ready(function(){
 });
 
 //Remover placeholder nas telas somente leitura
+//Usado em forms
 $(document).ready(function() {
 	$("fieldset:disabled").find(':input').removeAttr('placeholder');
 });
 
-//Modal de excluir com conteúdo e formulário dinâmico
+//Modal de excluir com conteúdo com formulário dinâmico
+//Usado em listagens
 $('#modalExcluir').on('show.bs.modal', function (event) {
 	  var button = $(event.relatedTarget)
 	  var idObj = button.data('idobj') // Lê info dos atributos data-*
@@ -65,6 +70,7 @@ $('#modalExcluir').on('show.bs.modal', function (event) {
 	});
 
 //Accordion usando SELECT com formulário dinâmico
+//Usado em forms
 $('select[name=form-accordion-select]').change(function(){
 	var form = $(this).data('form');
 	var parent = $(this).data('parent');
@@ -76,78 +82,4 @@ $('select[name=form-accordion-select]').change(function(){
     $(parent).collapse('hide');
     $(target).collapse('show');
     $(form).attr('action',action);
-});
-
-// Botão para deletar linha em lista de formulário
-$('.form-list table').on('click','button.delete',function(){
-	element = $(this).closest($(this).data('delete'));
-	oldId = element.attr('id');
-	oldId = oldId.replace('row','');
-	maior = oldId;
-	element.parent().children(':not(.d-none):not(#row'+oldId+')').each(function(){
-		esteId = $(this).attr('id');
-		esteId = esteId.replace('row','');
-		if(esteId > maior){
-			maior = esteId;
-		}
-	});
-	if(maior > oldId){
-		last = $('#row'+maior);
-		last.attr('id',"row"+oldId);
-		last.find(':input').each(function(){
-			name = $(this).attr('name');
-			id = $(this).attr('id');
-			if(name != null){
-				$(this).attr('name',name.replace('['+maior+']','['+oldId+']'));
-			}
-			if(id != null){
-				$(this).attr('id',id.replace(maior+'.',oldId+'.'));
-			}
-		});
-	}
-	element.collapse('hide');
-	element.remove();
-});
-
-//Botão para incluir linha em lista de formulário
-$('button.clone').on('click',function(){
-	parent = $(this).data('parent');
-	example = $(this).data('example');
-	clone = $(example).clone();
-	maior = -1;
-	$(parent).children(':not(.d-none)').each(function(){
-		esteId = $(this).attr('id');
-		esteId = esteId.replace('row','');
-		if(esteId > maior){
-			maior = esteId;
-		}
-	});
-	maior++;	
-	clone.attr('id','row'+maior);
-	clone.find(':input').each(function(){
-		$(this).prop('disabled',false);
-		name = $(this).attr('name');
-		id = $(this).attr('id');
-		if(name != null){
-			$(this).attr('name',name.replace('[]','['+maior+']'));
-		}
-		if(id != null){
-			$(this).attr('id',id.replace('.',maior+'.'));
-		}
-	});
-	clone.removeClass("d-none");
-	clone.appendTo($(parent));
-	clone.collapse('show');
-});
-
-// Cálculo de campo totalizador, usar classes calc-add, calc-sub, calc-tot
-$('input.calc-add,input.calc-sub').on('change keyup', function(){
-	var tot = 0;
-	$('input.calc-add').each(function(){
-		tot += parseFloat($(this).val() || 0);
-	});
-	$('input.calc-sub').each(function(){
-		tot -= parseFloat($(this).val() || 0);
-	});
-	$('input.calc-tot').val(tot.toFixed(2));
 });

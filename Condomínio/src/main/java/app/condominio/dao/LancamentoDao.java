@@ -3,6 +3,7 @@ package app.condominio.dao;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -17,5 +18,8 @@ public interface LancamentoDao extends PagingAndSortingRepository<Lancamento, Lo
 	BigDecimal sumValorByContaInAndDataBetweenAndReducao(@Param("contas") Collection<Conta> contas,
 			@Param("dataInicial") LocalDate dataInicial, @Param("dataFinal") LocalDate dataFinal,
 			@Param("reducao") Boolean reducao);
+
+	List<Lancamento> findAllByContaInAndDataBetweenOrderByDataAsc(Collection<Conta> conta, LocalDate inicio,
+			LocalDate fim);
 
 }

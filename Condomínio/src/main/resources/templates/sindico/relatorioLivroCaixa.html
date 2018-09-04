@@ -15,26 +15,62 @@
 <body>
 	<th:block th:fragment="conteudo">
 		<main role="main">
+		<h3 class="font-weight-light">Livro Caixa</h3>
+		<div th:unless="${haCondominio}" class="alert alert-warning">
+			<h6>Condomínio não cadastrado</h6>
+			Para gerar este relatório é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
+		</div>
+		<p th:if="${haCondominio}">Este relatório traz a movimentação diária de suas contas.</p>
+		<form class="needs-validation" th:if="${haCondominio}" target="_blank" th:action="@{/sindico/relatorios/livroCaixa}" th:method="post" novalidate>
+			<fieldset class="mb-3">
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-filter"></i> Filtros
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Data inicial</label> <input autofocus class="form-control" type="date" placeholder="Data inicial" name="inicio" id="inicio" required />
+									<div class="invalid-feedback">Campo obrigatório</div>
+								</div>
+								<div class="form-group col-md-6">
+									<label>Data final</label> <input class="form-control" th:classappend="${fimInvalido}?'is-invalid'" type="date" placeholder="Data final" name="fim" id="fim" required />
+									<div class="invalid-feedback" th:if="${fimInvalido}"></div>
+									<div class="invalid-feedback">Campo obrigatório</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</fieldset>
+			<button type="submit" class="btn btn-primary">Gerar</button>
+			<a class="btn btn-secondary" th:href="@{/sindico/relatorios}" role="button">Cancelar</a>
+		</form>
+		</main>
+	</th:block>
+	<th:block th:fragment="relatorio">
+		<main role="main">
 		<div id="relatorio" class="page A4 paisagem">
-			<div id="relatorio_cabecalho" class="text-center">
-				<h5 class="font-weight-bold">Nome do Condomínio</h5>
+			<div id="relatorio_cabecalho" class="text-center" th:object="${condominio}">
+				<h5 class="font-weight-bold" th:text="*{razaoSocial}"></h5>
 				<p>
-					<small>Endereço do condomínio, nº, bairro - Cidade, Estado<br /> Síndico: Nome do Síndico
-					</small>
+					<small th:text="*{endereco} +', '+ *{numeroEnd}"></small><small th:unless="${condominio.complementoEnd==null}" th:text="', '+ *{complementoEnd}"></small><br /> <small th:text="*{bairro} + ', ' + *{cidade} + ' - ' + *{estado.nome}"></small><br />
+					<small th:text="'Síndico: ' + *{sindico.nomeCompleto()}"></small>
 				</p>
 			</div>
 			<div id="relatorio_titulo" class="text-center">
-				<h6 class="font-weight-bold">Nome do Relatório</h6>
+				<h6 class="font-weight-bold">Livro Caixa</h6>
 				<p>
-					<small>Período: 01/08/2018 a 31/08/2018</small>
+					<small th:text="'Período: ' + ${#temporals.format(inicio,'dd/MM/yyyy') + ' a ' +#temporals.format(fim,'dd/MM/yyyy')}"></small>
 				</p>
 			</div>
 			<div id="relatorio_conteudo">
 				<p>
-					<b>Saldo inicial:</b> R$ 9.999.999,99
+					<b>Saldo inicial:</b> <span th:text="'R$ '+ ${saldoInicial}"></span>
 				</p>
 				<table class="table table-sm table-borderless">
-					<thead class="border-bottom">
+					<thead class="border-bottom" th:unless="${#lists.isEmpty(lancamentos)}">
 						<tr>
 							<th scope="col">Data</th>
 							<th scope="col" width="45%">Descrição</th>
@@ -45,333 +81,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>99/99/9999</td>
-							<td>1Descrição<br/><small>Categoria usada</small></td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
+						<tr th:each="lancamento, stat : ${lancamentos}">
+							<td th:text="${#temporals.format(lancamento.data,'dd/MM/yyyy')}"></td>
+							<td><span th:text="${lancamento.descricao}?:(${lancamento.detalhe()})"></span></td>
+							<td th:text="${lancamento.documento}"></td>
+							<td th:text="${lancamento.reducao}?'':('R$ '+${lancamento.valor})"></td>
+							<td th:text="${lancamento.reducao}?('R$ '+${lancamento.valor}):''"></td>
+							<td th:text="'R$ ' + ${saldos[__${stat.index}__]}"></td>
 						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>2Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>3Descrição 3Descrição 3Descrição 3Descrição3Descrição 3Descrição 3Descrição 3Descrição 3Descrição3Descri ção3Descrição3Descrição<br/><small>Categoria usada</small></td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>4Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>5Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>6Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>7Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>8Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>9Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>1Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>2Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>3Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>4Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>5Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>6Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>7Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>8Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>9Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>1Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>2Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>3Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>4Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>5Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>6Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td>99/99/9999</td>
-							<td>Descrição</td>
-							<td>999999999</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-							<td>R$ 9.999.999,99</td>
-						</tr>
-						<tr>
-							<td colspan="6"><p class="mt-3">
-									<b>Saldo final:</b> R$ 9.999.999,99
-								</p></td>
-						</tr>
+						<tr th:if="${#lists.isEmpty(lancamentos)}"><td colspan="6">Sem movimento.</td></tr>
 					</tbody>
 				</table>
+				<p>
+					<b>Saldo final:</b> <span th:text="'R$ ' + ${saldos[__${#arrays.length(saldos)-1}__]}"></span>
+				</p>
 			</div>
 		</div>
 		</main>
