@@ -11,8 +11,10 @@ import app.condominio.domain.Movimento;
 
 public interface MovimentoService extends CrudService<Movimento, Long> {
 
-	public BigDecimal somaLancamentos(Collection<Conta> contas, LocalDate inicio, LocalDate fim, Boolean reducao);
+	public BigDecimal somaLancamentosEntre(Collection<Conta> contas, LocalDate inicio, LocalDate fim, Boolean reducao);
 
-	public List<Lancamento> listarLancamentos(Collection<Conta> contas, LocalDate inicio, LocalDate fim);
+	public BigDecimal somaLancamentosDesde(Collection<Conta> contas, LocalDate inicio, Boolean reducao);
+
+	public List<Lancamento> listarLancamentosEntre(Collection<Conta> contas, LocalDate inicio, LocalDate fim);
 
 }

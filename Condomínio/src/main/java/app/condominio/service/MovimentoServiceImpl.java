@@ -152,7 +152,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public BigDecimal somaLancamentos(Collection<Conta> contas, LocalDate inicio, LocalDate fim, Boolean reducao) {
+	public BigDecimal somaLancamentosEntre(Collection<Conta> contas, LocalDate inicio, LocalDate fim, Boolean reducao) {
 		if (!contas.isEmpty()) {
 			return lancamentoDao.sumValorByContaInAndDataBetweenAndReducao(contas, inicio, fim, reducao);
 		} else {
@@ -162,7 +162,17 @@ public class MovimentoServiceImpl implements MovimentoService {
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public List<Lancamento> listarLancamentos(Collection<Conta> contas, LocalDate inicio, LocalDate fim) {
+	public BigDecimal somaLancamentosDesde(Collection<Conta> contas, LocalDate inicio, Boolean reducao) {
+		if (!contas.isEmpty()) {
+			return lancamentoDao.sumValorByContaInAndDataGreaterThanEqualAndReducao(contas, inicio, reducao);
+		} else {
+			return BigDecimal.ZERO.setScale(2);
+		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Lancamento> listarLancamentosEntre(Collection<Conta> contas, LocalDate inicio, LocalDate fim) {
 		if (!contas.isEmpty()) {
 			return lancamentoDao.findAllByContaInAndDataBetweenOrderByDataAsc(contas, inicio, fim);
 		}

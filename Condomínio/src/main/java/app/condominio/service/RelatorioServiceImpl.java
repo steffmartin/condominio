@@ -43,12 +43,14 @@ public class RelatorioServiceImpl implements RelatorioService {
 
 	@Override
 	public BigDecimal saldoInicialTodasContasEm(LocalDate data) {
-		return saldoFinalTodasContasEm(data.minusDays(1));
+		BigDecimal saldo = contaService.saldoAtual();
+		BigDecimal[] lancamentos = receitaDespesaDesde(contaService.listar(), data);
+		return saldo.subtract(lancamentos[0]).add(lancamentos[1]);
 	}
 
 	@Override
 	public BigDecimal saldoFinalTodasContasEm(LocalDate data) {
-		return BigDecimal.ZERO.setScale(2); // FIXME fazer método
+		return saldoInicialTodasContasEm(data.plusDays(1));
 	}
 
 	@Override
@@ -59,8 +61,23 @@ public class RelatorioServiceImpl implements RelatorioService {
 	private BigDecimal[] receitaDespesaEntre(Collection<Conta> contas, LocalDate inicio, LocalDate fim) {
 		BigDecimal[] resultado = new BigDecimal[2];
 		if (!contas.isEmpty()) {
-			resultado[0] = movimentoService.somaLancamentos(contas, inicio, fim, Boolean.FALSE);
-			resultado[1] = movimentoService.somaLancamentos(contas, inicio, fim, Boolean.TRUE);
+			resultado[0] = movimentoService.somaLancamentosEntre(contas, inicio, fim, Boolean.FALSE);
+			resultado[1] = movimentoService.somaLancamentosEntre(contas, inicio, fim, Boolean.TRUE);
+		}
+		if (resultado[0] == null) {
+			resultado[0] = BigDecimal.ZERO.setScale(2);
+		}
+		if (resultado[1] == null) {
+			resultado[1] = BigDecimal.ZERO.setScale(2);
+		}
+		return resultado;
+	}
+
+	private BigDecimal[] receitaDespesaDesde(Collection<Conta> contas, LocalDate inicio) {
+		BigDecimal[] resultado = new BigDecimal[2];
+		if (!contas.isEmpty()) {
+			resultado[0] = movimentoService.somaLancamentosDesde(contas, inicio, Boolean.FALSE);
+			resultado[1] = movimentoService.somaLancamentosDesde(contas, inicio, Boolean.TRUE);
 		}
 		if (resultado[0] == null) {
 			resultado[0] = BigDecimal.ZERO.setScale(2);
@@ -115,7 +132,7 @@ public class RelatorioServiceImpl implements RelatorioService {
 		List<Conta> contas = contaService.listar();
 		if (!contas.isEmpty()) {
 			List<Movimento> lancamentos = new ArrayList<>();
-			lancamentos.addAll(movimentoService.listarLancamentos(contas, inicio, fim));
+			lancamentos.addAll(movimentoService.listarLancamentosEntre(contas, inicio, fim));
 			return lancamentos;
 		}
 		return new ArrayList<>();
