@@ -17,6 +17,7 @@ import app.condominio.dao.MovimentoDao;
 import app.condominio.domain.Conta;
 import app.condominio.domain.Lancamento;
 import app.condominio.domain.Movimento;
+import app.condominio.domain.Subcategoria;
 import app.condominio.domain.Transferencia;
 import app.condominio.domain.enums.TipoCategoria;
 
@@ -155,6 +156,17 @@ public class MovimentoServiceImpl implements MovimentoService {
 	public BigDecimal somaLancamentosEntre(Collection<Conta> contas, LocalDate inicio, LocalDate fim, Boolean reducao) {
 		if (!contas.isEmpty()) {
 			return lancamentoDao.sumValorByContaInAndDataBetweenAndReducao(contas, inicio, fim, reducao);
+		} else {
+			return BigDecimal.ZERO.setScale(2);
+		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public BigDecimal somaLancamentosEntre(Collection<Conta> contas, LocalDate inicio, LocalDate fim,
+			Subcategoria subcategoria) {
+		if (!contas.isEmpty()) {
+			return lancamentoDao.sumValorByContaInAndDataBetweenAndSubcategoria(contas, inicio, fim, subcategoria);
 		} else {
 			return BigDecimal.ZERO.setScale(2);
 		}

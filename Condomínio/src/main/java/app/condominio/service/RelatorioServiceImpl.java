@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import app.condominio.domain.Conta;
 import app.condominio.domain.Movimento;
 import app.condominio.domain.Periodo;
+import app.condominio.domain.Subcategoria;
 import app.condominio.domain.enums.TipoCategoria;
 
 @Service
@@ -35,6 +38,9 @@ public class RelatorioServiceImpl implements RelatorioService {
 
 	@Autowired
 	PeriodoService periodoService;
+
+	@Autowired
+	SubcategoriaService subcategoriaService;
 
 	@Override
 	public BigDecimal saldoAtualTodasContas() {
@@ -93,6 +99,12 @@ public class RelatorioServiceImpl implements RelatorioService {
 		List<Conta> contas = contaService.listar();
 		YearMonth mesAtual = YearMonth.from(LocalDate.now());
 		return receitaDespesaEntre(contas, mesAtual.atDay(1), mesAtual.atEndOfMonth());
+	}
+
+	@Override
+	public BigDecimal[] receitaDespesaEntre(LocalDate inicio, LocalDate fim) {
+		List<Conta> contas = contaService.listar();
+		return receitaDespesaEntre(contas, inicio, fim);
 	}
 
 	@Override
@@ -167,5 +179,29 @@ public class RelatorioServiceImpl implements RelatorioService {
 			vazio[0] = saldoInicial;
 			return vazio;
 		}
+	}
+
+	@Override
+	public Map<Subcategoria, BigDecimal> somasPorTipoEntre(LocalDate inicio, LocalDate fim,
+			TipoCategoria tipoCategoria) {
+		Map<Subcategoria, BigDecimal> map = new HashMap<>();
+		List<Conta> contas = contaService.listar();
+		if (!contas.isEmpty()) {
+			List<Subcategoria> subcategorias;
+			if (TipoCategoria.R.equals(tipoCategoria)) {
+				subcategorias = subcategoriaService.listarReceitas();
+			} else if (TipoCategoria.D.equals(tipoCategoria)) {
+				subcategorias = subcategoriaService.listarDespesas();
+			} else {
+				return map;
+			}
+			for (Subcategoria subcategoria : subcategorias) {
+				BigDecimal soma = movimentoService.somaLancamentosEntre(contas, inicio, fim, subcategoria);
+				if (soma != null && soma.compareTo(BigDecimal.ZERO) != 0) {
+					map.put(subcategoria, soma);
+				}
+			}
+		}
+		return map;
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import app.condominio.dao.CategoriaDao;
 import app.condominio.domain.Categoria;
 import app.condominio.domain.Condominio;
+import app.condominio.domain.enums.TipoCategoria;
 
 @Service
 @Transactional
@@ -43,6 +44,26 @@ public class CategoriaServiceImpl implements CategoriaService {
 			return new ArrayList<>();
 		}
 		return condominio.getCategorias();
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Categoria> listarReceitas() {
+		Condominio condominio = usuarioService.lerLogado().getCondominio();
+		if (condominio == null) {
+			return new ArrayList<>();
+		}
+		return categoriaDao.findAllByCondominioAndTipo(condominio, TipoCategoria.R);
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Categoria> listarDespesas() {
+		Condominio condominio = usuarioService.lerLogado().getCondominio();
+		if (condominio == null) {
+			return new ArrayList<>();
+		}
+		return categoriaDao.findAllByCondominioAndTipo(condominio, TipoCategoria.D);
 	}
 
 	@Override

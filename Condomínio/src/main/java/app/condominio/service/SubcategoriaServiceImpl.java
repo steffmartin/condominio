@@ -40,6 +40,20 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Subcategoria> listarReceitas() {
+		return subcategoriaDao
+				.findAllByCategoriaPaiInOrderByCategoriaPai_OrdemAscDescricao(categoriaService.listarReceitas());
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Subcategoria> listarDespesas() {
+		return subcategoriaDao
+				.findAllByCategoriaPaiInOrderByCategoriaPai_OrdemAscDescricao(categoriaService.listarDespesas());
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public int contagem() {
 		return subcategoriaDao.countByCategoriaPaiIn(categoriaService.listar());
 	}

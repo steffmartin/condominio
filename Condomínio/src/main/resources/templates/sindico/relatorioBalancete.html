@@ -1,0 +1,123 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:fragment="cssAdicional"></th:block>
+<title>Balancete</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Balancete</h3>
+		<div th:unless="${haCondominio}" class="alert alert-warning">
+			<h6>Condomínio não cadastrado</h6>
+			Para gerar este relatório é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
+		</div>
+		<p th:if="${haCondominio}">Este relatório traz o resultado dos lançamentos de receita e despesa.</p>
+		<form class="needs-validation" th:if="${haCondominio}" target="_blank" th:action="@{/sindico/relatorios/balancete}" th:method="post" novalidate>
+			<fieldset class="mb-3">
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-filter"></i> Filtros
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Data inicial</label> <input autofocus class="form-control" type="date" placeholder="Data inicial" name="inicio" id="inicio" required />
+									<div class="invalid-feedback">Campo obrigatório</div>
+								</div>
+								<div class="form-group col-md-6">
+									<label>Data final</label> <input class="form-control" th:classappend="${fimInvalido}?'is-invalid'" type="date" placeholder="Data final" name="fim" id="fim" required />
+									<div class="invalid-feedback" th:if="${fimInvalido}"></div>
+									<div class="invalid-feedback">Campo obrigatório</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</fieldset>
+			<button type="submit" class="btn btn-primary">Gerar</button>
+			<a class="btn btn-secondary" th:href="@{/sindico/relatorios}" role="button">Voltar</a>
+		</form>
+		</main>
+	</th:block>
+	<th:block th:fragment="relatorio">
+		<main role="main">
+		<div id="relatorio" class="page A4 retrato">
+			<div id="relatorio_cabecalho" class="text-center" th:object="${condominio}">
+				<h5 class="font-weight-bold" th:text="*{razaoSocial}"></h5>
+				<p>
+					<small th:text="*{endereco} +', '+ *{numeroEnd}"></small><small th:unless="${condominio.complementoEnd==null}" th:text="', '+ *{complementoEnd}"></small><br /> <small th:text="*{bairro} + ', ' + *{cidade} + ' - ' + *{estado.nome}"></small><br /> <small th:text="'Síndico: ' + *{sindico.nomeCompleto()}"></small>
+				</p>
+			</div>
+			<div id="relatorio_titulo" class="text-center">
+				<h6 class="font-weight-bold">Balancete</h6>
+				<p>
+					<small th:text="'Período: ' + ${#temporals.format(inicio,'dd/MM/yyyy') + ' a ' +#temporals.format(fim,'dd/MM/yyyy')}"></small>
+				</p>
+			</div>
+			<div id="relatorio_conteudo">
+				<p>
+					<b>Saldo inicial:</b> <span th:text="'R$ '+ ${saldoInicial}"></span>
+				</p>
+				<table class="table table-sm table-borderless">
+					<thead class="border-bottom" th:unless="${#maps.isEmpty(receitas) and #maps.isEmpty(despesas)}">
+						<tr>
+							<th scope="colgroup" colspan="2" class="text-center">RECEITAS</th>
+							<th scope="colgroup" colspan="2" class="text-center">DESPESAS</th>
+						</tr>
+						<tr>
+							<th scope="col" width="34%">Descrição</th>
+							<th scope="col">Valor</th>
+							<th scope="col" width="34%">Descrição</th>
+							<th scope="col">Valor</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${#maps.size(receitas) > #maps.size(despesas)}" th:each="receita,stat : ${receitas}" th:with="despesa=${despesas.entrySet()},tam=${#lists.size(despesa)}">
+							<td th:text="${receita.key.descricao}"></td>
+							<td th:text="'R$ ' + ${receita.value}"></td>
+							<th:block th:unless="${stat.count}>${tam}">
+								<td th:text="${despesa[__${stat.index}__].key.descricao}"></td>
+								<td th:text="'R$ ' + ${despesa[__${stat.index}__].value}"></td>
+							</th:block>
+							<th:block th:if="${stat.count}>${tam}">
+								<td></td>
+								<td></td>
+							</th:block>
+						</tr>
+						<tr th:unless="${#maps.size(receitas) > #maps.size(despesas)}" th:each="despesa,stat : ${despesas}" th:with="receita=${receitas.entrySet()},tam=${#lists.size(receita)}">
+							<th:block th:unless="${stat.count}>${tam}">
+								<td th:text="${receita[__${stat.index}__].key.descricao}"></td>
+								<td th:text="'R$ ' + ${receita[__${stat.index}__].value}"></td>
+							</th:block>
+							<th:block th:if="${stat.count}>${tam}">
+								<td></td>
+								<td></td>
+							</th:block>
+							<td th:text="${despesa.key.descricao}"></td>
+							<td th:text="'R$ ' + ${despesa.value}"></td>
+						</tr>
+						<tr th:unless="${#maps.isEmpty(receitas) and #maps.isEmpty(despesas)}">
+							<th scope="row">Total de Receitas</th>
+							<td th:text="'R$ '+${totalReceitasDespesas[0]}"></td>
+							<th scope="row">Total de Despesas</th>
+							<td th:text="'R$ '+${totalReceitasDespesas[1]}"></td>
+						</tr>
+						<tr th:if="${#maps.isEmpty(receitas) and #maps.isEmpty(despesas)}">
+							<td colspan="4">Sem movimento.</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>
+					<b>Saldo final:</b> <span th:text="'R$ '+ ${saldoInicial + totalReceitasDespesas[0] - totalReceitasDespesas[1]}"></span>
+				</p>
+			</div>
+		</div>
+		</main>
+	</th:block>
+	<th:block th:fragment="jsAdicional"></th:block>
+</body>
+</html>
