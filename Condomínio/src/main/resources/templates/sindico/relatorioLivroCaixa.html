@@ -89,7 +89,7 @@
 							<td th:text="${lancamento.reducao}?('R$ '+${lancamento.valor}):''"></td>
 							<td th:text="'R$ ' + ${saldos[__${stat.index}__]}"></td>
 						</tr>
-						<tr th:if="${#lists.isEmpty(lancamentos)}"><td colspan="6">Sem movimento.</td></tr>
+						<tr th:if="${#lists.isEmpty(lancamentos)}"><td>Sem movimento.</td></tr>
 					</tbody>
 				</table>
 				<p>

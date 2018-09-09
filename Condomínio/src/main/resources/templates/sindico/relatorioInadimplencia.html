@@ -81,6 +81,13 @@
 						</tr>
 					</tbody>
 				</table>
+				<table class="table table-sm table-borderless" th:if="${#maps.isEmpty(inadimplencia)}">
+					<tbody>
+						<tr>
+							<td>Sem movimento.</td>
+						</tr>
+					</tbody>
+				</table>
 				<p>
 					<b>Total:</b> <span th:text="'R$ '+ ${total}"></span>
 				</p>
