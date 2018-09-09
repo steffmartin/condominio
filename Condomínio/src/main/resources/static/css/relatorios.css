@@ -1,5 +1,5 @@
 body {
-	background: rgb(204, 204, 204);
+	background: rgb(82,86,89);
 }
 
 .page {
@@ -12,12 +12,12 @@ body {
 
 .page.A4.retrato {
 	width: 21cm;
-	/*height: 29.7cm;*/
+	min-height: 29.7cm;
 }
 
 .page.A4.paisagem {	
 	width: 29.7cm;
-	/*height: 21cm;*/
+	min-height: 21cm;
 }
 
 @media print {
@@ -31,5 +31,5 @@ body {
 
 @page {
 	margin: 1.0cm 0.5cm;
-	size: A4;
+	size: A4 portrait;
 }

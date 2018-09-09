@@ -3,6 +3,7 @@ package app.condominio.controller;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.SortedMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import app.condominio.domain.Cobranca;
+import app.condominio.domain.Moradia;
 import app.condominio.domain.Movimento;
 import app.condominio.domain.enums.TipoCategoria;
 import app.condominio.service.CondominioService;
@@ -93,6 +96,24 @@ public class RelatorioController {
 		model.addAttribute("despesas", relatorioService.somasPorTipoEntre(inicio, fim, TipoCategoria.D));
 		model.addAttribute("totalReceitasDespesas", relatorioService.receitaDespesaEntre(inicio, fim));
 		model.addAttribute("relatorio", "relatorioBalancete");
+		return new ModelAndView("fragmentos/layoutRelatorio", model);
+	}
+
+	@GetMapping("/inadimplencia")
+	public ModelAndView getInadimplencia() {
+		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "relatorioInadimplencia");
+	}
+
+	@PostMapping("/inadimplencia")
+	public ModelAndView postInadimplencia(ModelMap model) {
+		SortedMap<Moradia, List<Cobranca>> inadimplencia = relatorioService.inadimplenciaAtualDetalhada();
+
+		model.addAttribute("condominio", condominioService.ler());
+		model.addAttribute("fim", LocalDate.now());
+		model.addAttribute("inadimplencia", inadimplencia);
+		model.addAttribute("subtotais", relatorioService.somaCobrancas(inadimplencia));
+		model.addAttribute("total", relatorioService.inadimplenciaAtual());
+		model.addAttribute("relatorio", "relatorioInadimplencia");
 		return new ModelAndView("fragmentos/layoutRelatorio", model);
 	}
 

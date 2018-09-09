@@ -192,4 +192,17 @@ public class CobrancaServiceImpl implements CobrancaService {
 		}
 	}
 
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Cobranca> listarInadimplencia() {
+		Condominio condominio = usuarioService.lerLogado().getCondominio();
+		List<Cobranca> lista = new ArrayList<>();
+		if (condominio != null && !condominio.getCobrancas().isEmpty()) {
+			lista.addAll(cobrancaDao
+					.findAllByCondominioAndDataVencimentoBeforeAndDataRecebimentoIsNullOrderByMoradia_Bloco_SiglaAscMoradia_SiglaAsc(
+							condominio, LocalDate.now()));
+		}
+		return lista;
+	}
+
 }

@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 
+import app.condominio.domain.Cobranca;
+import app.condominio.domain.Moradia;
 import app.condominio.domain.Movimento;
 import app.condominio.domain.Subcategoria;
 import app.condominio.domain.enums.TipoCategoria;
@@ -122,11 +125,32 @@ public interface RelatorioService {
 	 *         BigDecimal{@literal >}. Cada entrada do mapa é composta por uma
 	 *         Subcategoria como chave e um BigDecimal como valor. O valor
 	 *         representa a soma de todos os Lançamentos existentes para a
-	 *         Subcategoria chave dentro das datas informadas no parâmetro. Retorna
-	 *         somente Subcategorias com soma diferente de zero. Nunca retorna nulo,
-	 *         se não houverem entradas, retorna um mapa vazio.
+	 *         respectiva Subcategoria dentro das datas informadas no parâmetro.
+	 *         Retorna somente Subcategorias com soma diferente de zero. Nunca
+	 *         retorna nulo, se não houverem entradas, retorna um mapa vazio.
 	 */
 	public Map<Subcategoria, BigDecimal> somasPorTipoEntre(LocalDate inicio, LocalDate fim,
 			TipoCategoria tipoCategoria);
+
+	/**
+	 * @return Retorna um mapa do tipo Map{@literal <}Moradia,List{@literal
+	 *         <}Cobranca{@literal >>}. Cada entrada do mapa é composta por uma
+	 *         Moradia como chave e uma lista de Cobranca como valor. Esta lista
+	 *         contém todas as Cobranças vencidas até a data atual da respectiva
+	 *         Moradia. Retorna somente Moradias com uma lista não vazia. Nunca
+	 *         retorna nulo, se não houverem entradas, retorna um mapa vazio.
+	 */
+	public SortedMap<Moradia, List<Cobranca>> inadimplenciaAtualDetalhada();
+
+	/**
+	 * @param map
+	 *            Um mapa do tipo Map{@literal <}Moradia,List{@literal
+	 *         <}Cobranca{@literal >>} para ser somado
+	 * @return Retorna um mapa do tipo Map{@literal <}Moradia,BigDecimal{@literal >}
+	 *         com as mesmas chaves do mapa fornecido no parâmetro. Cada valor
+	 *         corresponde à soma das Cobranças da respectiva Moradia. Nunca retorna
+	 *         nulo, se não houverem entradas, retorna um mapa vazio.
+	 */
+	public Map<Moradia, BigDecimal> somaCobrancas(Map<Moradia, List<Cobranca>> map);
 
 }

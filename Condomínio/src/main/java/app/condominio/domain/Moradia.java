@@ -30,7 +30,7 @@ import app.condominio.domain.enums.TipoMoradia;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "moradias")
-public class Moradia implements Serializable {
+public class Moradia implements Serializable, Comparable<Moradia> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -184,5 +184,10 @@ public class Moradia implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int compareTo(Moradia arg0) {
+		return this.toString().compareTo(arg0.toString());
 	}
 }

@@ -36,7 +36,7 @@
 								</div>
 								<div class="form-group col-md-6">
 									<label>Data final</label> <input class="form-control" th:classappend="${fimInvalido}?'is-invalid'" type="date" placeholder="Data final" name="fim" id="fim" required />
-									<div class="invalid-feedback" th:if="${fimInvalido}"></div>
+									<div class="invalid-feedback" th:if="${fimInvalido}">Não pode ser menor que a data inicial.</div>
 									<div class="invalid-feedback">Campo obrigatório</div>
 								</div>
 							</div>

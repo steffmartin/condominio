@@ -8,13 +8,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import app.condominio.domain.Cobranca;
 import app.condominio.domain.Conta;
+import app.condominio.domain.Moradia;
 import app.condominio.domain.Movimento;
 import app.condominio.domain.Periodo;
 import app.condominio.domain.Subcategoria;
@@ -203,5 +207,37 @@ public class RelatorioServiceImpl implements RelatorioService {
 			}
 		}
 		return map;
+	}
+
+	@Override
+	public SortedMap<Moradia, List<Cobranca>> inadimplenciaAtualDetalhada() {
+		SortedMap<Moradia, List<Cobranca>> map = new TreeMap<>();
+		List<Cobranca> inadimplencia = cobrancaService.listarInadimplencia();
+		for (Cobranca cobranca : inadimplencia) {
+			List<Cobranca> lista;
+			if (map.containsKey(cobranca.getMoradia())) {
+				lista = map.get(cobranca.getMoradia());
+			} else {
+				lista = new ArrayList<>();
+			}
+			lista.add(cobranca);
+			map.put(cobranca.getMoradia(), lista);
+		}
+		return map;
+	}
+
+	@Override
+	public Map<Moradia, BigDecimal> somaCobrancas(Map<Moradia, List<Cobranca>> map) {
+		Map<Moradia, BigDecimal> mapa = new HashMap<>();
+		if (!map.isEmpty()) {
+			for (Map.Entry<Moradia, List<Cobranca>> entrada : map.entrySet()) {
+				BigDecimal soma = BigDecimal.ZERO;
+				for (Cobranca cobranca : entrada.getValue()) {
+					soma = soma.add(cobranca.getTotal());
+				}
+				mapa.put(entrada.getKey(), soma);
+			}
+		}
+		return mapa;
 	}
 }
