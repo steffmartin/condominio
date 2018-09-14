@@ -43,9 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			//.accessDeniedPage("/erro?403")
 		.and().rememberMe()
 		  	.tokenRepository(persistentTokenRepository())
-		  	.tokenValiditySeconds(120960);
-		//.and().csrf();
-		//FIXME ativar CSRF em produção
+		  	.tokenValiditySeconds(120960)
+		.and().csrf();
 		// @formatter:on
 	}
 

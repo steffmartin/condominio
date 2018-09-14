@@ -1,23 +1,23 @@
 body {
-	background: rgb(82,86,89);
+	background: rgb(82, 86, 89);
 }
 
 .page {
 	background: white;
 	display: block;
 	margin: 0.5cm auto;
-	padding: 0.5cm;
+	padding: 1cm 0.5cm;
 	box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
 }
 
 .page.A4.retrato {
-	width: 21cm;
-	min-height: 29.7cm;
+	width: 22cm;
+	min-height: 31.7cm;
 }
 
-.page.A4.paisagem {	
-	width: 29.7cm;
-	min-height: 21cm;
+.page.A4.paisagem {
+	width: 31.7cm;
+	min-height: 22cm;
 }
 
 @media print {
@@ -26,6 +26,10 @@ body {
 		padding: 0;
 		box-shadow: 0;
 		background: white;
+	}
+	.page.A4.retrato, .page.A4.paisagem {
+		width: 100%;
+		min-height: auto;
 	}
 }
 

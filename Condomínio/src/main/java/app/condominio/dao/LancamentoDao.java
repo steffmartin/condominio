@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import app.condominio.domain.Conta;
 import app.condominio.domain.Lancamento;
+import app.condominio.domain.Periodo;
 import app.condominio.domain.Subcategoria;
 
 public interface LancamentoDao extends PagingAndSortingRepository<Lancamento, Long> {
@@ -28,6 +29,14 @@ public interface LancamentoDao extends PagingAndSortingRepository<Lancamento, Lo
 	BigDecimal sumValorByContaInAndDataBetweenAndSubcategoria(@Param("contas") Collection<Conta> contas,
 			@Param("dataInicial") LocalDate dataInicial, @Param("dataFinal") LocalDate dataFinal,
 			@Param("subcategoria") Subcategoria subcategoria);
+
+	@Query("select sum(valor) from #{#entityName} l where l.conta in :contas and l.periodo = :periodo and l.subcategoria = :subcategoria ")
+	BigDecimal sumValorByContaInAndPeriodoAndSubcategoria(@Param("contas") Collection<Conta> contas,
+			@Param("periodo") Periodo periodo, @Param("subcategoria") Subcategoria subcategoria);
+
+	@Query("select sum(valor) from #{#entityName} l where l.conta in :contas and l.periodo = :periodo and l.subcategoria.categoriaPai.ordem like :ordem%")
+	BigDecimal sumValorByContaInAndPeriodoAndSubcategoria_CategoriaPai_OrdemStartingWith(
+			@Param("contas") Collection<Conta> contas, @Param("periodo") Periodo periodo, @Param("ordem") String ordem);
 
 	List<Lancamento> findAllByContaInAndDataBetweenOrderByDataAsc(Collection<Conta> conta, LocalDate inicio,
 			LocalDate fim);

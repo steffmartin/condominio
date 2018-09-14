@@ -14,9 +14,11 @@ import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.LancamentoDao;
 import app.condominio.dao.MovimentoDao;
+import app.condominio.domain.Categoria;
 import app.condominio.domain.Conta;
 import app.condominio.domain.Lancamento;
 import app.condominio.domain.Movimento;
+import app.condominio.domain.Periodo;
 import app.condominio.domain.Subcategoria;
 import app.condominio.domain.Transferencia;
 import app.condominio.domain.enums.TipoCategoria;
@@ -189,6 +191,27 @@ public class MovimentoServiceImpl implements MovimentoService {
 			return lancamentoDao.findAllByContaInAndDataBetweenOrderByDataAsc(contas, inicio, fim);
 		}
 		return new ArrayList<>();
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public BigDecimal somaLancamentosPeriodo(Collection<Conta> contas, Periodo periodo, Subcategoria subcategoria) {
+		if (!contas.isEmpty() && periodo != null && subcategoria != null) {
+			return lancamentoDao.sumValorByContaInAndPeriodoAndSubcategoria(contas, periodo, subcategoria);
+		} else {
+			return BigDecimal.ZERO.setScale(2);
+		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public BigDecimal somaLancamentosPeriodo(Collection<Conta> contas, Periodo periodo, Categoria categoria) {
+		if (!contas.isEmpty() && periodo != null && categoria != null) {
+			return lancamentoDao.sumValorByContaInAndPeriodoAndSubcategoria_CategoriaPai_OrdemStartingWith(contas,
+					periodo, categoria.getOrdem());
+		} else {
+			return BigDecimal.ZERO.setScale(2);
+		}
 	}
 
 }

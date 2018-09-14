@@ -26,7 +26,7 @@
 					<div class="card-body" th:classappend="${inadimplencia}>0?'text-danger':'text-success'">
 						<h5 class="card-title text-truncate">Inadimplência</h5>
 						<p class="card-text text-truncate">
-							<span th:text="'R$ ' + ${inadimplencia}"></span> <a class="float-right" th:classappend="${inadimplencia}>0?'text-danger':'text-success'" th:href="@{/sindico/cobrancas}" title="Cadastro de Cobranças"><i class="fas fa-arrow-circle-right"></i></a>
+							<span th:text="'R$ ' + ${inadimplencia}"></span> <a class="float-right" th:classappend="${inadimplencia}>0?'text-danger':'text-success'" th:href="@{/sindico/relatorios/inadimplencia}" title="Cadastro de Cobranças"><i class="fas fa-arrow-circle-right"></i></a>
 						</p>
 					</div>
 				</div>

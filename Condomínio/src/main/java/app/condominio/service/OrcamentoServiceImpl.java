@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import app.condominio.dao.OrcamentoDao;
+import app.condominio.domain.Categoria;
 import app.condominio.domain.Orcamento;
 import app.condominio.domain.Periodo;
+import app.condominio.domain.Subcategoria;
 import app.condominio.domain.enums.TipoCategoria;
 
 @Service
@@ -97,6 +99,23 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 		} else {
 			return BigDecimal.ZERO.setScale(2);
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public BigDecimal somaOrcamentos(Periodo periodo, Categoria categoria) {
+		if (periodo != null && categoria != null) {
+			return orcamentoDao.sumByPeriodoAndSubcategoria_CategoriaPai_OrdemStartingWith(periodo,
+					categoria.getOrdem());
+		} else {
+			return BigDecimal.ZERO.setScale(2);
+		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Orcamento ler(Periodo periodo, Subcategoria subcategoria) {
+		return orcamentoDao.findOneByPeriodoAndSubcategoria(periodo, subcategoria);
 	}
 
 }

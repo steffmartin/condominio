@@ -19,8 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import app.condominio.domain.Cobranca;
 import app.condominio.domain.Moradia;
 import app.condominio.domain.Movimento;
+import app.condominio.domain.Periodo;
 import app.condominio.domain.enums.TipoCategoria;
+import app.condominio.service.CategoriaService;
 import app.condominio.service.CondominioService;
+import app.condominio.service.PeriodoService;
 import app.condominio.service.RelatorioService;
 
 @Controller
@@ -32,6 +35,12 @@ public class RelatorioController {
 
 	@Autowired
 	CondominioService condominioService;
+
+	@Autowired
+	PeriodoService periodoService;
+
+	@Autowired
+	CategoriaService categoriaService;
 
 	@ModelAttribute("ativo")
 	public String[] ativo() {
@@ -91,7 +100,6 @@ public class RelatorioController {
 		model.addAttribute("condominio", condominioService.ler());
 		model.addAttribute("inicio", inicio);
 		model.addAttribute("fim", fim);
-		model.addAttribute("saldoInicial", relatorioService.saldoInicialTodasContasEm(inicio));
 		model.addAttribute("receitas", relatorioService.somasPorTipoEntre(inicio, fim, TipoCategoria.R));
 		model.addAttribute("despesas", relatorioService.somasPorTipoEntre(inicio, fim, TipoCategoria.D));
 		model.addAttribute("totalReceitasDespesas", relatorioService.receitaDespesaEntre(inicio, fim));
@@ -114,6 +122,24 @@ public class RelatorioController {
 		model.addAttribute("subtotais", relatorioService.somaCobrancas(inadimplencia));
 		model.addAttribute("total", relatorioService.inadimplenciaAtual());
 		model.addAttribute("relatorio", "relatorioInadimplencia");
+		return new ModelAndView("fragmentos/layoutRelatorio", model);
+	}
+
+	@GetMapping("/orcamento")
+	public ModelAndView getOrcamento(ModelMap model) {
+		model.addAttribute("periodos", periodoService.listar());
+		model.addAttribute("conteudo", "relatorioOrcamento");
+		return new ModelAndView("fragmentos/layoutSindico", "conteudo", "relatorioOrcamento");
+	}
+
+	@PostMapping("/orcamento")
+	public ModelAndView postOrcamento(@RequestParam("periodo") Periodo periodo, ModelMap model) {
+		model.addAttribute("condominio", condominioService.ler());
+		model.addAttribute("periodo", periodo.toString());
+		model.addAttribute("categorias", categoriaService.listar());
+		model.addAttribute("orcadoRealizadoSintetico", relatorioService.somaOrcadoRealizadoCategorias(periodo));
+		model.addAttribute("orcadoRealizadoAnalitico", relatorioService.somaOrcadoRealizadoSubcategorias(periodo));
+		model.addAttribute("relatorio", "relatorioOrcamento");
 		return new ModelAndView("fragmentos/layoutRelatorio", model);
 	}
 

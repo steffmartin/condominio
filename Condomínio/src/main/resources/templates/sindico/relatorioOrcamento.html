@@ -1,0 +1,97 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:fragment="cssAdicional">
+</th:block>
+<title>Orçamento</title>
+
+</head>
+<body>
+	<th:block th:fragment="conteudo">
+		<main role="main">
+		<h3 class="font-weight-light">Orçamento</h3>
+		<div th:unless="${haCondominio}" class="alert alert-warning">
+			<h6>Condomínio não cadastrado</h6>
+			Para gerar este relatório é preciso completar o cadastro do seu condomínio, <a class="text-warning" th:href="@{/sindico/condominio/cadastro}">clique aqui</a>.
+		</div>
+		<p th:if="${haCondominio}">Este relatório traz os valores orçados e efetivamente realizados do condomínio.</p>
+		<form class="needs-validation" th:if="${haCondominio}" target="_blank" th:action="@{/sindico/relatorios/orcamento}" th:method="post" novalidate>
+			<fieldset class="mb-3">
+				<div class="card">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<p class="text-primary">
+								<i class="fas fa-filter"></i> Filtros
+							</p>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Período</label> <select autofocus class="custom-select" id="periodo" name="periodo" required>
+										<option value="" hidden="true">Selecione</option>
+										<option th:if="${#lists.isEmpty(periodos)}" value="" disabled>Não há períodos cadastrados</option>
+										<option th:each="periodo : ${periodos}" th:value="${periodo.idPeriodo}" th:text="${periodo}"></option>
+									</select>
+									<div class="invalid-feedback">Campo obrigatório</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</fieldset>
+			<button type="submit" class="btn btn-primary">Gerar</button>
+			<a class="btn btn-secondary" th:href="@{/sindico/relatorios}" role="button">Voltar</a>
+		</form>
+		</main>
+	</th:block>
+	<th:block th:fragment="relatorio">
+		<main role="main">
+		<div id="relatorio" class="page A4 retrato">
+			<div id="relatorio_cabecalho" class="text-center" th:object="${condominio}">
+				<h5 class="font-weight-bold" th:text="*{razaoSocial}"></h5>
+				<p>
+					<small th:text="*{endereco} +', '+ *{numeroEnd}"></small><small th:unless="${condominio.complementoEnd==null}" th:text="', '+ *{complementoEnd}"></small><br /> <small th:text="*{bairro} + ', ' + *{cidade} + ' - ' + *{estado.nome}"></small><br /> <small th:text="'Síndico: ' + *{sindico.nomeCompleto()}"></small>
+				</p>
+			</div>
+			<div id="relatorio_titulo" class="text-center">
+				<h6 class="font-weight-bold">Orçamento</h6>
+				<p>
+					<small th:text="'Período: ' + ${periodo}"></small>
+				</p>
+			</div>
+			<div id="relatorio_conteudo">
+				<table class="table table-sm table-borderless">
+					<thead class="border-bottom" th:unless="${#maps.isEmpty(orcadoRealizadoSintetico)}">
+						<tr>
+							<th scope="col" width="50%">Categoria</th>
+							<th scope="col">Orçado</th>
+							<th scope="col">Realizado</th>
+							<th scope="col">Atingido</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="categoria : ${categorias}" th:unless="${#maps.isEmpty(orcadoRealizadoSintetico) or orcadoRealizadoSintetico.get(categoria)== null}" th:with="totais=${orcadoRealizadoSintetico.get(categoria)}">
+							<tr th:class="${categoria.nivel == 1}? 'text-uppercase font-weight-bold' : (${categoria.nivel == 2}? 'text-uppercase')">
+								<td th:text="${categoria}"></td>
+								<td th:text="'R$ ' + ${totais[0]}"></td>
+								<td th:text="'R$ ' + ${totais[1]}"></td>
+								<td th:with="numero=${totais[0]>0} ? (${(totais[1]*100)/totais[0]}):('100')" th:text="${numero} + ' %'"></td>
+							</tr>
+							<tr class="font-weight-light" th:each="subcategoria : ${categoria.subcategorias}" th:unless="${orcadoRealizadoAnalitico.get(subcategoria)== null}" th:with="valores=${orcadoRealizadoAnalitico.get(subcategoria)}">
+								<td th:text="${subcategoria.categoriaPai.ordem}+'.'+${subcategoriaStat.count}+' - ' + ${subcategoria.descricao}"></td>
+								<td th:text="'R$ ' + ${valores[0]}"></td>
+								<td th:text="'R$ ' + ${valores[1]}"></td>
+								<td th:text="${valores[0]>0} ? (${(valores[1]*100)/valores[0]} + ' %'):('Não orçado')"></td>
+							</tr>
+						</th:block>
+						<tr th:if="${#maps.isEmpty(orcadoRealizadoSintetico)}">
+							<td>Sem movimento.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		</main>
+	</th:block>
+	<th:block th:fragment="jsAdicional"></th:block>
+</body>
+</html>

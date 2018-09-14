@@ -16,10 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import app.condominio.domain.Categoria;
 import app.condominio.domain.Cobranca;
 import app.condominio.domain.Conta;
 import app.condominio.domain.Moradia;
 import app.condominio.domain.Movimento;
+import app.condominio.domain.Orcamento;
 import app.condominio.domain.Periodo;
 import app.condominio.domain.Subcategoria;
 import app.condominio.domain.enums.TipoCategoria;
@@ -45,6 +47,9 @@ public class RelatorioServiceImpl implements RelatorioService {
 
 	@Autowired
 	SubcategoriaService subcategoriaService;
+
+	@Autowired
+	CategoriaService categoriaService;
 
 	@Override
 	public BigDecimal saldoAtualTodasContas() {
@@ -236,6 +241,60 @@ public class RelatorioServiceImpl implements RelatorioService {
 					soma = soma.add(cobranca.getTotal());
 				}
 				mapa.put(entrada.getKey(), soma);
+			}
+		}
+		return mapa;
+	}
+
+	@Override
+	public Map<Subcategoria, BigDecimal[]> somaOrcadoRealizadoSubcategorias(Periodo periodo) {
+		Map<Subcategoria, BigDecimal[]> mapa = new HashMap<>();
+		List<Conta> contas = contaService.listar();
+		if (periodo != null && !contas.isEmpty()) {
+			for (Subcategoria subcategoria : subcategoriaService.listar()) {
+				Orcamento orcamento = orcamentoService.ler(periodo, subcategoria);
+				BigDecimal realizado = movimentoService.somaLancamentosPeriodo(contas, periodo, subcategoria);
+				BigDecimal[] valores = new BigDecimal[2];
+				if (orcamento != null) {
+					valores[0] = orcamento.getOrcado();
+				} else {
+					valores[0] = BigDecimal.ZERO.setScale(2);
+				}
+				if (realizado != null) {
+					valores[1] = realizado;
+				} else {
+					valores[1] = BigDecimal.ZERO.setScale(2);
+				}
+				if (valores[0].compareTo(BigDecimal.ZERO) != 0 || valores[1].compareTo(BigDecimal.ZERO) != 0) {
+					mapa.put(subcategoria, valores);
+				}
+			}
+		}
+		return mapa;
+	}
+
+	@Override
+	public Map<Categoria, BigDecimal[]> somaOrcadoRealizadoCategorias(Periodo periodo) {
+		Map<Categoria, BigDecimal[]> mapa = new HashMap<>();
+		List<Conta> contas = contaService.listar();
+		if (periodo != null && !contas.isEmpty()) {
+			for (Categoria categoria : categoriaService.listar()) {
+				BigDecimal orcado = orcamentoService.somaOrcamentos(periodo, categoria);
+				BigDecimal realizado = movimentoService.somaLancamentosPeriodo(contas, periodo, categoria);
+				BigDecimal[] valores = new BigDecimal[2];
+				if (orcado != null) {
+					valores[0] = orcado;
+				} else {
+					valores[0] = BigDecimal.ZERO.setScale(2);
+				}
+				if (realizado != null) {
+					valores[1] = realizado;
+				} else {
+					valores[1] = BigDecimal.ZERO.setScale(2);
+				}
+				if (valores[0].compareTo(BigDecimal.ZERO) != 0 || valores[1].compareTo(BigDecimal.ZERO) != 0) {
+					mapa.put(categoria, valores);
+				}
 			}
 		}
 		return mapa;

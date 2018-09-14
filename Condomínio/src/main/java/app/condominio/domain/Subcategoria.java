@@ -57,7 +57,8 @@ public class Subcategoria implements Serializable {
 		this.idSubcategoria = idSubcategoria;
 	}
 
-	// LATER revisar a página e ver se dá pra tirar usando instanceof
+	// LATER revisar a página e ver se dá pra tirar este método usando instanceof no
+	// front
 	// Método necessário para uso do Thymeleaf
 	public void setIdCategoria(Long idSubcategoria) {
 		setIdSubcategoria(idSubcategoria);

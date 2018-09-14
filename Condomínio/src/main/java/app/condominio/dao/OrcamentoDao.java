@@ -27,4 +27,10 @@ public interface OrcamentoDao extends PagingAndSortingRepository<Orcamento, Long
 	BigDecimal sumByPeriodoAndSubcategoria_CategoriaPai_Tipo(@Param("periodo") Periodo periodo,
 			@Param("tipo") TipoCategoria tipo);
 
+	@Query("select sum(orcado) from #{#entityName} o where o.periodo = :periodo and o.subcategoria.categoriaPai.ordem like :ordem%")
+	BigDecimal sumByPeriodoAndSubcategoria_CategoriaPai_OrdemStartingWith(@Param("periodo") Periodo periodo,
+			@Param("ordem") String ordem);
+
+	Orcamento findOneByPeriodoAndSubcategoria(Periodo periodo, Subcategoria subcategoria);
+
 }

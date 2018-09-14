@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
+import app.condominio.domain.Categoria;
 import app.condominio.domain.Cobranca;
 import app.condominio.domain.Moradia;
 import app.condominio.domain.Movimento;
+import app.condominio.domain.Periodo;
 import app.condominio.domain.Subcategoria;
 import app.condominio.domain.enums.TipoCategoria;
 
@@ -152,5 +154,36 @@ public interface RelatorioService {
 	 *         nulo, se não houverem entradas, retorna um mapa vazio.
 	 */
 	public Map<Moradia, BigDecimal> somaCobrancas(Map<Moradia, List<Cobranca>> map);
+
+	/**
+	 * @param periodo
+	 *            Um Periodo para pesquisa
+	 * @return Retorna um mapa do tipo
+	 *         Map{@literal <}Subcategoria,BigDecimal[]{@literal >} tendo como chave
+	 *         uma Subcategoria. Retorna somente Subcategorias que tiveram, no
+	 *         Período fornecido por parâmetro, valores Orçados ou Realizados. O
+	 *         valor é um vetor de BigDecimal[] com duas posições. A posição [0] é o
+	 *         valor orçado da respectiva Subcategoria naquele Período, e a posição
+	 *         [1] é a soma dos Lançamentos realizados da respectiva Subcategoria
+	 *         naquele Período, em todas as Contas. Nunca retorna nulo, se não
+	 *         houverem entradas, retorna um mapa vazio.
+	 */
+	public Map<Subcategoria, BigDecimal[]> somaOrcadoRealizadoSubcategorias(Periodo periodo);
+
+	/**
+	 * @param periodo
+	 *            Um Periodo para pesquisa
+	 * @return Retorna um mapa do tipo
+	 *         Map{@literal <}Categoria,BigDecimal[]{@literal >} tendo como chave
+	 *         uma Categoria. Retorna somente Categorias que tiveram, no Período
+	 *         fornecido por parâmetro, valores Orçados ou Realizados em alguma de
+	 *         suas Subcategorias. O valor é um vetor de BigDecimal[] com duas
+	 *         posições. A posição [0] é a soma do valor orçado das Subcategorias da
+	 *         respectiva Categoria naquele Período, e a posição [1] é a soma dos
+	 *         Lançamentos realizados das Subcategorias da respectiva Categoria
+	 *         naquele Período, em todas as Contas. Nunca retorna nulo, se não
+	 *         houverem entradas, retorna um mapa vazio.
+	 */
+	public Map<Categoria, BigDecimal[]> somaOrcadoRealizadoCategorias(Periodo periodo);
 
 }

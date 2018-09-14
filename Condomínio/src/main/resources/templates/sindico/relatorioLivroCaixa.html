@@ -55,8 +55,7 @@
 			<div id="relatorio_cabecalho" class="text-center" th:object="${condominio}">
 				<h5 class="font-weight-bold" th:text="*{razaoSocial}"></h5>
 				<p>
-					<small th:text="*{endereco} +', '+ *{numeroEnd}"></small><small th:unless="${condominio.complementoEnd==null}" th:text="', '+ *{complementoEnd}"></small><br /> <small th:text="*{bairro} + ', ' + *{cidade} + ' - ' + *{estado.nome}"></small><br />
-					<small th:text="'Síndico: ' + *{sindico.nomeCompleto()}"></small>
+					<small th:text="*{endereco} +', '+ *{numeroEnd}"></small><small th:unless="${condominio.complementoEnd==null}" th:text="', '+ *{complementoEnd}"></small><br /> <small th:text="*{bairro} + ', ' + *{cidade} + ' - ' + *{estado.nome}"></small><br /> <small th:text="'Síndico: ' + *{sindico.nomeCompleto()}"></small>
 				</p>
 			</div>
 			<div id="relatorio_titulo" class="text-center">
@@ -89,7 +88,9 @@
 							<td th:text="${lancamento.reducao}?('R$ '+${lancamento.valor}):''"></td>
 							<td th:text="'R$ ' + ${saldos[__${stat.index}__]}"></td>
 						</tr>
-						<tr th:if="${#lists.isEmpty(lancamentos)}"><td>Sem movimento.</td></tr>
+						<tr th:if="${#lists.isEmpty(lancamentos)}">
+							<td>Sem movimento.</td>
+						</tr>
 					</tbody>
 				</table>
 				<p>
