@@ -78,8 +78,14 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>2.0.6</version>
+				<configuration>
+					<appName>condominioazul</appName>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

@@ -7,12 +7,12 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-public class CondomínioApplication {
+public class CondominioApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CondomínioApplication.class, args);
+		SpringApplication.run(CondominioApplication.class, args);
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
