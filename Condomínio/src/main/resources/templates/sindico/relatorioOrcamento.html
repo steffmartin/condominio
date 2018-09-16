@@ -74,7 +74,7 @@
 								<td th:text="${categoria}"></td>
 								<td th:text="'R$ ' + ${totais[0]}"></td>
 								<td th:text="'R$ ' + ${totais[1]}"></td>
-								<td th:with="numero=${totais[0]>0} ? (${(totais[1]*100)/totais[0]}):('100')" th:text="${numero} + ' %'"></td>
+								<td th:text="${totais[0]>0} ? (${(totais[1]*100)/totais[0]} + ' %'):('Não orçado')"></td>
 							</tr>
 							<tr class="font-weight-light" th:each="subcategoria : ${categoria.subcategorias}" th:unless="${orcadoRealizadoAnalitico.get(subcategoria)== null}" th:with="valores=${orcadoRealizadoAnalitico.get(subcategoria)}">
 								<td th:text="${subcategoria.categoriaPai.ordem}+'.'+${subcategoriaStat.count}+' - ' + ${subcategoria.descricao}"></td>

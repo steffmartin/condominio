@@ -39,5 +39,4 @@ public class InicioController {
 		}
 		return retorno;
 	}
-
 }

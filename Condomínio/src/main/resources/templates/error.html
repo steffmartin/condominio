@@ -1,0 +1,78 @@
+
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+
+<!-- Meta tags -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+<!-- Web App -->
+<meta name="application-name" content="Condomínio App" />
+<meta name="msapplication-config" th:content="@{/misc/ieconfig.xml}" />
+<meta name="theme-color" content="#007bff">
+<link rel="manifest" th:href="@{/misc/manifest.json}">
+<link rel="apple-touch-icon" th:href="@{/misc/icon-192x192.png}">
+
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/fontawesome-all.min.css}" />
+<link rel="stylesheet" th:href="@{/css/scroll.min.css}" />
+<link rel="stylesheet" th:href="@{/css/meu.css}" />
+
+<title>Erro</title>
+</head>
+<body id="site" th:with="ativo = ${ {'', ''} }">
+	<th:block th:replace="fragmentos/cabecalho :: cabecalho" />
+	<main role="main" class="container">
+	<div class="jumbotron mb-0 m-auto">
+		<h1 class="display-4">Ops!</h1>
+		<th:block th:switch="${status}">
+			<p th:case="400" class="lead">Tivemos um problema com os dados que você informou, verifique e tente novamente.</p>
+			<p th:case="401" class="lead">Você não tem permissão para acessar esta página agora.</p>
+			<p th:case="403" class="lead">Você não tem permissão para acessar esta página agora.</p>
+			<p th:case="404" class="lead">A página que você tentou acessar não foi encontrada.</p>
+			<p th:case="*" class="lead">Tivemos um problema, se este erro persistir entre em contato conosco.</p>
+		</th:block>
+		<p>
+			<small><a href="#detalhes" data-toggle="collapse">Mostrar/ocultar detalhes do erro</a></small>
+		</p>
+		<div id="detalhes" class="collapse mt-3">
+			<table class="table table-sm table-borderless">
+				<tr>
+					<th scope="row">Data</th>
+					<td th:text="${timestamp}" />
+				</tr>
+				<tr>
+					<th scope="row">Endereço</th>
+					<td th:text="${path}" />
+				</tr>
+				<tr>
+					<th scope="row">Erro</th>
+					<td th:text="${error}" />
+				</tr>
+				<tr>
+					<th scope="row">Código</th>
+					<td th:text="${status}" />
+				</tr>
+				<tr>
+					<th scope="row">Mensagem</th>
+					<td th:text="${message}" />
+				</tr>
+			</table>
+		</div>
+		<hr class="my-4">
+		<p>Clique no botão abaixo para voltar ao início.</p>
+		<a class="btn btn-primary btn-lg" th:href="@{/}" role="button">Início</a>
+	</div>
+
+	</main>
+	<th:block th:replace="fragmentos/rodape :: rodape" />
+
+	<!-- JavaScript -->
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/meu.js}"></script>
+</body>
+</html>

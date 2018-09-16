@@ -1,3 +1,6 @@
+--CREATE SCHEMA condominio DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_unicode_ci ;
+--USE condominio;
+
 CREATE TABLE Condominios (
   idCondominio BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   razaoSocial VARCHAR(100) NULL,
@@ -137,7 +140,8 @@ CREATE TABLE Contas (
   idConta BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   sigla VARCHAR(2) NULL,
   descricao VARCHAR(30) NULL,
-  saldo DECIMAL(9,2) NULL,
+  saldoInicial DECIMAL(9,2) NULL,
+  saldoAtual DECIMAL(9,2) NULL,
   idCondominio BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idConta),
   FOREIGN KEY(idCondominio)
@@ -398,5 +402,15 @@ BEGIN
     WHERE
 		dataRecebimento IS NULL
         AND dataVencimento < CURRENT_DATE;
+END;$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE EVENT delRememberMe
+ON SCHEDULE EVERY 1 DAY STARTS (CURRENT_DATE + INTERVAL 1 DAY + INTERVAL 12 HOUR) DO
+BEGIN
+	DELETE FROM persistent_logins
+    WHERE
+		(current_timestamp - last_used) > (120960 * 1000);
 END;$$
 DELIMITER ;

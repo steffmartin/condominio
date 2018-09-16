@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.invalidateHttpSession(true)
 			.clearAuthentication(true)
 		//.and().exceptionHandling()
-			//.accessDeniedPage("/erro?403")
+			//.accessDeniedPage("/erro")
 		.and().rememberMe()
 		  	.tokenRepository(persistentTokenRepository())
 		  	.tokenValiditySeconds(120960)
