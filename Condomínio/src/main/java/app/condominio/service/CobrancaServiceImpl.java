@@ -184,12 +184,17 @@ public class CobrancaServiceImpl implements CobrancaService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public BigDecimal inadimplencia() {
 		Condominio condominio = usuarioService.lerLogado().getCondominio();
-		if (condominio == null || condominio.getCobrancas().isEmpty()) {
-			return BigDecimal.ZERO.setScale(2);
+		BigDecimal resultado;
+		if (condominio == null) {
+			resultado = BigDecimal.ZERO.setScale(2);
 		} else {
-			return cobrancaDao.sumTotalByCondominioAndDataVencimentoBeforeAndDataRecebimentoIsNull(condominio,
+			resultado = cobrancaDao.sumTotalByCondominioAndDataVencimentoBeforeAndDataRecebimentoIsNull(condominio,
 					LocalDate.now());
+			if (resultado == null) {
+				resultado = BigDecimal.ZERO.setScale(2);
+			}
 		}
+		return resultado;
 	}
 
 	@Override
