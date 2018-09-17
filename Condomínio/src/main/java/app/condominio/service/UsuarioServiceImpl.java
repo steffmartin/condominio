@@ -53,7 +53,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Usuario lerLogado() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))) {
+		if (auth == null || auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))) {
 			return null;
 		}
 		return usuarioDao.findOneByUsername(auth.getName());

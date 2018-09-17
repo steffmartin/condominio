@@ -1,7 +1,9 @@
+START TRANSACTION;
+
 --CREATE SCHEMA condominio DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_unicode_ci ;
 --USE condominio;
 
-CREATE TABLE Condominios (
+CREATE TABLE condominios (
   idCondominio BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   razaoSocial VARCHAR(100) NULL,
   cnpj VARCHAR(14) NULL,
@@ -20,7 +22,7 @@ CREATE TABLE Condominios (
   PRIMARY KEY(idCondominio)
 );
 
-CREATE TABLE Usuarios (
+CREATE TABLE usuarios (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   username VARCHAR(50) UNIQUE NULL,
   password VARCHAR(100) NULL,
@@ -31,17 +33,17 @@ CREATE TABLE Usuarios (
   idCondominio BIGINT UNSIGNED NULL,
   PRIMARY KEY(id),
   FOREIGN KEY(idCondominio)
-    REFERENCES Condominios(idCondominio)
+    REFERENCES condominios(idCondominio)
       ON DELETE SET NULL
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Autorizacoes (
+CREATE TABLE autorizacoes (
   id_usuario BIGINT UNSIGNED NOT NULL,
   autorizacao VARCHAR(50) NOT NULL,
   PRIMARY KEY(id_usuario, autorizacao),
   FOREIGN KEY(id_usuario)
-    REFERENCES Usuarios(id)
+    REFERENCES usuarios(id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
@@ -53,24 +55,24 @@ CREATE TABLE persistent_logins (
   last_used TIMESTAMP NULL,
   PRIMARY KEY(series),
     FOREIGN KEY(username)
-    REFERENCES Usuarios(username)
+    REFERENCES usuarios(username)
       ON DELETE CASCADE
       ON UPDATE NO ACTION
 );
 
-CREATE TABLE Blocos (
+CREATE TABLE blocos (
   idBloco BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   sigla VARCHAR(3) NULL,
   descricao VARCHAR(30) NULL,
   idCondominio BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idBloco),
   FOREIGN KEY(idCondominio)
-    REFERENCES Condominios(idCondominio)
+    REFERENCES condominios(idCondominio)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Moradias (
+CREATE TABLE moradias (
   idMoradia BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   sigla VARCHAR(10) NULL,
   tipo VARCHAR(2) NULL,
@@ -81,12 +83,12 @@ CREATE TABLE Moradias (
   idBloco BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idMoradia),
   FOREIGN KEY(idBloco)
-    REFERENCES Blocos(idBloco)
+    REFERENCES blocos(idBloco)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Pessoas (
+CREATE TABLE pessoas (
   idPessoa BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   nome VARCHAR(50) NULL,
   email VARCHAR(100) NULL,
@@ -102,12 +104,12 @@ CREATE TABLE Pessoas (
   idCondominio BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idPessoa),
   FOREIGN KEY(idCondominio)
-    REFERENCES Condominios(idCondominio)
+    REFERENCES condominios(idCondominio)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE PessoasFisicas (
+CREATE TABLE pessoasfisicas (
   idPessoa BIGINT UNSIGNED NOT NULL,
   sobrenome VARCHAR(100) NULL,
   cpf VARCHAR(11) NULL,
@@ -116,12 +118,12 @@ CREATE TABLE PessoasFisicas (
   genero CHAR(1) NULL,
   PRIMARY KEY(idPessoa),
   FOREIGN KEY(idPessoa)
-    REFERENCES Pessoas(idPessoa)
+    REFERENCES pessoas(idPessoa)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE PessoasJuridicas (
+CREATE TABLE pessoasjuridicas (
   idPessoa BIGINT UNSIGNED NOT NULL,
   razaoSocial VARCHAR(100) NULL,
   cnpj VARCHAR(14) NULL,
@@ -131,12 +133,12 @@ CREATE TABLE PessoasJuridicas (
   sobrenomeRepresentante VARCHAR(100) NULL,
   PRIMARY KEY(idPessoa),
   FOREIGN KEY(idPessoa)
-    REFERENCES Pessoas(idPessoa)
+    REFERENCES pessoas(idPessoa)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Contas (
+CREATE TABLE contas (
   idConta BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   sigla VARCHAR(2) NULL,
   descricao VARCHAR(30) NULL,
@@ -145,12 +147,12 @@ CREATE TABLE Contas (
   idCondominio BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idConta),
   FOREIGN KEY(idCondominio)
-    REFERENCES Condominios(idCondominio)
+    REFERENCES condominios(idCondominio)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE ContasBancarias (
+CREATE TABLE contasbancarias (
   idConta BIGINT UNSIGNED NOT NULL,
   tipo CHAR NULL,
   banco VARCHAR(3) NULL,
@@ -160,12 +162,12 @@ CREATE TABLE ContasBancarias (
   contaDv CHAR NULL,
   PRIMARY KEY(idConta),
   FOREIGN KEY(idConta)
-    REFERENCES Contas(idConta)
+    REFERENCES contas(idConta)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Categorias (
+CREATE TABLE categorias (
   idCategoria BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   tipo CHAR NULL,
   descricao VARCHAR(50) NULL,
@@ -175,27 +177,27 @@ CREATE TABLE Categorias (
   idCondominio BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idCategoria),
   FOREIGN KEY(idCondominio)
-    REFERENCES Condominios(idCondominio)
+    REFERENCES condominios(idCondominio)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   FOREIGN KEY(idCategoriaPai)
-    REFERENCES Categorias(idCategoria)
+    REFERENCES categorias(idCategoria)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Subcategorias (
+CREATE TABLE subcategorias (
   idSubcategoria BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   descricao VARCHAR(50) NULL,
   idCategoria BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idSubcategoria),
   FOREIGN KEY(idCategoria)
-    REFERENCES Categorias(idCategoria)
+    REFERENCES categorias(idCategoria)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Pessoa_Moradia (
+CREATE TABLE pessoa_moradia (
   idPessoa BIGINT UNSIGNED NOT NULL,
   idMoradia BIGINT UNSIGNED NOT NULL,
   tipo CHAR NULL,
@@ -204,16 +206,16 @@ CREATE TABLE Pessoa_Moradia (
   dataSaida DATE NULL,
   PRIMARY KEY(idPessoa, idMoradia),
   FOREIGN KEY(idPessoa)
-    REFERENCES Pessoas(idPessoa)
+    REFERENCES pessoas(idPessoa)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   FOREIGN KEY(idMoradia)
-    REFERENCES Moradias(idMoradia)
+    REFERENCES moradias(idMoradia)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Cobrancas (
+CREATE TABLE cobrancas (
   idCobranca BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   idMoradia BIGINT UNSIGNED NOT NULL,
   motivoEmissao CHAR NULL,
@@ -238,16 +240,16 @@ CREATE TABLE Cobrancas (
   idCondominio BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idCobranca),
   FOREIGN KEY(idCondominio)
-    REFERENCES Condominios(idCondominio)
+    REFERENCES condominios(idCondominio)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   FOREIGN KEY(idMoradia)
-    REFERENCES Moradias(idMoradia)
+    REFERENCES moradias(idMoradia)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Periodos (
+CREATE TABLE periodos (
   idPeriodo BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   inicio DATE NULL,
   fim DATE NULL,
@@ -255,28 +257,28 @@ CREATE TABLE Periodos (
   idCondominio BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idPeriodo),
   FOREIGN KEY(idCondominio)
-    REFERENCES Condominios(idCondominio)
+    REFERENCES condominios(idCondominio)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Orcamentos (
+CREATE TABLE orcamentos (
   idOrcamento BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   idPeriodo BIGINT UNSIGNED NOT NULL,
   idSubcategoria BIGINT UNSIGNED NOT NULL,
   orcado DECIMAL(9,2) NULL,
   PRIMARY KEY(idOrcamento),
   FOREIGN KEY(idSubcategoria)
-    REFERENCES Subcategorias(idSubcategoria)
+    REFERENCES subcategorias(idSubcategoria)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   FOREIGN KEY(idPeriodo)
-    REFERENCES Periodos(idPeriodo)
+    REFERENCES periodos(idPeriodo)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Movimentos (
+CREATE TABLE movimentos (
   idMovimento BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   data DATE NULL,
   valor DECIMAL(9,2) NULL,
@@ -286,60 +288,60 @@ CREATE TABLE Movimentos (
   idConta BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idMovimento),
   FOREIGN KEY(idConta)
-    REFERENCES Contas(idConta)
+    REFERENCES contas(idConta)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Transferencias (
+CREATE TABLE transferencias (
   idMovimento BIGINT UNSIGNED NOT NULL,
   idContaInversa BIGINT UNSIGNED NOT NULL,
   idMovimentoInverso BIGINT UNSIGNED NULL,
   PRIMARY KEY(idMovimento),
   FOREIGN KEY(idContaInversa)
-    REFERENCES Contas(idConta)
+    REFERENCES contas(idConta)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   FOREIGN KEY(idMovimento)
-    REFERENCES Movimentos(idMovimento)
+    REFERENCES movimentos(idMovimento)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   FOREIGN KEY(idMovimentoInverso)
-    REFERENCES Transferencias(idMovimento)
+    REFERENCES transferencias(idMovimento)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
-CREATE TABLE Lancamentos (
+CREATE TABLE lancamentos (
   idMovimento BIGINT UNSIGNED NOT NULL,
   idPeriodo BIGINT UNSIGNED NOT NULL,
   idSubcategoria BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY(idMovimento),
   FOREIGN KEY(idSubcategoria)
-    REFERENCES Subcategorias(idSubcategoria)
+    REFERENCES subcategorias(idSubcategoria)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   FOREIGN KEY(idPeriodo)
-    REFERENCES Periodos(idPeriodo)
+    REFERENCES periodos(idPeriodo)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
   FOREIGN KEY(idMovimento)
-    REFERENCES Movimentos(idMovimento)
+    REFERENCES movimentos(idMovimento)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
 
 DELIMITER $$
 CREATE TRIGGER atSaldoOnInsertMovimento
-BEFORE INSERT ON Movimentos
+BEFORE INSERT ON movimentos
 FOR EACH ROW
 BEGIN
 	IF NEW.reducao THEN
-		UPDATE Contas
+		UPDATE contas
         SET saldoAtual = saldoAtual - NEW.valor
         WHERE idConta = NEW.idConta;
     ELSE
-		UPDATE Contas
+		UPDATE contas
         SET saldoAtual = saldoAtual + NEW.valor
         WHERE idConta = NEW.idConta;
     END IF;
@@ -348,15 +350,15 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE TRIGGER atSaldoOnDeleteMovimento
-BEFORE DELETE ON Movimentos
+BEFORE DELETE ON movimentos
 FOR EACH ROW
 BEGIN
 	IF OLD.reducao THEN
-		UPDATE Contas
+		UPDATE contas
         SET saldoAtual = saldoAtual + OLD.valor
         WHERE idConta = OLD.idConta;
     ELSE
-		UPDATE Contas
+		UPDATE contas
         SET saldoAtual = saldoAtual - OLD.valor
         WHERE idConta = OLD.idConta;
     END IF;
@@ -365,24 +367,24 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE TRIGGER atSaldoOnUpdateMovimento
-BEFORE UPDATE ON Movimentos
+BEFORE UPDATE ON movimentos
 FOR EACH ROW
 BEGIN
 	IF OLD.reducao THEN
-		UPDATE Contas
+		UPDATE contas
         SET saldoAtual = saldoAtual + OLD.valor
         WHERE idConta = OLD.idConta;
     ELSE
-		UPDATE Contas
+		UPDATE contas
         SET saldoAtual = saldoAtual - OLD.valor
         WHERE idConta = OLD.idConta;
     END IF;
 	IF NEW.reducao THEN
-		UPDATE Contas
+		UPDATE contas
         SET saldoAtual = saldoAtual - NEW.valor
         WHERE idConta = NEW.idConta;
     ELSE
-		UPDATE Contas
+		UPDATE contas
         SET saldoAtual = saldoAtual + NEW.valor
         WHERE idConta = NEW.idConta;
     END IF;
@@ -393,7 +395,7 @@ DELIMITER $$
 CREATE EVENT atTotalCobrancaDiariamente
 ON SCHEDULE EVERY 1 DAY STARTS (CURRENT_DATE + INTERVAL 1 DAY + INTERVAL 1 MINUTE) DO
 BEGIN
-	UPDATE Cobrancas
+	UPDATE cobrancas
     SET
 		total = total - multa - jurosMora,
 		multa = valor * (percentualMulta/100),
@@ -414,3 +416,5 @@ BEGIN
 		(current_timestamp - last_used) > (120960 * 1000);
 END;$$
 DELIMITER ;
+
+COMMIT;
