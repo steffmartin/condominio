@@ -43,13 +43,13 @@ public class Pessoa implements Serializable {
 	private String nome;
 
 	@Email
-	@NotBlank
-	@Size(min = 1, max = 100)
+	@Size(max = 100)
 	private String email;
 
 	@Size(max = 10)
 	private String telefone;
 
+	// LATER rever size por conta dos números internacionais que tem mais dígitos
 	@Size(max = 11)
 	private String celular;
 

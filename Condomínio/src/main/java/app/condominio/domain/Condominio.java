@@ -114,7 +114,7 @@ public class Condominio implements Serializable {
 	private List<Categoria> categorias = new ArrayList<>();
 
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@OrderBy(value = "numero, parcela")
+	@OrderBy(value = "dataEmissao desc, moradia, numero, parcela")
 	private List<Cobranca> cobrancas = new ArrayList<>();
 
 	@OneToMany(mappedBy = "condominio", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
