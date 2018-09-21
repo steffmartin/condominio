@@ -131,7 +131,7 @@ public interface RelatorioService {
 	 *         Retorna somente Subcategorias com soma diferente de zero. Nunca
 	 *         retorna nulo, se não houverem entradas, retorna um mapa vazio.
 	 */
-	public Map<Subcategoria, BigDecimal> somasPorTipoEntre(LocalDate inicio, LocalDate fim,
+	public SortedMap<Subcategoria, BigDecimal> somasPorTipoEntre(LocalDate inicio, LocalDate fim,
 			TipoCategoria tipoCategoria);
 
 	/**

@@ -15,7 +15,7 @@ import app.condominio.domain.enums.TipoCategoria;
 
 public interface OrcamentoDao extends PagingAndSortingRepository<Orcamento, Long> {
 
-	List<Orcamento> findAllByPeriodoInOrderByPeriodo_InicioAscSubcategoria_CategoriaPai_OrdemAscSubcategoria_DescricaoAsc(
+	List<Orcamento> findAllByPeriodoInOrderByPeriodo_InicioDescSubcategoria_CategoriaPai_OrdemAscSubcategoria_DescricaoAsc(
 			Collection<Periodo> periodo);
 
 	boolean existsByPeriodoAndSubcategoria(Periodo periodo, Subcategoria subcategoria);

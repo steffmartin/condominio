@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "subcategorias")
-public class Subcategoria implements Serializable {
+public class Subcategoria implements Serializable, Comparable<Subcategoria> {
 
 	// https://api.jquery.com/load/
 	// Usar Ajax para mostrar as subcategorias de uma categoria
@@ -134,5 +134,16 @@ public class Subcategoria implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int compareTo(Subcategoria o) {
+		int comparacao = this.categoriaPai.getOrdem().compareTo(o.getCategoriaPai().getOrdem());
+		if (comparacao != 0) {
+			return comparacao;
+		} else {
+			return this.descricao.compareTo(o.getDescricao());
+		}
+
 	}
 }

@@ -46,11 +46,10 @@ public class Pessoa implements Serializable {
 	@Size(max = 100)
 	private String email;
 
-	@Size(max = 10)
+	@Size(max = 15)
 	private String telefone;
 
-	// LATER rever size por conta dos números internacionais que tem mais dígitos
-	@Size(max = 11)
+	@Size(max = 15)
 	private String celular;
 
 	@Size(max = 100)

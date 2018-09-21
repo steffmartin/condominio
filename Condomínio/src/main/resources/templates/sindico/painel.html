@@ -16,7 +16,7 @@
 					<div class="card-body order-1" th:classappend="${saldoAtual}<0?'text-danger':'text-success'">
 						<h5 class="card-title text-truncate">Saldo em conta</h5>
 						<p class="card-text text-truncate">
-							<span th:text="'R$ ' + ${saldoAtual}"></span> <a class="float-right"  th:classappend="${saldoAtual}<0?'text-danger':'text-success'" th:href="@{/sindico/contas}" title="Cadastro de Contas de Movimentação"><i class="fas fa-arrow-circle-right"></i></a>
+							<span th:text="'R$ ' + ${saldoAtual}"></span> <a class="float-right" th:classappend="${saldoAtual}<0?'text-danger':'text-success'" th:href="@{/sindico/contas}" title="Cadastro de Contas de Movimentação"><i class="fas fa-arrow-circle-right"></i></a>
 						</p>
 					</div>
 				</div>
@@ -40,10 +40,12 @@
 				</div>
 			</div>
 			<div class="col-md-3 col-sm-6 mb-4 order-6 order-sm-4">
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title text-truncate">Info</h5>
-						<p class="card-text text-truncate">...</p>
+				<div class="card border-success">
+					<div class="card-body text-success">
+						<h5 class="card-title text-truncate">Passo a passo</h5>
+						<p class="card-text text-truncate">
+							<span>100% concluído!</span> <a class="float-right text-success" href="#" title="Ver passo a passo"><i class="fas fa-arrow-circle-right"></i></a>
+						</p>
 					</div>
 				</div>
 			</div>

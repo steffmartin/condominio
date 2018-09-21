@@ -191,9 +191,9 @@ public class RelatorioServiceImpl implements RelatorioService {
 	}
 
 	@Override
-	public Map<Subcategoria, BigDecimal> somasPorTipoEntre(LocalDate inicio, LocalDate fim,
+	public SortedMap<Subcategoria, BigDecimal> somasPorTipoEntre(LocalDate inicio, LocalDate fim,
 			TipoCategoria tipoCategoria) {
-		Map<Subcategoria, BigDecimal> map = new HashMap<>();
+		SortedMap<Subcategoria, BigDecimal> map = new TreeMap<>();
 		List<Conta> contas = contaService.listar();
 		if (!contas.isEmpty()) {
 			List<Subcategoria> subcategorias;

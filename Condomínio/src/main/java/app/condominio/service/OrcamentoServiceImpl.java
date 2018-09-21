@@ -42,7 +42,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Orcamento> listar() {
 		return orcamentoDao
-				.findAllByPeriodoInOrderByPeriodo_InicioAscSubcategoria_CategoriaPai_OrdemAscSubcategoria_DescricaoAsc(
+				.findAllByPeriodoInOrderByPeriodo_InicioDescSubcategoria_CategoriaPai_OrdemAscSubcategoria_DescricaoAsc(
 						periodoService.listar());
 	}
 
