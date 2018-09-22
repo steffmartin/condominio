@@ -2,6 +2,8 @@ package app.condominio.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 
 public interface CrudService<C, T> {
@@ -26,6 +28,13 @@ public interface CrudService<C, T> {
 	 *         retorna uma lista vazia.
 	 */
 	public List<C> listar();
+
+	/**
+	 * @return Retorna uma página do tipo Page{@literal <}Entidade{@literal >} com,
+	 *         no máximo, a quantidade solicidade de Entidades. Nunca retorna nulo,
+	 *         se não houver Entidades retorna uma página vazia.
+	 */
+	public Page<C> listarPagina(Pageable pagina);
 
 	/**
 	 * @param entidade

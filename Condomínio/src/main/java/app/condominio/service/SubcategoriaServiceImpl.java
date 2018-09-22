@@ -3,6 +3,8 @@ package app.condominio.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,12 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Subcategoria> listar() {
 		return subcategoriaDao.findAllByCategoriaPaiInOrderByCategoriaPai_OrdemAscDescricao(categoriaService.listar());
+	}
+
+	@Override
+	public Page<Subcategoria> listarPagina(Pageable pagina) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

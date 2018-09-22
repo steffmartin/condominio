@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -164,6 +166,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Usuario> listar() {
 		// LATER fazer este método quando implementar o ADMIN
+		return null;
+	}
+
+	@Override
+	public Page<Usuario> listarPagina(Pageable pagina) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

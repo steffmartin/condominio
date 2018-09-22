@@ -20,7 +20,7 @@
 		<div class="table-responsive">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="${#lists.isEmpty(movimentos)} ? 'Nenhum' : 'Há '+${#lists.size(movimentos)}"></span> <span th:text="${#lists.size(movimentos)>1} ? 'movimentos cadastrados' : 'movimento cadastrado'"></span>.
+					<span th:text="${movimentos.totalElements == 0} ? 'Nenhum' : 'Há '+${movimentos.totalElements}"></span> <span th:text="${movimentos.totalElements>1} ? 'movimentos cadastrados' : 'movimento cadastrado'"></span>.
 				</caption>
 				<thead class="thead-light">
 					<tr>
@@ -33,7 +33,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="movimento : ${movimentos}">
+					<tr th:each="movimento : ${movimentos.content}">
 						<th scope="row" th:text="${#temporals.format(movimento.data,'dd/MM/yyyy')}"></th>
 						<th scope="row" th:text="${movimento.documento}"></th>
 						<td th:text="|R$ ${movimento.valor}|"></td>
@@ -44,9 +44,22 @@
 				</tbody>
 			</table>
 		</div>
+		<nav th:if="${movimentos.totalPages > 0}" id="paginacao" th:with="atual=${movimentos.number+1}">
+			<ul class="mt-3 mb-0 pagination pagination-sm justify-content-center justify-content-sm-end">
+				<li class="page-item" th:classappend="${movimentos.isFirst()}?'disabled'"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual -1},tamanho=${movimentos.size})}" th:tabindex="${movimentos.isFirst()}?'-1':_">Anterior</a></li>
+				<li class="page-item" th:classappend="${movimentos.isFirst()}?'active'"><a class="page-link" th:href="@{/sindico/movimentos(pagina='1',tamanho=${movimentos.size})}">1</a></li>
+				<li class="page-item disabled" th:if="${atual > 3}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${atual > 2}" class="page-item"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual -1},tamanho=${movimentos.size})}" th:text="${atual -1}"></a></li>
+				<li th:unless="${movimentos.isFirst() or movimentos.isLast()}" class="page-item active"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual},tamanho=${movimentos.size})}" th:text="${atual}"></a></li>
+				<li th:if="${atual < (movimentos.totalPages - 1)}" class="page-item"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual +1},tamanho=${movimentos.size})}" th:text="${atual +1}"></a></li>
+				<li class="page-item disabled" th:if="${atual < (movimentos.totalPages - 2 )}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${movimentos.totalPages > 1}" class="page-item" th:classappend="${movimentos.isLast()}?'active'"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${movimentos.totalPages},tamanho=${movimentos.size})}" th:text="${movimentos.totalPages}"></a></li>
+				<li class="page-item" th:classappend="${movimentos.isLast()}?'disabled'"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual +1},tamanho=${movimentos.size})}" th:tabindex="${movimentos.isLast()}?'-1':_">Próxima</a></li>
+			</ul>
+		</nav>
 		</main>
 		<!--/* Modal */-->
-		<div th:unless="${#lists.isEmpty(movimentos)}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">
+		<div th:unless="${movimentos.totalElements == 0}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">
 			<div class="modal-dialog  modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -69,6 +82,6 @@
 			</div>
 		</div>
 	</th:block>
-<th:block th:fragment="jsAdicional"></th:block>
+	<th:block th:fragment="jsAdicional"></th:block>
 </body>
 </html>
