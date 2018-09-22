@@ -31,6 +31,12 @@ main {
 	margin-bottom: 16px;
 }
 
+/* Formulários 
+main form{
+	max-width:1250px;
+}
+*/
+
 /* Tabelas customizadas */
 
 .crud-list th, .crud-list td, .form-list th, .form-list td{
@@ -97,6 +103,9 @@ fieldset:disabled input::placeholder, fieldset:disabled textarea::placeholder{
 	padding-right: 16px;
     padding-left: 96px; /* 80px devido ao sidebar + 16px */
     width:100%;
+    max-width:1366px;
+    margin-left:auto;
+    margin-right:auto;
 }
 #sidebar ul li a{
 	text-align: left;
