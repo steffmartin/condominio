@@ -43,15 +43,12 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Orcamento> listar() {
-		return orcamentoDao
-				.findAllByPeriodoInOrderByPeriodo_InicioDescSubcategoria_CategoriaPai_OrdemAscSubcategoria_DescricaoAsc(
-						periodoService.listar());
+		return orcamentoDao.findAllByPeriodoInOrderByPeriodoDescSubcategoriaAsc(periodoService.listar());
 	}
 
 	@Override
 	public Page<Orcamento> listarPagina(Pageable pagina) {
-		// TODO Auto-generated method stub
-		return null;
+		return orcamentoDao.findAllByPeriodoInOrderByPeriodoDescSubcategoriaAsc(periodoService.listar(), pagina);
 	}
 
 	@Override

@@ -1,8 +1,11 @@
 package app.condominio.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,9 +34,11 @@ public class PeriodoController {
 		return new String[] { "contabilidade", "periodos" };
 	}
 
-	@GetMapping({ "", "/", "/lista", "/todos" })
-	public ModelAndView getPeriodos(ModelMap model) {
-		model.addAttribute("periodos", periodoService.listar());
+	@GetMapping({ "", "/", "/lista" })
+	public ModelAndView getPeriodos(@RequestParam("pagina") Optional<Integer> pagina,
+			@RequestParam("tamanho") Optional<Integer> tamanho, ModelMap model) {
+		model.addAttribute("periodos",
+				periodoService.listarPagina(PageRequest.of(pagina.orElse(1) - 1, tamanho.orElse(20))));
 		model.addAttribute("conteudo", "periodoLista");
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}

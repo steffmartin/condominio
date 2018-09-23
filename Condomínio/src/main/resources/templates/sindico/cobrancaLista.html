@@ -48,9 +48,10 @@
 				</tbody>
 			</table>
 		</div>
-		<nav th:if="${cobrancas.totalPages > 0}" id="paginacao" th:with="atual=${cobrancas.number+1}">
-			<ul class="mt-3 mb-0 pagination pagination-sm justify-content-center justify-content-sm-end">
-				<li class="page-item" th:classappend="${cobrancas.isFirst()}?'disabled'"><a class="page-link" th:href="@{/sindico/cobrancas(pagina=${atual -1},tamanho=${cobrancas.size})}" th:tabindex="${cobrancas.isFirst()}?'-1':_">Anterior</a></li>
+		<nav th:if="${cobrancas.totalPages > 1}" id="paginacao" th:with="atual=${cobrancas.number+1}">
+			<ul class="mt-3 mb-0 pagination pagination-sm justify-content-center justify-content-md-end">
+				<li class="d-none d-sm-block page-item" th:if="${atual > 10}"><a class="page-link" th:href="@{/sindico/cobrancas(pagina=${atual -10},tamanho=${cobrancas.size})}">-10</a></li>
+				<li class="page-item" th:unless="${cobrancas.isFirst()}"><a class="page-link first" th:href="@{/sindico/cobrancas(pagina=${atual -1},tamanho=${cobrancas.size})}"><i class="fas fa-angle-double-left"></i><span> Anterior</span></a></li>
 				<li class="page-item" th:classappend="${cobrancas.isFirst()}?'active'"><a class="page-link" th:href="@{/sindico/cobrancas(pagina='1',tamanho=${cobrancas.size})}">1</a></li>
 				<li class="page-item disabled" th:if="${atual > 3}"><a class="page-link" href="#">...</a></li>
 				<li th:if="${atual > 2}" class="page-item"><a class="page-link" th:href="@{/sindico/cobrancas(pagina=${atual -1},tamanho=${cobrancas.size})}" th:text="${atual -1}"></a></li>
@@ -58,7 +59,8 @@
 				<li th:if="${atual < (cobrancas.totalPages - 1)}" class="page-item"><a class="page-link" th:href="@{/sindico/cobrancas(pagina=${atual +1},tamanho=${cobrancas.size})}" th:text="${atual +1}"></a></li>
 				<li class="page-item disabled" th:if="${atual < (cobrancas.totalPages - 2 )}"><a class="page-link" href="#">...</a></li>
 				<li th:if="${cobrancas.totalPages > 1}" class="page-item" th:classappend="${cobrancas.isLast()}?'active'"><a class="page-link" th:href="@{/sindico/cobrancas(pagina=${cobrancas.totalPages},tamanho=${cobrancas.size})}" th:text="${cobrancas.totalPages}"></a></li>
-				<li class="page-item" th:classappend="${cobrancas.isLast()}?'disabled'"><a class="page-link" th:href="@{/sindico/cobrancas(pagina=${atual +1},tamanho=${cobrancas.size})}" th:tabindex="${cobrancas.isLast()}?'-1':_">Próxima</a></li>
+				<li class="page-item" th:unless="${cobrancas.isLast()}"><a class="page-link last" th:href="@{/sindico/cobrancas(pagina=${atual +1},tamanho=${cobrancas.size})}"><span>Próxima </span><i class="fas fa-angle-double-right"></i></a></li>
+				<li class="d-none d-sm-block page-item" th:if="${atual < (cobrancas.totalPages-9)}"><a class="page-link" th:href="@{/sindico/cobrancas(pagina=${atual +10},tamanho=${cobrancas.size})}">+10</a></li>
 			</ul>
 		</nav>
 		</main>
@@ -86,6 +88,6 @@
 			</div>
 		</div>
 	</th:block>
-<th:block th:fragment="jsAdicional"></th:block>
+	<th:block th:fragment="jsAdicional"></th:block>
 </body>
 </html>

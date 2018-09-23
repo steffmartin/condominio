@@ -20,7 +20,7 @@
 		<div class="table-responsive">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="${#lists.isEmpty(contas)} ? 'Nenhuma' : 'Há '+${#lists.size(contas)}"></span> <span th:text="${#lists.size(contas)>1} ? 'contas cadastradas' : 'conta cadastrada'"></span>.
+					<span th:text="${contas.totalElements == 0} ? 'Nenhuma' : 'Há '+${contas.totalElements}"></span> <span th:text="${contas.totalElements>1} ? 'contas cadastradas' : 'conta cadastrada'"></span>.
 				</caption>
 				<thead class="thead-light">
 					<tr>
@@ -32,7 +32,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="conta : ${contas}">
+					<tr th:each="conta : ${contas.content}">
 						<th scope="row" th:text="${conta.sigla}"></th>
 						<td th:text="${conta.descricao}"></td>
 						<td th:text="|R$ ${conta.saldoAtual}|"></td>
@@ -42,6 +42,21 @@
 				</tbody>
 			</table>
 		</div>
+		<nav th:if="${contas.totalPages > 1}" id="paginacao" th:with="atual=${contas.number+1}">
+			<ul class="mt-3 mb-0 pagination pagination-sm justify-content-center justify-content-md-end">
+				<li class="d-none d-sm-block page-item" th:if="${atual > 10}"><a class="page-link" th:href="@{/sindico/contas(pagina=${atual -10},tamanho=${contas.size})}">-10</a></li>
+				<li class="page-item" th:unless="${contas.isFirst()}"><a class="page-link first" th:href="@{/sindico/contas(pagina=${atual -1},tamanho=${contas.size})}"><i class="fas fa-angle-double-left"></i><span> Anterior</span></a></li>
+				<li class="page-item" th:classappend="${contas.isFirst()}?'active'"><a class="page-link" th:href="@{/sindico/contas(pagina='1',tamanho=${contas.size})}">1</a></li>
+				<li class="page-item disabled" th:if="${atual > 3}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${atual > 2}" class="page-item"><a class="page-link" th:href="@{/sindico/contas(pagina=${atual -1},tamanho=${contas.size})}" th:text="${atual -1}"></a></li>
+				<li th:unless="${contas.isFirst() or contas.isLast()}" class="page-item active"><a class="page-link" th:href="@{/sindico/contas(pagina=${atual},tamanho=${contas.size})}" th:text="${atual}"></a></li>
+				<li th:if="${atual < (contas.totalPages - 1)}" class="page-item"><a class="page-link" th:href="@{/sindico/contas(pagina=${atual +1},tamanho=${contas.size})}" th:text="${atual +1}"></a></li>
+				<li class="page-item disabled" th:if="${atual < (contas.totalPages - 2 )}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${contas.totalPages > 1}" class="page-item" th:classappend="${contas.isLast()}?'active'"><a class="page-link" th:href="@{/sindico/contas(pagina=${contas.totalPages},tamanho=${contas.size})}" th:text="${contas.totalPages}"></a></li>
+				<li class="page-item" th:unless="${contas.isLast()}"><a class="page-link last" th:href="@{/sindico/contas(pagina=${atual +1},tamanho=${contas.size})}"><span>Próxima </span><i class="fas fa-angle-double-right"></i></a></li>
+				<li class="d-none d-sm-block page-item" th:if="${atual < (contas.totalPages-9)}"><a class="page-link" th:href="@{/sindico/contas(pagina=${atual +10},tamanho=${contas.size})}">+10</a></li>
+			</ul>
+		</nav>
 		</main>
 		<!--/* Modal */-->
 		<div th:unless="${#lists.isEmpty(contas)}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">

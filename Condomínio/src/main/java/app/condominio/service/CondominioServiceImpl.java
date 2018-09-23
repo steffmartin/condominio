@@ -18,7 +18,7 @@ import app.condominio.domain.Usuario;
 @Transactional
 public class CondominioServiceImpl implements CondominioService {
 
-	// LATER ao ler/editar/excluir, tratar casos do usuário alterar o ID na URL ou
+	// FIXME ao ler/editar/excluir, tratar casos do usuário alterar o ID na URL ou
 	// fonte e enxergar entidades de outro usuário (todas as classes)
 
 	@Autowired
@@ -71,7 +71,7 @@ public class CondominioServiceImpl implements CondominioService {
 
 	@Override
 	public Page<Condominio> listarPagina(Pageable pagina) {
-		// TODO Auto-generated method stub
+		// LATER criar este método quando fizer página de listar condomínios (admin)
 		return null;
 	}
 

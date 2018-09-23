@@ -53,10 +53,10 @@ public class Condominio implements Serializable {
 	@Size(max = 100)
 	private String email;
 
-	@Size(max = 10)
+	@Size(max = 15)
 	private String telefone;
 
-	@Size(max = 11)
+	@Size(max = 15)
 	private String celular;
 
 	@NotBlank

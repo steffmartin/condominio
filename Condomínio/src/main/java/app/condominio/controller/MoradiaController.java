@@ -1,10 +1,12 @@
 package app.condominio.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -65,9 +67,11 @@ public class MoradiaController {
 		return pessoaService.listar();
 	}
 
-	@GetMapping({ "", "/", "/lista", "/todos" })
-	public ModelAndView getMoradias(ModelMap model) {
-		model.addAttribute("moradias", moradiaService.listar());
+	@GetMapping({ "", "/", "/lista" })
+	public ModelAndView getMoradias(@RequestParam("pagina") Optional<Integer> pagina,
+			@RequestParam("tamanho") Optional<Integer> tamanho, ModelMap model) {
+		model.addAttribute("moradias",
+				moradiaService.listarPagina(PageRequest.of(pagina.orElse(1) - 1, tamanho.orElse(20))));
 		model.addAttribute("conteudo", "moradiaLista");
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}

@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "blocos")
-public class Bloco implements Serializable {
+public class Bloco implements Serializable, Comparable<Bloco> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,6 +117,11 @@ public class Bloco implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int compareTo(Bloco o) {
+		return this.sigla.compareTo(o.getSigla());
 	}
 
 }

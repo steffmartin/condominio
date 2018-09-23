@@ -73,6 +73,21 @@ main form{
 	}
 }
 
+/* Paginação */
+@media ( max-width : 767px) {
+	#paginacao span {
+		display:none;
+	}
+	#paginacao .first {
+	border-top-left-radius: .2rem;
+    border-bottom-left-radius: .2rem;
+	}
+	#paginacao .last {
+	border-top-right-radius: .2rem;
+    border-bottom-right-radius: .2rem;
+	}
+}
+
 /* Personalização das páginas Somente Leitura */
 fieldset:disabled small, fieldset:disabled label a, fieldset:disabled .hideMe {
 	display:none !important;

@@ -31,7 +31,7 @@ import app.condominio.domain.enums.Estado;
 @Entity
 @Table(name = "pessoas")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Pessoa implements Serializable {
+public class Pessoa implements Serializable, Comparable<Pessoa> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -233,6 +233,11 @@ public class Pessoa implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int compareTo(Pessoa o) {
+		return this.toString().compareTo(o.toString());
 	}
 
 }

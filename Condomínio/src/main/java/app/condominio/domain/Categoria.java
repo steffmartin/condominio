@@ -48,7 +48,7 @@ public class Categoria implements Serializable {
 	@Max(NIVEL_MAX)
 	private Integer nivel;
 
-	// TODO criar método para ordenação atomática, lembrar que edição exige
+	// LATER criar método para ordenação atomática, lembrar que edição exige
 	// reescrever ordem nas categorias filhas
 	@Size(min = 1, max = 255)
 	@NotBlank

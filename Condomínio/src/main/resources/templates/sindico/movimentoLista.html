@@ -44,9 +44,10 @@
 				</tbody>
 			</table>
 		</div>
-		<nav th:if="${movimentos.totalPages > 0}" id="paginacao" th:with="atual=${movimentos.number+1}">
-			<ul class="mt-3 mb-0 pagination pagination-sm justify-content-center justify-content-sm-end">
-				<li class="page-item" th:classappend="${movimentos.isFirst()}?'disabled'"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual -1},tamanho=${movimentos.size})}" th:tabindex="${movimentos.isFirst()}?'-1':_">Anterior</a></li>
+		<nav th:if="${movimentos.totalPages > 1}" id="paginacao" th:with="atual=${movimentos.number+1}">
+			<ul class="mt-3 mb-0 pagination pagination-sm justify-content-center justify-content-md-end">
+				<li class="d-none d-sm-block page-item" th:if="${atual > 10}"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual -10},tamanho=${movimentos.size})}">-10</a></li>
+				<li class="page-item" th:unless="${movimentos.isFirst()}"><a class="page-link first" th:href="@{/sindico/movimentos(pagina=${atual -1},tamanho=${movimentos.size})}"><i class="fas fa-angle-double-left"></i><span> Anterior</span></a></li>
 				<li class="page-item" th:classappend="${movimentos.isFirst()}?'active'"><a class="page-link" th:href="@{/sindico/movimentos(pagina='1',tamanho=${movimentos.size})}">1</a></li>
 				<li class="page-item disabled" th:if="${atual > 3}"><a class="page-link" href="#">...</a></li>
 				<li th:if="${atual > 2}" class="page-item"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual -1},tamanho=${movimentos.size})}" th:text="${atual -1}"></a></li>
@@ -54,7 +55,8 @@
 				<li th:if="${atual < (movimentos.totalPages - 1)}" class="page-item"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual +1},tamanho=${movimentos.size})}" th:text="${atual +1}"></a></li>
 				<li class="page-item disabled" th:if="${atual < (movimentos.totalPages - 2 )}"><a class="page-link" href="#">...</a></li>
 				<li th:if="${movimentos.totalPages > 1}" class="page-item" th:classappend="${movimentos.isLast()}?'active'"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${movimentos.totalPages},tamanho=${movimentos.size})}" th:text="${movimentos.totalPages}"></a></li>
-				<li class="page-item" th:classappend="${movimentos.isLast()}?'disabled'"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual +1},tamanho=${movimentos.size})}" th:tabindex="${movimentos.isLast()}?'-1':_">Próxima</a></li>
+				<li class="page-item" th:unless="${movimentos.isLast()}"><a class="page-link last" th:href="@{/sindico/movimentos(pagina=${atual +1},tamanho=${movimentos.size})}"><span>Próxima </span><i class="fas fa-angle-double-right"></i></a></li>
+				<li class="d-none d-sm-block page-item" th:if="${atual < (movimentos.totalPages-9)}"><a class="page-link" th:href="@{/sindico/movimentos(pagina=${atual +10},tamanho=${movimentos.size})}">+10</a></li>
 			</ul>
 		</nav>
 		</main>

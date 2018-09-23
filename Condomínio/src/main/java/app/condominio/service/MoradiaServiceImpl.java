@@ -44,13 +44,12 @@ public class MoradiaServiceImpl implements MoradiaService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Moradia> listar() {
-		return moradiaDao.findAllByBlocoInOrderByBloco_SiglaAscSiglaAsc(blocoService.listar());
+		return moradiaDao.findAllByBlocoInOrderByBlocoAscSiglaAsc(blocoService.listar());
 	}
 
 	@Override
 	public Page<Moradia> listarPagina(Pageable pagina) {
-		// TODO Auto-generated method stub
-		return null;
+		return moradiaDao.findAllByBlocoInOrderByBlocoAscSiglaAsc(blocoService.listar(), pagina);
 	}
 
 	@Override

@@ -20,7 +20,7 @@
 		<div class="table-responsive">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="${#lists.isEmpty(moradias)} ? 'Nenhum' : 'Há '+${#lists.size(moradias)}"></span> <span th:text="${#lists.size(moradias)>1} ? 'moradias cadastradas' : 'moradia cadastrada'"></span>.
+					<span th:text="${moradias.totalElements == 0} ? 'Nenhum' : 'Há '+${moradias.totalElements}"></span> <span th:text="${moradias.totalElements>1} ? 'moradias cadastradas' : 'moradia cadastrada'"></span>.
 				</caption>
 				<thead class="thead-light">
 					<tr>
@@ -33,7 +33,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="moradia : ${moradias}">
+					<tr th:each="moradia : ${moradias.content}">
 						<th scope="row" th:text="${moradia.bloco.sigla}"></th>
 						<th scope="row" th:text="${moradia.sigla}"></th>
 						<td th:text="${moradia.tipo.nome}"></td>
@@ -44,6 +44,21 @@
 				</tbody>
 			</table>
 		</div>
+		<nav th:if="${moradias.totalPages > 1}" id="paginacao" th:with="atual=${moradias.number+1}">
+			<ul class="mt-3 mb-0 pagination pagination-sm justify-content-center justify-content-md-end">
+				<li class="d-none d-sm-block page-item" th:if="${atual > 10}"><a class="page-link" th:href="@{/sindico/moradias(pagina=${atual -10},tamanho=${moradias.size})}">-10</a></li>
+				<li class="page-item" th:unless="${moradias.isFirst()}"><a class="page-link first" th:href="@{/sindico/moradias(pagina=${atual -1},tamanho=${moradias.size})}"><i class="fas fa-angle-double-left"></i><span> Anterior</span></a></li>
+				<li class="page-item" th:classappend="${moradias.isFirst()}?'active'"><a class="page-link" th:href="@{/sindico/moradias(pagina='1',tamanho=${moradias.size})}">1</a></li>
+				<li class="page-item disabled" th:if="${atual > 3}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${atual > 2}" class="page-item"><a class="page-link" th:href="@{/sindico/moradias(pagina=${atual -1},tamanho=${moradias.size})}" th:text="${atual -1}"></a></li>
+				<li th:unless="${moradias.isFirst() or moradias.isLast()}" class="page-item active"><a class="page-link" th:href="@{/sindico/moradias(pagina=${atual},tamanho=${moradias.size})}" th:text="${atual}"></a></li>
+				<li th:if="${atual < (moradias.totalPages - 1)}" class="page-item"><a class="page-link" th:href="@{/sindico/moradias(pagina=${atual +1},tamanho=${moradias.size})}" th:text="${atual +1}"></a></li>
+				<li class="page-item disabled" th:if="${atual < (moradias.totalPages - 2 )}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${moradias.totalPages > 1}" class="page-item" th:classappend="${moradias.isLast()}?'active'"><a class="page-link" th:href="@{/sindico/moradias(pagina=${moradias.totalPages},tamanho=${moradias.size})}" th:text="${moradias.totalPages}"></a></li>
+				<li class="page-item" th:unless="${moradias.isLast()}"><a class="page-link last" th:href="@{/sindico/moradias(pagina=${atual +1},tamanho=${moradias.size})}"><span>Próxima </span><i class="fas fa-angle-double-right"></i></a></li>
+				<li class="d-none d-sm-block page-item" th:if="${atual < (moradias.totalPages-9)}"><a class="page-link" th:href="@{/sindico/moradias(pagina=${atual +10},tamanho=${moradias.size})}">+10</a></li>
+			</ul>
+		</nav>
 		</main>
 		<!--/* Modal */-->
 		<div th:unless="${#lists.isEmpty(moradias)}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">

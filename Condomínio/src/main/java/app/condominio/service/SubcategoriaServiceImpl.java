@@ -42,7 +42,7 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 
 	@Override
 	public Page<Subcategoria> listarPagina(Pageable pagina) {
-		// TODO Auto-generated method stub
+		// TODO Como paginar esta página?
 		return null;
 	}
 

@@ -65,8 +65,11 @@ public class PessoaServiceImpl implements PessoaService {
 
 	@Override
 	public Page<Pessoa> listarPagina(Pageable pagina) {
-		// TODO Auto-generated method stub
-		return null;
+		Condominio condominio = usuarioService.lerLogado().getCondominio();
+		if (condominio == null) {
+			return Page.empty(pagina);
+		}
+		return pessoaDao.findAllByCondominioOrderByNome(condominio, pagina);
 	}
 
 	@Override

@@ -20,7 +20,7 @@
 		<div class="table-responsive">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="${#lists.isEmpty(pessoas)} ? 'Nenhum' : 'Há '+${#lists.size(pessoas)}"></span> <span th:text="${#lists.size(pessoas)>1} ? 'condôminos cadastrados' : 'condômino cadastrado'"></span>.
+					<span th:text="${pessoas.totalElements == 0} ? 'Nenhum' : 'Há '+${pessoas.totalElements}"></span> <span th:text="${pessoas.totalElements>1} ? 'condôminos cadastrados' : 'condômino cadastrado'"></span>.
 				</caption>
 				<thead class="thead-light">
 					<tr>
@@ -33,7 +33,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="pessoa : ${pessoas}">
+					<tr th:each="pessoa : ${pessoas.content}">
 						<th scope="row" th:text="${pessoa}"></th>
 						<td th:text="${pessoa.cpfCnpj()}"></td>
 						<td th:text="${pessoa.telefone}"></td>
@@ -44,6 +44,21 @@
 				</tbody>
 			</table>
 		</div>
+		<nav th:if="${pessoas.totalPages > 1}" id="paginacao" th:with="atual=${pessoas.number+1}">
+			<ul class="mt-3 mb-0 pagination pagination-sm justify-content-center justify-content-md-end">
+				<li class="d-none d-sm-block page-item" th:if="${atual > 10}"><a class="page-link" th:href="@{/sindico/condominos(pagina=${atual -10},tamanho=${pessoas.size})}">-10</a></li>
+				<li class="page-item" th:unless="${pessoas.isFirst()}"><a class="page-link first" th:href="@{/sindico/condominos(pagina=${atual -1},tamanho=${pessoas.size})}"><i class="fas fa-angle-double-left"></i><span> Anterior</span></a></li>
+				<li class="page-item" th:classappend="${pessoas.isFirst()}?'active'"><a class="page-link" th:href="@{/sindico/condominos(pagina='1',tamanho=${pessoas.size})}">1</a></li>
+				<li class="page-item disabled" th:if="${atual > 3}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${atual > 2}" class="page-item"><a class="page-link" th:href="@{/sindico/condominos(pagina=${atual -1},tamanho=${pessoas.size})}" th:text="${atual -1}"></a></li>
+				<li th:unless="${pessoas.isFirst() or pessoas.isLast()}" class="page-item active"><a class="page-link" th:href="@{/sindico/condominos(pagina=${atual},tamanho=${pessoas.size})}" th:text="${atual}"></a></li>
+				<li th:if="${atual < (pessoas.totalPages - 1)}" class="page-item"><a class="page-link" th:href="@{/sindico/condominos(pagina=${atual +1},tamanho=${pessoas.size})}" th:text="${atual +1}"></a></li>
+				<li class="page-item disabled" th:if="${atual < (pessoas.totalPages - 2 )}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${pessoas.totalPages > 1}" class="page-item" th:classappend="${pessoas.isLast()}?'active'"><a class="page-link" th:href="@{/sindico/condominos(pagina=${pessoas.totalPages},tamanho=${pessoas.size})}" th:text="${pessoas.totalPages}"></a></li>
+				<li class="page-item" th:unless="${pessoas.isLast()}"><a class="page-link last" th:href="@{/sindico/condominos(pagina=${atual +1},tamanho=${pessoas.size})}"><span>Próxima </span><i class="fas fa-angle-double-right"></i></a></li>
+				<li class="d-none d-sm-block page-item" th:if="${atual < (pessoas.totalPages-9)}"><a class="page-link" th:href="@{/sindico/condominos(pagina=${atual +10},tamanho=${pessoas.size})}">+10</a></li>
+			</ul>
+		</nav>
 		</main>
 		<!--/* Modal */-->
 		<div th:unless="${#lists.isEmpty(pessoas)}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">

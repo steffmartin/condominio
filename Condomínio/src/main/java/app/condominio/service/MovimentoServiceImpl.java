@@ -55,7 +55,7 @@ public class MovimentoServiceImpl implements MovimentoService {
 			}
 		} else if (entidade instanceof Transferencia) {
 			entidade.setReducao(Boolean.TRUE);
-			// TODO ver se tem forma mais prática de criar espelho do movimento
+			// LATER ver se tem forma mais prática de criar espelho do movimento
 			contrapartida = new Transferencia();
 			contrapartida.setData(entidade.getData());
 			contrapartida.setValor(entidade.getValor());

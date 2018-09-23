@@ -1,10 +1,12 @@
 package app.condominio.controller;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -46,9 +48,11 @@ public class ContaController {
 		return TipoContaBancaria.values();
 	}
 
-	@GetMapping({ "", "/", "/lista", "/todos" })
-	public ModelAndView getContas(ModelMap model) {
-		model.addAttribute("contas", contaService.listar());
+	@GetMapping({ "", "/", "/lista" })
+	public ModelAndView getContas(@RequestParam("pagina") Optional<Integer> pagina,
+			@RequestParam("tamanho") Optional<Integer> tamanho, ModelMap model) {
+		model.addAttribute("contas",
+				contaService.listarPagina(PageRequest.of(pagina.orElse(1) - 1, tamanho.orElse(20))));
 		model.addAttribute("conteudo", "contaLista");
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}

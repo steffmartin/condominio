@@ -1,10 +1,12 @@
 package app.condominio.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -69,9 +71,11 @@ public class PessoaController {
 		return Estado.values();
 	}
 
-	@GetMapping({ "", "/", "/lista", "/todos" })
-	public ModelAndView getPessoas(ModelMap model) {
-		model.addAttribute("pessoas", pessoaService.listar());
+	@GetMapping({ "", "/", "/lista" })
+	public ModelAndView getPessoas(@RequestParam("pagina") Optional<Integer> pagina,
+			@RequestParam("tamanho") Optional<Integer> tamanho, ModelMap model) {
+		model.addAttribute("pessoas",
+				pessoaService.listarPagina(PageRequest.of(pagina.orElse(1) - 1, tamanho.orElse(20))));
 		model.addAttribute("conteudo", "pessoaLista");
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}

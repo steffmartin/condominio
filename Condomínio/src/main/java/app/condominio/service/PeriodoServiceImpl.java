@@ -50,8 +50,11 @@ public class PeriodoServiceImpl implements PeriodoService {
 
 	@Override
 	public Page<Periodo> listarPagina(Pageable pagina) {
-		// TODO Auto-generated method stub
-		return null;
+		Condominio condominio = usuarioService.lerLogado().getCondominio();
+		if (condominio == null) {
+			return Page.empty(pagina);
+		}
+		return periodoDao.findAllByCondominioOrderByInicioDesc(condominio, pagina);
 	}
 
 	@Override

@@ -20,7 +20,7 @@
 		<div class="table-responsive">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="${#lists.isEmpty(blocos)} ? 'Nenhum' : 'Há '+${#lists.size(blocos)}"></span> <span th:text="${#lists.size(blocos)>1} ? 'blocos cadastrados' : 'bloco cadastrado'"></span>.
+					<span th:text="${blocos.totalElements == 0} ? 'Nenhum' : 'Há '+${blocos.totalElements}"></span> <span th:text="${blocos.totalElements>1} ? 'blocos cadastrados' : 'bloco cadastrado'"></span>.
 				</caption>
 				<thead class="thead-light">
 					<tr>
@@ -30,7 +30,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="bloco : ${blocos}">
+					<tr th:each="bloco : ${blocos.content}">
 						<th scope="row" th:text="${bloco.sigla}"></th>
 						<td th:text="${bloco.descricao}"></td>
 						<td><a class="btn btn-outline-secondary btn-sm" th:href="@{/sindico/blocos/{idBloco}/cadastro(idBloco=${bloco.idBloco},somenteLeitura)}"><i class="fas fa-eye"></i><span> Ver</span></a> <a class="btn btn-outline-primary btn-sm" th:href="@{/sindico/blocos/{idBloco}/cadastro(idBloco=${bloco.idBloco})}"><i class="fas fa-edit"></i><span> Editar</span></a> <a class="btn btn-outline-danger btn-sm" data-toggle="modal" href="#modalExcluir" th:data-idobj="${bloco.idBloco}" th:data-obs="${bloco}"><i class="fas fa-trash-alt"></i><span> Excluir</span></a></td>
@@ -38,6 +38,21 @@
 				</tbody>
 			</table>
 		</div>
+		<nav th:if="${blocos.totalPages > 1}" id="paginacao" th:with="atual=${blocos.number+1}">
+			<ul class="mt-3 mb-0 pagination pagination-sm justify-content-center justify-content-md-end">
+				<li class="d-none d-sm-block page-item" th:if="${atual > 10}"><a class="page-link" th:href="@{/sindico/blocos(pagina=${atual -10},tamanho=${blocos.size})}">-10</a></li>
+				<li class="page-item" th:unless="${blocos.isFirst()}"><a class="page-link first" th:href="@{/sindico/blocos(pagina=${atual -1},tamanho=${blocos.size})}"><i class="fas fa-angle-double-left"></i><span> Anterior</span></a></li>
+				<li class="page-item" th:classappend="${blocos.isFirst()}?'active'"><a class="page-link" th:href="@{/sindico/blocos(pagina='1',tamanho=${blocos.size})}">1</a></li>
+				<li class="page-item disabled" th:if="${atual > 3}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${atual > 2}" class="page-item"><a class="page-link" th:href="@{/sindico/blocos(pagina=${atual -1},tamanho=${blocos.size})}" th:text="${atual -1}"></a></li>
+				<li th:unless="${blocos.isFirst() or blocos.isLast()}" class="page-item active"><a class="page-link" th:href="@{/sindico/blocos(pagina=${atual},tamanho=${blocos.size})}" th:text="${atual}"></a></li>
+				<li th:if="${atual < (blocos.totalPages - 1)}" class="page-item"><a class="page-link" th:href="@{/sindico/blocos(pagina=${atual +1},tamanho=${blocos.size})}" th:text="${atual +1}"></a></li>
+				<li class="page-item disabled" th:if="${atual < (blocos.totalPages - 2 )}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${blocos.totalPages > 1}" class="page-item" th:classappend="${blocos.isLast()}?'active'"><a class="page-link" th:href="@{/sindico/blocos(pagina=${blocos.totalPages},tamanho=${blocos.size})}" th:text="${blocos.totalPages}"></a></li>
+				<li class="page-item" th:unless="${blocos.isLast()}"><a class="page-link last" th:href="@{/sindico/blocos(pagina=${atual +1},tamanho=${blocos.size})}"><span>Próxima </span><i class="fas fa-angle-double-right"></i></a></li>
+				<li class="d-none d-sm-block page-item" th:if="${atual < (blocos.totalPages-9)}"><a class="page-link" th:href="@{/sindico/blocos(pagina=${atual +10},tamanho=${blocos.size})}">+10</a></li>
+			</ul>
+		</nav>
 		</main>
 		<!--/* Modal */-->
 		<div th:unless="${#lists.isEmpty(blocos)}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">

@@ -20,7 +20,7 @@
 		<div class="table-responsive">
 			<table class="table table-hover table-sm crud-list mb-0">
 				<caption class="pb-0">
-					<span th:text="${#lists.isEmpty(periodos)} ? 'Nenhum' : 'Há '+${#lists.size(periodos)}"></span> <span th:text="${#lists.size(periodos)>1} ? 'períodos cadastrados' : 'período cadastrado'"></span>.
+					<span th:text="${periodos.totalElements == 0} ? 'Nenhum' : 'Há '+${periodos.totalElements}"></span> <span th:text="${periodos.totalElements>1} ? 'períodos cadastrados' : 'período cadastrado'"></span>.
 				</caption>
 				<thead class="thead-light">
 					<tr>
@@ -31,7 +31,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="periodo : ${periodos}">
+					<tr th:each="periodo : ${periodos.content}">
 						<th scope="row" th:text="${#temporals.format(periodo.inicio,'dd/MM/yyyy')}"></th>
 						<th scope="row" th:text="${#temporals.format(periodo.fim,'dd/MM/yyyy')}"></th>
 						<td th:text="${periodo.encerrado} ? 'Encerrado' : 'Em aberto'"></td>
@@ -40,6 +40,21 @@
 				</tbody>
 			</table>
 		</div>
+		<nav th:if="${periodos.totalPages > 1}" id="paginacao" th:with="atual=${periodos.number+1}">
+			<ul class="mt-3 mb-0 pagination pagination-sm justify-content-center justify-content-md-end">
+				<li class="d-none d-sm-block page-item" th:if="${atual > 10}"><a class="page-link" th:href="@{/sindico/periodos(pagina=${atual -10},tamanho=${periodos.size})}">-10</a></li>
+				<li class="page-item" th:unless="${periodos.isFirst()}"><a class="page-link first" th:href="@{/sindico/periodos(pagina=${atual -1},tamanho=${periodos.size})}"><i class="fas fa-angle-double-left"></i><span> Anterior</span></a></li>
+				<li class="page-item" th:classappend="${periodos.isFirst()}?'active'"><a class="page-link" th:href="@{/sindico/periodos(pagina='1',tamanho=${periodos.size})}">1</a></li>
+				<li class="page-item disabled" th:if="${atual > 3}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${atual > 2}" class="page-item"><a class="page-link" th:href="@{/sindico/periodos(pagina=${atual -1},tamanho=${periodos.size})}" th:text="${atual -1}"></a></li>
+				<li th:unless="${periodos.isFirst() or periodos.isLast()}" class="page-item active"><a class="page-link" th:href="@{/sindico/periodos(pagina=${atual},tamanho=${periodos.size})}" th:text="${atual}"></a></li>
+				<li th:if="${atual < (periodos.totalPages - 1)}" class="page-item"><a class="page-link" th:href="@{/sindico/periodos(pagina=${atual +1},tamanho=${periodos.size})}" th:text="${atual +1}"></a></li>
+				<li class="page-item disabled" th:if="${atual < (periodos.totalPages - 2 )}"><a class="page-link" href="#">...</a></li>
+				<li th:if="${periodos.totalPages > 1}" class="page-item" th:classappend="${periodos.isLast()}?'active'"><a class="page-link" th:href="@{/sindico/periodos(pagina=${periodos.totalPages},tamanho=${periodos.size})}" th:text="${periodos.totalPages}"></a></li>
+				<li class="page-item" th:unless="${periodos.isLast()}"><a class="page-link last" th:href="@{/sindico/periodos(pagina=${atual +1},tamanho=${periodos.size})}"><span>Próxima </span><i class="fas fa-angle-double-right"></i></a></li>
+				<li class="d-none d-sm-block page-item" th:if="${atual < (periodos.totalPages-9)}"><a class="page-link" th:href="@{/sindico/periodos(pagina=${atual +10},tamanho=${periodos.size})}">+10</a></li>
+			</ul>
+		</nav>
 		</main>
 		<!--/* Modal */-->
 		<div th:unless="${#lists.isEmpty(periodos)}" class="modal fade" id="modalExcluir" tabindex="-1" role="dialog">

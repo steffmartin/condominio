@@ -25,7 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "periodos")
-public class Periodo implements Serializable {
+public class Periodo implements Serializable, Comparable<Periodo> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -143,5 +143,10 @@ public class Periodo implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int compareTo(Periodo arg0) {
+		return this.inicio.compareTo(arg0.getInicio());
 	}
 }

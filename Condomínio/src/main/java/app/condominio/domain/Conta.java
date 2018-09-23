@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "contas")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Conta implements Serializable {
+public class Conta implements Serializable, Comparable<Conta> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -162,5 +162,10 @@ public class Conta implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int compareTo(Conta o) {
+		return this.sigla.compareTo(o.getSigla());
 	}
 }

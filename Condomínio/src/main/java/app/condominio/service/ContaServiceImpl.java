@@ -29,7 +29,7 @@ public class ContaServiceImpl implements ContaService {
 	@Override
 	public void salvar(Conta entidade) {
 		padronizar(entidade);
-		// TODO fazer esta alteração com trigger
+		// LATER fazer esta alteração com trigger
 		entidade.setSaldoAtual(entidade.getSaldoInicial());
 		contaDao.save(entidade);
 	}
@@ -52,14 +52,17 @@ public class ContaServiceImpl implements ContaService {
 
 	@Override
 	public Page<Conta> listarPagina(Pageable pagina) {
-		// TODO Auto-generated method stub
-		return null;
+		Condominio condominio = usuarioService.lerLogado().getCondominio();
+		if (condominio == null) {
+			return Page.empty(pagina);
+		}
+		return contaDao.findAllByCondominioOrderBySiglaAsc(condominio, pagina);
 	}
 
 	@Override
 	public void editar(Conta entidade) {
 		padronizar(entidade);
-		// TODO fazer esta alteração com trigger
+		// LATER fazer esta alteração com trigger
 		Conta antiga = ler(entidade.getIdConta());
 		entidade.setSaldoAtual(
 				antiga.getSaldoAtual().subtract(antiga.getSaldoInicial()).add(entidade.getSaldoInicial()));

@@ -50,7 +50,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 	@Override
 	public Page<Categoria> listarPagina(Pageable pagina) {
-		// TODO Auto-generated method stub
+		// TODO Como paginar esta pagina?
 		return null;
 	}
 

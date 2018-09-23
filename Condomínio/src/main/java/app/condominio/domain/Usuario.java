@@ -57,6 +57,7 @@ public class Usuario implements Serializable {
 	@Size(min = 1, max = 100)
 	@Email
 	private String email;
+	// LATER validar email ao criar conta
 
 	@ElementCollection(targetClass = Autorizacao.class)
 	@CollectionTable(name = "autorizacoes", joinColumns = @JoinColumn(name = "id_usuario"))
