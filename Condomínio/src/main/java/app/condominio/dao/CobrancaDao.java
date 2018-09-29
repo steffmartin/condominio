@@ -26,7 +26,7 @@ public interface CobrancaDao extends PagingAndSortingRepository<Cobranca, Long> 
 	BigDecimal sumTotalByCondominioAndDataVencimentoBeforeAndDataRecebimentoIsNull(
 			@Param("condominio") Condominio condominio, @Param("data") LocalDate data);
 
-	List<Cobranca> findAllByCondominioAndDataVencimentoBeforeAndDataRecebimentoIsNullOrderByMoradia_Bloco_SiglaAscMoradia_SiglaAsc(
+	List<Cobranca> findAllByCondominioAndDataVencimentoBeforeAndDataRecebimentoIsNullOrderByMoradiaAscDataVencimentoAsc(
 			Condominio condominio, LocalDate data);
 
 	Page<Cobranca> findAllByCondominioOrderByDataEmissaoDescMoradiaAscNumeroAscParcelaAsc(Condominio condominio,

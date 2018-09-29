@@ -215,7 +215,7 @@ public class CobrancaServiceImpl implements CobrancaService {
 		List<Cobranca> lista = new ArrayList<>();
 		if (condominio != null && !condominio.getCobrancas().isEmpty()) {
 			lista.addAll(cobrancaDao
-					.findAllByCondominioAndDataVencimentoBeforeAndDataRecebimentoIsNullOrderByMoradia_Bloco_SiglaAscMoradia_SiglaAsc(
+					.findAllByCondominioAndDataVencimentoBeforeAndDataRecebimentoIsNullOrderByMoradiaAscDataVencimentoAsc(
 							condominio, LocalDate.now()));
 		}
 		return lista;

@@ -28,7 +28,7 @@ import app.condominio.domain.enums.TipoCategoria;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "categorias")
-public class Categoria implements Serializable {
+public class Categoria implements Serializable, Comparable<Categoria> {
 
 	public static final int NIVEL_MAX = 4;
 
@@ -178,6 +178,11 @@ public class Categoria implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int compareTo(Categoria o) {
+		return this.ordem.compareTo(o.getOrdem());
 	}
 
 }

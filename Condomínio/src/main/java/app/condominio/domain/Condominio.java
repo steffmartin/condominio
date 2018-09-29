@@ -28,7 +28,7 @@ import app.condominio.domain.validators.CNPJ;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "condominios")
-public class Condominio implements Serializable {
+public class Condominio implements Serializable, Comparable<Condominio> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -325,6 +325,11 @@ public class Condominio implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int compareTo(Condominio o) {
+		return this.razaoSocial.compareTo(o.getRazaoSocial());
 	}
 
 }
