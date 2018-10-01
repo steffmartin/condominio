@@ -118,7 +118,7 @@ fieldset:disabled input::placeholder, fieldset:disabled textarea::placeholder{
 	padding-right: 16px;
     padding-left: 96px; /* 80px devido ao sidebar + 16px */
     width:100%;
-    max-width:1366px;
+    max-width:1222px;
     margin-left:auto;
     margin-right:auto;
 }

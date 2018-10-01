@@ -6,7 +6,7 @@ body {
 	background: white;
 	display: block;
 	margin: 0.5cm auto;
-	padding: 1cm 0.5cm;
+	padding: 1cm;
 	box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
 }
 
@@ -34,6 +34,6 @@ body {
 }
 
 @page {
-	margin: 1.0cm 0.5cm;
+	margin: 1.0cm;
 	size: A4 portrait;
 }
