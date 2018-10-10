@@ -42,7 +42,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text"><i class="fas fa-user"></i></span>
 										</div>
-										<input class="form-control last" type="text" th:errorclass="is-invalid" th:field="*{username}" placeholder="Escolha seu usuário" />
+										<input autocomplete="off" class="form-control last" type="text" th:errorclass="is-invalid" th:field="*{username}" placeholder="Escolha seu usuário" />
 										<div class="invalid-feedback" th:errors="*{username}"></div>
 									</div>
 								</div>
@@ -52,7 +52,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text"><i class="fas fa-lock"></i></span>
 										</div>
-										<input class="form-control last" type="password" th:errorclass="is-invalid" th:field="*{password}" th:placeholder="${sindico.id != null}?'Nova senha':'Escolha sua senha'" />
+										<input autocomplete="off" class="form-control last" type="password" th:errorclass="is-invalid" th:field="*{password}" th:placeholder="${sindico.id != null}?'Nova senha':'Escolha sua senha'" />
 										<div class="invalid-feedback" th:errors="*{password}"></div>
 									</div>
 									<small th:if="${sindico.id != null}">Se não quiser alterar a senha, digite a sua senha atual</small>

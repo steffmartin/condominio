@@ -26,7 +26,7 @@
 			<div th:if="${param.novo}">
 				<div class="alert alert-success">Sua conta foi criada, obrigado!</div>
 			</div>
-			<form th:action="@{/entrar}" th:method="post" class="needs-validation" novalidate>
+			<form th:action="@{/entrar}" th:method="post" class="needs-validation" autocomplete="off" novalidate>
 				<div class="card">
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item">

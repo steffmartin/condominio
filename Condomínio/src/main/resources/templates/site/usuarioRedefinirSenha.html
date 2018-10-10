@@ -12,7 +12,7 @@
 		<h3 class="font-weight-light mb-3">Redefinir Senha</h3>
 		<p th:text="!${param.token}?'Podemos ajudá-lo a redefinir sua senha. Por favor, informe seu nome de usuário para prosseguir.':'Por favor, informe uma nova senha para sua conta.'"></p>
 
-		<form th:if="!${param.token}" th:action="@{/conta/redefinir}" th:method="post" class="form-inline needs-validation" novalidate>
+		<form autocomplete="off" th:if="!${param.token}" th:action="@{/conta/redefinir}" th:method="post" class="form-inline needs-validation" novalidate>
 			<div class="input-group mb-3 mr-3" style="width: 350px">
 				<div class="input-group-prepend">
 					<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -23,7 +23,7 @@
 			<button type="submit" class="btn btn-primary mb-3 align-self-start" th:disabled="${param.email}">Confirmar</button>
 		</form>
 
-		<form th:if="${param.token}" th:action="@{/conta/redefinir}" th:method="put" class="form-inline needs-validation" novalidate>
+		<form autocomplete="off" th:if="${param.token}" th:action="@{/conta/redefinir}" th:method="put" class="form-inline needs-validation" novalidate>
 			<input type="hidden" name="token" id="token" th:value="${param.token}" /> <input type="hidden" name="username" id="username" th:value="${param.username}" />
 			<div class="input-group mb-3 mr-3" style="width: 350px">
 				<div class="input-group-prepend">
