@@ -35,8 +35,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public void salvar(Usuario usuario) {
-		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-		usuarioDao.save(usuario);
+		if (usuario.getId() == null) {
+			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+			usuarioDao.save(usuario);
+		}
 	}
 
 	@Override

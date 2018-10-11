@@ -40,6 +40,7 @@ public class UsuarioController {
 			BindingResult validacao) {
 		usuarioService.validar(sindico, validacao);
 		if (validacao.hasErrors()) {
+			sindico.setId(null);
 			return new ModelAndView("fragmentos/layoutSite", "conteudo", "sindicoCadastro");
 		}
 		usuarioService.salvarSindico(sindico);
