@@ -28,10 +28,12 @@ public class ContaServiceImpl implements ContaService {
 
 	@Override
 	public void salvar(Conta entidade) {
-		padronizar(entidade);
-		// LATER fazer esta alteração com trigger
-		entidade.setSaldoAtual(entidade.getSaldoInicial());
-		contaDao.save(entidade);
+		if (entidade.getIdConta() == null) {
+			padronizar(entidade);
+			// LATER fazer esta alteração com trigger
+			entidade.setSaldoAtual(entidade.getSaldoInicial());
+			contaDao.save(entidade);
+		}
 	}
 
 	@Override

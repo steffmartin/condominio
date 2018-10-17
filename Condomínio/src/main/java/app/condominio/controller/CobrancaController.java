@@ -92,6 +92,7 @@ public class CobrancaController {
 			BindingResult validacao) {
 		cobrancaService.validar(cobranca, validacao);
 		if (validacao.hasErrors()) {
+			cobranca.setIdCobranca(null);
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "cobrancaCadastro");
 		}
 		cobrancaService.salvar(cobranca);

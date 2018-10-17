@@ -31,8 +31,10 @@ public class CobrancaServiceImpl implements CobrancaService {
 
 	@Override
 	public void salvar(Cobranca entidade) {
-		padronizar(entidade);
-		cobrancaDao.save(entidade);
+		if (entidade.getIdCobranca() == null) {
+			padronizar(entidade);
+			cobrancaDao.save(entidade);
+		}
 	}
 
 	@Override

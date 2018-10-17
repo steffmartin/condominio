@@ -27,8 +27,10 @@ public class BlocoServiceImpl implements BlocoService {
 
 	@Override
 	public void salvar(Bloco entidade) {
-		padronizar(entidade);
-		blocoDao.save(entidade);
+		if (entidade.getIdBloco() == null) {
+			padronizar(entidade);
+			blocoDao.save(entidade);
+		}
 	}
 
 	@Override

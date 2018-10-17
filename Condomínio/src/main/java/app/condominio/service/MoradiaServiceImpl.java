@@ -31,8 +31,10 @@ public class MoradiaServiceImpl implements MoradiaService {
 
 	@Override
 	public void salvar(Moradia entidade) {
-		padronizar(entidade);
-		moradiaDao.save(entidade);
+		if (entidade.getIdMoradia() == null) {
+			padronizar(entidade);
+			moradiaDao.save(entidade);
+		}
 	}
 
 	@Override

@@ -81,6 +81,7 @@ public class OrcamentoController {
 			BindingResult validacao) {
 		orcamentoService.validar(orcamento, validacao);
 		if (validacao.hasErrors()) {
+			orcamento.setIdOrcamento(null);
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "orcamentoCadastro");
 		}
 		orcamentoService.salvar(orcamento);

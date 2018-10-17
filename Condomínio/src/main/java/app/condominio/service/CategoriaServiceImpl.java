@@ -28,8 +28,10 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 	@Override
 	public void salvar(Categoria entidade) {
-		padronizar(entidade);
-		categoriaDao.save(entidade);
+		if (entidade.getIdCategoria() == null) {
+			padronizar(entidade);
+			categoriaDao.save(entidade);
+		}
 	}
 
 	@Override

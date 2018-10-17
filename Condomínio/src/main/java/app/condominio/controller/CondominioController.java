@@ -51,6 +51,7 @@ public class CondominioController {
 			BindingResult validacao) {
 		condominioService.validar(condominio, validacao);
 		if (validacao.hasErrors()) {
+			condominio.setIdCondominio(null);
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "condominioCadastro");
 		}
 		condominioService.salvar(condominio);

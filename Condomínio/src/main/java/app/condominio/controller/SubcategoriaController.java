@@ -83,6 +83,7 @@ public class SubcategoriaController {
 			BindingResult validacao, ModelMap model) {
 		subcategoriaService.validar(categoria, validacao);
 		if (validacao.hasErrors()) {
+			categoria.setIdSubcategoria(null);
 			model.addAttribute("classe", TipoClasseCategoria.S);
 			model.addAttribute("conteudo", "categoriaCadastro");
 			return new ModelAndView("fragmentos/layoutSindico", model);

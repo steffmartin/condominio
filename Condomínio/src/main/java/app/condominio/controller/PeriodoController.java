@@ -60,6 +60,7 @@ public class PeriodoController {
 			BindingResult validacao) {
 		periodoService.validar(periodo, validacao);
 		if (validacao.hasErrors()) {
+			periodo.setIdPeriodo(null);
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "periodoCadastro");
 		}
 		periodoService.salvar(periodo);

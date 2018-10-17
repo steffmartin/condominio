@@ -29,13 +29,15 @@ public class CondominioServiceImpl implements CondominioService {
 
 	@Override
 	public void salvar(Condominio condominio) {
-		padronizar(condominio);
-		condominioDao.save(condominio);
+		if (condominio.getIdCondominio() == null) {
+			padronizar(condominio);
+			condominioDao.save(condominio);
 
-		// Atualizar o ID do condomínio no cadastro do síndico
-		Usuario sindico = usuarioService.lerLogado();
-		sindico.setCondominio(condominio);
-		usuarioService.editar(sindico);
+			// Atualizar o ID do condomínio no cadastro do síndico
+			Usuario sindico = usuarioService.lerLogado();
+			sindico.setCondominio(condominio);
+			usuarioService.editar(sindico);
+		}
 	}
 
 	@Override

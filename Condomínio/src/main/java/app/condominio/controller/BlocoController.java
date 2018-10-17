@@ -59,6 +59,7 @@ public class BlocoController {
 	public ModelAndView postBlocoCadastro(@Valid @ModelAttribute("bloco") Bloco bloco, BindingResult validacao) {
 		blocoService.validar(bloco, validacao);
 		if (validacao.hasErrors()) {
+			bloco.setIdBloco(null);
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "blocoCadastro");
 		}
 		blocoService.salvar(bloco);

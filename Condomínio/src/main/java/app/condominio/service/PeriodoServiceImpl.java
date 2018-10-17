@@ -28,8 +28,10 @@ public class PeriodoServiceImpl implements PeriodoService {
 
 	@Override
 	public void salvar(Periodo entidade) {
-		padronizar(entidade);
-		periodoDao.save(entidade);
+		if (entidade.getIdPeriodo() == null) {
+			padronizar(entidade);
+			periodoDao.save(entidade);
+		}
 	}
 
 	@Override

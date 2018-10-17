@@ -104,6 +104,7 @@ public class MovimentoController {
 			BindingResult validacao, ModelMap model) {
 		movimentoService.validar(movimento, validacao);
 		if (validacao.hasErrors()) {
+			movimento.setIdMovimento(null);
 			model.addAttribute("tipo", TipoClasseMovimento.L);
 			model.addAttribute("conteudo", "movimentoCadastro");
 			return new ModelAndView("fragmentos/layoutSindico", model);
@@ -117,6 +118,7 @@ public class MovimentoController {
 			BindingResult validacao, ModelMap model) {
 		movimentoService.validar(movimento, validacao);
 		if (validacao.hasErrors()) {
+			movimento.setIdMovimento(null);
 			model.addAttribute("tipo", TipoClasseMovimento.T);
 			model.addAttribute("conteudo", "movimentoCadastro");
 			return new ModelAndView("fragmentos/layoutSindico", model);

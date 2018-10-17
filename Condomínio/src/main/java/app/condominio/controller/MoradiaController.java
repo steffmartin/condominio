@@ -93,6 +93,7 @@ public class MoradiaController {
 			BindingResult validacao) {
 		moradiaService.validar(moradia, validacao);
 		if (validacao.hasErrors()) {
+			moradia.setIdMoradia(null);
 			return new ModelAndView("fragmentos/layoutSindico", "conteudo", "moradiaCadastro");
 		}
 		moradiaService.salvar(moradia);

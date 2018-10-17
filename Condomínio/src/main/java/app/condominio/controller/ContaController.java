@@ -79,12 +79,12 @@ public class ContaController {
 		return new ModelAndView("fragmentos/layoutSindico", model);
 	}
 
-	// @PostMapping({ "/cadastro/CX", "/cadastro" })
 	@PostMapping(value = "/cadastro", params = { "CX" })
 	public ModelAndView postContaCadastro(@Valid @ModelAttribute("conta") Conta conta, BindingResult validacao,
 			ModelMap model) {
 		contaService.validar(conta, validacao);
 		if (validacao.hasErrors()) {
+			conta.setIdConta(null);
 			model.addAttribute("tipo", TipoConta.CX);
 			model.addAttribute("conteudo", "contaCadastro");
 			return new ModelAndView("fragmentos/layoutSindico", model);
@@ -93,12 +93,12 @@ public class ContaController {
 		return new ModelAndView("redirect:/sindico/contas");
 	}
 
-	// @PostMapping("/cadastro/BC")
 	@PostMapping(value = "/cadastro", params = { "BC" })
 	public ModelAndView postContaBancariaCadastro(@Valid @ModelAttribute("conta") ContaBancaria conta,
 			BindingResult validacao, ModelMap model) {
 		contaService.validar(conta, validacao);
 		if (validacao.hasErrors()) {
+			conta.setIdConta(null);
 			model.addAttribute("tipo", TipoConta.BC);
 			model.addAttribute("conteudo", "contaCadastro");
 			return new ModelAndView("fragmentos/layoutSindico", model);

@@ -106,6 +106,7 @@ public class PessoaController {
 			BindingResult validacao, ModelMap model) {
 		pessoaService.validar(pessoa, validacao);
 		if (validacao.hasErrors()) {
+			pessoa.setIdPessoa(null);
 			model.addAttribute("tipo", TipoPessoa.F);
 			model.addAttribute("conteudo", "pessoaCadastro");
 			return new ModelAndView("fragmentos/layoutSindico", model);
@@ -119,6 +120,7 @@ public class PessoaController {
 			BindingResult validacao, ModelMap model) {
 		pessoaService.validar(pessoa, validacao);
 		if (validacao.hasErrors()) {
+			pessoa.setIdPessoa(null);
 			model.addAttribute("tipo", TipoPessoa.J);
 			model.addAttribute("conteudo", "pessoaCadastro");
 			return new ModelAndView("fragmentos/layoutSindico", model);

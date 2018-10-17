@@ -30,7 +30,9 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
 	@Override
 	public void salvar(Orcamento entidade) {
-		orcamentoDao.save(entidade);
+		if (entidade.getIdOrcamento() == null) {
+			orcamentoDao.save(entidade);
+		}
 
 	}
 

@@ -43,8 +43,10 @@ public class PessoaServiceImpl implements PessoaService {
 
 	@Override
 	public void salvar(Pessoa entidade) {
-		padronizar(entidade);
-		pessoaDao.save(entidade);
+		if (entidade.getIdPessoa() == null) {
+			padronizar(entidade);
+			pessoaDao.save(entidade);
+		}
 	}
 
 	@Override

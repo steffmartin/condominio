@@ -81,6 +81,7 @@ public class CategoriaController {
 			BindingResult validacao, ModelMap model) {
 		categoriaService.validar(categoria, validacao);
 		if (validacao.hasErrors()) {
+			categoria.setIdCategoria(null);
 			model.addAttribute("classe", TipoClasseCategoria.C);
 			model.addAttribute("conteudo", "categoriaCadastro");
 			return new ModelAndView("fragmentos/layoutSindico", model);

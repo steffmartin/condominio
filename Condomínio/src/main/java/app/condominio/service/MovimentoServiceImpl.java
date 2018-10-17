@@ -43,33 +43,35 @@ public class MovimentoServiceImpl implements MovimentoService {
 
 	@Override
 	public void salvar(Movimento entidade) {
-		padronizar(entidade);
-		List<Movimento> listaSalvar = new ArrayList<>();
-		Transferencia contrapartida;
-		if (entidade instanceof Lancamento) {
-			((Lancamento) entidade).setPeriodo(periodoService.ler(entidade.getData()));
-			if (((Lancamento) entidade).getSubcategoria().getCategoriaPai().getTipo().equals(TipoCategoria.D)) {
+		if (entidade.getIdMovimento() == null) {
+			padronizar(entidade);
+			List<Movimento> listaSalvar = new ArrayList<>();
+			Transferencia contrapartida;
+			if (entidade instanceof Lancamento) {
+				((Lancamento) entidade).setPeriodo(periodoService.ler(entidade.getData()));
+				if (((Lancamento) entidade).getSubcategoria().getCategoriaPai().getTipo().equals(TipoCategoria.D)) {
+					entidade.setReducao(Boolean.TRUE);
+				} else {
+					entidade.setReducao(Boolean.FALSE);
+				}
+			} else if (entidade instanceof Transferencia) {
 				entidade.setReducao(Boolean.TRUE);
-			} else {
-				entidade.setReducao(Boolean.FALSE);
+				// LATER ver se tem forma mais prática de criar espelho do movimento
+				contrapartida = new Transferencia();
+				contrapartida.setData(entidade.getData());
+				contrapartida.setValor(entidade.getValor());
+				contrapartida.setDocumento(entidade.getDocumento());
+				contrapartida.setDescricao(entidade.getDescricao());
+				contrapartida.setConta(((Transferencia) entidade).getContaInversa());
+				contrapartida.setContaInversa(entidade.getConta());
+				contrapartida.setReducao(Boolean.FALSE);
+				contrapartida.setMovimentoInverso(entidade);
+				((Transferencia) entidade).setMovimentoInverso(contrapartida);
+				listaSalvar.add(contrapartida);
 			}
-		} else if (entidade instanceof Transferencia) {
-			entidade.setReducao(Boolean.TRUE);
-			// LATER ver se tem forma mais prática de criar espelho do movimento
-			contrapartida = new Transferencia();
-			contrapartida.setData(entidade.getData());
-			contrapartida.setValor(entidade.getValor());
-			contrapartida.setDocumento(entidade.getDocumento());
-			contrapartida.setDescricao(entidade.getDescricao());
-			contrapartida.setConta(((Transferencia) entidade).getContaInversa());
-			contrapartida.setContaInversa(entidade.getConta());
-			contrapartida.setReducao(Boolean.FALSE);
-			contrapartida.setMovimentoInverso(entidade);
-			((Transferencia) entidade).setMovimentoInverso(contrapartida);
-			listaSalvar.add(contrapartida);
+			listaSalvar.add(entidade);
+			movimentoDao.saveAll(listaSalvar);
 		}
-		listaSalvar.add(entidade);
-		movimentoDao.saveAll(listaSalvar);
 	}
 
 	@Override

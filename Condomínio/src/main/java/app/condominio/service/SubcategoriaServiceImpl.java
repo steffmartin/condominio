@@ -25,7 +25,9 @@ public class SubcategoriaServiceImpl implements SubcategoriaService {
 
 	@Override
 	public void salvar(Subcategoria entidade) {
-		subcategoriaDao.save(entidade);
+		if (entidade.getIdSubcategoria() == null) {
+			subcategoriaDao.save(entidade);
+		}
 	}
 
 	@Override
