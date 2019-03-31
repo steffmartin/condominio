@@ -1,7 +1,16 @@
 START TRANSACTION;
 
---CREATE SCHEMA condominio DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_unicode_ci ;
---USE condominio;
+DROP TABLE IF EXISTS
+	lancamentos,transferencias,movimentos,
+	contasbancarias,contas,cobrancas,
+	orcamentos,subcategorias,categorias,periodos,
+    pessoasjuridicas,pessoasfisicas,pessoa_moradia,pessoas,
+    moradias,blocos,
+    autorizacoes,persistent_logins,usuarios,
+    condominios;
+
+DROP EVENT IF EXISTS atTotalCobrancaDiariamente;
+DROP EVENT IF EXISTS delRememberMe;
 
 CREATE TABLE condominios (
   idCondominio BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,

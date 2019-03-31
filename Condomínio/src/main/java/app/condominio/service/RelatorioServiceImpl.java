@@ -107,8 +107,7 @@ public class RelatorioServiceImpl implements RelatorioService {
 	public BigDecimal[] receitaDespesaMesAtual() {
 		List<Conta> contas = contaService.listar();
 		YearMonth mesAtual = YearMonth.from(LocalDate.now());
-		// YearMonth mesAtual = YearMonth.from(LocalDate.now().minusMonths(1)); // Para
-		// testes
+		// mesAtual = mesAtual.minusMonths(1); // Mês anterior para testes
 		return receitaDespesaEntre(contas, mesAtual.atDay(1), mesAtual.atEndOfMonth());
 	}
 
