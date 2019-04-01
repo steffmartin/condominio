@@ -1,10 +1,10 @@
 # Sistema de Gestão para Condomínios
 
+![](demo/demo_1.png)
+
 Sistema para gerenciamento de condomínios com recursos de cadastro de imóveis e moradores, contas a receber, contas bancárias e suas movimentações de entrada e saída, controle orçamentário e contábil.
 
 Neste arquivo você encontrará instruções para instalação, imagens demonstrativas e também tecnologias utilizadas nesta aplicação.
-
-[Demo #1](demo/demo_1.png) - [Demo #2](demo/demo_2.png) - [Demo #3](demo/demo_3.png) - [Demo #4](demo/demo_4.png) - [Demo #5](demo/demo_5.png) - [Demo #6](demo/demo_6.png) - [Demo #7](demo/demo_7.png) - [Demo #8](demo/demo_8.png) - [Demo #9](demo/demo_9.png)
 
 ## Primeiros Passos
 
