@@ -20,11 +20,11 @@ MySQL 8 ou superior
 
 ### Instalando
 
-Siga os passos a seguir para rodar esta aplicação em seu computador
+Siga os passos a seguir para rodar esta aplicação em seu computador.
 
 #### Banco de Dados
 
-Crie o banco de dados no MySQL usando o seu cliente SQL favorito e execute o arquivo schema.sql
+Crie o banco de dados no MySQL usando o seu cliente SQL favorito e execute o arquivo [schema.sql](src/main/resources/schema.sql).
 
 #### Variáveis de ambiente
 
@@ -34,7 +34,7 @@ Crie novas variáveis de ambiente para que a aplicação possa se conectar ao se
 No Windows, vá em Painel de Controle → Sistema e Segurança → Sistema → Configurações avançadas do sistema → Variáveis de Ambiente → Novo
 ```
 
-Insira as 3 variáveis de ambiente abaixo (substitua os valores entre << >> pelos dados da sua base)
+Insira as 3 variáveis de ambiente abaixo (substitua os valores entre << >> pelos dados da sua base):
 
 ```
 SPRING_DATASOURCE_URL = jdbc:mysql://localhost:3306/<<nome_da_sua_base>>?createDatabaseIfNotExist=false&useSSL=false
@@ -42,11 +42,11 @@ SPRING_DATASOURCE_USERNAME = <<usuario_do_banco>>
 SPRING_DATASOURCE_PASSWORD = <<senha_do_banco>>
 ```
 
-Obs: caso você tenha criado um banco de dados com o nome "condominio" e o usuário e senha do seu banco de dados forem "root", você não precisa criar nenhuma variável de ambiente. Há outras variáveis que podem ser definidas, consulte o arquivo application.properties para detalhes.
+Obs: caso você tenha criado um banco de dados com o nome "condominio" e o usuário e senha do seu banco de dados forem "root", você não precisa criar nenhuma variável de ambiente. Há outras variáveis que podem ser definidas, consulte o arquivo [application.properties](src/main/resources/application.properties) para detalhes.
 
 #### Obtendo uma cópia
 
-Faça o download, use uma ferramente Git ou a própria IDE Eclipse para clonar este repositório
+Faça o download, use uma ferramente Git ou a própria IDE Eclipse para clonar este repositório:
 
 ```
 No Eclipse, vá em File → Import → Git → Projects from Git → Clone URI.
@@ -56,13 +56,13 @@ No Eclipse, com o botão direito sobre o projeto, vá em Configure → Convert t
 
 ### Executando
 
-Execute o projeto como uma aplicação Spring Boot
+Execute o projeto como uma aplicação Spring Boot:
 
 ```
 No Eclipse, com o botão direito sobre o projeto, vá em Run As → Spring Boot App
 ```
 
-Obs: O servidor estará pronto quando a mensagem abaixo for exibida no console
+Obs: O servidor estará pronto quando a mensagem abaixo for exibida no console:
 
 ```
 app.condominio.CondominioApplication     : Started CondominioApplication in X.XXX seconds (JVM running for X.XXX)
@@ -108,7 +108,7 @@ Vá em Relatórios para visualizar diveras informações gerencias sobre os dado
 
 ## Deployment
 
-Distribua este projeto como um arquivo *.war para rodá-lo em um servidor Tomcat
+Distribua este projeto como um arquivo *.war para rodá-lo em um servidor Tomcat:
 
 ```
 No Eclipse, com o botão direito sobre o projeto, vá em Export → WAR file
@@ -116,23 +116,23 @@ No Eclipse, com o botão direito sobre o projeto, vá em Export → WAR file
 
 ## Tecnologias utilizadas
 
-Spring - O framework back-end utilizado
-Spring Boot - Framwork para inicialização
-Spring Data JPA - Framework para persistência de dados
-Spring Security - Framework para autenticação de usuários
-Hibernate - Framework para persistência de dados
-Thymeleaf - O framework front-end utilizado
-MySQL - O SGBD adotado
-Maven - Gerenciador de dependências
-Bootstrap - Biblioteca CSS
-jQuery - Biblioteca JavaScript
-Chart.js - Bibliotea JavaScript para gráficos
-Font Awesome - Biblioteca de ícones
+* [Spring](https://spring.io/) - O framework back-end utilizado
+* [Spring Boot](https://spring.io/projects/spring-boot) - Framwork para inicialização
+* [Spring Data JPA](https://spring.io/projects/spring-data-jpa) - Framework para persistência de dados
+* [Spring Security](https://spring.io/projects/spring-security) - Framework para autenticação de usuários
+* [Hibernate](http://hibernate.org/) - Framework para persistência de dados
+* [Thymeleaf](https://www.thymeleaf.org/) - O framework front-end utilizado
+* [MySQL](https://www.mysql.com/) - O SGBD adotado
+* [Maven](https://maven.apache.org/) - Gerenciador de dependências
+* [Bootstrap](https://getbootstrap.com/) - Biblioteca CSS
+* [jQuery](https://jquery.com/) - Biblioteca JavaScript
+* [Chart.js](https://www.chartjs.org/) - Bibliotea JavaScript para gráficos
+* [Font Awesome](https://fontawesome.com/) - Biblioteca de ícones
 
 ## Autor
 
-Steffan Martins Alves - Trabalho inicial - steffmartin
+Steffan Martins Alves - Criação - [LinkedIn](https://www.linkedin.com/in/steffanmartins/)
 
 ## Licença
 
-Este projeto está licenciado sob a GNU Affero General Public License v3.0 - leia LICENSE.md para mais detalhes
+Este projeto está licenciado sob a GNU Affero General Public License v3.0 - leia [LICENSE.md](LICENSE.md) para mais detalhes.
