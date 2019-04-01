@@ -4,7 +4,7 @@
 
 Sistema para gerenciamento de condomínios com recursos de cadastro de imóveis e moradores, contas a receber, contas bancárias e suas movimentações de entrada e saída, controle orçamentário e contábil.
 
-Neste arquivo você encontrará instruções para instalação, imagens demonstrativas e também tecnologias utilizadas nesta aplicação.
+Neste arquivo você encontrará instruções para instalação, imagens demonstrativas e também tecnologias utilizadas nesta aplicação. Para um conhecimento mais aprofundado leia Trabalho de Conclusão de Curso, na íntegra, no [Repositório Institucional da UFU](https://repositorio.ufu.br/handle/123456789/23437).
 
 ## Primeiros Passos
 
