@@ -15,11 +15,11 @@ Siga estas instruções para ter uma cópia do projeto funcionando em seu comput
 O que você precisará:
 
 ```
-IDE Eclipse Oxigen ou superior
+IDE Eclipse
 Spring Tools for Eclipse
-JDK 1.8 ou superior
-Maven 3.2 ou superior
-MySQL 8 ou superior
+JDK
+Maven
+MySQL
 ```
 
 ### Instalando
@@ -46,7 +46,7 @@ SPRING_DATASOURCE_USERNAME = <<usuario_do_banco>>
 SPRING_DATASOURCE_PASSWORD = <<senha_do_banco>>
 ```
 
-Obs: caso você tenha criado um banco de dados com o nome "condominio" e o usuário e senha do seu banco de dados forem "root", você não precisa criar nenhuma variável de ambiente. Há outras variáveis que podem ser definidas, consulte o arquivo [application.properties](src/main/resources/application.properties) para detalhes.
+> Caso você tenha criado um banco de dados com o nome "condominio" e o usuário e senha do seu banco de dados forem "root", você não precisa criar nenhuma variável de ambiente. Há outras variáveis que podem ser definidas, consulte o arquivo [application.properties](src/main/resources/application.properties) para detalhes.
 
 #### Obtendo uma cópia
 
@@ -66,7 +66,7 @@ Execute o projeto como uma aplicação Spring Boot:
 No Eclipse, com o botão direito sobre o projeto, vá em Run As → Spring Boot App
 ```
 
-Obs: O servidor estará pronto quando a mensagem abaixo for exibida no console:
+O servidor estará pronto quando a mensagem abaixo for exibida no console:
 
 ```
 app.condominio.CondominioApplication     : Started CondominioApplication in X.XXX seconds (JVM running for X.XXX)
@@ -76,7 +76,9 @@ app.condominio.CondominioApplication     : Started CondominioApplication in X.XX
 
 #### Acessando a aplicação pela primeira vez
 
-Acesse localhost:8080 para usar a aplicação (caso queira utilizar outra porta, crie uma variável de ambiente com o nome PORT e com o número da porta desejada como valor).
+Acesse localhost:8080 para usar a aplicação.
+
+> Caso queira utilizar outra porta, crie uma variável de ambiente com o nome PORT e com o número da porta desejada como valor).
 
 Para acessar a área privada da aplicação é preciso ter um usuário:
 
@@ -139,7 +141,7 @@ No Eclipse, com o botão direito sobre o projeto, vá em Export → WAR file
 
 ## Autor
 
-Steffan Martins Alves - Criação - [LinkedIn](https://www.linkedin.com/in/steffanmartins/)
+Steffan Martins Alves - [LinkedIn](https://www.linkedin.com/in/steffanmartins/)
 
 ## Licença
 
