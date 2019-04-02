@@ -26,6 +26,8 @@ MySQL
 
 Siga os passos a seguir para rodar esta aplicação em seu computador.
 
+> Caso não esteja interessado no desenvolvimento, vá para a página [Releases](https://github.com/steffmartin/condominio/releases) e baixe o compilado para executar.
+
 #### Banco de Dados
 
 Crie o banco de dados no MySQL usando o seu cliente SQL favorito e execute o arquivo [schema.sql](src/main/resources/schema.sql).
