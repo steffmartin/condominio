@@ -147,6 +147,9 @@ No Eclipse, com o botão direito sobre o projeto, vá em Export → WAR file
 
 Steffan Martins Alves - [LinkedIn](https://www.linkedin.com/in/steffanmartins/)
 
+## Contribuições
+Elton Leite - Versão com Docker - [GitHub](https://github.com/borelanjo/condominio).
+
 ## Licença
 
 Este projeto está licenciado sob a GNU Affero General Public License v3.0 - leia [LICENSE.md](LICENSE.md) para mais detalhes.
