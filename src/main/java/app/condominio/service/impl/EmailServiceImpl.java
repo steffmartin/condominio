@@ -1,5 +1,6 @@
-package app.condominio.service;
+package app.condominio.service.impl;
 
+import app.condominio.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

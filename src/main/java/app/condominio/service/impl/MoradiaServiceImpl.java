@@ -1,10 +1,12 @@
-package app.condominio.service;
+package app.condominio.service.impl;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import app.condominio.service.BlocoService;
+import app.condominio.service.MoradiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
