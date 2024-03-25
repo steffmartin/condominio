@@ -1,4 +1,4 @@
-package app.condominio.service;
+package app.condominio.service.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import app.condominio.service.ContaService;
+import app.condominio.service.MovimentoService;
+import app.condominio.service.PeriodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
