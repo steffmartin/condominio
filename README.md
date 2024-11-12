@@ -1,3 +1,5 @@
+> **Aviso**: Este projeto foi concluído durante meus estudos na universidade e, apesar de estar funcional, utiliza tecnologias que podem estar desatualizadas. Ele permanece público como uma fonte de conhecimento e referência. Sinta-se à vontade para explorar o código e aprender com ele!
+
 # Sistema de Gestão para Condomínios
 
 ![](demo/demo_1.png)
